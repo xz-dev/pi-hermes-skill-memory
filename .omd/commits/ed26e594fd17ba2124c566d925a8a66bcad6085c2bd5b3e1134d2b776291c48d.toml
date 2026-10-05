@@ -1,0 +1,15 @@
+salt = "9HjjgAu9N1EbGQpQ"
+previous_id = "b1ec13acc83360e630d1f46f2af4038245d2daf996f181817c1a71b1d70ae5f2"
+timestamp = "2026-10-03T16:47:33.930711173Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "827fb94dc33f6a8358c97881dc59f960"
+
+[payload]
+path = "src/catalog.ts"
+reason = "3.3公共类型检查和41项回归通过：默认读取精确选定文件，单个引用/脚本只读不执行；路径穿越、链接逃逸和逻辑来源重绑定拒绝；完整JSON16000字符预算、Unicode scalar游标及版本指纹。仅勾选已验收3.3，3.4和其余15项仍未完成。"
+
+[payload.position]
+end = "10042"
+mode = "text"
+start = "1250"

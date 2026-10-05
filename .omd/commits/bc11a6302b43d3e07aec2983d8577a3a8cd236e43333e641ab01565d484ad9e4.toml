@@ -1,0 +1,14 @@
+salt = "uAGgQygZwrBHDgOl"
+previous_id = "cad5f9674c1af3a0798a7ba63191bc8742df28f41401f425c11b8fc9f46acee8"
+timestamp = "2026-10-01T10:30:42.618446081Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "c36035f7b268e3e277f91126cb7abce2"
+reason = "规划范围：Requirement: Failures and usage remain visible。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:c73b9ac630f1ffc1608caac40a8b43c3ebd191fc1cfc918608d9efd4053980a6"
+source_version = "d13bb9667edf47fc6d778f2b31fdb8d973949b907f78f147dfdb94d4787d362f"
+target = "range:694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66"
+target_version = "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66"

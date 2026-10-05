@@ -1,0 +1,12 @@
+salt = "jaSLIW9J6ffjM8R9"
+previous_id = "f26da02b85a8c9e0b4e06576381358b9581acbf11854621fc6f7ae3682524407"
+timestamp = "2026-10-05T02:46:44.942838405Z"
+schema = "omd.commit/3"
+kind = "rename"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md"
+reason = ""
+source = "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md"
+target = "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md"

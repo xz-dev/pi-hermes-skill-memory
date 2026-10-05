@@ -1,0 +1,16 @@
+salt = "z99ixkKyUFXC87HJ"
+previous_id = "683708924f38255ba3aaf80e365e6fc524028864de79c8dd927a6897826883a5"
+timestamp = "2026-10-01T10:30:44.566656061Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "b6bdd9fc806dcc23135250c3b651dfe7"
+
+[payload]
+mount = "file:412517a16e4872485223121945dfa56f5097759889d54eed311353714bc97874"
+path = "docs/review-contract.md"
+reason = "规划范围：R6 — 最小验收矩阵。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "4332"
+mode = "text"
+start = "3903"

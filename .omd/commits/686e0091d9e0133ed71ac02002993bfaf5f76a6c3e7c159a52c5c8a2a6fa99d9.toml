@@ -1,0 +1,16 @@
+salt = "YywSlx5iPYXkhayh"
+previous_id = "9d4539a328708495f27a9a783c03782dad505600d3031254b1654dfb6dd96f5f"
+timestamp = "2026-10-01T15:23:30.523660868Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "9449f82d12c26aed245d178cca5e224f"
+
+[payload]
+mount = "file:1dba25017183edaaf986abd49c21b15437f38c149d30e4f8cb7c64e0238f093c"
+path = "src/sources.ts"
+reason = "源码、SDK/CLI实际执行测试或来源决定的精确范围；说明来源与验收责任，不冒充真实模型质量或剩余任务已完成。"
+
+[payload.position]
+end = "7272"
+mode = "text"
+start = "0"

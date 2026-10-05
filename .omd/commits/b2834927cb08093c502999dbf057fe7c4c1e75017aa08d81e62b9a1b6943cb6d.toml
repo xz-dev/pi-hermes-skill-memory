@@ -1,0 +1,16 @@
+salt = "UUGBJf0BzGXe8hQs"
+previous_id = "d71e89c7f09cd39a8eba22c8b614de6e6d7722b03d2918a54faa20404e989774"
+timestamp = "2026-10-01T10:30:43.095849303Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "3d3690a0cb182601c99d906a7e344e3c"
+
+[payload]
+mount = "file:fe971ee48b20a108208de249b27981bbfa320dd7ef9ff6ea695fba8705213298"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md"
+reason = "规划范围：Requirement: Learning usefulness is observable。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "2969"
+mode = "text"
+start = "2646"

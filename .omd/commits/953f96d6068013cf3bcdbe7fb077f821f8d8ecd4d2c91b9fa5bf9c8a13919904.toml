@@ -1,0 +1,15 @@
+salt = "DJt5xWrZq5JWYlRJ"
+previous_id = "9ce34082e79127ff31727ba61b915a7d09ce241ff6f7576504164f975b96aa84"
+timestamp = "2026-10-03T19:55:13.528856186Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "2add497ddfd15b874b40ce9ca14d9343"
+
+[payload]
+path = "test/support.ts"
+reason = "当前公共类型检查及63项fake/SDK回归通过，已完成14/26：3.4模式/加载/刷新，5.2分开计数/settled，4.4逐成员备份/部分提交/本地恢复及取消writer退出释放锁。恢复不重放模型、保留unknown额度、手改拒绝；不是跨文件全原子/全回滚，也不是剩余12项或真实模型质量验收。"
+
+[payload.position]
+end = "4589"
+mode = "text"
+start = "0"

@@ -1,0 +1,14 @@
+salt = "8fDqvvBVcI0RM0vl"
+previous_id = "133f8734887e8f7b3e0ed86823ee9e4b779854e8e835324a961d3b68a4b12825"
+timestamp = "2026-10-01T10:30:42.906673112Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "9f4b2fb90fac5f65dc6913a04134be7b"
+reason = "规划范围：Requirement: Independent operation and shared charging。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:4f5d27f56174cc29e7ffa4fe5cc4ed6c54264a49a3584a7a610d0992c9f1c060"
+source_version = "4f5d27f56174cc29e7ffa4fe5cc4ed6c54264a49a3584a7a610d0992c9f1c060"
+target = "range:243a83bbcbacb92983f833fb521df22c6307d370844dcefefbb52402ff4746a1"
+target_version = "133f8734887e8f7b3e0ed86823ee9e4b779854e8e835324a961d3b68a4b12825"

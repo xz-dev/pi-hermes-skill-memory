@@ -1,0 +1,12 @@
+salt = "2MUbrGfaC8s7Ewpp"
+previous_id = ""
+timestamp = "2026-10-03T16:47:35.429931998Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "test/read.test.ts"
+scope = []

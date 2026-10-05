@@ -1,0 +1,14 @@
+salt = "ab5YJeIYKERBf7cY"
+previous_id = "0166919d623cdf0db03590214881db62cad0ca541af778291a7ad69d2792b8fe"
+timestamp = "2026-10-01T10:30:42.309604113Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "e107f2cc0539e79603bf875bb6c46f4e"
+reason = "规划范围：Requirement: Current-context snapshot review。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:fa26802ec0dd54d91f4f98503ae8337a4973f55b53aa79f6a18e3ceddd371b33"
+source_version = "bea31b72b864aac4b82fdcfa1f002858f3cc9e9a6b74d4678fba837f10178a33"
+target = "range:8c78a75ab62efa134ab20f6019fd513efcf77c13265dbd67a67a0a3d3a4ec8fc"
+target_version = "8c78a75ab62efa134ab20f6019fd513efcf77c13265dbd67a67a0a3d3a4ec8fc"

@@ -1,0 +1,16 @@
+salt = "lhEzJWceiqrLZCbN"
+previous_id = "958e5da402da83227488282a1e1aa5a27373a20180ae9b3fa52569d1310321b5"
+timestamp = "2026-10-01T15:23:38.632774151Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "41f772baf2ac8b859074608e306cc832"
+
+[payload]
+mount = "file:abc61fc173923c813d36ac8cac1166412936901ed3b94fa6103465e46ec7fb1a"
+path = "test/fixtures/source-resolver.ts"
+reason = "源码、SDK/CLI实际执行测试或来源决定的精确范围；说明来源与验收责任，不冒充真实模型质量或剩余任务已完成。"
+
+[payload.position]
+end = "3005"
+mode = "text"
+start = "0"

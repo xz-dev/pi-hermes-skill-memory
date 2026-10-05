@@ -1,0 +1,12 @@
+salt = "wwtY2JYG666NWLMI"
+previous_id = "ab60977e44f0e9ffb3ef480d5d3a7a379be4c49ba83de5ad33508511da228179"
+timestamp = "2026-10-04T17:25:28.367391635Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"]
+link_id = "87b9242dd29877290b8f0a38b19d4264"
+reason = "The delivery report is unchanged. usage.md retains the command/recovery workflow and explicit current-memory incompatibility; no installation or enabling action has been performed for the user."
+stop = false

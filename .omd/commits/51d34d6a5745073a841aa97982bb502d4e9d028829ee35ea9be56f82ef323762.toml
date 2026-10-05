@@ -1,0 +1,10 @@
+salt = "iXS9lAwh0py6HMz3"
+previous_id = ""
+timestamp = "2026-10-01T12:58:00.311150363Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:8af61bbece2866e40961c46b3ac8907e967d98e9216d0affbf87f987a25c2033"
+path = "test/ledger.test.ts"

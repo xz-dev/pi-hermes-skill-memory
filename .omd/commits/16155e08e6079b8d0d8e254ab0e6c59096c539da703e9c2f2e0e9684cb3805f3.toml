@@ -1,0 +1,16 @@
+salt = "0LqFZiG5HOKmwxsh"
+previous_id = ""
+timestamp = "2026-10-01T10:30:39.682886106Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "45de60056a74e924d09a3afbb415b31a"
+
+[payload]
+mount = "file:b3808d1a3f093295a39904ff159c2e2779526cdc477d0d81e5d67838020f1afb"
+path = "docs/planning-evidence.md"
+reason = "规划范围：H1 — Hermes 的披露层次与发现过滤。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "3637"
+mode = "text"
+start = "2940"

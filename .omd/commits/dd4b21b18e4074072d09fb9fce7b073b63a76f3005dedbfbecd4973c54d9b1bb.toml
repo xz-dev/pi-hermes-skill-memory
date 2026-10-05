@@ -1,0 +1,12 @@
+salt = "nRroEvm0gPzgbAek"
+previous_id = "7bef8f3a4ae8c1bd320ef7f74229da871d9ddee93887422794725368575b739e"
+timestamp = "2026-10-03T15:29:46.294898528Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e33b5eb0c836d33cab104817d80ff1a9878fa0ab5dbff4eb16f0951c3153123"]
+link_id = "e09264a61517d6cda10ee21c7d6e28a7"
+reason = "design:D2 → requirement:skill-discovery:Requirement: Explicit loading and native fallback：用户已确认SDK完整支持及公开来源回调。下游仍需完整满足同名/排除/信任/显式加载/原生回退/版本/containment，不降低要求。"
+stop = false

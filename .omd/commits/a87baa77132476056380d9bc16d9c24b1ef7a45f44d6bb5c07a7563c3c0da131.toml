@@ -1,0 +1,9 @@
+salt = "NcB4jc3hNLSQTBvl"
+previous_id = "beab411b5c4c063cf5f53eff4cd940eccf76e24d7d69365c7e8eea80bf2b6843"
+timestamp = "2026-10-01T10:30:44.081410876Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "docs/review-contract.md"

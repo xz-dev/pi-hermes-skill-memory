@@ -1,0 +1,10 @@
+salt = "WEWGXbb38JvDUoEz"
+previous_id = ""
+timestamp = "2026-10-04T17:04:58.099029173Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:e0a85093d0153dbb58b8e172d5cb5d4b8ea866ad043bbafacec3e950bd3d5ff5"
+path = "test/restore-sources.test.ts"

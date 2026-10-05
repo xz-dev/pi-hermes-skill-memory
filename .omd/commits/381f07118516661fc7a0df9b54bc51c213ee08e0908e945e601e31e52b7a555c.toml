@@ -1,0 +1,15 @@
+salt = "lSWVEXZrmi69dStz"
+previous_id = "5946db306a87036d6c69f0e95a4a580a95104ecbdf1cbe33aeb41a941cdc2e01"
+timestamp = "2026-10-04T17:23:59.995619588Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "79db057dc7e9fb323b8bab538ac5158e"
+
+[payload]
+path = "docs/implementation-evidence.md"
+reason = "7.3原生操作链及第一次OMD语义审阅已完成（180 healthy）。本次仅闭合7.3完成标志/证据进度，不改代码、测试、收费政策或真实memory兼容结论。"
+
+[payload.position]
+end = "9235"
+mode = "text"
+start = "0"

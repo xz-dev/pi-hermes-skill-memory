@@ -1,0 +1,9 @@
+salt = "9NktqMHOtBKFH4Es"
+previous_id = ""
+timestamp = "2026-10-04T17:04:59.527091629Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "432b4286de4157c6249604f78469dc76"
+
+[payload]
+path = "test/snapshot.test.ts"

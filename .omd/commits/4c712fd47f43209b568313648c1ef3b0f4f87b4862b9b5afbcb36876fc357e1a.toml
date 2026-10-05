@@ -1,0 +1,14 @@
+salt = "f3CuDPq8GDqLWiIo"
+previous_id = "c01de1740d52fc95df7426ab372013dbf3654b02892e1cb956dfa8248a1dbd08"
+timestamp = "2026-10-01T10:30:43.605467089Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "db6cb15c04aea0fd57979ea1f68c9b87"
+reason = "规划范围：Requirement: Reversible archive and guarded rollback。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+source_version = "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+target = "range:a01d02dc493a04ec87bf80c9301c0daab7f17f23c6283ec064cf73d2c29df38c"
+target_version = "c01de1740d52fc95df7426ab372013dbf3654b02892e1cb956dfa8248a1dbd08"

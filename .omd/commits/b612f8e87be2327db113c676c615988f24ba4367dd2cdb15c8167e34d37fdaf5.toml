@@ -1,0 +1,14 @@
+salt = "1BPaNhgxp0DDBZWv"
+previous_id = "a04bf7f4d21b00654b34bda96debe877784e3d7f28aac3ae73358b824a4a3e7a"
+timestamp = "2026-10-01T10:30:42.49876741Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "95f26e2bffe5b32530583ec2f7ae56ab"
+reason = "规划范围：Requirement: Admission and cumulative budgets。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+source_version = "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+target = "range:ee1cb77d9f00cd8ddd37517251c70c02aa48c43efdce30b45f85ace71849d56a"
+target_version = "a04bf7f4d21b00654b34bda96debe877784e3d7f28aac3ae73358b824a4a3e7a"

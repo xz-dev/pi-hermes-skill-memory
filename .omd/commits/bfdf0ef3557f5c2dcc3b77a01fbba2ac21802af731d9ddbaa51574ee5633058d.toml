@@ -1,0 +1,12 @@
+salt = "vHLR0kkut4wveJvE"
+previous_id = "1dba86b2d45b3edb056a0523a025b0ef671a63063384626f6dfe0d2bee8091a6"
+timestamp = "2026-10-04T17:19:29.706401161Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["64768ca5cf36eb0890e548839050330cc5f270563741dd344cb779a0ef1bd83d"]
+link_id = "843689b4f173c7ce70cf3496ff95a1fd"
+reason = "Review's joint option is optional; test/learning.test.ts still exercises the existing standalone service and registered reuse. The initially failing stale-result regression was fixed by preserving its established late-accounting semantics, not changing its assertion."
+stop = false

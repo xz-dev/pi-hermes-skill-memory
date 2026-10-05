@@ -1,0 +1,10 @@
+salt = "bP8thDrc9uVeYy8B"
+previous_id = ""
+timestamp = "2026-10-03T19:55:15.801348593Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:35f8494e0cda728bb73ad2f5e55d535b5c685521e48792c725edeab390e13ca7"
+path = "src/scope.ts"

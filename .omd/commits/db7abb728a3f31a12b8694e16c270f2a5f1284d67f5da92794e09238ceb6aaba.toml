@@ -1,0 +1,9 @@
+salt = "Rj9QqLE22nX6sJbt"
+previous_id = "2f1f0eb985e6aa5f1f01b21ae08ae168a55fab80cb1e5f3a6efa0c5bf8d04ac0"
+timestamp = "2026-10-01T10:30:42.148529044Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md"

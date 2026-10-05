@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [43, 250, 143, 133, 218, 146, 164, 151, 71, 71, 42, 211, 115, 246, 146, 103]
+len = 11270
+sha256 = "d381ef132390422e3007ff3ffa9f651662b978885d1330d89949e0cd2158f9c5"
+encoding = "utf-8"
+content_file = "content/d381ef132390422e3007ff3ffa9f651662b978885d1330d89949e0cd2158f9c5"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/content.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/content.test.ts"

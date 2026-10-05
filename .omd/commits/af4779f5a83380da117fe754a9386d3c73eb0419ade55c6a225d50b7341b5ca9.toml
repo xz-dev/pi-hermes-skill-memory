@@ -1,0 +1,9 @@
+salt = "LNHZOy6XLA6m0uU3"
+previous_id = ""
+timestamp = "2026-10-01T12:58:00.914558321Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "5381a35084e4fe8434ddb8c61dd80c4b"
+
+[payload]
+path = "docs/implementation-evidence.md"

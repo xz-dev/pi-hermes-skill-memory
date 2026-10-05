@@ -1,0 +1,12 @@
+salt = "lyXUlyDvOUPans5W"
+previous_id = "5b7edf97a11df087d959cce44299b6395b966e581b2ca0460b4e4e7f474bbf60"
+timestamp = "2026-10-03T15:38:37.049803987Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["f2d1d50dc7c0bc9a086edcfed5fdc231186e9b8a5ba97287b744e2bce23a869b"]
+link_id = "c36035f7b268e3e277f91126cb7abce2"
+reason = "requirement:skill-reflection:Requirement: Failures and usage remain visible → tasks:2：已核对原规划要求和任务责任。D3–D7及未实施任务仅因D2/3.1插入而移位，正文要求未删减；3.2–7.3仍未完成，关系不代表实现或语义证明。"
+stop = false

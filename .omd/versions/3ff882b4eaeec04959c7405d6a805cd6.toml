@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [63, 248, 130, 180, 234, 238, 192, 73, 89, 199, 64, 93, 106, 128, 92, 214]
+len = 10882
+sha256 = "1cd0b2c8af7b44584040c246fe7e85eef48b5f837c3b8a95cc8e212d1a871d2b"
+encoding = "utf-8"
+content_file = "content/1cd0b2c8af7b44584040c246fe7e85eef48b5f837c3b8a95cc8e212d1a871d2b"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/fixtures/restore-source-matrix.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/fixtures/restore-source-matrix.ts"

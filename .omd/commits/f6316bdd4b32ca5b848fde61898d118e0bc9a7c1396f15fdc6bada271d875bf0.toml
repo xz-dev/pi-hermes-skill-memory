@@ -1,0 +1,12 @@
+salt = "gEJzQfvZ8rQkCgIY"
+previous_id = "afdd691d0ff971351ba511188065fdb5fd679748b739fb60f7422bc9efe7a576"
+timestamp = "2026-10-04T17:19:34.331638338Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"]
+link_id = "fdec9f9a079350184009fbc18fe37950"
+reason = "The CLI source fixture remains an observer/fake-provider harness for the stock CLI. Production source authorization stays in index/sources; no fixture hook bypasses noSkills or enables package installation."
+stop = false

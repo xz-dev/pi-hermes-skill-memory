@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [219, 33, 117, 61, 197, 67, 224, 49, 59, 96, 72, 177, 211, 109, 34, 142]
+len = 5746
+sha256 = "f27b712c2aaa3463fd412a41af4be991fee8a4b866221e89b5bb113c0daa8a3a"
+encoding = "utf-8"
+content_file = "content/f27b712c2aaa3463fd412a41af4be991fee8a4b866221e89b5bb113c0daa8a3a"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/fixtures/temporary-root-probe.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/fixtures/temporary-root-probe.ts"

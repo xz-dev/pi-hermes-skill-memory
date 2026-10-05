@@ -1,0 +1,16 @@
+salt = "Z8wdWoJoxGOtNomc"
+previous_id = "70b1aabf82a54808c804ff3132c7df094ff1397a04ff8e11dcabbf2f4760afa1"
+timestamp = "2026-10-01T12:57:57.069658297Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "f440aac5a2477c3295b3c4876760d0a9"
+
+[payload]
+mount = "file:d75f53185d93a623bd3d61f26b3fad03632ab569f6e95b238fbaf83221ff7814"
+path = "src/ledger.ts"
+reason = "已复核的早期实施范围，满足对应已勾选任务的具体行为；并非完整能力或剩余任务完成证明。"
+
+[payload.position]
+end = "9442"
+mode = "text"
+start = "2624"

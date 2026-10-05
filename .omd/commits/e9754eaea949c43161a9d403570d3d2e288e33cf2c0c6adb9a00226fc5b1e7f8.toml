@@ -1,0 +1,12 @@
+salt = "aYPJqEX2ay7So6CG"
+previous_id = "839ba3936d94100205e21ad3098495d812c5c011db962179c6ea3356c1a589e9"
+timestamp = "2026-10-03T15:29:46.792124747Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["eb6eeb50d20e5a776feff3fc7c0e3c97b2090ea431da66b32e3327c767f9f4b7"]
+link_id = "f38a7b59a1308c276114b5f4f2720775"
+reason = "design:D6 → requirement:skill-maintenance:Requirement: Scoped knowledge remains scoped：已核对原规划要求和任务责任。D3–D7及未实施任务仅因D2/3.1插入而移位，正文要求未删减；3.2–7.3仍未完成，关系不代表实现或语义证明。"
+stop = false

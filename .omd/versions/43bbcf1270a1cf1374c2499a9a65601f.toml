@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [67, 187, 207, 18, 112, 161, 207, 19, 116, 194, 73, 154, 154, 101, 96, 31]
+len = 2451
+sha256 = "f4d8ad22051c701b73360946edfa33eadfcee8566e936016cd3e501e623657f8"
+encoding = "utf-8"
+content_file = "content/f4d8ad22051c701b73360946edfa33eadfcee8566e936016cd3e501e623657f8"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "docs/delivery-evidence.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "docs/delivery-evidence.md"

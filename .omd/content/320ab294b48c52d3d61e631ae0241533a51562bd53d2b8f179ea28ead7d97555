@@ -1,0 +1,110 @@
+## Context
+
+动机见 [proposal.md](proposal.md)。当前仓库只有研究资料，没有插件实现。核验基线：Hermes `234badf4012af380d23c91eae55d045a69c69ffb`，官方 Pi 0.99.2 / `a4715ec9bffbfcb8a32a1a4100dcfd06c12c93e4`。
+
+用户已选择：仅官方 Pi；搜索优先；当前有效上下文快照审查；受管内容自动维护；手装 skill 修改须 TUI 确认或全局授权；后台失败与费用不可隐藏。事实证据与来源见 `docs/planning-evidence.md`，共享收费规则见 `docs/review-contract.md`。
+
+## Goals / Non-Goals
+
+**Goals:**
+- 复用官方 skill 文件格式与公开扩展点，补齐发现、生成、权限、维护闭环。
+- 所有持久修改有确定作用域和版本依据，所有辅助模型调用可准入、取消、归因和追查。
+- 独立安装与双插件共存都可用；协作失败时安全暂停收费。
+
+**Non-Goals:**
+- 不复制 Hermes 运行时、市场、组织同步、cron 和整套 curator 后台服务。
+- 不复制模型隐藏状态，不承诺 server cache 命中；不通过内部模块或 fork API 补功能。
+- 不接管 Pi 包安装器、不自动执行 skill scripts、不物理清理历史备份；不迁移旧插件。
+
+## Decisions
+
+### D1 — 官方 Pi 是宿主，不是待修改的依赖
+
+扩展入口只注册工具、命令、事件；在 session_start 建立本地状态，在 session_shutdown 取消任务并落本地账。需要的 API 从包公共入口导入，禁止 `dist/core/...` 或仓库源码深层路径导入。使用公开 `getAgentDir()` 解析全局位置，不能硬编码本机路径。
+
+职责分为五个窄模块：catalog（发现/读取）、store（作用域与版本化写入）、review（快照与提案）、maintenance（统计/归档）、ui（状态/审批）。共享收费协调只是 review 的小协议，不额外抽成通用 workflow 产品。
+
+备选：修改 Pi core 或依赖 pi-subagents。拒绝：用户要求官方插件独立工作。旧版 Pi 缺少所需事件/options 时显示 unsupported 并停用相关自动化，不通过未文档化字段兼容。
+
+### D2 — 原生格式加搜索优先，而不是每个 skill 变成工具
+
+启动/重载获取官方可用资源元数据；公开载入 helper 用于解析已允许的路径。发现集合是官方启用资源与本插件受管根的并集。对需要单独枚举的已信任来源按根解析，再按真实路径去重；不以 name 丢弃不同来源。不能证明官方排除/项目信任允许的目录不扫描，未知的包内部副本不靠全盘搜索补齐。
+
+用户追加确认：SDK 嵌入应用也完整支持。官方提示词 skill 列表已经按 name 去重，`DefaultPackageManager.resolve` 的 enabled 又不包含宿主独立的 `noSkills`/自定义资源过滤，因此新增薄的公开接入点 `createSkillsExtension({ agentDir, skillSources })`。`skillSources` 每次返回去重前的最终允许 `Skill[]`、项目/信任身份、版本及有界排除诊断；SDK 宿主负责提供其真实最终过滤结果。可使用插件的官方公开解析 helper，并显式传入 `noSkills`、附加路径和宿主筛选；自定义 ResourceLoader 直接提供同等最终快照。
+
+官方 CLI 默认入口只在确认运行于官方 CLI 入口时用公开 `parseArgs` 和只读来源解析 helper；缺失包回调恒为 skip。SDK 不猜 CLI 参数或隐藏宿主状态。回调缺失/失败、身份不符或版本不兼容时清除旧目录，报告 unsupported/error，保留原生入口并停止依赖来源的自动写入。源清单正文或项目配置不能授予写权限。这个回调不创建独立运行时、消息总线编排框架或 Pi core 修改。
+
+`before_agent_start` 先保留该次可用元数据，再设置 `event.systemPromptOptions.skills = []`，写入简短 `hermes_skills` section。不得只删 `sections.skills`：官方 builder 会根据 skills 输入重新生成。不得 force 替换整个 prompt。其他扩展之后可再次修改 options，故应诊断重复暴露并明确扩展顺序冲突，不能宣称独占全局最终请求。
+
+提供三个模型工具：`hermes_skill_search`（也支持分页列表）、`hermes_skill_view`（正文或指定相对文件）、`hermes_skill_manage`（提案/提交）。命令统一为 `/hermes-skills ...`，不与原生 `/skill:name` 争名。显式插件标识解析可绕过搜索；原生 slash 命令继续存在，但其同名选择以 Pi 自身规则为准。
+
+索引只存简介、来源、scope、canonical path、内容指纹和读取资格，默认本地关键词/分类匹配，不调用 LLM/embedding。输出上限默认 10 项/6,000 字符，超出分页。读取正文默认 16,000 字符/页，引用逐个读取，不递归展开。未知/禁用/无效条目在诊断中可见。
+
+备选：全部原生清单 + 按需正文。较简单但目录随数量增长；用户明确选择搜索优先。工具/skill 一一映射会扩大 schema，拒绝。
+
+### D3 — Scope 与 owner 两个轴
+
+全局受管根：`<agentDir>/skills/hermes-managed/`；项目受管根：`<projectRoot>/.pi/skills/hermes-managed/`。辅助 manifest、账本、提案和归档放 `<agentDir>/hermes-skills/` 或 `<projectRoot>/.pi/hermes-skills/`，归档不能留在被原生扫描的 skill 目录中。
+
+projectRoot：用户明确配置优先，其次当前 Git worktree 顶层，非 Git 项目使用用户选定目录；身份是规范化根路径。不同 worktree 默认不同本地范围；不根据同一 remote 自动共享。跨工作副本共享不是首版隐式行为。
+
+SkillId = scope + project identity（如有）+ source namespace + relative path；name 只是显示名。来源包括 managed、user-installed、package、external、read-only。缺少可信管理记录视为 user-owned，不根据文件夹名提升权限。搜索可展示同名不同来源；写入总用 SkillId。
+
+项目生成默认 project；global 需要提案说明跨项目适用性。迁移属于显式用户操作，检查目标与保留原版本。Hermes 的单一配置创建根与本插件 per-operation scope 不同，不把“配置创建根”误写成全球绝对固定路径。
+
+### D4 — 提案与事务入口统一
+
+前台和后台都形成 Proposal：id、scope、SkillId、evidence references、base hashes、变更理由、文件 diff、所需权限。后台必须已读取目标版本；无法放入输入预算的目标不自动修改。真正落盘由 store 做 containment、owner/pin、版本及授权校验，而非 LLM 直接调用通用 write/bash。
+
+手装 skill 每次修改/归档/恢复均检查全局 `allowAutoModifyInstalledSkills`；默认 false，仅用户操作可设置。否则前台 `ctx.mode === "tui"` 使用 `ctx.ui.confirm` 展示具体 diff；RPC 的 hasUI 不自动视为用户要求的 TUI 授权。无 TUI 或后台任务只保存有界 pending 提案，在下一次 TUI 状态面板可见，不自行抢占前台弹窗。批准绑定具体 base hash；变更后必须重新批准。
+
+受管变更仅在内容验证通过时自动提交，pin、只读源、冲突与权限错误仍拒绝。宿主自动生成的是绑定当前来源的引用或有限流程模板，正文及简介由宿主构造；模板不声称动作已执行。引用保留来源角色与 entryId，引用成立不代表宿主认证来源报告为真。自由改写、未知模板和资产不能靠关键词或第二次模型验证获得资格，而进入既有有界 pending（32条、单条384000字符、总1000000字符）。managed create/update 与手装更新均可本地批准；显示具体 before/after、目标、scope、版本并再次校验来源和路径，标为 user-approved 而不是已认证事实，原请求计量不变。手装全局自动允许不能绕过这个内容边界。
+
+修改第三方包后标记 local-modified；包升级由 Pi/用户管理，插件不自动将更新视为自己的变更，也不覆盖新的上游版本。实质只读包无法原地修改时报告原因，可由用户显式创建受管副本，不暗中覆盖同名技能。
+
+文件提交用同目录临时文件 + rename、per-root 进程内队列及跨进程短锁；ledger 记录 intent、before/after hash、提交成员和完成状态。多文件不是凭空的跨文件原子事务：出错停止，列出实际成员，提供恢复。基于已保存内容版本回滚，若当前 hash 不等于被回滚的 after hash 则冲突，不覆盖后续手改。
+
+备选：只拦截模型 tool_call。拒绝作为唯一权限层：后台、命令和直接提交也必须走 store；这不是对同进程其他扩展或任意 shell 的 OS 沙箱。
+
+### D5 — 当前快照审查与可见费用
+
+完全采用本地 [Shared review contract v1](../../../docs/review-contract.md) 的 R1–R7。默认快照来自当前有效分支与可观察上下文，包含压缩摘要；使用同模型独立单请求分析，输出分类提案。保留已读 skill 内容及版本，不能把旧 session 文件全集反复串成 prompt。
+
+默认每 10 个 tool-bearing 模型轮次使 skill 目标到期，但直到前台稳定结束才派发；不把工具次数误报成用户轮次。单请求、64k 输入、4096 输出、90 秒、每日最多 4 次/256k 输入/16384 输出、失败暂停，均为本插件保守默认，不冒称 Hermes 参数。
+
+Hermes 可在 review 内多轮调用受限工具；首版为限制隐藏消耗，只做一次提案请求。无需模型生成额外“是否值得审查”的收费分类。模型返回空、只含 reasoning 或无变更仍记录消耗；不得 fallback。大快照超限明确跳过，不悄悄变增量。重新请求只能由用户查看旧费用后明确触发。
+
+独立调用采用公开 `ctx.modelRegistry.streamSimple` 和官方消息转换入口；不复用主 Agent 的可执行工具，不移动 live leaf。若某 provider 不能提供所需用量，unknown + 保留预留 + 暂停；实际 token/价格可观察边界如实说明。对齐 system/history 是优化，不保证完整工具 schema、其他扩展最终 wire 改写或服务端 cache identity 一致。
+
+### D6 — 维护不以 mtime 自动删除知识
+
+view、explicit-use、task-outcome 分开计数，审查自读不算真实用户使用。只对受管且未 pin 的内容产生陈旧/重复候选；默认老化不触发收费总结，也不直接归档。显式 `/hermes-skills curate` 若请求语义合并，使用统一 review 预算；提案验证后可合并受管技能，保留被吸收内容与恢复索引。
+
+archive 移至非扫描根；restore/rollback 做版本与同名检查。无自动永久 purge。手装 skill 的每种维护动作都遵循 D4，而不是只有 patch 才审批。初版不照搬 Hermes 的 cron 引用改写；对本插件可知引用展示影响，未知外部引用明确标为未检查。
+
+### D7 — 两插件共存不双倍收费
+
+共同遵守 `hermes.review.v1` 与 agentDir 下共享预算账本。一次快照可返回 skill 和 memory 两类提案，各消费者只提交自己对象；没有 memory 插件时只请求 skill，不生成一堆无法接收的长期记忆操作。版本不兼容时关停联合自动审查并显示原因，手动不收费读取仍可用。
+
+备选：两个相互不知道的定时器。拒绝：正是完整快照重复消费与静默失败的高风险来源。不要求安装一个第三方编排包；同进程 event bus + 受锁共享额度足够。
+
+## Risks / Trade-offs
+
+- [搜索漏召回] → 显式标识加载、分类列表、可见未命中；不承诺模型每次都会主动搜。
+- [全量有效快照较贵] → 预留预算、有限频率、可见 cache 用量；预算不够就跳过，不伪装成功。
+- [其他扩展重写 prompt] → 原生公开事件内协作，检测重复 section；无法控制的最终 wire 差异单列。
+- [新生成 skill 不在原生补全中] → 插件索引即时刷新，原生 `/skill:` 菜单在官方 reload 后更新，工具事件里不强制重载宿主。
+- [多文件或跨进程写故障] → 短锁、版本比较、逐成员提交记录和恢复，不宣称任意文件集原子回滚。
+- [后台 UI 被前台淹没] → 持久状态区和可查历史；错误未确认前保持标记，失败默认暂停。
+- [阅读的 skill 有恶意指令] → 来源标注、写权限独立、路径边界；不把文档内容视为授权。
+
+## Migration Plan
+
+1. 实现阶段先用官方 0.99.2 的隔离测试项目与 fake provider 验证公共 API、零/单请求计数和 TUI 状态，不接入个人 skill 目录。
+2. 提供仅索引模式；用户明确启用后才创建受管目录和开始自动提案。启动面板展示默认预算与手装 skill 授权状态。
+3. 单独验收 skill 插件，再与 memory 插件验证同一快照一笔费用。
+4. 禁用扩展即停止自动化，原始 SKILL.md 仍可由 Pi 原生读取；保留账本、归档和 pending 供检查，不自动删除用户资料。
+
+## Verification boundary
+
+本次是源码核验与规划，不是可运行插件或费用实测。实现任务必须用 fake provider、公共类型检查、文件冲突注入和 TUI/RPC/print 模式检查兑现规格；不引用研究子报告中的覆盖百分比、固定 cache 折扣或未执行测试作为证据。

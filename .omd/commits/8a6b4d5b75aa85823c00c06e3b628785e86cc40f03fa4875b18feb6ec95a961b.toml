@@ -1,0 +1,12 @@
+salt = "VlmnmxyNRoOh4lkr"
+previous_id = "1ff9d445993d3b7f4e993416f33aa5a64c52ac5ed1f113d86949c3f03e9d862f"
+timestamp = "2026-10-04T17:19:04.68989249Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"]
+link_id = "61343f40cf5f3a3ce247762444b0acaf"
+reason = "D6 permits only explicit budgeted semantic curation. The curation requirement retains list/propose/apply and forbids name-only deletion; registered curation tests exercise exact approval and restore of absorbed content."
+stop = false

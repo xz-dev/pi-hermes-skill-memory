@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [43, 252, 112, 99, 63, 219, 26, 151, 18, 5, 158, 209, 48, 251, 73, 132]
+len = 21652
+sha256 = "7d7497b59b8d30fcad05c511cc41bc058f23240e9d73b7cb83b86c8e5066c711"
+encoding = "utf-8"
+content_file = "content/7d7497b59b8d30fcad05c511cc41bc058f23240e9d73b7cb83b86c8e5066c711"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/curation.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/curation.test.ts"

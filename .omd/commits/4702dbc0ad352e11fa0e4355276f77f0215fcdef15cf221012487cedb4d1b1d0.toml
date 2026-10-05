@@ -1,0 +1,15 @@
+salt = "4548IzrQni26kCc2"
+previous_id = "907e2c827b26256195e3fc3ee5f3ec21a61e2e19cdd4bb0acdeef24911d9209a"
+timestamp = "2026-10-04T17:13:33.509567204Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "78d454fd562a430c72ee8131645e8e09"
+
+[payload]
+path = "docs/tui-validation.md"
+reason = "审阅UI→历史TUI证据发现当前措辞误导：标为2.4历史检查点，指向新的调度、费用与7.3原生证据，不伪造重新测试旧截图。"
+
+[payload.position]
+end = "1401"
+mode = "text"
+start = "0"

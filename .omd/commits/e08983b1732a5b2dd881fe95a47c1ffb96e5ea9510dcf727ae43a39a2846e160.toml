@@ -1,0 +1,14 @@
+salt = "mtbP60DBVKANh6bR"
+previous_id = "328547fff59c868feccd1ef20ecbbcb1352320b2941ae8fbcb50f17fcce9e168"
+timestamp = "2026-10-01T10:30:40.238386263Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "deb8b527a03ec2411d53191eb18e7b75"
+reason = "规划范围：D6 — 维护不以 mtime 自动删除知识。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:b36ffc4536358335eb61a2586b35290dddfa5c0e958925a1a0425e3f6ed4740e"
+source_version = "b36ffc4536358335eb61a2586b35290dddfa5c0e958925a1a0425e3f6ed4740e"
+target = "range:061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+target_version = "328547fff59c868feccd1ef20ecbbcb1352320b2941ae8fbcb50f17fcce9e168"

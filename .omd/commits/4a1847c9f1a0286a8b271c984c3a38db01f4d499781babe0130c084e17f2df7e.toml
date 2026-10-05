@@ -1,0 +1,12 @@
+salt = "X7fScYj0t2zX0ES4"
+previous_id = "3b8d6cf723295e3478331254c7edaf7994f35100bbb8b2f911e24d5c91ee4e68"
+timestamp = "2026-10-03T15:38:33.39531729Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e33b5eb0c836d33cab104817d80ff1a9878fa0ab5dbff4eb16f0951c3153123", "626db060988cc283b4be210b9e046cb6d285064e277af2d45ba2367550f891d8"]
+link_id = "7b644a6b91adb0e757d2ac51838989d1"
+reason = "requirement:skill-discovery:Requirement: Version-aware reads and refresh → tasks:3：已核对原规划要求和任务责任。D3–D7及未实施任务仅因D2/3.1插入而移位，正文要求未删减；3.2–7.3仍未完成，关系不代表实现或语义证明。"
+stop = false

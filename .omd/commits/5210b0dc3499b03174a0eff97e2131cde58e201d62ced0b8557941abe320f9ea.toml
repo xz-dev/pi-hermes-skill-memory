@@ -1,0 +1,14 @@
+salt = "gl2Xr6kbBKTGRK9H"
+previous_id = "664156e8ef736adb8fdbce860dde2d3d1105a0680aafbab9dbd4d271e1153bb7"
+timestamp = "2026-10-01T10:30:41.83948701Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "ab4c6f48d372a36607d25b6e8395d401"
+reason = "规划范围：Requirement: Authorize installed-skill mutations。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:45206a1fc7e5416a520c5e0a0e607a25ce69ffbedf2ae0f81a4be9d77b98c137"
+source_version = "3370b7d639bfd64764cc5582691d7226d499c7be03d568b1a65cc262a4ea5985"
+target = "range:bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"
+target_version = "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"

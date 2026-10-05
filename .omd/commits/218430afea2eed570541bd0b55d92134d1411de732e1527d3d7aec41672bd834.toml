@@ -1,0 +1,12 @@
+salt = "7vyUOd1EubkBz8u2"
+previous_id = "951ded40e772eb1581da38fa1227c79f87401b283acfc19d7188a274d2a76524"
+timestamp = "2026-10-05T02:52:30.037872176Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"]
+link_id = "d5df8597dd44352dc56541faf87dafac"
+reason = "归档路径传播核对 tasks:7 → implementation:cooperation：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/cooperation.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

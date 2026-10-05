@@ -1,0 +1,15 @@
+salt = "IPlxJ4kX90Q7ef2L"
+previous_id = "78e0bfa1c3410625d54f27fa222b48bf00d127d5831dc9787a1f68deefd7e8ac"
+timestamp = "2026-10-04T17:04:46.174165889Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "1a8e8ad6d9bea1858497f676bd24f852"
+
+[payload]
+path = "test/ledger.test.ts"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "6880"
+mode = "text"
+start = "0"

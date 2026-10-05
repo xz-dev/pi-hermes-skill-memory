@@ -1,0 +1,9 @@
+salt = "zxKsobJZVKwvjWKK"
+previous_id = "9c6f3df715e0161eaf95660d8bd89f72ea42b105ec805d3fa18ce67053ffab02"
+timestamp = "2026-10-04T17:05:03.279537676Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "docs/curation.md"

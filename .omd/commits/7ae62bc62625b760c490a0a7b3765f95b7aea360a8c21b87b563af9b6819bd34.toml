@@ -1,0 +1,14 @@
+salt = "qTk7XdpiWGRQrsVf"
+previous_id = "ab9bae224d785596654595524ae1656c781d38d761efa5c5e3e77ff8932b9b24"
+timestamp = "2026-10-01T10:30:41.465499686Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "4464ee2a6c5e169f00d55ba3d014bf9e"
+reason = "规划范围：Requirement: File containment。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+source_version = "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+target = "range:6f93b687e56450459c80046e944125db165f6b41a2cec80dbc2c61d5e6b1e505"
+target_version = "ab9bae224d785596654595524ae1656c781d38d761efa5c5e3e77ff8932b9b24"

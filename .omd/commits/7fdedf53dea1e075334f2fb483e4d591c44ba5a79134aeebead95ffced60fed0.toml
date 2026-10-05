@@ -1,0 +1,12 @@
+salt = "YV7zKpXlbzOnW1xg"
+previous_id = "98e688d1c8902f01a6c75c1d40bf14896a60effd4d5452478319dc841d9387b8"
+timestamp = "2026-10-04T17:19:16.845249844Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58", "864117319f7161bf7aa933af581d6d2caebf47d1e24d1fe5f8fbf7e3f8b6598e"]
+link_id = "d2e920f0edf9d63063847a427287c389"
+reason = "The expanded evidence requirement explicitly needs historical dedup and independent pin despite statistics failure. Task 6.1 and activity tests cover reported/confirmed separation, over-4096 replay and failed statistics with continued reading."
+stop = false

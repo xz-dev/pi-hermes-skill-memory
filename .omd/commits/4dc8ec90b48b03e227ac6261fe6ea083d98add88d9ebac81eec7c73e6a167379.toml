@@ -1,0 +1,12 @@
+salt = "EdR8RkB1ku6xBuEK"
+previous_id = ""
+timestamp = "2026-10-01T15:23:39.559106908Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "docs/source-discovery-boundary.md"
+scope = []

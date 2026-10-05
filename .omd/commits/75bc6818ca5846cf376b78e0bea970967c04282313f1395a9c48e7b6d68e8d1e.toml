@@ -1,0 +1,9 @@
+salt = "eTBkJNmPgj8FWrRS"
+previous_id = ""
+timestamp = "2026-10-01T15:23:30.643913221Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "1c85acb92cde02c060c434dbbce461d9"
+
+[payload]
+path = "src/source-worker.mjs"

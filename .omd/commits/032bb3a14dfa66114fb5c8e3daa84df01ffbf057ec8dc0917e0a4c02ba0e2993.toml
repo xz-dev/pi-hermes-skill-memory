@@ -1,0 +1,12 @@
+salt = "f1VKQjmbFpADW4OM"
+previous_id = "93e4a2d1468ca2b1503d07e767b3ed455f3c8ba1f591573e41021b208b558254"
+timestamp = "2026-10-04T17:19:27.930254775Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["bfa14a56047758b89ff5b0e1b4e4dd9f76620529160921d67f0d63ddefe27dad"]
+link_id = "0d306ed3f862f650902503935cf7bd6e"
+reason = "Ledger added joint-boundary metadata and late-overshoot pause. ledger.test.ts now races two processes with different goal digests at one boundary, checks reload dedup, and tests late overshoot after resume; original crash/corruption/date cases remain."
+stop = false

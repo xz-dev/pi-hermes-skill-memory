@@ -1,0 +1,12 @@
+salt = "q64XnbfGbvzVOaEY"
+previous_id = ""
+timestamp = "2026-10-04T17:07:48.774891875Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "docs/delivery-evidence.md"
+scope = []

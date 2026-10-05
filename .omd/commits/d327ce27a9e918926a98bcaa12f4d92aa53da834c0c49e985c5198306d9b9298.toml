@@ -1,0 +1,16 @@
+salt = "ZVs4D7rBh8mcKrxy"
+previous_id = "a41692c5734fb4fd737edb41a14252ba883a1436d0354600788fc4b9869485c7"
+timestamp = "2026-10-04T17:05:01.305825399Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "601619cf9cb97f71b636b68cb9833cea"
+
+[payload]
+mount = "file:cf1d9a66413f630aa2e253cd3f58345de26a5601575f6836577eace2f88e90a6"
+path = "test/fixtures/tui-maintenance.ts"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "3504"
+mode = "text"
+start = "0"

@@ -1,0 +1,16 @@
+salt = "jwnltTB031e5tQLw"
+previous_id = "2c6a3f041edcf6381e16f77464b1e4a1c8c190bcb167dfba2f3572cabf388875"
+timestamp = "2026-10-01T10:30:41.181559124Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "c36145562fe7e160f634e03e902d0eb3"
+
+[payload]
+mount = "file:42e52577a89428fc68c4e43c50d293f54b20c12892b1c3a88e10335e330784ef"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-discovery/spec.md"
+reason = "规划范围：Requirement: Respect native exclusions and project trust。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "1130"
+mode = "text"
+start = "837"

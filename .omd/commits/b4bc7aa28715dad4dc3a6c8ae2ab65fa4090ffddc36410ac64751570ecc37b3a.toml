@@ -1,0 +1,12 @@
+salt = "PyDNQGsy0PRl3Xd0"
+previous_id = ""
+timestamp = "2026-10-01T12:58:01.340931032Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "docs/implementation-evidence.md"
+scope = []

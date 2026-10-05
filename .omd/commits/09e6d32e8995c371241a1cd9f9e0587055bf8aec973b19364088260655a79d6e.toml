@@ -1,0 +1,12 @@
+salt = "7K6GNFYjUWHymoGk"
+previous_id = "b818d27147ea972ca4648a759bb141a258577133d9a88af73a1c0b79e660a344"
+timestamp = "2026-10-04T17:19:29.027880336Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"]
+link_id = "31f94df8c906194b788d28f9efdd7fb2"
+reason = "New index handlers do not remove explicit load or native mode. modes.test.ts retains zero-request ID loading, live refresh and native completion/reload/disabled-plugin checks; native delivery independently confirms discovery after unload."
+stop = false

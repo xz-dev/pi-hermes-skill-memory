@@ -1,0 +1,12 @@
+salt = "RGhcQLn8AkBJqyjv"
+previous_id = "87ed558cc2b488859067ec3305ecc5b1a80118de64a3811bda610e4236f662a6"
+timestamp = "2026-10-04T17:19:16.186776525Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514"]
+link_id = "c018f78cc93d3a01b0c5bcb908a362ef"
+reason = "File-containment requirement moved only. Task 3.3 still rejects traversal and symlink escape and pages one requested file; read tests also demonstrate that viewing a script does not execute it."
+stop = false

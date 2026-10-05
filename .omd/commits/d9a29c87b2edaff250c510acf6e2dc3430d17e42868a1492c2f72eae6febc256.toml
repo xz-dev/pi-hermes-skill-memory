@@ -1,0 +1,16 @@
+salt = "q5iyFIUgnHeVa5aI"
+previous_id = ""
+timestamp = "2026-10-01T09:25:49.711023431Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "028f4070a4a292f693221239c7bc8172"
+
+[payload]
+mount = "file:9f401ba1364a840fef1217a4d46fc1d9539d9059bbdf333c55e54c68583fc79d"
+path = "docs/pi-plugin-planning-brief.md"
+reason = "用户已确认的官方 Pi 兼容、自动写权限与外接后端评估边界；仅确认规划输入，不证明插件实现。"
+
+[payload.position]
+end = "790"
+mode = "text"
+start = "412"

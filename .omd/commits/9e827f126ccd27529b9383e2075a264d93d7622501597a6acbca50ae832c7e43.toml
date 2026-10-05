@@ -1,0 +1,10 @@
+salt = "Wvy1iUvChg9IO611"
+previous_id = ""
+timestamp = "2026-10-04T17:05:01.938629765Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:54ef9f5cfa49846e94ac1531b382daeae11445b09280aa66a2004d01184317c0"
+path = "test/fixtures/restore-source-matrix.ts"

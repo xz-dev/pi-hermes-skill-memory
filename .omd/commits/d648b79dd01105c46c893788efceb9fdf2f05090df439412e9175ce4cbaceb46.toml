@@ -1,0 +1,12 @@
+salt = "O42XHAtZgBq9aG6y"
+previous_id = "409118e31e3ccf3a8f46a9a12e81491b54c17b19849d065ee7eabc0c5c6b43b1"
+timestamp = "2026-10-04T17:19:14.811707116Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["7ac1b47afe13c64545a470843c008eb3db29c99f88f4b7cb8bd346614a21c202", "f7be13f13e72ad6b185bcf6d898eba465bd90fd794994a0e611e43470fcb9152"]
+link_id = "a65af1ebc0cdcd6007af7b6ac457d589"
+reason = "Shared-charging requirement is relocated, not reduced. Task 7.1's permitted protocol double now exercises simultaneous targets, one disk record and separate commits; existing memory incompatibility is explicitly documented."
+stop = false

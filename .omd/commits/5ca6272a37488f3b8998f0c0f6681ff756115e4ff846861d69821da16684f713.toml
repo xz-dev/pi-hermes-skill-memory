@@ -1,0 +1,9 @@
+salt = "1ODvDk6A0BERlSrG"
+previous_id = "8279383cced0efed6b6e84a2ea8a5df161032cfaa9cbbf9e2eb3bf314d9bba52"
+timestamp = "2026-10-01T15:23:39.38020557Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/support.ts"

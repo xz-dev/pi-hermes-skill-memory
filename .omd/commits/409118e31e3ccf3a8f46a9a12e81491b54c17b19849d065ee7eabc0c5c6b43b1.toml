@@ -1,0 +1,12 @@
+salt = "DZlB4RDhKjzoiDWy"
+previous_id = "031798139e1670a64f990877278212a3b5ee0d3f230ffadac1e6347f7c40168b"
+timestamp = "2026-10-04T17:19:06.958477418Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["f7be13f13e72ad6b185bcf6d898eba465bd90fd794994a0e611e43470fcb9152"]
+link_id = "b24aeea36cded2ff9f058cb53477d8ca"
+reason = "D7 is relocated without changing the contract. Task 7.1 permits a protocol peer double, 7.2 checks fees, and 7.3 remains unchecked while traceability is being completed; no real-memory compatibility is asserted."
+stop = false

@@ -1,0 +1,16 @@
+salt = "BdyJv3k4GXBCJ8uL"
+previous_id = "113e2d535ddbda2a8d89af4fdfbd86922be05b61742eeccf709dda9f1968acf9"
+timestamp = "2026-10-01T15:23:29.740161939Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "20d8025abc1a0ad70d46d5ec96265767"
+
+[payload]
+mount = "file:42e52577a89428fc68c4e43c50d293f54b20c12892b1c3a88e10335e330784ef"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-discovery/spec.md"
+reason = "源码、SDK/CLI实际执行测试或来源决定的精确范围；说明来源与验收责任，不冒充真实模型质量或剩余任务已完成。"
+
+[payload.position]
+end = "1663"
+mode = "text"
+start = "1130"

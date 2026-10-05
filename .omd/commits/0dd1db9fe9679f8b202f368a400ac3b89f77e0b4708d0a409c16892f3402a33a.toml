@@ -1,0 +1,14 @@
+salt = "FBWRY0D6kc0DfVB0"
+previous_id = "7ae62bc62625b760c490a0a7b3765f95b7aea360a8c21b87b563af9b6819bd34"
+timestamp = "2026-10-01T10:30:41.481423173Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "c018f78cc93d3a01b0c5bcb908a362ef"
+reason = "规划范围：Requirement: File containment。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:6f93b687e56450459c80046e944125db165f6b41a2cec80dbc2c61d5e6b1e505"
+source_version = "ab9bae224d785596654595524ae1656c781d38d761efa5c5e3e77ff8932b9b24"
+target = "range:ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+target_version = "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"

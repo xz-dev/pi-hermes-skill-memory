@@ -1,0 +1,12 @@
+salt = "itQ9n7jcqt0affz0"
+previous_id = "54d13571bca3263eac3a78e4b48060cd335e80b687bd19a244d0378dd94ffbd6"
+timestamp = "2026-10-04T17:19:30.027608196Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"]
+link_id = "8b4e567e24d3407592395faed5cf3054"
+reason = "Index additions preserve the official extension entry and prompt-section boundary. bootstrap.test.ts still loads the public factory, verifies zero startup calls and other system sections, and checks isolated snapshot behavior."
+stop = false

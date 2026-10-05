@@ -1,0 +1,16 @@
+salt = "BSJG0ZXvVO3SlLPJ"
+previous_id = "854298d3780d6adee6bcaee4de39dba515d8779979ec5b3dd37593b901d345e2"
+timestamp = "2026-10-01T12:58:00.086949629Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "b82c9f70b6ae18db52745c9b9175a375"
+
+[payload]
+mount = "file:c63fa75efe9bdee047f1ac6f04e99ec9580950ec2cac57728378bf8ea9b80949"
+path = "test/learning.test.ts"
+reason = "实际运行的node:test场景；当前合计27通过，覆盖所列行为和反例，不外推真实模型质量或所有平台。"
+
+[payload.position]
+end = "10287"
+mode = "text"
+start = "3751"

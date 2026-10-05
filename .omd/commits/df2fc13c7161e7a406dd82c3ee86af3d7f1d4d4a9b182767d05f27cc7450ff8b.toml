@@ -1,0 +1,12 @@
+salt = "TYAbjtszCsQBkLfH"
+previous_id = "a408c8a348d29f6ae87ab650a0cb5f7902e1a9e2b55797137d0658aa98dd45bb"
+timestamp = "2026-10-04T17:19:07.280289721Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"]
+link_id = "c3358af59931b26441c0b89f14dec832"
+reason = "D6's independent pin policy and evidence-based maintenance preserve this protection requirement. Rare/no-recorded-use is not deletion authority; activity and curation tests reject protected targets."
+stop = false

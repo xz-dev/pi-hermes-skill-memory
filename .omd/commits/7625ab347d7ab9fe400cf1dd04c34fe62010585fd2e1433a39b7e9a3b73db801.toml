@@ -1,0 +1,14 @@
+salt = "lIyIiU5L59DrlO6u"
+previous_id = "9a109afc31bef84cbc1bac514a32d2a19fa43fcfb12eb164de6f11c8dbbd595e"
+timestamp = "2026-10-04T17:05:00.638874684Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "3ea101b09756914810eb0337c142dc8b"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+source = "range:e7335f0ea606d1de628b0dac6f5f0213a4e399ccdeb6a8fca0c89bf0de00bf06"
+source_version = "e7335f0ea606d1de628b0dac6f5f0213a4e399ccdeb6a8fca0c89bf0de00bf06"
+target = "range:92c947c09d20d35ae81e11313ed27be3738255c80747152d8aaaa0c240776698"
+target_version = "9a109afc31bef84cbc1bac514a32d2a19fa43fcfb12eb164de6f11c8dbbd595e"

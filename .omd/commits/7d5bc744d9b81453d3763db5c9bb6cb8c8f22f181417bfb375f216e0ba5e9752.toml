@@ -1,0 +1,16 @@
+salt = "tNUCQydQoSPD9p5P"
+previous_id = "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+timestamp = "2026-10-01T10:30:40.569364428Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "d2d46f380255d31be333d0750eafb980"
+
+[payload]
+mount = "file:47059d41063a8b7ac9513b468c6620aa9dff7ccb370136ee7e66da719da35f50"
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "规划范围：3. 搜索优先的渐进发现。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "1359"
+mode = "text"
+start = "1026"

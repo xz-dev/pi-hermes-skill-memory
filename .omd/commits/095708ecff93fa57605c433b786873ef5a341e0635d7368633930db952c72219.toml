@@ -1,0 +1,16 @@
+salt = "DZivk1DNPGCDGp9B"
+previous_id = "9e827f126ccd27529b9383e2075a264d93d7622501597a6acbca50ae832c7e43"
+timestamp = "2026-10-04T17:05:01.955826572Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "3ff882b4eaeec04959c7405d6a805cd6"
+
+[payload]
+mount = "file:54ef9f5cfa49846e94ac1531b382daeae11445b09280aa66a2004d01184317c0"
+path = "test/fixtures/restore-source-matrix.ts"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "10882"
+mode = "text"
+start = "0"

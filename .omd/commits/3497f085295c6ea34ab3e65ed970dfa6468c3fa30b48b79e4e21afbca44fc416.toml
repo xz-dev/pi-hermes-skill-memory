@@ -1,0 +1,12 @@
+salt = "SZtD8pmrTOky39DR"
+previous_id = "bbb8a281e6a1e5458129950b7c68bcbeaf7b70b3e42aa18c739e6f5e84540527"
+timestamp = "2026-10-04T17:19:10.691472399Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58", "1ff9d445993d3b7f4e993416f33aa5a64c52ac5ed1f113d86949c3f03e9d862f"]
+link_id = "195ca98011e0e3b099769cbec9334baf"
+reason = "Reviewable curation remains explicit and metered after relocation. Task 6.2 includes deterministic free candidates and one-request semantic proposal followed by exact local apply, not scheduled paid cleanup."
+stop = false

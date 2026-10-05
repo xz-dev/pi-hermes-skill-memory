@@ -1,0 +1,12 @@
+salt = "MkNCQV2l4y3n2j9J"
+previous_id = "19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"
+timestamp = "2026-10-04T17:19:19.12480845Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b", "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514", "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80", "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"]
+link_id = "2344a89f9824dcc1db4b15a9f43c3e5a"
+reason = "Discovery propagation reaches index.ts's real source refresh, explicit load and mode handlers. They use catalog identity/version checks, retain native fallback on error and never infer missing SDK source permission."
+stop = false

@@ -1,0 +1,10 @@
+salt = "cpZXHLEHi98vkpVg"
+previous_id = ""
+timestamp = "2026-10-04T17:05:03.22620015Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:cc9b9a50275279aaf74fca46cc6379c2c9a0d6aff37794cddf3e0bf2ab125641"
+path = "docs/curation.md"

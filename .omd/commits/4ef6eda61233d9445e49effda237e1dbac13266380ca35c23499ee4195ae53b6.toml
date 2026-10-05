@@ -1,0 +1,10 @@
+salt = "jWzU7D4chR3VUL2w"
+previous_id = ""
+timestamp = "2026-10-03T19:55:18.774648291Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:5902df28b7201098f409bd5ecb73086bc4d3195b5da9e3f463d639d4e3a0a5ed"
+path = "test/store-concurrency.test.ts"

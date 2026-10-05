@@ -1,0 +1,14 @@
+salt = "Ssta4uMeEpNWZX2V"
+previous_id = "22721715ba111546c1c21e8d7fc254c530440a4ef9552925e33826e8b250b4b9"
+timestamp = "2026-10-01T10:30:44.648751093Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "141fbfd09d1e851a44f81a340165d39f"
+reason = "规划范围：R6 — 最小验收矩阵。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+source_version = "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+target = "range:683708924f38255ba3aaf80e365e6fc524028864de79c8dd927a6897826883a5"
+target_version = "22721715ba111546c1c21e8d7fc254c530440a4ef9552925e33826e8b250b4b9"

@@ -1,0 +1,12 @@
+salt = "i3sBm8QX3dWZr5le"
+previous_id = "958e5e2f8091eb065842ddb45d0870e2437cda5c62f55f27506dc8ac9f1a54c3"
+timestamp = "2026-10-03T15:29:44.411943177Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e33b5eb0c836d33cab104817d80ff1a9878fa0ab5dbff4eb16f0951c3153123"]
+link_id = "643af1cfa161c50298ab102cb5ed23e1"
+reason = "design:D2 → requirement:skill-discovery:Requirement: Search-first progressive disclosure：用户已确认SDK完整支持及公开来源回调。下游仍需完整满足同名/排除/信任/显式加载/原生回退/版本/containment，不降低要求。"
+stop = false

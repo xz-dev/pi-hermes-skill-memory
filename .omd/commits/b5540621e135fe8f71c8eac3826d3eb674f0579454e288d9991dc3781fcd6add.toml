@@ -1,0 +1,12 @@
+salt = "DdDZx2jFqLQILd06"
+previous_id = "8126a53daf4465cd23f20d173288249da1c431861bfd93499ecd38b169082e8a"
+timestamp = "2026-10-04T17:19:22.247224406Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b", "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514", "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80", "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"]
+link_id = "97d0fe8cd83660013b89e655f7f848be"
+reason = "The tasks:3→store edge covers generated-source provenance and version-aware updates, not discovery authority. Store validates known roots/member versions and index passes current-source authorization; it does not rescan excluded directories."
+stop = false

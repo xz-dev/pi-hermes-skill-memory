@@ -1,0 +1,16 @@
+salt = "yGfXTd2rj4rJI07a"
+previous_id = "8c78a75ab62efa134ab20f6019fd513efcf77c13265dbd67a67a0a3d3a4ec8fc"
+timestamp = "2026-10-01T10:30:40.71153213Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "d2d46f380255d31be333d0750eafb980"
+
+[payload]
+mount = "file:47059d41063a8b7ac9513b468c6620aa9dff7ccb370136ee7e66da719da35f50"
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "规划范围：5. 当前快照自动生成。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "2061"
+mode = "text"
+start = "1731"

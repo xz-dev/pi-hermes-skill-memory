@@ -1,0 +1,12 @@
+salt = "dvXrAtU1xdzPqHD9"
+previous_id = "a13b81093adbdb8c5bb3d1586c4e2c8696694724f83b55dfa0470affa89f724a"
+timestamp = "2026-10-04T17:19:22.942449833Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "d79eb2993d2ab9c338c4b60284e37a67"
+reason = "Scheduling wording did not change under the moved D5 section. Task 5.2's distinct counters and settled-only eligibility still exclude repeated events and background reads from new paid work."
+stop = false

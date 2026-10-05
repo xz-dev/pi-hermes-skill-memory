@@ -1,0 +1,12 @@
+salt = "fAZUKYv93rJfGgSr"
+previous_id = "955c6bfad7f9ea52884d92f0db71db337ddfca8e1a54491363d006c4ded84392"
+timestamp = "2026-10-05T02:52:27.182705642Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"]
+link_id = "3faa30885833363bc5bfa47db2740e0a"
+reason = "归档路径传播核对 tasks:6 → implementation:curation：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/curation.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

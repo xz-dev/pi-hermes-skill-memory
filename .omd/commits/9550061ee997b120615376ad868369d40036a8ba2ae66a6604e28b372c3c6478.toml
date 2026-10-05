@@ -1,0 +1,14 @@
+salt = "qRk8EsxxbEdE80Rb"
+previous_id = "c0c9598a6400f226eb053134699f72d23d33ee6fd46fc397e382c79f5f8387aa"
+timestamp = "2026-10-01T10:30:40.510575402Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "e10045eada8e64889df05cb99e93f296"
+reason = "规划范围：2. 收费准入与持久可见性优先。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+source_version = "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+target = "range:694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66"
+target_version = "c0c9598a6400f226eb053134699f72d23d33ee6fd46fc397e382c79f5f8387aa"

@@ -1,0 +1,14 @@
+salt = "Jej1PhQowDLBo9Jc"
+previous_id = "d2026585a552d2ba0359df91f82fc308d9943fe33adf5ee84f0dfa0cc70e37cf"
+timestamp = "2026-10-01T10:30:40.434569186Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "40215a304938b7e3916c9b39bdba99e7"
+reason = "规划范围：1. 官方 API 与隔离验证入口。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:d53c4c5dcbd70f2e0790f824ede94c10c7d4a0e0253790c6993a6f8bb3609bca"
+source_version = "d53c4c5dcbd70f2e0790f824ede94c10c7d4a0e0253790c6993a6f8bb3609bca"
+target = "range:b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e"
+target_version = "d2026585a552d2ba0359df91f82fc308d9943fe33adf5ee84f0dfa0cc70e37cf"

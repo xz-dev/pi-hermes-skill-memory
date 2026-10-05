@@ -1,0 +1,12 @@
+salt = "Yh1FjGTxr2ryNgGN"
+previous_id = "203e94bea1298d70b3a409c93cdf9aa4c2311e0432bffe6362ee1e5d815d86e6"
+timestamp = "2026-10-04T17:19:08.98705935Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"]
+link_id = "efa5c460dc85591c6bfe1b3e6fbe37bc"
+reason = "D4's current ownership, exact approval and partial-write recovery map to tasks 4.2-4.4; task 4.1 separately covers scope. Installed approvals and interrupted recovery are tested, not inferred from intent metadata."
+stop = false

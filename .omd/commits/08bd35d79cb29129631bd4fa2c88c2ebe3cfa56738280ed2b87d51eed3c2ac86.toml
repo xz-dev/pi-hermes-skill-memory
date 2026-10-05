@@ -1,0 +1,12 @@
+salt = "kILpQFchpH7Kq1dm"
+previous_id = "277c2e07b42b5be6ebd72d4f7f71431e8bd72a76ecab59d682fb3b84eedba356"
+timestamp = "2026-10-04T17:19:26.917032218Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"]
+link_id = "c5ca650c8fc3c251b543d7757d2de3b6"
+reason = "Task 1 learning closure uses catalog discovery/read of newly saved rules. Learning and automatic-learning tests read the resulting stable ID; search remains local and does not create a review request."
+stop = false

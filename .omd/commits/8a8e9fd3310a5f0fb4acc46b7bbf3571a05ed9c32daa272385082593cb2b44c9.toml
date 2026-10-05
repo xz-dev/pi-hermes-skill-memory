@@ -1,0 +1,15 @@
+salt = "SInnR5MKRzT3nHDd"
+previous_id = "715b9228f7194fb7c19d47c2d11a7cef445165df55989e4e02315c1548b64d06"
+timestamp = "2026-10-01T12:57:55.084456725Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "09c1e8638b3790403fefd6e23833efdb"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "逐项核验 tasks 2 已实施项：官方类型检查、27个fake测试、四次授权SWE-2和实际隔离TUI证据。只更新进度，不减少原有验收责任。"
+
+[payload.position]
+end = "1026"
+mode = "text"
+start = "571"

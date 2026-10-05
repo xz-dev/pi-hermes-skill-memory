@@ -1,0 +1,16 @@
+salt = "nOUj3dDitIGLk9HC"
+previous_id = "bfdaa5bff73d6820e5811afa1266a3e6293f9f0fde6ea9a218f432e8d46bd681"
+timestamp = "2026-10-01T10:30:42.380494971Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "3d3690a0cb182601c99d906a7e344e3c"
+
+[payload]
+mount = "file:fe971ee48b20a108208de249b27981bbfa320dd7ef9ff6ea695fba8705213298"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md"
+reason = "规划范围：Requirement: One explicit scheduling path。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "634"
+mode = "text"
+start = "388"

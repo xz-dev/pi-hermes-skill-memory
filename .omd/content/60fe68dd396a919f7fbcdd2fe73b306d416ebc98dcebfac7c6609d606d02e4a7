@@ -1,0 +1,86 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { access, readFile, writeFile, mkdir, symlink } from "node:fs/promises";
+import { join } from "node:path";
+import { ManagedSkillStore, contentHash } from "../src/store.ts";
+import { isolatedSession } from "./support.ts";
+
+async function fixture() {
+  const f = await isolatedSession(); const store = new ManagedSkillStore(f.agentDir, f.cwd);
+  const snapshot = { cwd: f.cwd, sessionId: "fixture", leafId: null, model: undefined, thinking: undefined, messages: [],
+    evidence: [{ entryId: "user-1", text: "Use release checks" }], digest: "fixture" };
+  const marker = join(f.root, "script-ran");
+  const proposal = { action: "create" as const, scope: "project" as const, name: "release-check", description: "Release checks",
+    body: "Use release checks", reason: "Reusable", evidence: [{ entryId: "user-1", quote: "Use release checks" }],
+    files: [{ file: "references/check.md", content: "Check the built manifest" }, { file: "scripts/check.sh", content: `#!/bin/sh\nprintf ran > '${marker}'\n` }] };
+  const target = join(f.cwd, ".pi/skills/hermes-managed/release-check");
+  return { ...f, store, snapshot, proposal, target, marker };
+}
+
+test("interrupted multi-file creation records actual committed members; local commit finishes only pending files", async () => {
+  const f = await fixture(); let authorizations = 0;
+  try {
+    await assert.rejects(f.store.save(f.proposal, f.snapshot, "multi-create", {
+      authorize: async () => { if (++authorizations === 3) throw new Error("fixture disk error before second member"); },
+    }), /fixture disk error/);
+    const pending = (await f.store.inspectRecovery())[0]!;
+    assert.equal(pending.state, "content-committed");
+    assert.deepEqual(pending.members!.map(member => [member.file, member.state]), [
+      ["SKILL.md", "committed"], ["references/check.md", "prepared"], ["scripts/check.sh", "prepared"],
+    ]);
+    assert.match(await readFile(join(f.target, "SKILL.md"), "utf8"), /Use release checks/);
+    await assert.rejects(access(join(f.target, "references/check.md")), /ENOENT/);
+    await assert.rejects(f.store.recover(pending.key, "abort"), /already committed/);
+    const result = await f.store.recover(pending.key, "commit");
+    assert.equal(result.state, "saved"); assert.ok(result.members!.every(member => member.state === "committed"));
+    assert.equal(await readFile(join(f.target, "references/check.md"), "utf8"), f.proposal.files[0]!.content);
+    assert.equal(await readFile(join(f.target, "scripts/check.sh"), "utf8"), f.proposal.files[1]!.content);
+    assert.deepEqual(await f.store.inspectRecovery(), []); assert.equal(f.calls.length, 0);
+    await assert.rejects(access(f.marker), /ENOENT/, "asset recovery only writes bytes, never executes a script");
+  } finally { f.session.dispose(); }
+});
+
+test("versioned asset update preserves member backups and rejects manual changes during recovery", async () => {
+  const f = await fixture();
+  try {
+    const created = await f.store.save(f.proposal, f.snapshot, "original-members");
+    const hashes = created.files!;
+    const snapshot = { ...f.snapshot, evidence: [...f.snapshot.evidence, { entryId: "read-members", text: JSON.stringify(hashes) }] };
+    let count = 0;
+    await assert.rejects(f.store.save({ ...f.proposal, action: "update", baseVersion: created.version, body: "Use release checks after build",
+      files: [{ file: "references/check.md", content: "Check manifest after building", baseVersion: hashes["references/check.md"] }],
+    }, snapshot, "updated-members", { authorize: async () => { if (++count === 3) throw new Error("fixture asset interruption"); } }), /asset interruption/);
+    const pending = (await f.store.inspectRecovery())[0]!;
+    assert.deepEqual(pending.members!.map(member => member.state), ["committed", "prepared"]);
+    const backup = JSON.parse(await readFile(join(f.cwd, ".pi/hermes-skills/history/updated-members-release-check.json"), "utf8"));
+    assert.equal(backup.members.find((member: { file: string }) => member.file === "references/check.md").before, f.proposal.files[0]!.content);
+    const path = join(f.target, "references/check.md"); await writeFile(path, "New user reference; do not overwrite");
+    await assert.rejects(f.store.recover(pending.key, "commit"), /version conflict/);
+    assert.equal(await readFile(path, "utf8"), "New user reference; do not overwrite");
+    assert.equal((await f.store.inspectRecovery())[0]!.state, "conflict");
+    assert.equal(f.calls.length, 0);
+  } finally { f.session.dispose(); }
+});
+
+test("unchanged members are not described as committed and asset path/link escapes are rejected", async () => {
+  const f = await fixture();
+  try {
+    const created = await f.store.save(f.proposal, f.snapshot, "initial");
+    const snapshot = { ...f.snapshot, evidence: [...f.snapshot.evidence, { entryId: "read-members", text: JSON.stringify(created.files) }] };
+    let count = 0;
+    await assert.rejects(f.store.save({ ...f.proposal, action: "update", baseVersion: created.version,
+      files: [{ file: "references/check.md", content: "Updated reference", baseVersion: created.files!["references/check.md"] }],
+    }, snapshot, "asset-only", { authorize: async () => { if (++count === 2) throw new Error("fixture pending asset"); } }), /pending asset/);
+    const pending = (await f.store.inspectRecovery())[0]!;
+    assert.deepEqual(pending.members!.map(member => member.state), ["unchanged", "prepared"]);
+    await f.store.recover(pending.key, "abort");
+    for (const file of ["../outside", "/absolute", "C:\\private", "references/../outside", "SKILL.md"]) {
+      await assert.rejects(f.store.save({ ...f.proposal, action: "update", baseVersion: created.version, files: [{ file, content: "Never write" }] }, snapshot, "bad-path"), /file member/);
+    }
+    const outside = join(f.root, "outside"); await mkdir(outside);
+    await symlink(outside, join(f.target, "escape"));
+    await assert.rejects(f.store.save({ ...f.proposal, action: "update", baseVersion: created.version, files: [{ file: "escape/new.md", content: "Never write" }] }, snapshot, "bad-link"), /escapes selected scope/);
+    await assert.rejects(access(join(outside, "new.md")), /ENOENT/);
+    assert.equal(contentHash(await readFile(join(f.target, "SKILL.md"), "utf8")), created.version);
+  } finally { f.session.dispose(); }
+});

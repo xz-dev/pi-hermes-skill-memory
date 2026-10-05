@@ -1,0 +1,1917 @@
+{
+  "scope": "repo-local; semantic review, not business-test or billing proof",
+  "initialPlanSha256": "91f20aa8b9b41a450aac069ac6371e7ba1a921ef4bbe9bc1792bce429131d855",
+  "initialReviews": [
+    {
+      "link_id": "29a0c643e826eb8bd5c12b6a0df48bb3",
+      "stratum": 1,
+      "source": "design:D6",
+      "target": "tasks:6",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "D6 now separates reported/confirmed use, persistent dedup and member archives. Tasks 6.1-6.3 explicitly cover those responsibilities, including paid explicit curation rather than a timer.",
+      "adaptCommit": "5e6aa41afd88d2132d4d8d2d9ba62b6e28f6a02e8adf53885a9da187b442c463"
+    },
+    {
+      "link_id": "31cc887778dfd1a1261e47460f196f9e",
+      "stratum": 1,
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Maintenance results are durable and visible",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "review": "D6 adds bounded display journals without losing cumulative history and resumable member operations. The durable-results requirement still demands changed/pending/conflict/failed and recovery visibility; archives and applying curation retain those states.",
+      "adaptCommit": "d78b0674776bfdf1cfa87826895ad06caadac122790f4c68a1a1be716d4d00da"
+    },
+    {
+      "link_id": "61343f40cf5f3a3ce247762444b0acaf",
+      "stratum": 1,
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Reviewable curation",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "review": "D6 permits only explicit budgeted semantic curation. The curation requirement retains list/propose/apply and forbids name-only deletion; registered curation tests exercise exact approval and restore of absorbed content.",
+      "adaptCommit": "8a6b4d5b75aa85823c00c06e3b628785e86cc40f03fa4875b18feb6ec95a961b"
+    },
+    {
+      "link_id": "61ccb0c93865bb5c55fee9e5137fc396",
+      "stratum": 1,
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Evidence distinguishes viewing from success",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "review": "D6's statistical contract is reflected explicitly in the expanded requirement: reported versus confirmed, persisted fingerprints beyond 4096 receipts, and statistics failures not disabling reading or pin.",
+      "adaptCommit": "35b93c96679fa84db5d19af3311990d81ace0ef1fb240e72302cfcdc63478177"
+    },
+    {
+      "link_id": "72e1dff2f041ce045412a7986df1399b",
+      "stratum": 1,
+      "source": "design:D4",
+      "target": "requirement:scoped-skill-management:Requirement: Durable and recoverable writes",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "review": "D4 adds precise approval/content guards but retains real per-member transactions. The durable-writes requirement is only relocated and still forbids fictitious all-file atomicity or rollback; partial-member and recovery tests match it.",
+      "adaptCommit": "9bd7368bf2d994cd16db1f6ec7ca2796a9f0510cfe45db409d5a8729a8377708"
+    },
+    {
+      "link_id": "7d241e11bd1717d0f4d78823ca0d87b5",
+      "stratum": 1,
+      "source": "design:D4",
+      "target": "requirement:scoped-skill-management:Requirement: Managed ownership requires evidence",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "review": "D4's content gate is represented in managed-ownership wording: ownership evidence is necessary, not sufficient; unknown prose/assets become bounded pending and pin/read-only remain independent.",
+      "adaptCommit": "c614346b0fa60332a99587a352df6960f50ade4124c4ba956513ed05a39c8397"
+    },
+    {
+      "link_id": "93c39e62f8c1eef683ac7d624f728ad5",
+      "stratum": 1,
+      "source": "design:D4",
+      "target": "requirement:scoped-skill-management:Requirement: Authorize installed-skill mutations",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "review": "D4's installed authority and content checks remain separate in this requirement. Its global-grant scenario now explicitly says unverified content stays pending; RPC cannot supply the specified TUI authorization.",
+      "adaptCommit": "4b87d85191761675d02ead952ccbcec289cf24d0f1fb034de0042f5775b3a715"
+    },
+    {
+      "link_id": "978f0b6c9c963c5330a54ef9a5c5ce2b",
+      "stratum": 1,
+      "source": "design:D4",
+      "target": "requirement:scoped-skill-management:Requirement: Explicit generation scope",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "review": "D4's proposal/permission expansion does not widen project/global scope. Explicit-generation-scope remains unchanged: project-specific knowledge stays project and promotion must be requested; scope-migration tests enforce it.",
+      "adaptCommit": "81807c6cb28e6af350f0c6c9809fb1c09baefadbff7c08e6ee603cce6b1f8669"
+    },
+    {
+      "link_id": "9f4b2fb90fac5f65dc6913a04134be7b",
+      "stratum": 1,
+      "source": "design:D7",
+      "target": "requirement:skill-reflection:Requirement: Independent operation and shared charging",
+      "changes": [
+        "f7be13f13e72ad6b185bcf6d898eba465bd90fd794994a0e611e43470fcb9152"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "review": "D7 changed position only. The independent/shared-charging requirement still means compatible participants share one request and own their writes; cooperation tests prove the protocol-double contract, not current memory runtime compatibility.",
+      "adaptCommit": "e1d63690e8465a25d5395388ae19a0727c0b328c62ebdcaffa12cca5f4da4bbd"
+    },
+    {
+      "link_id": "b24aeea36cded2ff9f058cb53477d8ca",
+      "stratum": 1,
+      "source": "design:D7",
+      "target": "tasks:7",
+      "changes": [
+        "f7be13f13e72ad6b185bcf6d898eba465bd90fd794994a0e611e43470fcb9152"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "D7 is relocated without changing the contract. Task 7.1 permits a protocol peer double, 7.2 checks fees, and 7.3 remains unchecked while traceability is being completed; no real-memory compatibility is asserted.",
+      "adaptCommit": "409118e31e3ccf3a8f46a9a12e81491b54c17b19849d065ee7eabc0c5c6b43b1"
+    },
+    {
+      "link_id": "c3358af59931b26441c0b89f14dec832",
+      "stratum": 1,
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Protected skills resist automation",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "review": "D6's independent pin policy and evidence-based maintenance preserve this protection requirement. Rare/no-recorded-use is not deletion authority; activity and curation tests reject protected targets.",
+      "adaptCommit": "df2fc13c7161e7a406dd82c3ee86af3d7f1d4d4a9b182767d05f27cc7450ff8b"
+    },
+    {
+      "link_id": "cf40334326c5419fbadcae59b4fc3a9b",
+      "stratum": 1,
+      "source": "design:D4",
+      "target": "requirement:scoped-skill-management:Requirement: Read and compare before mutation",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "review": "D4's new content approval does not replace version checks. The relocated read-before-mutation requirement still rejects stale targets without paid repair; proposal and commit-gates tests cover identity/hash and source changes.",
+      "adaptCommit": "6404b942bab905e96dec6c8f6b469dd0b2acbf1f30ca4ed7c10e5b003b5423e8"
+    },
+    {
+      "link_id": "db6cb15c04aea0fd57979ea1f68c9b87",
+      "stratum": 1,
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Reversible archive and guarded rollback",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "review": "D6 specifies member-bounded archive, shared-reference retention and no purge. The relocated reversible-archive requirement still forbids overwriting newer human files; archive and rollback tests verify conflicts and restoration.",
+      "adaptCommit": "0ae80563ad919a6853e3c77663ce8cdf6deb3feae0cd8c32b649e72b29e6e970"
+    },
+    {
+      "link_id": "db7d9a9592b5defaf249e1e46403899c",
+      "stratum": 1,
+      "source": "design:D4",
+      "target": "requirement:scoped-skill-management:Requirement: Installation is not generation",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "review": "D4 allows assets only through validated local writers. Installation-is-not-generation is relocated, not weakened: scripts/dependencies are recorded but never executed or installed by the skill writer.",
+      "adaptCommit": "460f74f896dcf8959111634166d5a0c7844ad7b7e2072916dbcde488490a6e11"
+    },
+    {
+      "link_id": "e8d583065d3b75d9be2ebf991cd8de38",
+      "stratum": 1,
+      "source": "proposal:scope",
+      "target": "design:D1",
+      "changes": [
+        "a93b952967b27d39dd1d753547cdc3783fb0f176237915f38956432208ac4323"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/design.md",
+      "review": "Proposal scope now includes SDK final-source callbacks and unverified-content pending. D1 still routes these through public Pi extension APIs and narrow local modules; no fork, companion import or core modification was introduced.",
+      "adaptCommit": "24d34604502302f823597b91d8e078b1aa463801a673cdd976dd2f63abc2a905"
+    },
+    {
+      "link_id": "efa5c460dc85591c6bfe1b3e6fbe37bc",
+      "stratum": 1,
+      "source": "design:D4",
+      "target": "tasks:4",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "D4's current ownership, exact approval and partial-write recovery map to tasks 4.2-4.4; task 4.1 separately covers scope. Installed approvals and interrupted recovery are tested, not inferred from intent metadata.",
+      "adaptCommit": "a145eebc8f41a79c43d2c798cca64614bb63c13ecfe7cbcd300409da964b7807"
+    },
+    {
+      "link_id": "f38a7b59a1308c276114b5f4f2720775",
+      "stratum": 1,
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Scoped knowledge remains scoped",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "review": "D6's merge/archive rules preserve scope and evidence. Scoped-knowledge wording is only relocated; repeated lessons update the existing ID instead of date-named references, as curation tests demonstrate.",
+      "adaptCommit": "1bb814ba15f8da1f4c21b2686acebcb001fc2a598a596b65b1fc32984c84f5f7"
+    },
+    {
+      "link_id": "07564fc85154f68d44aa3e6f7ef76104",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "tasks:5",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "D5 is relocated only. Task group 5 continues to cover full effective snapshot, settled-only scheduling, one-request proposals/content pending, and cancellation; the new cooperation hook reuses that path.",
+      "adaptCommit": "363546ef3b4a970d3ae8f76e80f035247de997d86f5dd2bbb8f9bbf9687bdb7c"
+    },
+    {
+      "link_id": "0a640b7203075fb4de42e98ee188b930",
+      "stratum": 2,
+      "source": "requirement:scoped-skill-management:Requirement: Managed ownership requires evidence",
+      "target": "tasks:4",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58",
+        "8b2983bbf549f136c4dee2e3911ba87c2f8bf49cf8860363e03d916af320bf7e"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Expanded ownership/content requirements are discharged by tasks 4.2 and 4.3 together with 5.3. Ownership provenance never certifies arbitrary prose, and the installed grant cannot bypass content pending.",
+      "adaptCommit": "7abcd727b602d136ccb2b4958d69de83e483f341011649c482ed7b6faf91392a"
+    },
+    {
+      "link_id": "0eb81033c52b11fc64e64a1e40885258",
+      "stratum": 2,
+      "source": "requirement:skill-maintenance:Requirement: Maintenance results are durable and visible",
+      "target": "tasks:6",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58",
+        "f1d8d930d0ce12002089c3af29993a9dc5bab442bca7ea146be734d87e7a82fb"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "The durable maintenance-result requirement is relocated under expanded D6. Task 6.3 and 6.2 now cover persistent archive/member/applying state and explicit local recovery; model costs remain on the original review receipt.",
+      "adaptCommit": "bbb8a281e6a1e5458129950b7c68bcbeaf7b70b3e42aa18c739e6f5e84540527"
+    },
+    {
+      "link_id": "195ca98011e0e3b099769cbec9334baf",
+      "stratum": 2,
+      "source": "requirement:skill-maintenance:Requirement: Reviewable curation",
+      "target": "tasks:6",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58",
+        "1ff9d445993d3b7f4e993416f33aa5a64c52ac5ed1f113d86949c3f03e9d862f"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Reviewable curation remains explicit and metered after relocation. Task 6.2 includes deterministic free candidates and one-request semantic proposal followed by exact local apply, not scheduled paid cleanup.",
+      "adaptCommit": "3497f085295c6ea34ab3e65ed970dfa6468c3fa30b48b79e4e21afbca44fc416"
+    },
+    {
+      "link_id": "383117f5b32c341c486d75d54b5f7336",
+      "stratum": 2,
+      "source": "requirement:skill-discovery:Requirement: Explicit loading and native fallback",
+      "target": "tasks:3",
+      "changes": [
+        "18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Explicit loading/native fallback changed coordinates only. Task 3.4 still covers stable-ID load, refresh and native restoration; modes tests and the plugin-unloaded native capture retain standard SKILL.md discovery.",
+      "adaptCommit": "836b4ff05db0319e2fa2a842b855d490fa3ecbd5781c9c7388203ce47e332d54"
+    },
+    {
+      "link_id": "3ef11423656ba575e326b1260526b4c1",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Disable means no automatic model calls",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "review": "D5 moved without a new fee policy. Disable-means-no-automatic-calls remains unchanged; disable cancels and persists off, and the registered fee matrix emits compaction/shutdown with zero provider calls.",
+      "adaptCommit": "83b6bfbf2736ee977004694b2d179340aa4b2e94af7e25339e675487f266a0b0"
+    },
+    {
+      "link_id": "40215a304938b7e3916c9b39bdba99e7",
+      "stratum": 2,
+      "source": "design:D1",
+      "target": "tasks:1",
+      "changes": [
+        "a93b952967b27d39dd1d753547cdc3783fb0f176237915f38956432208ac4323"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "The proposal additions propagate through unchanged D1 to task 1's public API/fake-provider checks. Task 1.4 remains a bounded historical observation, not new paid authorization or proof of current model quality.",
+      "adaptCommit": "3a6e9df0902985c219f63655fea0ed3d533327693f30aa027117d69761ce3e2e"
+    },
+    {
+      "link_id": "4402826f701f7ba4643ca78419d84a4c",
+      "stratum": 2,
+      "source": "requirement:scoped-skill-management:Requirement: Installation is not generation",
+      "target": "tasks:4",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58",
+        "defe6b284afa78c37b65755ba2e7cfe14b1c2f01f5ff8c47010265d660dcf9fe"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Installation-is-not-generation is only relocated. Task 4's writers retain bytes and dependencies without executing scripts; source resolution skips missing packages and temporary resolution is offline.",
+      "adaptCommit": "d1cd568952ad7c789a3a104f628ab650010c0c5a0e288dc55fd35f5839112abc"
+    },
+    {
+      "link_id": "537aeb48820e9a5a9441cc4a65ca0b03",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Validated proposals and no recursive work",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "review": "D5's one-request review is unchanged by relocation. The expanded validated-proposals requirement adds host templates/attributed source content and local exact pending approval; none adds a verification request.",
+      "adaptCommit": "7ac5c2ddd1d2ec9c39d6ea92672c3aad45ba79ca51e77d0819ba5abcef779f79"
+    },
+    {
+      "link_id": "5a61637e92cca0de04450a957735edb8",
+      "stratum": 2,
+      "source": "requirement:scoped-skill-management:Requirement: Explicit generation scope",
+      "target": "tasks:4",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Explicit-generation-scope wording did not change with D4. Task 4.1 still requires scoped copy/promotion, selected project root and conflict checks; approvals do not expand a target to global.",
+      "adaptCommit": "a7b32ccf6279938741694ee1dd53b8092d92892f2f250a338170ae5dd8d30e97"
+    },
+    {
+      "link_id": "711113c94c78b3ad8cacd15252dea181",
+      "stratum": 2,
+      "source": "requirement:skill-maintenance:Requirement: Scoped knowledge remains scoped",
+      "target": "tasks:6",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58",
+        "fda5b27f6f3f6e1eb3e52cb7dc19117131ab4f99f7fceed6c4cb728f20bda589"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Scoped-knowledge wording is relocated under D6. Task 6.2's repeated-lesson update and same-scope curation checks preserve existing applicability; no mtime threshold or diary append policy was added.",
+      "adaptCommit": "dfe27226e8bf4efe9059bc1a28b618c1519e9e94e851da2312d10d766aec3edf"
+    },
+    {
+      "link_id": "726a0f75d4ee6044fdf13d869923609f",
+      "stratum": 2,
+      "source": "requirement:skill-discovery:Requirement: Complete CLI and SDK source snapshots",
+      "target": "tasks:3",
+      "changes": [
+        "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "The source-snapshot requirement now covers current restore permission for missing archived paths. Task 3.1's source callback plus task 6.3's restore path supply it; restore-source matrix rejects current exclusions and identity rebinding.",
+      "adaptCommit": "2df3e0c4b2d910e48f3716f18ebb4e54313cb80f35381cf977466a5a6932fc5a"
+    },
+    {
+      "link_id": "7a2595d7af838fb1abbcc42bf43f33f2",
+      "stratum": 2,
+      "source": "requirement:skill-maintenance:Requirement: Reversible archive and guarded rollback",
+      "target": "tasks:6",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58",
+        "e13060d86a412de103f6db942868d8ba83dabdb0780640282616643ff19e64b7"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Reversible-archive wording moved only, while D6 clarifies member scope. Task 6.3 tests exact bytes/owner/ID recovery, shared references staying in place and refusal of subsequent edits; it does not implement purge.",
+      "adaptCommit": "98e688d1c8902f01a6c75c1d40bf14896a60effd4d5452478319dc841d9387b8"
+    },
+    {
+      "link_id": "7b644a6b91adb0e757d2ac51838989d1",
+      "stratum": 2,
+      "source": "requirement:skill-discovery:Requirement: Version-aware reads and refresh",
+      "target": "tasks:3",
+      "changes": [
+        "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Version-aware-read wording moved without relaxing freshness. Tasks 3.1/3.3/3.4 retain hash/version reads, refresh and source-error clearing; changed files cannot be served as a successful old read.",
+      "adaptCommit": "87ed558cc2b488859067ec3305ecc5b1a80118de64a3811bda610e4236f662a6"
+    },
+    {
+      "link_id": "7f4e7270ec7a152df09cd78faaab2cc6",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Isolated lifecycle and stale-result rejection",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "review": "D5 relocation does not alter stale-result policy. The lifecycle requirement still withdraws old writers on input/tree/project/reload/shutdown; lifecycle tests preserve one old usage record without target writes.",
+      "adaptCommit": "abcfc7f9da9cce0c011cf52302e43e493f0ddbaf4397a444a049cb62d2b74233"
+    },
+    {
+      "link_id": "95f26e2bffe5b32530583ec2f7ae56ab",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Admission and cumulative budgets",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "review": "D5 relocation keeps the one-request/default budget contract. Admission requirements remain unchanged: full snapshot, explicit skip, no retry/fallback; ledger and review-limits tests exercise these gates.",
+      "adaptCommit": "9c7e6d2e70967b779a1c46b36af28888d8618df2c5cec9abe96859294223b6b4"
+    },
+    {
+      "link_id": "a65af1ebc0cdcd6007af7b6ac457d589",
+      "stratum": 2,
+      "source": "requirement:skill-reflection:Requirement: Independent operation and shared charging",
+      "target": "tasks:7",
+      "changes": [
+        "7ac1b47afe13c64545a470843c008eb3db29c99f88f4b7cb8bd346614a21c202",
+        "f7be13f13e72ad6b185bcf6d898eba465bd90fd794994a0e611e43470fcb9152"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Shared-charging requirement is relocated, not reduced. Task 7.1's permitted protocol double now exercises simultaneous targets, one disk record and separate commits; existing memory incompatibility is explicitly documented.",
+      "adaptCommit": "d648b79dd01105c46c893788efceb9fdf2f05090df439412e9175ce4cbaceb46"
+    },
+    {
+      "link_id": "ab4c6f48d372a36607d25b6e8395d401",
+      "stratum": 2,
+      "source": "requirement:scoped-skill-management:Requirement: Authorize installed-skill mutations",
+      "target": "tasks:4",
+      "changes": [
+        "22f36253f58705027ffd23963f3b20e5e00a6351a39f03c316954e4e9d21fad5",
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Installed-mutation requirement now states that global write permission cannot bypass content checks. Task 4.3 tests TUI exact diffs, RPC pending and grant revocation; task 5.3 provides the independent content gate.",
+      "adaptCommit": "d1545212353d86606241f124ec69058e96b6033a4ed238f512d5ecb826d9604a"
+    },
+    {
+      "link_id": "b3939edc82c79eb231ac79e4caf3f9a5",
+      "stratum": 2,
+      "source": "requirement:scoped-skill-management:Requirement: Durable and recoverable writes",
+      "target": "tasks:4",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58",
+        "b3d09716ea94ea6956c37a9bd2362ff0f2bf3a02872120b5272fecc26b67e662"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Durable-writes requirement is relocated under updated D4. Task 4.4 retains before/after members and real committed state, rejects fake abort after commit, and recovers locally without another model call.",
+      "adaptCommit": "3265cac244ce5514d887e3fc6beab2f6a0cee2933b096c6d592784c58ebad584"
+    },
+    {
+      "link_id": "b4954633e1f3d5ee60f53f4b85d98b6b",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: One explicit scheduling path",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "review": "D5 moved only. Settled scheduling still separates user versus tool-bearing turns and excludes start/compaction/exit billing; scheduling tests cover three user turns and forty tool loops.",
+      "adaptCommit": "a53f41d1a24d798da0f30108d1ccab92138e8a5014fe040c90f78b9725508bc2"
+    },
+    {
+      "link_id": "c018f78cc93d3a01b0c5bcb908a362ef",
+      "stratum": 2,
+      "source": "requirement:skill-discovery:Requirement: File containment",
+      "target": "tasks:3",
+      "changes": [
+        "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "File-containment requirement moved only. Task 3.3 still rejects traversal and symlink escape and pages one requested file; read tests also demonstrate that viewing a script does not execute it.",
+      "adaptCommit": "784eb9aa661fb5983e0ece465e6457852ce4d7153ca5ddddaf86d55a36057e7c"
+    },
+    {
+      "link_id": "ce26d188d842db0a9e1c2043ccef46fb",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Learning usefulness is observable",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "review": "D5 relocation does not expand learning-quality claims. Usefulness requirement still separates saved/reused from skipped/no-proposal and requires new authorization for extra real tests; evidence pages state those limits.",
+      "adaptCommit": "2bb16c6f2d18df20a2931ade158de352fcd5b530dc365551b670f80f4ead1c47"
+    },
+    {
+      "link_id": "d2e920f0edf9d63063847a427287c389",
+      "stratum": 2,
+      "source": "requirement:skill-maintenance:Requirement: Evidence distinguishes viewing from success",
+      "target": "tasks:6",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58",
+        "864117319f7161bf7aa933af581d6d2caebf47d1e24d1fe5f8fbf7e3f8b6598e"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "The expanded evidence requirement explicitly needs historical dedup and independent pin despite statistics failure. Task 6.1 and activity tests cover reported/confirmed separation, over-4096 replay and failed statistics with continued reading.",
+      "adaptCommit": "7fdedf53dea1e075334f2fb483e4d591c44ba5a79134aeebead95ffced60fed0"
+    },
+    {
+      "link_id": "d4077332e6b7f2111b720e6c32cc85b0",
+      "stratum": 2,
+      "source": "requirement:scoped-skill-management:Requirement: Read and compare before mutation",
+      "target": "tasks:4",
+      "changes": [
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58",
+        "b8f06a9eb2ecbf3e41494417dbfcac7c12175db60e02c77c2efd32fa6135df15"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Read-before-mutation wording moved only. Task 4.2 retains exact SkillId/member read credentials and writer-time source/version checks; user-pasted hashes and same-hash different identities remain rejected.",
+      "adaptCommit": "cf18b434a90e6909013113bc1c4814e42ed1abc22b75f8f5ae6027ddb3a67b10"
+    },
+    {
+      "link_id": "dc4fd58c5fc9537d4afb3f37860a9475",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Failures and usage remain visible",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "review": "D5's position changed, not its visibility promise. Failure/usage requirement still retains unknown usage and persistent pause; fee-matrix and native failure/delivery evidence show status surviving reload.",
+      "adaptCommit": "26397a471b675ed5f86ac3a14e48c89a56bf1ddfb5b41119553cb2c050cdbc3e"
+    },
+    {
+      "link_id": "e10045eada8e64889df05cb99e93f296",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "tasks:2",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "D5 relocation propagates to unchanged task group 2. Its existing budget, accounting and TUI obligations remain met; late-over-reservation handling was added under the original overshoot rule, not memory's new R2.",
+      "adaptCommit": "771b4bfed970f9b09ada31856ef36a2edbb9f54edff5c7dbccec4da77840519e"
+    },
+    {
+      "link_id": "e7ab1a262ff7303c83b1f90488eeb087",
+      "stratum": 2,
+      "source": "requirement:skill-maintenance:Requirement: Protected skills resist automation",
+      "target": "tasks:6",
+      "changes": [
+        "10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58",
+        "a408c8a348d29f6ae87ab650a0cb5f7902e1a9e2b55797137d0658aa98dd45bb"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Protection wording moved under D6. Task 6.1's pin and task 6.2's candidate eligibility keep user-owned/read-only/pinned targets protected independent of usage or file time.",
+      "adaptCommit": "cc52363d9f2d176a05a4a05de6808e482a16a44900b7c3e2d7edf4d3dca419c5"
+    },
+    {
+      "link_id": "f6e8935cb0002f22c10724de68ec37ec",
+      "stratum": 2,
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Current-context snapshot review",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "review": "D5 relocation keeps the effective-current-snapshot policy. The snapshot requirement remains unchanged: compressed projection rather than all raw history or an incremental substitute; snapshot tests verify deep-copy isolation.",
+      "adaptCommit": "d4a26e98f328033a88878668cc13e96a8489315a690f05911a9ade5dd715d62b"
+    },
+    {
+      "link_id": "147936fd8d05dbad1dee9145080aad1f",
+      "stratum": 3,
+      "source": "tasks:4",
+      "target": "implementation:scope",
+      "changes": [
+        "203e94bea1298d70b3a409c93cdf9aa4c2311e0432bffe6362ee1e5d815d86e6",
+        "22f36253f58705027ffd23963f3b20e5e00a6351a39f03c316954e4e9d21fad5",
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58",
+        "8b2983bbf549f136c4dee2e3911ba87c2f8bf49cf8860363e03d916af320bf7e",
+        "b3d09716ea94ea6956c37a9bd2362ff0f2bf3a02872120b5272fecc26b67e662",
+        "b8f06a9eb2ecbf3e41494417dbfcac7c12175db60e02c77c2efd32fa6135df15",
+        "defe6b284afa78c37b65755ba2e7cfe14b1c2f01f5ff8c47010265d660dcf9fe"
+      ],
+      "target_path": "src/scope.ts",
+      "review": "Task 4 now includes installed/content/recovery additions, but scope.ts remains responsible only for trusted root selection and containment. scope-migration tests cover explicit roots/worktrees; mutation authorization stays in store/permissions, not this helper.",
+      "adaptCommit": "5f39ada6b65776c3ffe89586ae41dee3d9e38bf928c37cfc92283b7d8eecf149"
+    },
+    {
+      "link_id": "2344a89f9824dcc1db4b15a9f43c3e5a",
+      "stratum": 3,
+      "source": "tasks:3",
+      "target": "implementation:entry",
+      "changes": [
+        "18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b",
+        "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514",
+        "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80",
+        "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"
+      ],
+      "target_path": "src/index.ts",
+      "review": "Discovery propagation reaches index.ts's real source refresh, explicit load and mode handlers. They use catalog identity/version checks, retain native fallback on error and never infer missing SDK source permission.",
+      "adaptCommit": "b773c13b74ca74f6496d3a2d8fcd73b1db4c270b5192aa4f75ad0d1fb6b5be2f"
+    },
+    {
+      "link_id": "3fc6a72bb29e79c9da68aa8993b9b945",
+      "stratum": 3,
+      "source": "tasks:3",
+      "target": "implementation:entry",
+      "changes": [
+        "18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b",
+        "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514",
+        "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80",
+        "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"
+      ],
+      "target_path": "src/index.ts",
+      "review": "This is the second historical tasks:3→entry link, retained rather than deleted. The same registered status/refresh/load/mode handlers satisfy the relocated discovery obligations; no extra capability is claimed by the duplicate edge.",
+      "adaptCommit": "9ce127b022f36b9b76f3e6e7251971aa9c4d4a9ce0127b6ff93edc3adaa60187"
+    },
+    {
+      "link_id": "47006c723ec75eab0033d654541dabd3",
+      "stratum": 3,
+      "source": "tasks:3",
+      "target": "implementation:sources",
+      "changes": [
+        "18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b",
+        "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514",
+        "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80",
+        "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"
+      ],
+      "target_path": "src/sources.ts",
+      "review": "Discovery changes are reflected by sources.ts final-allowed snapshots, runtime noSkills handling and offline skip-only resolution. Missing-path restoration is separately implemented in restore-sources.ts, not guessed by ordinary discovery.",
+      "adaptCommit": "39df609ed4f457930490d642ffd2c1da08f307cbb799f7375f0cd88bb4e302e2"
+    },
+    {
+      "link_id": "4768af748ea4144485970533cc1c564e",
+      "stratum": 3,
+      "source": "requirement:skill-reflection:Requirement: Validated proposals and no recursive work",
+      "target": "tasks:5",
+      "changes": [
+        "cef2961a5845acf2ded52a26ffa97f48442fe710872cc641a26310ae5c2482c3",
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Expanded validated-proposals requirement maps to task 5.3's source/template gate and bounded exact approval. Content tests reject execution claims and preserve request usage when locally approving pending content.",
+      "adaptCommit": "cddd799d2e4428b42241a3e16ace21da7b0fca05280afcdba00675c1a5b42158"
+    },
+    {
+      "link_id": "5c3ad1b202b30b2cad53ed9b93c83f0a",
+      "stratum": 3,
+      "source": "requirement:skill-reflection:Requirement: Isolated lifecycle and stale-result rejection",
+      "target": "tasks:5",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Lifecycle requirement received only propagated D5 relocation. Task 5.4 still covers actual input/navigation/reload and retirement of the old SDK session before another project; no arbitrary OS kill guarantee was added.",
+      "adaptCommit": "a13b81093adbdb8c5bb3d1586c4e2c8696694724f83b55dfa0470affa89f724a"
+    },
+    {
+      "link_id": "5e99574561dadc9c11e9c8431b75fcdb",
+      "stratum": 3,
+      "source": "requirement:skill-reflection:Requirement: Disable means no automatic model calls",
+      "target": "tasks:2",
+      "changes": [
+        "d16e0c0dd4f2788eb176d6690feed9cdab4d5efedeed597602a73c01af3df94f",
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Disable requirement was relocated only. Task 2.4's enable/disable/pause UI and the new fee-matrix disable→compaction/shutdown case demonstrate no hidden request; native delivery verifies persistent OFF.",
+      "adaptCommit": "918df791799934e9e368149497844a100b515303fbb141176b5c02013e33365e"
+    },
+    {
+      "link_id": "63812e2ac180ca720322a324b075d124",
+      "stratum": 3,
+      "source": "requirement:skill-reflection:Requirement: Admission and cumulative budgets",
+      "target": "tasks:2",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Admission requirement received only D5 relocation. Tasks 2.1/2.2 retain atomic reservation, limits and no fallback; joint boundary metadata adds dedup attribution, not new budget or retries.",
+      "adaptCommit": "bb50848d9c581f8abcf4c19f40dc109875cc5c9744568ff8156642600d3842f6"
+    },
+    {
+      "link_id": "7f3716e30fdb631d39a4278eea604e8e",
+      "stratum": 3,
+      "source": "requirement:skill-reflection:Requirement: Learning usefulness is observable",
+      "target": "tasks:1",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961",
+        "d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Usefulness requirement moved without new real-test authority. Task 1 distinguishes deterministic closure from four historical SWE-2 observations; revised evidence explicitly says current content/cooperation changes were not paid-retested.",
+      "adaptCommit": "ed0665c548aa77a1c2a2ba193f5d5fd1c0fe776744127e6636ac5a2f7e06be11"
+    },
+    {
+      "link_id": "7f82d0a2d274b8250a80d8612bfb22aa",
+      "stratum": 3,
+      "source": "tasks:3",
+      "target": "implementation:catalog",
+      "changes": [
+        "18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b",
+        "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514",
+        "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80",
+        "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"
+      ],
+      "target_path": "src/catalog.ts",
+      "review": "Discovery propagation maps to catalog.ts's allowed-source set, identity-aware search/view and bounded paging. Failed sources clear the index; native-mode behavior remains in index.ts and is tested separately.",
+      "adaptCommit": "41f7fc60f489b72971ab83e739c011d6c3a02aadea78c87c4d8eef9e1d5bc2fc"
+    },
+    {
+      "link_id": "97d0fe8cd83660013b89e655f7f848be",
+      "stratum": 3,
+      "source": "tasks:3",
+      "target": "implementation:store",
+      "changes": [
+        "18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b",
+        "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514",
+        "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80",
+        "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"
+      ],
+      "target_path": "src/store.ts",
+      "review": "The tasks:3→store edge covers generated-source provenance and version-aware updates, not discovery authority. Store validates known roots/member versions and index passes current-source authorization; it does not rescan excluded directories.",
+      "adaptCommit": "b5540621e135fe8f71c8eac3826d3eb674f0579454e288d9991dc3781fcd6add"
+    },
+    {
+      "link_id": "c36035f7b268e3e277f91126cb7abce2",
+      "stratum": 3,
+      "source": "requirement:skill-reflection:Requirement: Failures and usage remain visible",
+      "target": "tasks:2",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Visibility requirement was unchanged by D5 relocation. Tasks 2.3/2.4 retain reported usage, unknown reservation and persistent pause; registered TUI matrix demonstrates no-change/empty/disconnect/cancel after reload.",
+      "adaptCommit": "49eebca3a3cf6ec29d3c7e7cc03efc0c29d254e2f6310effcd130bc3078ad24b"
+    },
+    {
+      "link_id": "d79eb2993d2ab9c338c4b60284e37a67",
+      "stratum": 3,
+      "source": "requirement:skill-reflection:Requirement: One explicit scheduling path",
+      "target": "tasks:5",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Scheduling wording did not change under the moved D5 section. Task 5.2's distinct counters and settled-only eligibility still exclude repeated events and background reads from new paid work.",
+      "adaptCommit": "64382842c0f4de3e28d8cd3aaa73f2c7d987b07f99687e338541e3e15d9ef744"
+    },
+    {
+      "link_id": "e107f2cc0539e79603bf875bb6c46f4e",
+      "stratum": 3,
+      "source": "requirement:skill-reflection:Requirement: Current-context snapshot review",
+      "target": "tasks:5",
+      "changes": [
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "openspec/changes/add-managed-skill-lifecycle/tasks.md",
+      "review": "Current-snapshot requirement was only relocated. Task 5.1 captures effective projected entries/system/model and read versions without mutating the primary session; task 5.4 handles later invalidation.",
+      "adaptCommit": "e68eb0267090bdf82cdcaef45203b842113e9265943d6ce432268e908bace9c4"
+    },
+    {
+      "link_id": "e5fc6eaacab1ae4e5727ca0d2868cb59",
+      "stratum": 3,
+      "source": "tasks:4",
+      "target": "implementation:store",
+      "changes": [
+        "203e94bea1298d70b3a409c93cdf9aa4c2311e0432bffe6362ee1e5d815d86e6",
+        "22f36253f58705027ffd23963f3b20e5e00a6351a39f03c316954e4e9d21fad5",
+        "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58",
+        "8b2983bbf549f136c4dee2e3911ba87c2f8bf49cf8860363e03d916af320bf7e",
+        "b3d09716ea94ea6956c37a9bd2362ff0f2bf3a02872120b5272fecc26b67e662",
+        "b8f06a9eb2ecbf3e41494417dbfcac7c12175db60e02c77c2efd32fa6135df15",
+        "defe6b284afa78c37b65755ba2e7cfe14b1c2f01f5ff8c47010265d660dcf9fe"
+      ],
+      "target_path": "src/store.ts",
+      "review": "Task 4's newer authority and member recovery obligations are implemented in store.ts: provenance/read versions, per-member checks, saved approval records and conflict-aware local recovery. Installed/content/rollback tests cover the added paths.",
+      "adaptCommit": "c18eafc061be95a5aaa98523a454811857b62ead51228de4b9670e3cdc24063c"
+    },
+    {
+      "link_id": "f6104b4c8447641fe6871d5c37b24345",
+      "stratum": 3,
+      "source": "tasks:3",
+      "target": "implementation:catalog",
+      "changes": [
+        "18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b",
+        "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514",
+        "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80",
+        "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"
+      ],
+      "target_path": "src/catalog.ts",
+      "review": "This second historical tasks:3→catalog edge carries the same allowed-source, freshness and containment responsibilities as the other edge. It is independently acknowledged, not silently removed or counted as extra testing.",
+      "adaptCommit": "277c2e07b42b5be6ebd72d4f7f71431e8bd72a76ecab59d682fb3b84eedba356"
+    },
+    {
+      "link_id": "25b63db81fb4e4bc005bf8a16c95bc33",
+      "stratum": 4,
+      "source": "tasks:2",
+      "target": "implementation:lock",
+      "changes": [
+        "d16e0c0dd4f2788eb176d6690feed9cdab4d5efedeed597602a73c01af3df94f",
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "src/files.ts",
+      "review": "Task 2 received position-only policy propagation. withLock remains the same local FIFO/exclusive-file primitive used for atomic admission; it does not schedule or enable requests, so disabling requires no lock redesign.",
+      "adaptCommit": "aec1bf06e998ee9c55def175a77dfbfcb6ce2b1fdc183cb83f5d9664ed99648c"
+    },
+    {
+      "link_id": "2f38898e17189b6c5cc6f790c8a7961a",
+      "stratum": 4,
+      "source": "tasks:1",
+      "target": "implementation:entry",
+      "changes": [
+        "d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"
+      ],
+      "target_path": "src/index.ts",
+      "review": "Task 1's usefulness propagation reaches index.ts's registered search/view/manage and review controls. Learning tests execute proposal→save→search/read reuse through these entries; invalid source snapshots still preserve native access.",
+      "adaptCommit": "12f0e9b90fcda3c9e4f63197ada78d8d4014030be4cc7eb8dff1566af565f39f"
+    },
+    {
+      "link_id": "3f3051c781d16f9dbbece078ede0c5ce",
+      "stratum": 4,
+      "source": "tasks:1",
+      "target": "implementation:context",
+      "changes": [
+        "d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"
+      ],
+      "target_path": "src/context.ts",
+      "review": "Task 1 usefulness propagation does not change context.ts semantics. Its public projection/evidence snapshot is the common input for finite-template learning and reuse tests; it is not a claim of final-wire/cache parity.",
+      "adaptCommit": "e93bea60b5127e2c523e0d526530097f54147e3c52d88fe9c96f2b092a1ba77a"
+    },
+    {
+      "link_id": "467c8e4a8376df1ac384469091c35552",
+      "stratum": 4,
+      "source": "tasks:2",
+      "target": "implementation:ui",
+      "changes": [
+        "d16e0c0dd4f2788eb176d6690feed9cdab4d5efedeed597602a73c01af3df94f",
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "src/ui.ts",
+      "review": "Task 2's unchanged fee/disable policy maps to UI persistent controls. registerReviewUI cancels on disable, persists auto=false, subscribes to the ledger and does not release unknown reservations on resume.",
+      "adaptCommit": "2dc1dce6731987db413c47a4e775a3a260872550f54f42f0d46aa545ac3888e6"
+    },
+    {
+      "link_id": "55b112bcc829872d29bcb6238af72a10",
+      "stratum": 4,
+      "source": "tasks:5",
+      "target": "implementation:ui",
+      "changes": [
+        "83b6c55d57b0e8549961bb0fd78ef7321282eea61c4bb35abaef48adc1493f23",
+        "cef2961a5845acf2ded52a26ffa97f48442fe710872cc641a26310ae5c2482c3",
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "src/ui.ts",
+      "review": "Task 5 now includes content pending and full lifecycle guards. UI launch supplies currentness/source authorization to review, settled counters avoid duplicate work, and optional cooperation reuses—not bypasses—that launch path.",
+      "adaptCommit": "c8ef0096b42a0ac035d619962439fc6e258e1d5e40ef8b3f6fe5ad75e88424cf"
+    },
+    {
+      "link_id": "69da23517e7afc85a93ed48be7ae7736",
+      "stratum": 4,
+      "source": "tasks:1",
+      "target": "implementation:store",
+      "changes": [
+        "d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"
+      ],
+      "target_path": "src/store.ts",
+      "review": "Task 1 usefulness propagation maps to store submit/save: evidenced template proposals are saved and then actually read in learning tests. Free prose may now be pending; historical SWE-2 evidence was qualified rather than treated as a current guarantee.",
+      "adaptCommit": "511283a0dfcb62531292e90fc10bab54133d22dd2abc0abfaccede7dc7adcd25"
+    },
+    {
+      "link_id": "a8004178124110f5a5741f1b8f88cc12",
+      "stratum": 4,
+      "source": "tasks:2",
+      "target": "implementation:ledger",
+      "changes": [
+        "d16e0c0dd4f2788eb176d6690feed9cdab4d5efedeed597602a73c01af3df94f",
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "src/ledger.ts",
+      "review": "Task 2's unchanged budget rules are enforced by ledger.ts atomic admit/finish. New boundary/target attribution does not change unknown carry; overshoot after late telemetry re-pauses under the existing R2 requirement.",
+      "adaptCommit": "ca071ee3dd97da020cf4d910e97956d4ce3682f509cea0336470b10ee733b53a"
+    },
+    {
+      "link_id": "c5ca650c8fc3c251b543d7757d2de3b6",
+      "stratum": 4,
+      "source": "tasks:1",
+      "target": "implementation:catalog",
+      "changes": [
+        "d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"
+      ],
+      "target_path": "src/catalog.ts",
+      "review": "Task 1 learning closure uses catalog discovery/read of newly saved rules. Learning and automatic-learning tests read the resulting stable ID; search remains local and does not create a review request.",
+      "adaptCommit": "08bd35d79cb29129631bd4fa2c88c2ebe3cfa56738280ed2b87d51eed3c2ac86"
+    },
+    {
+      "link_id": "cdbe3d52ee1c890c3971ec893c20ea64",
+      "stratum": 4,
+      "source": "tasks:2",
+      "target": "implementation:review",
+      "changes": [
+        "d16e0c0dd4f2788eb176d6690feed9cdab4d5efedeed597602a73c01af3df94f",
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "src/review.ts",
+      "review": "Task 2's request/usage duties map to reviewSkills: maxRetries=0, no tools, one stream, deadline/late-usage handling. Peer instruction bytes join the same input estimate and peer failure does not issue a correction call.",
+      "adaptCommit": "8f93aa59e117407da8459cf7780692701b08db3a844fa3f172670a8d405819cd"
+    },
+    {
+      "link_id": "eb6ff82b35a32da4b6d57d4e58f5f738",
+      "stratum": 4,
+      "source": "tasks:2",
+      "target": "implementation:atomic",
+      "changes": [
+        "d16e0c0dd4f2788eb176d6690feed9cdab4d5efedeed597602a73c01af3df94f",
+        "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"
+      ],
+      "target_path": "src/files.ts",
+      "review": "Task 2 received no semantic change from D5/disable relocation. atomicJson remains the fsync/rename persistence primitive used by ledger; it neither grants budgets nor schedules work and needs no behavior change.",
+      "adaptCommit": "3f419861003faec3d301327cafdaa625f1c24c8cd4136073a84aab4e2b56d0dc"
+    },
+    {
+      "link_id": "0d306ed3f862f650902503935cf7bd6e",
+      "stratum": 5,
+      "source": "implementation:ledger",
+      "target": "test:concurrency",
+      "changes": [
+        "bfa14a56047758b89ff5b0e1b4e4dd9f76620529160921d67f0d63ddefe27dad"
+      ],
+      "target_path": "test/ledger.test.ts",
+      "review": "Ledger added joint-boundary metadata and late-overshoot pause. ledger.test.ts now races two processes with different goal digests at one boundary, checks reload dedup, and tests late overshoot after resume; original crash/corruption/date cases remain.",
+      "adaptCommit": "032bb3a14dfa66114fb5c8e3daa84df01ffbf057ec8dc0917e0a4c02ba0e2993"
+    },
+    {
+      "link_id": "2ba82f8cefc505fcc86378554a72b20e",
+      "stratum": 5,
+      "source": "implementation:ui",
+      "target": "test:automatic-learning",
+      "changes": [
+        "83b6c55d57b0e8549961bb0fd78ef7321282eea61c4bb35abaef48adc1493f23",
+        "ee87e44163425319bf46ac03d20bbd21043187484cda5d8175db9f1906e18029"
+      ],
+      "target_path": "test/automatic-learning.test.ts",
+      "review": "UI changed optional coordination while retaining standalone scheduling. automatic-learning.test.ts still drives ten real tool turns, saves one rule and reuses it on a later task; source/budget/new-input negatives remain passing.",
+      "adaptCommit": "3ea9b11697b9bc22e44fc6466be48c5633f4467d8e2e4119549943580a21081a"
+    },
+    {
+      "link_id": "2c91354a85055a0658422314be835840",
+      "stratum": 5,
+      "source": "implementation:review",
+      "target": "implementation:async",
+      "changes": [
+        "64768ca5cf36eb0890e548839050330cc5f270563741dd344cb779a0ef1bd83d"
+      ],
+      "target_path": "src/async.ts",
+      "review": "Review now combines participant signals but awaitWithAbort still only ends the controlled await, not the producer. Its promise rejection/late-handler cleanup contract matches usage-only late settlement and explicitly does not claim OS I/O termination.",
+      "adaptCommit": "7a179264ba5619462d86e486412c2d3eda4ae2c9c4745ae91a17e80eba91f562"
+    },
+    {
+      "link_id": "31f94df8c906194b788d28f9efdd7fb2",
+      "stratum": 5,
+      "source": "implementation:entry",
+      "target": "test:modes",
+      "changes": [
+        "19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"
+      ],
+      "target_path": "test/modes.test.ts",
+      "review": "New index handlers do not remove explicit load or native mode. modes.test.ts retains zero-request ID loading, live refresh and native completion/reload/disabled-plugin checks; native delivery independently confirms discovery after unload.",
+      "adaptCommit": "09e6d32e8995c371241a1cd9f9e0587055bf8aec973b19364088260655a79d6e"
+    },
+    {
+      "link_id": "74d5dc5193bd660ac0d71d10ab2a778f",
+      "stratum": 5,
+      "source": "implementation:catalog",
+      "target": "test:read",
+      "changes": [
+        "44889a9942d4245f7fe5be4255d6103b1ba807010555cb6cebd917d9c9eebc46"
+      ],
+      "target_path": "test/read.test.ts",
+      "review": "Catalog added activity/curation/impact methods without weakening view containment. read.test.ts still verifies requested-file paging, traversal and symlink rejection and non-execution of script assets.",
+      "adaptCommit": "7395db018b75c8765c7983d6eae0bf181ffb47c4e70a59b59f206c6d33ee1669"
+    },
+    {
+      "link_id": "843689b4f173c7ce70cf3496ff95a1fd",
+      "stratum": 5,
+      "source": "implementation:review",
+      "target": "test:learning",
+      "changes": [
+        "64768ca5cf36eb0890e548839050330cc5f270563741dd344cb779a0ef1bd83d"
+      ],
+      "target_path": "test/learning.test.ts",
+      "review": "Review's joint option is optional; test/learning.test.ts still exercises the existing standalone service and registered reuse. The initially failing stale-result regression was fixed by preserving its established late-accounting semantics, not changing its assertion.",
+      "adaptCommit": "bfdf0ef3557f5c2dcc3b77a01fbba2ac21802af731d9ddbaa51574ee5633058d"
+    },
+    {
+      "link_id": "8b4e567e24d3407592395faed5cf3054",
+      "stratum": 5,
+      "source": "implementation:entry",
+      "target": "test:bootstrap",
+      "changes": [
+        "19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"
+      ],
+      "target_path": "test/bootstrap.test.ts",
+      "review": "Index additions preserve the official extension entry and prompt-section boundary. bootstrap.test.ts still loads the public factory, verifies zero startup calls and other system sections, and checks isolated snapshot behavior.",
+      "adaptCommit": "fd82bff0b64531abe8192243282fab8c62815e3ade55a9b035cafaacd455bd85"
+    },
+    {
+      "link_id": "93cfb2c9165cdffddb591e393e935155",
+      "stratum": 5,
+      "source": "implementation:entry",
+      "target": "test:cli-sources",
+      "changes": [
+        "19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"
+      ],
+      "target_path": "test/cli-sources.test.ts",
+      "review": "Index's CLI default entry still uses official source resolution. cli-sources.test.ts executes the stock CLI and registered tools with duplicate names/noSkills under isolated HOME, rather than mocking source decisions.",
+      "adaptCommit": "c05fae15c13f7c88375c832909a82f94f4354230ee872b981a071e2114f89819"
+    },
+    {
+      "link_id": "ac8fb17190feacb1fa158ab0e3dc8c7a",
+      "stratum": 5,
+      "source": "implementation:ui",
+      "target": "evidence:tui",
+      "changes": [
+        "83b6c55d57b0e8549961bb0fd78ef7321282eea61c4bb35abaef48adc1493f23",
+        "ee87e44163425319bf46ac03d20bbd21043187484cda5d8175db9f1906e18029"
+      ],
+      "target_path": "docs/tui-validation.md",
+      "review": "UI now has scheduling and target labels; the old TUI page incorrectly said scheduling was still absent. It was revised to label its 2.4 historical scope and link current fee/delivery evidence; old captures are not claimed as a new UI run.",
+      "adaptCommit": "747181a13edb4474359a8c60a2d7f25d92ad7059972a1fabb32d88830fa2537c"
+    },
+    {
+      "link_id": "b1578e7d0dfdaf3041f29ea0da9c06b6",
+      "stratum": 5,
+      "source": "implementation:review",
+      "target": "test:limits",
+      "changes": [
+        "64768ca5cf36eb0890e548839050330cc5f270563741dd344cb779a0ef1bd83d"
+      ],
+      "target_path": "test/review-limits.test.ts",
+      "review": "Review adds classified peer results without removing single-stream protections. review-limits.test.ts still asserts maxRetries=0/no executable tools, bad/empty/reasoning outputs, partial usage, deadline, late settlement and budget skip; cooperation has separate added cases.",
+      "adaptCommit": "f4c9dc162b616e6244e8b0042fd988437b62cc89827d7376ccbec070d2cba64e"
+    },
+    {
+      "link_id": "b5fe59ba9b4990f1fe596f68662267c6",
+      "stratum": 5,
+      "source": "implementation:catalog",
+      "target": "test:search",
+      "changes": [
+        "44889a9942d4245f7fe5be4255d6103b1ba807010555cb6cebd917d9c9eebc46"
+      ],
+      "target_path": "test/search.test.ts",
+      "review": "Catalog's maintenance additions do not change bounded search. search.test.ts continues to check 3000 skills, serialization budgets, stable pagination and zero model calls; protected curation filtering is separately tested.",
+      "adaptCommit": "df9d91742b5ef8ba52d370bbfcd10274542025ff12dc524995d525516fc3d755"
+    },
+    {
+      "link_id": "c1992e2f65574862eabc2272573de95d",
+      "stratum": 5,
+      "source": "implementation:ui",
+      "target": "test:ui",
+      "changes": [
+        "83b6c55d57b0e8549961bb0fd78ef7321282eea61c4bb35abaef48adc1493f23",
+        "ee87e44163425319bf46ac03d20bbd21043187484cda5d8175db9f1906e18029"
+      ],
+      "target_path": "test/ui.test.ts",
+      "review": "UI's new coordinator preserves old fee controls. ui.test.ts explicitly keeps unknown reservations through acknowledgment/retry and survives a failing subscriber; new fee-matrix tests supplement it with registered TUI/reload cases.",
+      "adaptCommit": "613222bc76880580bee3169107d86a887af402055611196ae87980b5c20a5260"
+    },
+    {
+      "link_id": "f4cab785ec53319aea8be27b8eb61793",
+      "stratum": 5,
+      "source": "implementation:review",
+      "target": "evidence:swe2",
+      "changes": [
+        "64768ca5cf36eb0890e548839050330cc5f270563741dd344cb779a0ef1bd83d"
+      ],
+      "target_path": "docs/swe2-validation.md",
+      "review": "Review's content policy has tightened since the four SWE-2 calls. swe2-validation.md was corrected to call them historical, require new authorization for rerun and disclaim current free-prose autosave/quality; no real request was made during this Adapt review.",
+      "adaptCommit": "62570d5a78111d72268c7771d8ba0e208cea10871cbfc117c88f0fced866f53c"
+    },
+    {
+      "link_id": "f505ad8750f1f33624710f8d1d21166e",
+      "stratum": 5,
+      "source": "implementation:catalog",
+      "target": "test:sources",
+      "changes": [
+        "44889a9942d4245f7fe5be4255d6103b1ba807010555cb6cebd917d9c9eebc46"
+      ],
+      "target_path": "test/sources.test.ts",
+      "review": "Catalog now records activity and known references, but sources.test.ts still validates distinct IDs, owners, exclusions, empty sets, refresh failure and native fallback. Added maintenance behavior does not reinterpret user-owned files as managed.",
+      "adaptCommit": "0018cb9ceb7d4d2f068170fbfd95683de46f17664eb4fba0d72e8217adc3da4a"
+    },
+    {
+      "link_id": "fb171e42e73ffc6e2ecc94f2cbbd0b97",
+      "stratum": 5,
+      "source": "implementation:ui",
+      "target": "test:scheduling",
+      "changes": [
+        "83b6c55d57b0e8549961bb0fd78ef7321282eea61c4bb35abaef48adc1493f23",
+        "ee87e44163425319bf46ac03d20bbd21043187484cda5d8175db9f1906e18029"
+      ],
+      "target_path": "test/scheduling.test.ts",
+      "review": "UI added optional peer coordination; scheduling.test.ts still demonstrates 3 users/40 tool turns and duplicate settled events do not inflate counters or repeat a snapshot. Simultaneous peer declarations are covered by cooperation.test.ts, not attributed to this older test.",
+      "adaptCommit": "3567b89e46b038ffd1c2689a3b74088cb6250c5fec163d223e48a0d41b19e32b"
+    },
+    {
+      "link_id": "0d5bdab94fe778c2f71f71780dea2d67",
+      "stratum": 6,
+      "source": "test:sources",
+      "target": "evidence:sources",
+      "changes": [
+        "44889a9942d4245f7fe5be4255d6103b1ba807010555cb6cebd917d9c9eebc46"
+      ],
+      "target_path": "docs/source-discovery-boundary.md",
+      "review": "The source tests retain the documented loader/resolver distinction, final-allowed callback and source-failure fallback. source-discovery-boundary.md remains explicitly a 3.1 slice, not a claim that it alone proves maintenance or all learning behavior.",
+      "adaptCommit": "ad7f287643e05846562840d8ef31dcbc7301b6e181bf7d4a5cd569a33df03a82"
+    },
+    {
+      "link_id": "2dd74878748471934ce4f7f38d481485",
+      "stratum": 6,
+      "source": "implementation:async",
+      "target": "implementation:store",
+      "changes": [
+        "64768ca5cf36eb0890e548839050330cc5f270563741dd344cb779a0ef1bd83d"
+      ],
+      "target_path": "src/store.ts",
+      "review": "The review cancellation propagation still uses unchanged awaitWithAbort. Store waits only on controlled authorization and checks currentness per member; commit-gates/recovery tests demonstrate lock release and no late continuation, without asserting the callback producer was killed.",
+      "adaptCommit": "d934bc136c7fd88e3d162531a771828b198467aebfe82e642a31c5cd4bcb79e4"
+    },
+    {
+      "link_id": "3c290d9ee89f2cdf2d309a8fd20c8d17",
+      "stratum": 6,
+      "source": "test:bootstrap",
+      "target": "evidence:api",
+      "changes": [
+        "19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"
+      ],
+      "target_path": "docs/implementation-evidence.md",
+      "review": "Bootstrap's entry behavior remains tested. implementation-evidence.md now reports the 160-test checkpoint, lists separate content/lifecycle/maintenance/cooperation evidence and clearly leaves final traceability pending; it does not infer model quality from bootstrap.",
+      "adaptCommit": "5946db306a87036d6c69f0e95a4a580a95104ecbdf1cbe33aeb41a941cdc2e01"
+    },
+    {
+      "link_id": "7cd35cf5f719eaf458f6ff416af88fd7",
+      "stratum": 6,
+      "source": "test:sources",
+      "target": "fixture:sdk-support",
+      "changes": [
+        "44889a9942d4245f7fe5be4255d6103b1ba807010555cb6cebd917d9c9eebc46"
+      ],
+      "target_path": "test/support.ts",
+      "review": "SDK source cases use support.ts's explicit final source callback and isolated auth/agentDir. Its new usage/price hooks only drive fake billing outcomes; they do not broaden allowed sources or load companion/personal extensions.",
+      "adaptCommit": "f6283ea1e4d431e578740f9986d27f67bd71a3345f00208719820a84ad043194"
+    },
+    {
+      "link_id": "fdec9f9a079350184009fbc18fe37950",
+      "stratum": 6,
+      "source": "test:cli-sources",
+      "target": "fixture:cli-sources",
+      "changes": [
+        "19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"
+      ],
+      "target_path": "test/fixtures/cli-sources.ts",
+      "review": "The CLI source fixture remains an observer/fake-provider harness for the stock CLI. Production source authorization stays in index/sources; no fixture hook bypasses noSkills or enables package installation.",
+      "adaptCommit": "f6316bdd4b32ca5b848fde61898d118e0bc9a7c1396f15fdc6bada271d875bf0"
+    },
+    {
+      "link_id": "46b2f854ee0d382c6253362777d2b4fb",
+      "stratum": 7,
+      "source": "implementation:store",
+      "target": "test:commit-gates",
+      "changes": [
+        "203e94bea1298d70b3a409c93cdf9aa4c2311e0432bffe6362ee1e5d815d86e6",
+        "8126a53daf4465cd23f20d173288249da1c431861bfd93499ecd38b169082e8a"
+      ],
+      "target_path": "test/commit-gates.test.ts",
+      "review": "Store's additional authorization/content paths retain commit gates. commit-gates.test.ts checks generation/path changes, same-root locking and source withdrawal; installed-specific grant/content cases are additionally linked through permissions/content tests.",
+      "adaptCommit": "9e9d50a0e4c0ccc822e0f1f7cb0ddf5cb9d8c478da7baacf58a30aff9bc02a78"
+    },
+    {
+      "link_id": "664ed20c789ad88b43122848cb7e96ce",
+      "stratum": 7,
+      "source": "implementation:store",
+      "target": "test:recovery",
+      "changes": [
+        "203e94bea1298d70b3a409c93cdf9aa4c2311e0432bffe6362ee1e5d815d86e6",
+        "8126a53daf4465cd23f20d173288249da1c431861bfd93499ecd38b169082e8a"
+      ],
+      "target_path": "test/recovery.test.ts",
+      "review": "Store now revalidates installed recovery grants and approved bytes. recovery.test.ts retains actual member/provenance/hand-edit interruption checks; installed-approval and rollback tests supply the new installed authority negatives rather than overclaiming the old test's scope.",
+      "adaptCommit": "f47cfea9c451819f6d225da0d854ec359624e04f439427b7cfa4ed115edfc570"
+    },
+    {
+      "link_id": "f7d832cb0aec1f230184372225210983",
+      "stratum": 7,
+      "source": "implementation:store",
+      "target": "test:member-transactions",
+      "changes": [
+        "203e94bea1298d70b3a409c93cdf9aa4c2311e0432bffe6362ee1e5d815d86e6",
+        "8126a53daf4465cd23f20d173288249da1c431861bfd93499ecd38b169082e8a"
+      ],
+      "target_path": "test/member-transactions.test.ts",
+      "review": "Store's curation/rollback additions reuse existing member receipts and backups. member-transactions.test.ts still verifies real partial commit state, retained before bytes and assets without script execution; archive/rollback tests cover the new higher-level operations.",
+      "adaptCommit": "c789e504cf51a592a31652f92acd0af13c0ee3dd676b9c4ecf40c153b29cb231"
+    }
+  ],
+  "closingPlanSha256": "98a114c781841423d75ef00c6d823a0d2d8f15f501c66d861696180fea6860e3",
+  "closingReviews": [
+    {
+      "link_id": "2eccc5b8ca2c40c2bf60dab0c6b6ce70",
+      "source": "tasks:7",
+      "target": "test:fees",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "test/fee-matrix.test.ts",
+      "targetSha256": "d2a70f292b381fb5ec1e8868dcf4fa27b2f3a3576012ee6ef38eafbc7e57720e",
+      "review": "Only task 7.3's completion marker changed. fee-matrix.test.ts is byte-identical to the reviewed 160-test checkpoint; its request/unknown/crash assertions do not change when delivery is marked complete.",
+      "adaptCommit": "f9b1dcac6d309d7376a35da2251a95ec719125ec8a6069b4c9b3da3e91297d41"
+    },
+    {
+      "link_id": "3ea101b09756914810eb0337c142dc8b",
+      "source": "tasks:7",
+      "target": "fixture:delivery",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "test/fixtures/tui-delivery.ts",
+      "targetSha256": "2e32e321bea84f9eb568a045100681c8b269498b4b8fa99342ca073c48cd3a85",
+      "review": "Only the delivery completion marker changed. The guarded command-only native fixture is unchanged and was used in the recorded isolated CLI run; no provider behavior or approval bypass was added.",
+      "adaptCommit": "4e4e993e1e45c41fa1190fae24beb557b805dae753b1aa7172c9d7d7dd623cc7"
+    },
+    {
+      "link_id": "456e143d157b0af810d7d9d4e6113625",
+      "source": "tasks:7",
+      "target": "evidence:delivery",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "docs/delivery-evidence.md",
+      "targetSha256": "f4d8ad22051c701b73360946edfa33eadfcee8566e936016cd3e501e623657f8",
+      "review": "Task 7.3 now records the operation chain and traceability already performed. delivery-evidence.md's exact commands, zero-call marker and file-access observations are unchanged; its limitations remain explicit.",
+      "adaptCommit": "df69c8e5bfa117f9710fc2dd7e3c8fbe683f4c63251b629e5b45346e98522879"
+    },
+    {
+      "link_id": "d5df8597dd44352dc56541faf87dafac",
+      "source": "tasks:7",
+      "target": "implementation:cooperation",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "src/cooperation.ts",
+      "targetSha256": "57d875d6b93d13b1da8abfabbce38aac4e120309ac1ef498f07145a1f473192a",
+      "review": "The completion marker does not amend the protocol. cooperation.ts is byte-identical to its independently reviewed implementation; optional participation and incompatible-peer pause do not acquire real-memory compatibility from task completion.",
+      "adaptCommit": "951ded40e772eb1581da38fa1227c79f87401b283acfc19d7188a274d2a76524"
+    },
+    {
+      "link_id": "4900fb250b476958d90fc307ca288ef5",
+      "source": "implementation:cooperation",
+      "target": "implementation:review",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "src/review.ts",
+      "targetSha256": "86afd069d5029bea65f1c8129fafa660eb267262181bc99c90444dec5608ecb7",
+      "review": "Propagation is only the completed delivery marker through unchanged cooperation. review.ts remains identical: one stream, classified target callback and guarded separate commits; no new request path is introduced.",
+      "adaptCommit": "dd145d36371ae83d250f6e05570ff1bfb60d6120a82f65ccbd639785be8a13d3"
+    },
+    {
+      "link_id": "6e3c6cc96abd168ff8769f26b2953ac9",
+      "source": "implementation:cooperation",
+      "target": "implementation:ledger",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "src/ledger.ts",
+      "targetSha256": "e97805a81c0c63000f23941ac10763842a8ba96b2b6a2ea7e36553c95dc260f4",
+      "review": "Propagation is only completion metadata. ledger.ts bytes, policy and joint-boundary admission are unchanged, including unknown carry and late overshoot pause; no R2/R5 synchronization is implied.",
+      "adaptCommit": "aaeaed7962b2e0587e0f6652b03a83d362efeae8b28be9a88c012b550ee8bbf7"
+    },
+    {
+      "link_id": "ace63ca32357d97e36a7c495cc231b8b",
+      "source": "implementation:cooperation",
+      "target": "test:cooperation",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "test/cooperation.test.ts",
+      "targetSha256": "534403479e22cd11dbe93a12ce1a24f125874e28c95d9755ff421256cec19389",
+      "review": "The cooperative tests are unchanged and still prove a protocol double, not the current memory runtime. Completing delivery does not widen that assertion or require an additional model call.",
+      "adaptCommit": "cf105664077c21777d77733b01e94279fe3e8a63571e0dfe5bdea63a3d76f5e8"
+    },
+    {
+      "link_id": "c4e985b7fde78f7c15546ccaa2fcb91b",
+      "source": "fixture:delivery",
+      "target": "evidence:delivery",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "docs/delivery-evidence.md",
+      "targetSha256": "f4d8ad22051c701b73360946edfa33eadfcee8566e936016cd3e501e623657f8",
+      "review": "The native fixture is unchanged; the downstream evidence still describes the observed isolated run, not an arbitrary installation. No new screenshot or personal-data guarantee is inferred from the completion marker.",
+      "adaptCommit": "db10def2bfeace8243c63685e13e031f73773040a0cff260b3dd33d996aad08d"
+    },
+    {
+      "link_id": "87b9242dd29877290b8f0a38b19d4264",
+      "source": "evidence:delivery",
+      "target": "guide:usage",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "docs/usage.md",
+      "targetSha256": "13c1d8a900fe9319d79f79a5f465cb46931af2d3a2ea73b2177893d1faba2bec",
+      "review": "The delivery report is unchanged. usage.md retains the command/recovery workflow and explicit current-memory incompatibility; no installation or enabling action has been performed for the user.",
+      "adaptCommit": "752441c6bc5c774929ef670e2bf5f964cd09ed180e44c20656e2183897cb4cc0"
+    },
+    {
+      "link_id": "cdc60afe3e7bf71747c0f351122c9ee0",
+      "source": "test:fees",
+      "target": "evidence:fees",
+      "changes": [
+        "c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"
+      ],
+      "path": "docs/fee-matrix.md",
+      "targetSha256": "40c4108cfed969eff02be8b7a7ed18fb8639e06f32bc939b5dc268b3602d0e4c",
+      "review": "The fee tests and their report are unchanged. fee-matrix.md keeps fake/SDK usage distinct from real bills, identifies the original-R2 overshoot fix and retains its historical native-UI boundary.",
+      "adaptCommit": "56c53311ab10e58b30b0113781154f00c8515020f72fddc44883e7bc29a939d8"
+    }
+  ],
+  "archivePlanSha256": "edb4b4167d2983c6aa90b7d93567c5ee4390f2f976b5a84d56806ab272b04a70",
+  "archiveReviews": [
+    {
+      "link_id": "29a0c643e826eb8bd5c12b6a0df48bb3",
+      "source": "design:D6",
+      "target": "tasks:6",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 design:D6 → tasks:6：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "e602273b19f3f7be498fb308e7a117daeed7b99bd5a9e93e892bbdccfb7a47e4"
+    },
+    {
+      "link_id": "31cc887778dfd1a1261e47460f196f9e",
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Maintenance results are durable and visible",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "targetSha256": "bdf5dba1317d3e63d518ff25582fe521ccbb11bf5d4a33543afdaa69ea89eec6",
+      "review": "归档路径传播核对 design:D6 → requirement:skill-maintenance:Requirement: Maintenance results are durable and visible：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "bd68abc1eb7c57ca1e26096a58f469b75c1c9fda6a6a476857eabd9167ba87c4"
+    },
+    {
+      "link_id": "61343f40cf5f3a3ce247762444b0acaf",
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Reviewable curation",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "targetSha256": "bdf5dba1317d3e63d518ff25582fe521ccbb11bf5d4a33543afdaa69ea89eec6",
+      "review": "归档路径传播核对 design:D6 → requirement:skill-maintenance:Requirement: Reviewable curation：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "80ab4bf320f2fca225502a07c902f37cf10fd3a5bc6717f6b2d2d8ed5e2a6212"
+    },
+    {
+      "link_id": "61ccb0c93865bb5c55fee9e5137fc396",
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Evidence distinguishes viewing from success",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "targetSha256": "bdf5dba1317d3e63d518ff25582fe521ccbb11bf5d4a33543afdaa69ea89eec6",
+      "review": "归档路径传播核对 design:D6 → requirement:skill-maintenance:Requirement: Evidence distinguishes viewing from success：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "ddf3d70647491863a34e06d1f44f90d6972c4702cf95cda2f8acababa5df2930"
+    },
+    {
+      "link_id": "9f4b2fb90fac5f65dc6913a04134be7b",
+      "source": "design:D7",
+      "target": "requirement:skill-reflection:Requirement: Independent operation and shared charging",
+      "changes": [
+        "1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "targetSha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "review": "归档路径传播核对 design:D7 → requirement:skill-reflection:Requirement: Independent operation and shared charging：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "fc633a828184402aeeb93baf898238845f74c14c14d33cc937484955e50160d3"
+    },
+    {
+      "link_id": "b24aeea36cded2ff9f058cb53477d8ca",
+      "source": "design:D7",
+      "target": "tasks:7",
+      "changes": [
+        "1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 design:D7 → tasks:7：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "4875f3d4ab82baae36991cf48b00d6c12975bf321088af2a86e89a5cc862bb2a"
+    },
+    {
+      "link_id": "c3358af59931b26441c0b89f14dec832",
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Protected skills resist automation",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "targetSha256": "bdf5dba1317d3e63d518ff25582fe521ccbb11bf5d4a33543afdaa69ea89eec6",
+      "review": "归档路径传播核对 design:D6 → requirement:skill-maintenance:Requirement: Protected skills resist automation：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "f18700e06260d08f64cc6323ac6cd6a34e57290ed28c4bdf61a7d7632a91acc1"
+    },
+    {
+      "link_id": "db6cb15c04aea0fd57979ea1f68c9b87",
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Reversible archive and guarded rollback",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "targetSha256": "bdf5dba1317d3e63d518ff25582fe521ccbb11bf5d4a33543afdaa69ea89eec6",
+      "review": "归档路径传播核对 design:D6 → requirement:skill-maintenance:Requirement: Reversible archive and guarded rollback：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "be34382277809f54d55ce8a72f546e13d3f29e43b36512aab611df9eca6e90e7"
+    },
+    {
+      "link_id": "f38a7b59a1308c276114b5f4f2720775",
+      "source": "design:D6",
+      "target": "requirement:skill-maintenance:Requirement: Scoped knowledge remains scoped",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "targetSha256": "bdf5dba1317d3e63d518ff25582fe521ccbb11bf5d4a33543afdaa69ea89eec6",
+      "review": "归档路径传播核对 design:D6 → requirement:skill-maintenance:Requirement: Scoped knowledge remains scoped：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "056e1a8398b2935e3e521ab29f90465b990a837b7b29f62a03168507a8328f7b"
+    },
+    {
+      "link_id": "07564fc85154f68d44aa3e6f7ef76104",
+      "source": "design:D5",
+      "target": "tasks:5",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 design:D5 → tasks:5：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "d695495f6d6f62efc67017fb0a00fefcef86de85f0a6db8c3fb415d0c2eb4eef"
+    },
+    {
+      "link_id": "0eb81033c52b11fc64e64a1e40885258",
+      "source": "requirement:skill-maintenance:Requirement: Maintenance results are durable and visible",
+      "target": "tasks:6",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-maintenance:Requirement: Maintenance results are durable and visible → tasks:6：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "356812c5eefc3ee6935d61ec1691a2413a06ac2fae20609cae025497817f54ee"
+    },
+    {
+      "link_id": "195ca98011e0e3b099769cbec9334baf",
+      "source": "requirement:skill-maintenance:Requirement: Reviewable curation",
+      "target": "tasks:6",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-maintenance:Requirement: Reviewable curation → tasks:6：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "77db929d62e359ba19a65d4e3890e2aeb63327d8474f243cb283bb08165cd667"
+    },
+    {
+      "link_id": "3ef11423656ba575e326b1260526b4c1",
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Disable means no automatic model calls",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "targetSha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "review": "归档路径传播核对 design:D5 → requirement:skill-reflection:Requirement: Disable means no automatic model calls：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "6c56b5dd08baf915a58e68d3afd57bcd294e04a9fde78b317d0a390b047bd7ae"
+    },
+    {
+      "link_id": "537aeb48820e9a5a9441cc4a65ca0b03",
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Validated proposals and no recursive work",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "targetSha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "review": "归档路径传播核对 design:D5 → requirement:skill-reflection:Requirement: Validated proposals and no recursive work：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "b5ba5d592c7660fc37c5713baae0f5263bdc8393fddcd4ae93d901d711ae6ba7"
+    },
+    {
+      "link_id": "711113c94c78b3ad8cacd15252dea181",
+      "source": "requirement:skill-maintenance:Requirement: Scoped knowledge remains scoped",
+      "target": "tasks:6",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-maintenance:Requirement: Scoped knowledge remains scoped → tasks:6：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "d01f188c9790dffbd0b8f9fcbc51b0d8eded99248610cf796f6ce35ab7228514"
+    },
+    {
+      "link_id": "7a2595d7af838fb1abbcc42bf43f33f2",
+      "source": "requirement:skill-maintenance:Requirement: Reversible archive and guarded rollback",
+      "target": "tasks:6",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-maintenance:Requirement: Reversible archive and guarded rollback → tasks:6：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "50f644400259d814d53d88db4ecb540423c9e8f5f486550949dc44723db85eec"
+    },
+    {
+      "link_id": "7f4e7270ec7a152df09cd78faaab2cc6",
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Isolated lifecycle and stale-result rejection",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "targetSha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "review": "归档路径传播核对 design:D5 → requirement:skill-reflection:Requirement: Isolated lifecycle and stale-result rejection：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "35da03d49a1aa56e6b5799493907f33ee1de6e44c75984bffcaf97d01a96494a"
+    },
+    {
+      "link_id": "95f26e2bffe5b32530583ec2f7ae56ab",
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Admission and cumulative budgets",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "targetSha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "review": "归档路径传播核对 design:D5 → requirement:skill-reflection:Requirement: Admission and cumulative budgets：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "3b025ce3e6360e71141d647d216f6fe967fa6540601458fda43daf9216154d5e"
+    },
+    {
+      "link_id": "a65af1ebc0cdcd6007af7b6ac457d589",
+      "source": "requirement:skill-reflection:Requirement: Independent operation and shared charging",
+      "target": "tasks:7",
+      "changes": [
+        "1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-reflection:Requirement: Independent operation and shared charging → tasks:7：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "b14cb6d47d565e671a03d434cad7a20dcba6eb63c4fc51264317d4dfdc7ed457"
+    },
+    {
+      "link_id": "b4954633e1f3d5ee60f53f4b85d98b6b",
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: One explicit scheduling path",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "targetSha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "review": "归档路径传播核对 design:D5 → requirement:skill-reflection:Requirement: One explicit scheduling path：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "3c3e762ff2d155759228542ea64948c02dc5abd56b23b4772e0681c6f044bf0f"
+    },
+    {
+      "link_id": "ce26d188d842db0a9e1c2043ccef46fb",
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Learning usefulness is observable",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "targetSha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "review": "归档路径传播核对 design:D5 → requirement:skill-reflection:Requirement: Learning usefulness is observable：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "fe4f8775837ae7ea8b022dbc9edd48dc805861c9c2612865c6b3f96eb59a7148"
+    },
+    {
+      "link_id": "d2e920f0edf9d63063847a427287c389",
+      "source": "requirement:skill-maintenance:Requirement: Evidence distinguishes viewing from success",
+      "target": "tasks:6",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-maintenance:Requirement: Evidence distinguishes viewing from success → tasks:6：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "a6aeee94d7c1d6c394027fd588277061968f130fa6456e4baa7a7f2a5c8cc7fd"
+    },
+    {
+      "link_id": "dc4fd58c5fc9537d4afb3f37860a9475",
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Failures and usage remain visible",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "targetSha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "review": "归档路径传播核对 design:D5 → requirement:skill-reflection:Requirement: Failures and usage remain visible：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "6882f8092799a0ccf79992c805c2239bc3b33a35bc9c1a8acad35de2e78bf71f"
+    },
+    {
+      "link_id": "e10045eada8e64889df05cb99e93f296",
+      "source": "design:D5",
+      "target": "tasks:2",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 design:D5 → tasks:2：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "21ce604c4d183f1cf32210431fa3273187f4ae25ecd64a20f63cb89eb2d57fba"
+    },
+    {
+      "link_id": "e7ab1a262ff7303c83b1f90488eeb087",
+      "source": "requirement:skill-maintenance:Requirement: Protected skills resist automation",
+      "target": "tasks:6",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-maintenance:Requirement: Protected skills resist automation → tasks:6：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "2fc2829c936450f1755cc15f7842de3faee5a70efaade0e9fd568131c10e7c22"
+    },
+    {
+      "link_id": "f6e8935cb0002f22c10724de68ec37ec",
+      "source": "design:D5",
+      "target": "requirement:skill-reflection:Requirement: Current-context snapshot review",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "targetSha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "review": "归档路径传播核对 design:D5 → requirement:skill-reflection:Requirement: Current-context snapshot review：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "115db08bb25fcabe8dba4caba7d84bfe08a5d1e4c9285441e019de36d462a0f0"
+    },
+    {
+      "link_id": "02d8b0649b8ec54c95b59928661151f7",
+      "source": "tasks:6",
+      "target": "implementation:activity",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "src/activity.ts",
+      "targetSha256": "8c3d3608b8cd04d2d1d4feb4dfd0d1643c6eb750dfd7350e7238e421148652eb",
+      "review": "归档路径传播核对 tasks:6 → implementation:activity：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/activity.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "7b7429af9144b3c9456f80710fedcfa451c128441d3948273472f632d7836639"
+    },
+    {
+      "link_id": "0843ccd74a79a5743dd418070958d038",
+      "source": "tasks:6",
+      "target": "fixture:maintenance",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "test/fixtures/tui-maintenance.ts",
+      "targetSha256": "f55c7493d87b589604ce61465afe728cc7ae6ac0a7cbee0054664e70efffa2f3",
+      "review": "归档路径传播核对 tasks:6 → fixture:maintenance：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 test/fixtures/tui-maintenance.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "0a14cbd6c5d153be7bd0b20b47894793ac1978aea83ddcec8106644e36ef797a"
+    },
+    {
+      "link_id": "2eccc5b8ca2c40c2bf60dab0c6b6ce70",
+      "source": "tasks:7",
+      "target": "test:fees",
+      "changes": [
+        "1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"
+      ],
+      "path": "test/fee-matrix.test.ts",
+      "targetSha256": "d2a70f292b381fb5ec1e8868dcf4fa27b2f3a3576012ee6ef38eafbc7e57720e",
+      "review": "归档路径传播核对 tasks:7 → test:fees：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 test/fee-matrix.test.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "2f37962eb15a01e558f63d63fea225c0eb8af5f5065fd608c136e7728d53b571"
+    },
+    {
+      "link_id": "3ea101b09756914810eb0337c142dc8b",
+      "source": "tasks:7",
+      "target": "fixture:delivery",
+      "changes": [
+        "1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"
+      ],
+      "path": "test/fixtures/tui-delivery.ts",
+      "targetSha256": "2e32e321bea84f9eb568a045100681c8b269498b4b8fa99342ca073c48cd3a85",
+      "review": "归档路径传播核对 tasks:7 → fixture:delivery：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 test/fixtures/tui-delivery.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "19836b0b8aa527fd09ca8d3f119c65fc0cc6091da6418de618edcea3154522c3"
+    },
+    {
+      "link_id": "3faa30885833363bc5bfa47db2740e0a",
+      "source": "tasks:6",
+      "target": "implementation:curation",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "src/curation.ts",
+      "targetSha256": "dfb2c3a7c0bd891d1d08fd034aa8a734d9a0167912305054fe44625f2169eb45",
+      "review": "归档路径传播核对 tasks:6 → implementation:curation：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/curation.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "77ca6b503afe54c51b90f30276466999be496ffeb581eb81a8ab29ec5f8dee49"
+    },
+    {
+      "link_id": "456e143d157b0af810d7d9d4e6113625",
+      "source": "tasks:7",
+      "target": "evidence:delivery",
+      "changes": [
+        "1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"
+      ],
+      "path": "docs/delivery-evidence.md",
+      "targetSha256": "f4d8ad22051c701b73360946edfa33eadfcee8566e936016cd3e501e623657f8",
+      "review": "归档路径传播核对 tasks:7 → evidence:delivery：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 docs/delivery-evidence.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "324c0b99ec948189e2e021fa08821f9cc325c6bb9db698f2ebe7998d235050e2"
+    },
+    {
+      "link_id": "4768af748ea4144485970533cc1c564e",
+      "source": "requirement:skill-reflection:Requirement: Validated proposals and no recursive work",
+      "target": "tasks:5",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-reflection:Requirement: Validated proposals and no recursive work → tasks:5：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "00baa20d27d367906dd278fd7c7450b6a681a42e6f83f21802e22d08e5972b1b"
+    },
+    {
+      "link_id": "5c3ad1b202b30b2cad53ed9b93c83f0a",
+      "source": "requirement:skill-reflection:Requirement: Isolated lifecycle and stale-result rejection",
+      "target": "tasks:5",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-reflection:Requirement: Isolated lifecycle and stale-result rejection → tasks:5：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "6936551f1109ba4e59497359106a0ef1d4805c4c2915178e5eaf798ce3f3a2b9"
+    },
+    {
+      "link_id": "5e99574561dadc9c11e9c8431b75fcdb",
+      "source": "requirement:skill-reflection:Requirement: Disable means no automatic model calls",
+      "target": "tasks:2",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-reflection:Requirement: Disable means no automatic model calls → tasks:2：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "c220741772a9dbb3ded4ddc89e73f13bb97b87f84f2f0b1f3b92661cb0986289"
+    },
+    {
+      "link_id": "63812e2ac180ca720322a324b075d124",
+      "source": "requirement:skill-reflection:Requirement: Admission and cumulative budgets",
+      "target": "tasks:2",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-reflection:Requirement: Admission and cumulative budgets → tasks:2：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "ff382c29648f4f25b170d30bbef32dcacd95bdb2757ce2bf87934cbaddeb97d8"
+    },
+    {
+      "link_id": "7337e85c097e4ef06f14d16187b96101",
+      "source": "tasks:6",
+      "target": "implementation:archives",
+      "changes": [
+        "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+      ],
+      "path": "src/archives.ts",
+      "targetSha256": "941929bf38884a002e0706717372e881eb8fe836546964b52860c2876b7829ae",
+      "review": "归档路径传播核对 tasks:6 → implementation:archives：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/archives.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "a706989286e2a42a4e876e03f32a5004b4a158a7b86e4c3233f8aa1e57c52f51"
+    },
+    {
+      "link_id": "7f3716e30fdb631d39a4278eea604e8e",
+      "source": "requirement:skill-reflection:Requirement: Learning usefulness is observable",
+      "target": "tasks:1",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-reflection:Requirement: Learning usefulness is observable → tasks:1：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "d9bea41fd2cfd9026f4cbbd8c9fa9af6f7eedb9606d24354fbcb31e27e53ad65"
+    },
+    {
+      "link_id": "c36035f7b268e3e277f91126cb7abce2",
+      "source": "requirement:skill-reflection:Requirement: Failures and usage remain visible",
+      "target": "tasks:2",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-reflection:Requirement: Failures and usage remain visible → tasks:2：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "7011740d1f7bb90e54bccacf953141be3beb78e9cf262bae01d7032f47715263"
+    },
+    {
+      "link_id": "d5df8597dd44352dc56541faf87dafac",
+      "source": "tasks:7",
+      "target": "implementation:cooperation",
+      "changes": [
+        "1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"
+      ],
+      "path": "src/cooperation.ts",
+      "targetSha256": "57d875d6b93d13b1da8abfabbce38aac4e120309ac1ef498f07145a1f473192a",
+      "review": "归档路径传播核对 tasks:7 → implementation:cooperation：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/cooperation.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "218430afea2eed570541bd0b55d92134d1411de732e1527d3d7aec41672bd834"
+    },
+    {
+      "link_id": "d79eb2993d2ab9c338c4b60284e37a67",
+      "source": "requirement:skill-reflection:Requirement: One explicit scheduling path",
+      "target": "tasks:5",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-reflection:Requirement: One explicit scheduling path → tasks:5：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "4ccfb76b3401172cbdb7d69b887cea0e63d9c4371c82e5decc7a8604074d2e7f"
+    },
+    {
+      "link_id": "e107f2cc0539e79603bf875bb6c46f4e",
+      "source": "requirement:skill-reflection:Requirement: Current-context snapshot review",
+      "target": "tasks:5",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "targetSha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "review": "归档路径传播核对 requirement:skill-reflection:Requirement: Current-context snapshot review → tasks:5：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "4cd1f843cecefa4341e708a41066740bb5eda956b14f45e8c8828acb7c846dbb"
+    },
+    {
+      "link_id": "25b63db81fb4e4bc005bf8a16c95bc33",
+      "source": "tasks:2",
+      "target": "implementation:lock",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "src/files.ts",
+      "targetSha256": "5923dcbce4249d44f589f801f54633c2fecf3df6e820d2becd2bf90b0b565806",
+      "review": "归档路径传播核对 tasks:2 → implementation:lock：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/files.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "46a7d272d0512879da86aadcc57b7147d6120ad5801adb9bf70c54d8126f5dce"
+    },
+    {
+      "link_id": "467c8e4a8376df1ac384469091c35552",
+      "source": "tasks:2",
+      "target": "implementation:ui",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "src/ui.ts",
+      "targetSha256": "59b10cc7deffe6f1f2d903acd8c06c5d7b0e8010cc6f36f7d72ef4b48f2cec1f",
+      "review": "归档路径传播核对 tasks:2 → implementation:ui：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/ui.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "2b9992928541e94a6ddc7095ab17ee4c767be4cd8b8130e054ffd19fd60c4f7b"
+    },
+    {
+      "link_id": "55b112bcc829872d29bcb6238af72a10",
+      "source": "tasks:5",
+      "target": "implementation:ui",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "src/ui.ts",
+      "targetSha256": "59b10cc7deffe6f1f2d903acd8c06c5d7b0e8010cc6f36f7d72ef4b48f2cec1f",
+      "review": "归档路径传播核对 tasks:5 → implementation:ui：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/ui.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "f7acb3725e5c2e8443611279e1dc41e77b823f6d7787303eaf1905872d5c0ec8"
+    },
+    {
+      "link_id": "a8004178124110f5a5741f1b8f88cc12",
+      "source": "tasks:2",
+      "target": "implementation:ledger",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "src/ledger.ts",
+      "targetSha256": "e97805a81c0c63000f23941ac10763842a8ba96b2b6a2ea7e36553c95dc260f4",
+      "review": "归档路径传播核对 tasks:2 → implementation:ledger：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/ledger.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "ee4475739987ea3b94354b577f50ca20615f99fb9d6c1ff6ac52ad97b3460de7"
+    },
+    {
+      "link_id": "a85cd10461e58c7e6e53247c7e921a9c",
+      "source": "tasks:5",
+      "target": "implementation:content",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "src/content.ts",
+      "targetSha256": "c495087cc48c9a39346c0617437e6d1b6edf5bc5867dab537e1a37126921c6c6",
+      "review": "归档路径传播核对 tasks:5 → implementation:content：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/content.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "d71705a684b5d1cfb871bd378228b6996f12f67fd1b67b105979142043019161"
+    },
+    {
+      "link_id": "cdbe3d52ee1c890c3971ec893c20ea64",
+      "source": "tasks:2",
+      "target": "implementation:review",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "src/review.ts",
+      "targetSha256": "86afd069d5029bea65f1c8129fafa660eb267262181bc99c90444dec5608ecb7",
+      "review": "归档路径传播核对 tasks:2 → implementation:review：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/review.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "c12e0e249778673bec2c5a28f34fe6b52379e0a5013de1788de50d11e9253cbb"
+    },
+    {
+      "link_id": "eb6ff82b35a32da4b6d57d4e58f5f738",
+      "source": "tasks:2",
+      "target": "implementation:atomic",
+      "changes": [
+        "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+      ],
+      "path": "src/files.ts",
+      "targetSha256": "5923dcbce4249d44f589f801f54633c2fecf3df6e820d2becd2bf90b0b565806",
+      "review": "归档路径传播核对 tasks:2 → implementation:atomic：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/files.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。",
+      "adaptCommit": "8680f1e0f47ffcce8bcf601d8a81d520807162ddb2f1ccdfce867cf2e8ab639d"
+    }
+  ],
+  "archiveRelocations": {
+    "openspec/changes/add-managed-skill-lifecycle/design.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md",
+    "openspec/changes/add-managed-skill-lifecycle/tasks.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+    "openspec/changes/add-managed-skill-lifecycle/specs/skill-discovery/spec.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md",
+    "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+    "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+    "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+    "openspec/changes/add-managed-skill-lifecycle/proposal.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/proposal.md"
+  },
+  "historicalPathNote": "initialReviews/closingReviews retain paths and hashes at the original observation; use archiveRelocations for current locations."
+}

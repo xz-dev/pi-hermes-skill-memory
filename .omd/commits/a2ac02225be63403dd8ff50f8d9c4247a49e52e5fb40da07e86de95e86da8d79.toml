@@ -1,0 +1,9 @@
+salt = "h395HWSOLzkAIUI9"
+previous_id = ""
+timestamp = "2026-10-03T19:55:16.324371185Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "69b2af0eaa2a50605ecb5e0ca95b6594"
+
+[payload]
+path = "test/modes.test.ts"

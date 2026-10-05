@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [65, 247, 114, 186, 242, 172, 139, 133, 144, 116, 96, 142, 48, 108, 200, 50]
+len = 3005
+sha256 = "435a91b0f86c21fa5d373cb62fb366b87d9ac194f9e02f995085ad81e8154b25"
+encoding = "utf-8"
+content_file = "content/435a91b0f86c21fa5d373cb62fb366b87d9ac194f9e02f995085ad81e8154b25"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/fixtures/source-resolver.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/fixtures/source-resolver.ts"

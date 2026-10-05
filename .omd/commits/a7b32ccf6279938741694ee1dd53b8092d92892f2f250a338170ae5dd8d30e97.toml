@@ -1,0 +1,12 @@
+salt = "RmxASriFr1NNLyhj"
+previous_id = "d1cd568952ad7c789a3a104f628ab650010c0c5a0e288dc55fd35f5839112abc"
+timestamp = "2026-10-04T17:19:12.611145171Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"]
+link_id = "5a61637e92cca0de04450a957735edb8"
+reason = "Explicit-generation-scope wording did not change with D4. Task 4.1 still requires scoped copy/promotion, selected project root and conflict checks; approvals do not expand a target to global."
+stop = false

@@ -1,0 +1,56 @@
+# 官方 API、学习与费用门禁实施证据
+
+基线：npm `@earendil-works/pi-coding-agent` / `pi-ai` 0.99.2；只从公共入口导入。宿主包使用 peerDependencies，`package-lock.json` 固定本地开发验证依赖，无需依赖 xz fork 或 pi-subagents。
+
+## 已完成任务 1.1–2.4、3.1–3.4、4.4、5.2
+
+`npm run check`、`npm test`：类型检查与 **63 个测试通过**。这些测试使用临时 agentDir、显式 fake model/认证路径和 in-memory settings/session；不导入个人 skill/记忆或默认扩展。
+
+| 行为 | 验证入口 |
+| --- | --- |
+| 官方 SDK 加载、无启动模型调用 | test/bootstrap.test.ts |
+| 搜索/读取工具可用时才撤下原生目录，保留其他 section | test/bootstrap.test.ts |
+| 压缩后有效投影；独立请求不改主 leaf/entries | test/bootstrap.test.ts |
+| 来源提案→受管项目保存→搜索读取→同一 request 记量 | test/learning.test.ts |
+| 新 Agent 经 registered tools 搜索读取技能并使用 | test/learning.test.ts |
+| 2proc竞争、死进程未知费用、丢失/损坏不归零、日期回拨 | test/ledger.test.ts |
+| 单请求、无静默重试、空/无效/挂起响应、部分及迟到 usage | test/review-limits.test.ts |
+| 非 TUI 查询/ack/resume/预留保留、UI 失效不丢账 | test/ui.test.ts |
+| 同名稳定标识、owner/版本、SDK最终允许集与失败回退往返 | test/sources.test.ts |
+| 公开解析器的排除/noSkills/信任/离线临时包与缺包不安装 | test/stock-sources.test.ts |
+| 官方 CLI 默认入口经注册工具发现同名、--no-skills为空 | test/cli-sources.test.ts |
+| 3000技能、完整序列化预算、分类分页、oversize推进及检索零模型调用 | test/search.test.ts |
+| 正文/单个ref/script、无执行、穿越/链接/来源重绑定拒绝、Unicode完整分页 | test/read.test.ts |
+| 稳定标识加载零模型请求、search/native往返、保存即时刷新、官方reload/禁用边界 | test/modes.test.ts |
+| 到期稳定结束→一次fake分析→项目保存→下一任务经注册工具使用；预算/来源/取消反例 | test/automatic-learning.test.ts |
+| 锁后/提交准备撤权、手改冲突、收费后来源拒绝不增加请求 | test/commit-gates.test.ts |
+| 3用户轮次/40含工具模型轮次、前台未稳定不派发、重复事件不误计/重复审查 | test/scheduling.test.ts |
+| 中断→准入前阻止第二请求→本地恢复→下一任务注册工具复用→再次保存；未知预留不释放、手改与元数据错误 | test/recovery.test.ts |
+| 逐成员 intent/前后 hash/备份、部分提交与恢复、引用/脚本只写不执行、路径/链接拒绝 | test/member-transactions.test.ts |
+| 两进程受管根竞争只提交一次，未重复创建批准记录 | test/store-concurrency.test.ts |
+
+任务 1.4 的四次有限真实 swe2 请求见 [swe2-validation.md](swe2-validation.md)：2,131 reported tokens，价格 unknown。真实复用由宿主检索后提供技能；fake Agent 的自主工具路径是另一项证据，二者不互相冒充。
+
+任务 2.4 的真实官方 TUI 验收见 [tui-validation.md](tui-validation.md)：失败跨前台回复/reload保持可见；paused run零新增请求；明确ack不释放未知预留。
+
+## 当前可用与未完成
+
+完整来源接入与该切片边界见 [source-discovery-boundary.md](source-discovery-boundary.md)。入口提供 `hermes_skill_search/view`、稳定标识加载/刷新和 search/native 模式，以及有界 `/hermes-review` 命令。默认自动调度关闭；用户显式 `enable` 并选定可信项目根后，每10个含工具模型轮次到期，在 `agent_settled` 使用同一单请求入口。`disable` 撤销在途资格并持久关闭；启动本身不创建受管 skill 或发起模型请求。
+
+已验证安全的单插件自动学习切片，以及受管文件的逐成员提交与本地恢复；剩余12项包括完整作用域迁移、手装授权、快照/分析/生命周期全矩阵、维护与联合协议，仍未勾选。不要将这一阶段版本安装到个人环境。
+
+## 本地恢复（4.4）
+
+`/hermes-review recovery` 列出受管 intent 的 key、路径、前后版本与各成员状态。`/hermes-review recover <key> commit|abort` 只执行本地操作，不重放模型请求、不释放 unknown 预留，也不自动 resume。commit 完成批准且版本仍匹配的未提交成员；abort 仅保留/移出尚未提交的 staged 数据，若已有成员替换则拒绝假称全部 abort。错误后须查看用量并明确 resume；恢复后下一任务可通过已注册 search/view 读取规则并再次保存。
+
+批准依据位于当前 agentDir 的 provenance，绑定具体计划、路径与版本；项目 intent 本身不能授予权限。成员发生手改、根/链接身份改变、批准记录丢失或未知旧格式，均保持冲突/unsupported，不自动覆盖或清理。引用/script 是 UTF-8 文本资产，仅保存字节，不执行或安装依赖。
+
+授权回调忽略取消曾导致审查先结束但 writer 仍持锁，失败测试已复现。现在 writer 在 AbortSignal 下终止授权等待并退出，终态等待受管 writer/锁释放；迟到回调不能恢复写尾。回调生产者本身或已发出的 OS I/O 不被虚称强制停止，取消也不是对已提交成员的回滚。完整联合及新输入/分支/reload/shutdown 全矩阵仍属于未完成任务。
+
+## 观察边界
+
+当前分支投影不是最终 HTTP payload；其他扩展改写和 provider cache scope不保证相同。保留前缀不证明 cache 命中、固定费用折扣或账单已核实。辅助 usage 不自动并入 Pi 原生统计，界面单列并说明合计范围。
+
+输入预留用 UTF-8 bytes 作保守 token 估计。大型合成上下文会明确 skipped-budget，不能以零超支证明估计适合日常任务，也不会暗改增量或放宽额度。40轮次样本曾因证据附录重复 SDK 元数据而跳过；修正只去掉附录中的 usage/provider/system/tool-schema 元数据，完整有效快照未裁剪、预算未调整。fake正例随后通过，不代表日常真实上下文或模型质量已全面评估。
+
+当前窄续改已纳管45文件/95范围，OMD verify/check通过，139条本地关系 healthy、0 obliged/stale/broken/unchecked；按精确 propagated IDs 逐条 Adapt，未重建store。两项目共享契约的 R2/R5 副本出现差异，另记于 [traceability.md](traceability.md)，不能以本地健康关系冒充联合协议一致。代码/测试关系仅说明责任，不代表剩余12个任务已完成、质量无遗漏或所有平台支持。阶段验收与完整产品验收保持分开。

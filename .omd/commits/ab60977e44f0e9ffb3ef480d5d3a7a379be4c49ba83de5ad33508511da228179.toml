@@ -1,0 +1,9 @@
+salt = "D1kBs19ZkK4itr25"
+previous_id = "a0f8e5a4dda90397060513ce05d8e0caf20ddd5eb7dcbfc3cf9b9fe74f0418fa"
+timestamp = "2026-10-04T17:07:49.804890679Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "docs/usage.md"

@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [166, 51, 148, 155, 125, 192, 212, 252, 249, 83, 140, 66, 98, 2, 99, 243]
+len = 4262
+sha256 = "580fd034ea1852c5d5102d93139a7df6f7375e2b4a66fe4b020500eec52662f4"
+encoding = "utf-8"
+content_file = "content/580fd034ea1852c5d5102d93139a7df6f7375e2b4a66fe4b020500eec52662f4"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "docs/review-cooperation.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "docs/review-cooperation.md"

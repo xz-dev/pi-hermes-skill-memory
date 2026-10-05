@@ -1,0 +1,16 @@
+salt = "913tjodUwtUaKbD3"
+previous_id = "57853f14ffd8912768436fe64b3935d6bbeae7e39e1be40409881ae13afc7d54"
+timestamp = "2026-10-01T10:30:43.693534239Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "0c4d7f667f609bf7c50bd098e90cbfa9"
+
+[payload]
+mount = "file:f26da02b85a8c9e0b4e06576381358b9581acbf11854621fc6f7ae3682524407"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md"
+reason = "规划范围：Requirement: Scoped knowledge remains scoped。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "1351"
+mode = "text"
+start = "1124"

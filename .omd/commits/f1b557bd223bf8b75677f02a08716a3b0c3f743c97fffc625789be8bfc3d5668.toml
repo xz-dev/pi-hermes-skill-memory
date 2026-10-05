@@ -1,0 +1,16 @@
+salt = "aN8ILC0O89kDAIbi"
+previous_id = "1b6cf12583fa73a255710e995e1f41155f05049c09e1c3d58ade7230a2b69926"
+timestamp = "2026-10-01T12:58:02.00805299Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "8f4dc22623cac7c86410cd95835d899d"
+
+[payload]
+mount = "file:9957effbe9a558c7163f53d616a17ba20f28aed5a694568034f76809ebcc5844"
+path = "docs/swe2-validation.md"
+reason = "实际测试/观察回执与明确边界，非虚构通过或全文语义证明。"
+
+[payload.position]
+end = "1261"
+mode = "text"
+start = "187"

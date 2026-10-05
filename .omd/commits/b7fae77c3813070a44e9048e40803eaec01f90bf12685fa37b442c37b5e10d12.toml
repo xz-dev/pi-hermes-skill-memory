@@ -1,0 +1,14 @@
+salt = "feFDFpDQFzfsXvZf"
+previous_id = "11ea3190667c85aadbdcf88d915d383c1c953933a5c813dc8762151acc056857"
+timestamp = "2026-10-01T10:30:41.102502754Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "132c4aac793981292b5428478aac6d8a"
+reason = "规划范围：Requirement: Scope and ownership are separate。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+source_version = "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+target = "range:1b2438bee9d13c4ec622b961dac47db970d99ae2d6cdb7cdf77e21e75bafc3dc"
+target_version = "11ea3190667c85aadbdcf88d915d383c1c953933a5c813dc8762151acc056857"

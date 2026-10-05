@@ -1,0 +1,12 @@
+salt = "H4oCTEsxan6sBaty"
+previous_id = ""
+timestamp = "2026-10-04T17:04:50.400265905Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "src/permissions.ts"
+scope = []

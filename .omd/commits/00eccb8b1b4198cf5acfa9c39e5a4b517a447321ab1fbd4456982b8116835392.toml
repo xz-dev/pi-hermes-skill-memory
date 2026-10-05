@@ -1,0 +1,10 @@
+salt = "YAFsrPQdBU2RuB7v"
+previous_id = ""
+timestamp = "2026-10-04T17:07:48.986925502Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:b912fbc2d2127ac725cb1803067c022b6272f3c9d98657e6c37ad6572ee8e6f6"
+path = "docs/delivery-evidence.md"

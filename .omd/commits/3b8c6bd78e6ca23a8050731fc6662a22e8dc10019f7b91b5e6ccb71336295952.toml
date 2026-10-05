@@ -1,0 +1,16 @@
+salt = "8zYviiXlfpJCPTH3"
+previous_id = "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"
+timestamp = "2026-10-01T10:30:40.640697738Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "d2d46f380255d31be333d0750eafb980"
+
+[payload]
+mount = "file:47059d41063a8b7ac9513b468c6620aa9dff7ccb370136ee7e66da719da35f50"
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "规划范围：4. 作用域写入与授权。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "1731"
+mode = "text"
+start = "1359"

@@ -1,0 +1,10 @@
+salt = "q48lNZ99XTbK6t68"
+previous_id = ""
+timestamp = "2026-10-03T19:55:16.183342376Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:5f19768c928851d30e89618ca8c4463bac5dffcf4fc587eb1c5aeadc633b4997"
+path = "src/async.ts"

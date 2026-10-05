@@ -1,0 +1,65 @@
+import { getAgentDir } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { Type } from "typebox";
+import { searchFirst } from "./context.ts";
+import { EnabledCatalog } from "./catalog.ts";
+import { registerReviewUI } from "./ui.ts";
+
+export function createSkillsExtension(agentDir: string) {
+  return (pi: ExtensionAPI): void => registerSkills(pi, agentDir);
+}
+
+/** Register behavior only; all state work begins at session_start or an explicit command. */
+function registerSkills(pi: ExtensionAPI, agentDir: string): void {
+  registerReviewUI(pi, agentDir);
+  const catalog = new EnabledCatalog();
+  const searchTool = "hermes_skill_search";
+  const viewTool = "hermes_skill_view";
+  let count = 0;
+  pi.registerTool({
+    name: searchTool, label: "Search skills",
+    description: "Search host-enabled skill metadata or list it with an empty query. Read a hit with hermes_skill_view.",
+    parameters: Type.Object({ query: Type.Optional(Type.String()), offset: Type.Optional(Type.Integer({ minimum: 0 })) }),
+    annotations: { readOnlyHint: true, openWorldHint: false },
+    execute: async (_id, params) => {
+      const result = await catalog.search(params.query, params.offset);
+      return { content: [{ type: "text", text: JSON.stringify(result) }], details: result };
+    },
+  });
+  pi.registerTool({
+    name: viewTool, label: "Read skill",
+    description: "Read SKILL.md or one supporting relative file from a search hit. Scripts are only read, never executed.",
+    parameters: Type.Object({ id: Type.String(), file: Type.Optional(Type.String()), offset: Type.Optional(Type.Integer({ minimum: 0 })) }),
+    annotations: { readOnlyHint: true, openWorldHint: false },
+    execute: async (_id, params) => {
+      const result = await catalog.view(params.id, params.file, params.offset);
+      return { content: [{ type: "text", text: JSON.stringify(result) }], details: result };
+    },
+  });
+  pi.on("before_agent_start", async (event, ctx) => {
+    count = event.systemPromptOptions.skills.length;
+    await catalog.capture(event.systemPromptOptions.skills, ctx.isProjectTrusted());
+    const active = pi.getActiveTools();
+    // Never withdraw native discovery when the replacement path is inactive.
+    if (active.includes(searchTool) && active.includes(viewTool)) searchFirst(event);
+  });
+  pi.registerCommand("hermes-skills", {
+    description: "Inspect read-only skills implementation status",
+    handler: async (_args, ctx) => {
+      const skills = ctx.getSystemPromptOptions().skills;
+      if (skills) { await catalog.capture(skills, ctx.isProjectTrusted()); count = skills.length; }
+      ctx.ui.notify(`Hermes skills: ${count} enabled sources; search/read ready; automatic review disabled.`, "info");
+    },
+  });
+  pi.on("session_start", (_event, ctx) => {
+    if (ctx.mode === "tui") ctx.ui.setStatus("hermes-skills", "Hermes skills: auto off");
+  });
+  pi.on("session_shutdown", async (_event, ctx) => {
+    await catalog.capture([], false);
+    if (ctx.mode === "tui") ctx.ui.setStatus("hermes-skills", undefined);
+  });
+}
+
+export default function hermesSkills(pi: ExtensionAPI): void {
+  createSkillsExtension(getAgentDir())(pi);
+}

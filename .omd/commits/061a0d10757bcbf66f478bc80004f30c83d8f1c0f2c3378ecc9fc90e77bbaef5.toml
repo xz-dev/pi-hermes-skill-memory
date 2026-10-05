@@ -1,0 +1,9 @@
+salt = "QBwNyljwOrzlCCha"
+previous_id = "29052fb44ed1e51d8f25ef8f87daa29e003b2bc057878202239f339e9eef7f9f"
+timestamp = "2026-10-04T17:07:49.042208024Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "docs/delivery-evidence.md"

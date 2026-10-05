@@ -1,0 +1,14 @@
+salt = "w6gdui8JLtCvRDnk"
+previous_id = "b80e54773871925865fdbafcd91d3e59d2907f455266cafd7d9fea57b1ce3c68"
+timestamp = "2026-10-01T10:30:42.034437216Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "b3939edc82c79eb231ac79e4caf3f9a5"
+reason = "规划范围：Requirement: Durable and recoverable writes。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:34df985e74ffb5941eb208ce6f02783dc8a871f50a30630dfcc19deedd1fbc94"
+source_version = "1e3cfa13852a19e8842efed74bf75ef8277514fe657c433b0248afbe48203192"
+target = "range:bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"
+target_version = "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"

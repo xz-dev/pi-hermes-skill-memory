@@ -1,0 +1,10 @@
+salt = "vU2OkYd2iZhALGh8"
+previous_id = ""
+timestamp = "2026-10-03T19:55:18.030015848Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:d37d4109917429c0976f1e19959bf3b6794c666a03e42b23300391b616358dbf"
+path = "test/recovery.test.ts"

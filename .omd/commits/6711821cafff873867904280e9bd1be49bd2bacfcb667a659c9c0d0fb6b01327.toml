@@ -1,0 +1,12 @@
+salt = "FKoHVyNeXW7AABOz"
+previous_id = "c2ae3b4e669c1956074745b7c876ca77b58a7d939fb7179ea812062bb2101c12"
+timestamp = "2026-10-03T16:47:39.585341695Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["9f23ddf4a9e1f9823a680621bb3104c3716879c941ab0e998e9a457cff8c6deb", "ed26e594fd17ba2124c566d925a8a66bcad6085c2bd5b3e1134d2b776291c48d"]
+link_id = "f505ad8750f1f33624710f8d1d21166e"
+reason = "implementation:catalog → test:sources：已核对3.3指定文件只读、containment、版本及完整分页责任与41项测试；不删减剩余15项，3.4/自动调度/完整授权/维护/联合仍未实施。"
+stop = false

@@ -1,0 +1,15 @@
+salt = "03WEuz5pHQhY1Mjd"
+previous_id = "d648b79dd01105c46c893788efceb9fdf2f05090df439412e9175ce4cbaceb46"
+timestamp = "2026-10-04T17:23:59.777528315Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "f955b8d29b30cb9135e230a32e3af70a"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "7.3原生操作链及第一次OMD语义审阅已完成（180 healthy）。本次仅闭合7.3完成标志/证据进度，不改代码、测试、收费政策或真实memory兼容结论。"
+
+[payload.position]
+end = "2761"
+mode = "text"
+start = "2474"

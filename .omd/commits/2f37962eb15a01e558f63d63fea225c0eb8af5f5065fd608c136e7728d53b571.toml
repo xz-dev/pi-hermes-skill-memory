@@ -1,0 +1,12 @@
+salt = "kdGauB2wo4r03cxU"
+previous_id = "f9b1dcac6d309d7376a35da2251a95ec719125ec8a6069b4c9b3da3e91297d41"
+timestamp = "2026-10-05T02:52:26.475105627Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"]
+link_id = "2eccc5b8ca2c40c2bf60dab0c6b6ce70"
+reason = "归档路径传播核对 tasks:7 → test:fees：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 test/fee-matrix.test.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

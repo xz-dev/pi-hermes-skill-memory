@@ -1,0 +1,16 @@
+salt = "gxwgP2kuy782CQmW"
+previous_id = "644469b82d38a3baaa91ad662ccf24c9a70843e577c7e6476e283b26b7cb3866"
+timestamp = "2026-10-04T17:04:52.796620067Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "ceae80d8f6e12079355942fb3cda337b"
+
+[payload]
+mount = "file:f05d1371e13765ebe6e064272d56a2039aae66c759b4cafed1f9783a0376ff64"
+path = "test/archive.test.ts"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "18580"
+mode = "text"
+start = "0"

@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [120, 212, 84, 253, 86, 42, 67, 12, 114, 238, 129, 49, 100, 94, 142, 9]
+len = 2347
+sha256 = "66a0a061ae26260739754a4f483376170b09ab4ca37e847eabc786129b8f8022"
+encoding = "utf-8"
+content_file = "content/66a0a061ae26260739754a4f483376170b09ab4ca37e847eabc786129b8f8022"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "docs/tui-validation.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "docs/tui-validation.md"

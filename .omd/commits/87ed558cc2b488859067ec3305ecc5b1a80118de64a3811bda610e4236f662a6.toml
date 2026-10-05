@@ -1,0 +1,12 @@
+salt = "neyXMgzv2B5q7D6f"
+previous_id = "2df3e0c4b2d910e48f3716f18ebb4e54313cb80f35381cf977466a5a6932fc5a"
+timestamp = "2026-10-04T17:19:13.817866373Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"]
+link_id = "7b644a6b91adb0e757d2ac51838989d1"
+reason = "Version-aware-read wording moved without relaxing freshness. Tasks 3.1/3.3/3.4 retain hash/version reads, refresh and source-error clearing; changed files cannot be served as a successful old read."
+stop = false

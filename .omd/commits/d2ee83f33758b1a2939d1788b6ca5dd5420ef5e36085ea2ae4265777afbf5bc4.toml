@@ -1,0 +1,14 @@
+salt = "eRlyFFEC9Z1ePfzx"
+previous_id = "1d9814a2948a983282caed239108264d7fc9116e6afccb5c8168540be5ffb1d1"
+timestamp = "2026-10-01T12:57:55.48987554Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "2f38898e17189b6c5cc6f790c8a7961a"
+reason = "已复核的早期实施范围，满足对应已勾选任务的具体行为；并非完整能力或剩余任务完成证明。"
+source = "range:b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e"
+source_version = "b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e"
+target = "range:19b8b8c945b190ed4a56c1d85e92528dc229f55023f8377165b96f6ed05bb486"
+target_version = "1d9814a2948a983282caed239108264d7fc9116e6afccb5c8168540be5ffb1d1"

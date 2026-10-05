@@ -1,0 +1,9 @@
+salt = "SQSBJtex1LOYstiH"
+previous_id = "a6dd6fcd9f73dd9aab4e893b3c156b51d163ed2107b9b002253790b99339038e"
+timestamp = "2026-10-01T15:23:33.309845601Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/sources.test.ts"

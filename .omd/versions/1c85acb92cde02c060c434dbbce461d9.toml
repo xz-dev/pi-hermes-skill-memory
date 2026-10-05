@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [28, 133, 172, 185, 44, 222, 2, 192, 96, 196, 52, 219, 188, 228, 97, 217]
+len = 712
+sha256 = "ff47f3110451bd677a9b1c4133a8da119a409b148d087e19fbb80f9bfb711b9a"
+encoding = "utf-8"
+content_file = "content/ff47f3110451bd677a9b1c4133a8da119a409b148d087e19fbb80f9bfb711b9a"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "src/source-worker.mjs"
+
+[recovery]
+type = "file"
+project = "root"
+path = "src/source-worker.mjs"

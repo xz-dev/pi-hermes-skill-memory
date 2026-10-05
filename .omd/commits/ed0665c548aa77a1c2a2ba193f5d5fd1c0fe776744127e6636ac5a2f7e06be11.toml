@@ -1,0 +1,12 @@
+salt = "ZdQU1R0Dls74E46W"
+previous_id = "3a6e9df0902985c219f63655fea0ed3d533327693f30aa027117d69761ce3e2e"
+timestamp = "2026-10-04T17:19:21.486739552Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961", "d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"]
+link_id = "7f3716e30fdb631d39a4278eea604e8e"
+reason = "Usefulness requirement moved without new real-test authority. Task 1 distinguishes deterministic closure from four historical SWE-2 observations; revised evidence explicitly says current content/cooperation changes were not paid-retested."
+stop = false

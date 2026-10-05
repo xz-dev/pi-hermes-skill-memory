@@ -1,0 +1,12 @@
+salt = "GOM5VevTLJOBSDKC"
+previous_id = "511283a0dfcb62531292e90fc10bab54133d22dd2abc0abfaccede7dc7adcd25"
+timestamp = "2026-10-04T17:19:33.350677627Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["64768ca5cf36eb0890e548839050330cc5f270563741dd344cb779a0ef1bd83d"]
+link_id = "2dd74878748471934ce4f7f38d481485"
+reason = "The review cancellation propagation still uses unchanged awaitWithAbort. Store waits only on controlled authorization and checks currentness per member; commit-gates/recovery tests demonstrate lock release and no late continuation, without asserting the callback producer was killed."
+stop = false

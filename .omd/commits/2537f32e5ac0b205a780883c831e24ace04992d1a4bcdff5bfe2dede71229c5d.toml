@@ -1,0 +1,14 @@
+salt = "ZrnDQme6ADyKeNq0"
+previous_id = "29cff0425a15519b49d49e2e2dfdbb06768feb965360a01416e3834b156db0bf"
+timestamp = "2026-10-01T10:30:43.302475279Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "61ccb0c93865bb5c55fee9e5137fc396"
+reason = "规划范围：Requirement: Evidence distinguishes viewing from success。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+source_version = "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+target = "range:5a4bde16a29a620b94bebbe80deae8c980b4630aed3aa6b62d8e4fd96b91a983"
+target_version = "29cff0425a15519b49d49e2e2dfdbb06768feb965360a01416e3834b156db0bf"

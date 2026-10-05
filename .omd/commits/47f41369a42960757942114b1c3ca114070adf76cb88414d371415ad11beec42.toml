@@ -1,0 +1,14 @@
+salt = "fTi8FEfo8Isd2Qj8"
+previous_id = "1364eedf9a0e051a38d1779d535702e0a44d9eec21585901d00ed511997c75ab"
+timestamp = "2026-10-01T10:30:41.390400165Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "7b644a6b91adb0e757d2ac51838989d1"
+reason = "规划范围：Requirement: Version-aware reads and refresh。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:4ebe969df519fca3c41101bc0b8febe64dbfbde88cc984fdb682326397ee2806"
+source_version = "3b676babbea906781fb652414e50de9ed13bfb49a4b4d609a3621ccb5d68411f"
+target = "range:ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+target_version = "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"

@@ -1,0 +1,16 @@
+salt = "ybMi78XgNLMjHElT"
+previous_id = "ea63c92cb540587811374b8937c97ca18fa6f3b4539b5073d997cf32a68b25b6"
+timestamp = "2026-10-03T16:08:59.776374384Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "3be33bdaeb5b70ffffed256122fc4d40"
+
+[payload]
+mount = "file:b9071bca0faed900123b3b415b78f106be78d8857dcf1dc314bb45b4bf6ef69f"
+path = "test/search.test.ts"
+reason = "实际运行的3000技能、分类/分页/字符预算与constant prompt测试；只证明规定检索行为，不冒充学习质量。"
+
+[payload.position]
+end = "4816"
+mode = "text"
+start = "0"

@@ -1,0 +1,14 @@
+salt = "zcqay6abkFKpVuGm"
+previous_id = "89f86c64467d3b64d7f2ecfd3bff0ec17168b1175e3cf2c27f36be75c5873f35"
+timestamp = "2026-10-01T15:23:40.015089942Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "97d0fe8cd83660013b89e655f7f848be"
+reason = "任务3.1的实际实现责任：最终允许来源、身份、owner和版本；原有早期切片关系保留。"
+source = "range:ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+source_version = "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+target = "range:89ded53769b34e85336d7e1681e2ea5c388f1ec3d4f4c36d5b7805a099f540ab"
+target_version = "89ded53769b34e85336d7e1681e2ea5c388f1ec3d4f4c36d5b7805a099f540ab"

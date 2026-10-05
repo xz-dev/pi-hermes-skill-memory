@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [12, 77, 127, 102, 127, 96, 155, 247, 197, 11, 208, 152, 233, 12, 191, 169]
+len = 3011
+sha256 = "0bc23cb10c130a2a81cfedcebffd0491034a7b91bcb6eff3f24636401b51810a"
+encoding = "utf-8"
+content_file = "content/0bc23cb10c130a2a81cfedcebffd0491034a7b91bcb6eff3f24636401b51810a"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md"

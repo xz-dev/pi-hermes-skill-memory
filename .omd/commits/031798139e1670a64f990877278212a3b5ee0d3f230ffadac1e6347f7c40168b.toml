@@ -1,0 +1,15 @@
+salt = "CRv6ujjBZEfDfRdt"
+previous_id = "a19669210573911ff58192cabb46bd5cb0ea40aedb12a1aaf459950aa7ab2750"
+timestamp = "2026-10-04T17:04:35.5432722Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "a9c66d72a283327de40a04fe67fbd01a"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "2761"
+mode = "text"
+start = "2474"

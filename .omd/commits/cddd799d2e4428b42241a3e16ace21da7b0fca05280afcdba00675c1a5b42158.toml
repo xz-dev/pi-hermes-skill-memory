@@ -1,0 +1,12 @@
+salt = "HgvthLoXtP8KcBWn"
+previous_id = "363546ef3b4a970d3ae8f76e80f035247de997d86f5dd2bbb8f9bbf9687bdb7c"
+timestamp = "2026-10-04T17:19:20.0602859Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["cef2961a5845acf2ded52a26ffa97f48442fe710872cc641a26310ae5c2482c3", "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "4768af748ea4144485970533cc1c564e"
+reason = "Expanded validated-proposals requirement maps to task 5.3's source/template gate and bounded exact approval. Content tests reject execution claims and preserve request usage when locally approving pending content."
+stop = false

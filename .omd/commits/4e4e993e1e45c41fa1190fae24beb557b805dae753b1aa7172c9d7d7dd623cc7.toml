@@ -1,0 +1,12 @@
+salt = "Sg3azwyQt1iQr1Ok"
+previous_id = "e3bafc1bf7917485ee18fbd66fc803e187d05971ad4b62f2bf57d40234d21308"
+timestamp = "2026-10-04T17:25:26.382675124Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"]
+link_id = "3ea101b09756914810eb0337c142dc8b"
+reason = "Only the delivery completion marker changed. The guarded command-only native fixture is unchanged and was used in the recorded isolated CLI run; no provider behavior or approval bypass was added."
+stop = false

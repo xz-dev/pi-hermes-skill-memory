@@ -1,0 +1,15 @@
+salt = "PITBCkyjEFU9g3r3"
+previous_id = "c572c2903c25794360f222ef77e1df83f85596a8233e99cf787ff75fd89486bb"
+timestamp = "2026-10-03T16:47:33.289540251Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "a309bae601dbff22d251bc178d99a7da"
+
+[payload]
+path = "docs/implementation-evidence.md"
+reason = "3.3公共类型检查和41项回归通过：默认读取精确选定文件，单个引用/脚本只读不执行；路径穿越、链接逃逸和逻辑来源重绑定拒绝；完整JSON16000字符预算、Unicode scalar游标及版本指纹。仅勾选已验收3.3，3.4和其余15项仍未完成。"
+
+[payload.position]
+end = "1948"
+mode = "text"
+start = "173"

@@ -1,0 +1,12 @@
+salt = "dU31i8TEDhFfbMcF"
+previous_id = "fe57026862638581097dfa5f236700936eeefb01f2f0c1b8e69a6ceb13148df1"
+timestamp = "2026-10-03T16:47:37.577649346Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["9f23ddf4a9e1f9823a680621bb3104c3716879c941ab0e998e9a457cff8c6deb"]
+link_id = "c34741a62084e7d454dee116ac315dd0"
+reason = "implementation:sources → implementation:source-worker：已核对3.3指定文件只读、containment、版本及完整分页责任与41项测试；不删减剩余15项，3.4/自动调度/完整授权/维护/联合仍未实施。"
+stop = false

@@ -1,0 +1,15 @@
+salt = "eKfMl38XSKNDriIo"
+previous_id = "913741f83c7e840f6c3495035f25113abe2a3dcadb4bf2d6540faa0e953de4c6"
+timestamp = "2026-10-03T16:08:59.217273842Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "c93c3c6e9fb7f8b9585e237072b802af"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "3.2已通过38项回归与公共类型检查：3000个临时skills初始提示词恒定，搜索零模型调用，全响应6000字符/10项、分类及分页推进。search仅规定元数据；owner/version由独立inspect核对。其他未实施任务保持未完成。"
+
+[payload.position]
+end = "1436"
+mode = "text"
+start = "1026"

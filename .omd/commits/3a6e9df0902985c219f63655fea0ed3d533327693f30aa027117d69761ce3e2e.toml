@@ -1,0 +1,12 @@
+salt = "3moUBUMAta1eSVaE"
+previous_id = "7e6c665fe949409c1e8eddd3e089ce3d323e6e042743402ede23c20ff0dfb527"
+timestamp = "2026-10-04T17:19:11.570508068Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["a93b952967b27d39dd1d753547cdc3783fb0f176237915f38956432208ac4323"]
+link_id = "40215a304938b7e3916c9b39bdba99e7"
+reason = "The proposal additions propagate through unchanged D1 to task 1's public API/fake-provider checks. Task 1.4 remains a bounded historical observation, not new paid authorization or proof of current model quality."
+stop = false

@@ -1,0 +1,9 @@
+salt = "T6FhDHickDZ0L4EW"
+previous_id = ""
+timestamp = "2026-10-03T16:47:34.857335396Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "7818972546ae6f35ff4274e2519592fc"
+
+[payload]
+path = "test/read.test.ts"

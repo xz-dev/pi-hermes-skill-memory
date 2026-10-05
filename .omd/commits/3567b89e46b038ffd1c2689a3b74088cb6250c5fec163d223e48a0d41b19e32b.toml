@@ -1,0 +1,12 @@
+salt = "MhKRKPblByAifzVv"
+previous_id = "702a6a54820fb7bf146ff407d90cf5957489623cb2ce00a235ba392c7057d8c8"
+timestamp = "2026-10-04T17:19:32.641872643Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["83b6c55d57b0e8549961bb0fd78ef7321282eea61c4bb35abaef48adc1493f23", "ee87e44163425319bf46ac03d20bbd21043187484cda5d8175db9f1906e18029"]
+link_id = "fb171e42e73ffc6e2ecc94f2cbbd0b97"
+reason = "UI added optional peer coordination; scheduling.test.ts still demonstrates 3 users/40 tool turns and duplicate settled events do not inflate counters or repeat a snapshot. Simultaneous peer declarations are covered by cooperation.test.ts, not attributed to this older test."
+stop = false

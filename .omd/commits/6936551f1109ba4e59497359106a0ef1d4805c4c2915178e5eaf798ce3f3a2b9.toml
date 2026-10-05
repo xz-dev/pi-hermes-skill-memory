@@ -1,0 +1,12 @@
+salt = "dGJVZuW5sKEbwzzq"
+previous_id = "00baa20d27d367906dd278fd7c7450b6a681a42e6f83f21802e22d08e5972b1b"
+timestamp = "2026-10-05T02:52:28.172855999Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"]
+link_id = "5c3ad1b202b30b2cad53ed9b93c83f0a"
+reason = "归档路径传播核对 requirement:skill-reflection:Requirement: Isolated lifecycle and stale-result rejection → tasks:5：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

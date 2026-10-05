@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [255, 92, 98, 173, 13, 250, 28, 185, 222, 132, 241, 154, 38, 14, 194, 54]
+len = 2497
+sha256 = "dd6513580c2fbe4d2ab601d89379c9d0311ce0013e2b8e3b7fbeeab5d2b48f3c"
+encoding = "utf-8"
+content_file = "content/dd6513580c2fbe4d2ab601d89379c9d0311ce0013e2b8e3b7fbeeab5d2b48f3c"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/fixtures/cli-sources.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/fixtures/cli-sources.ts"

@@ -1,0 +1,298 @@
+import { getAgentDir } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext, Skill } from "@earendil-works/pi-coding-agent";
+import { Type } from "typebox";
+import { resolveProjectRoot } from "./scope.ts";
+import { realpath } from "node:fs/promises";
+import { searchFirst, captureSnapshot } from "./context.ts";
+import { contentHash, ManagedSkillStore, validateProposal } from "./store.ts";
+import { randomUUID } from "node:crypto";
+import { EnabledCatalog } from "./catalog.ts";
+import { confirmInstalledDiff, InstalledPermissions, PendingApproval } from "./permissions.ts";
+import type { SkillProposal } from "./store.ts";
+import type { Snapshot } from "./context.ts";
+import { awaitWithAbort } from "./async.ts";
+import { registerReviewUI } from "./ui.ts";
+import { createCliSkillSources, validateSkillSources } from "./sources.ts";
+import type { SkillSources } from "./sources.ts";
+
+export { createSkillSources } from "./sources.ts";
+export type { SkillSources, SkillSourceRequest, SkillSourceSnapshot } from "./sources.ts";
+
+export function createSkillsExtension(options: { agentDir: string; skillSources: SkillSources; projectRoot?: string }) {
+  return (pi: ExtensionAPI): void => registerSkills(pi, options);
+}
+
+/** Register behavior only; all state work begins at session_start or an explicit command. */
+function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSources: SkillSources; projectRoot?: string }): void {
+  const permissions = new InstalledPermissions(options.agentDir);
+  const reviewUI = registerReviewUI(pi, options.agentDir, {
+    projectRoot: options.projectRoot,
+    sourceReady: async ctx => { await permissions.status(); return refresh(ctx, lastNativeSkills); },
+    authorizeCommit,
+    submit: (ctx, store, proposal, snapshot, requestId, guard) => submit(ctx, store, proposal, snapshot, requestId, guard, true),
+    onSaved: async ctx => { await refresh(ctx, lastNativeSkills); },
+  });
+  const catalog = new EnabledCatalog(options.agentDir);
+  const searchTool = "hermes_skill_search";
+  const viewTool = "hermes_skill_view";
+  let count = 0;
+  let sourceError: string | undefined;
+  let sourceGeneration = 0;
+  let mode: "search" | "native" = "search";
+  let lastNativeSkills: Skill[] = [];
+  async function refresh(ctx: ExtensionContext, nativeSkills: readonly Skill[]) {
+    const generation = ++sourceGeneration;
+    lastNativeSkills = structuredClone([...nativeSkills]);
+    count = 0;
+    const request = { cwd: ctx.cwd, projectTrusted: ctx.isProjectTrusted(), nativeSkills };
+    await catalog.capture([], false);
+    try {
+      const snapshot = await validateSkillSources(await options.skillSources(request), request);
+      if (generation !== sourceGeneration) return false;
+      let projectRoot = await realpath(request.cwd);
+      if (request.projectTrusted) {
+        const selected = reviewUI.selectedRoot(request.cwd);
+        try { projectRoot = await resolveProjectRoot(ctx, selected); }
+        catch (error) { if (selected) throw error; } // Discovery-only non-Git fallback grants no write root.
+      }
+      const captured = await catalog.capture(snapshot.skills, request.projectTrusted, snapshot.diagnostics, projectRoot);
+      if (!captured || generation !== sourceGeneration) return false;
+      count = snapshot.skills.length;
+      sourceError = undefined;
+      if (ctx.mode === "tui") ctx.ui.setStatus("hermes-skills", `Hermes skills: ${mode}`);
+      return true;
+    } catch (error) {
+      if (generation !== sourceGeneration) return false;
+      count = 0;
+      sourceError = String(error).slice(0, 500);
+      await catalog.capture([], false, [`Source unavailable: ${sourceError}`]);
+      if (ctx.mode === "tui") ctx.ui.setStatus("hermes-skills", "Hermes skills: source ERROR");
+      else process.stderr.write(JSON.stringify({ plugin: "hermes-skills", state: "source-error", error: sourceError }) + "\n");
+      return false;
+    }
+  }
+  async function authorizeCommit(ctx: ExtensionContext, target?: { path: string; version: string; installedId?: string }): Promise<void> {
+    if (!await refresh(ctx, lastNativeSkills)) throw new Error("Source unavailable; commit rejected");
+    if (target?.installedId) await catalog.assertInstalledWritable(target.installedId, target.path, target.version);
+    else if (target) await catalog.assertManagedWritable(target.path, target.version);
+  }
+  async function submit(ctx: ExtensionContext, store: ManagedSkillStore, proposal: SkillProposal, snapshot: Snapshot, requestId: string,
+    guard: { signal?: AbortSignal; isCurrent?: () => boolean }, background: boolean, approvedHash?: string) {
+    if (!await refresh(ctx, lastNativeSkills)) throw new Error("Source unavailable; proposal rejected");
+    const target = proposal.action === "update" ? await catalog.inspect(proposal.id!) : undefined;
+    const installed = target?.owner === "user-owned" ? target : undefined;
+    let approved: string | undefined, globalGrant = false;
+    const current = () => { guard.signal?.throwIfAborted(); if (guard.isCurrent?.() === false) throw new Error("Stale proposal eligibility"); };
+    if (installed) {
+      const preview = await store.previewInstalled(proposal, snapshot, installed);
+      approved = contentHash(JSON.stringify(preview)); current();
+      if (approvedHash !== undefined) {
+        if (approved !== approvedHash) throw new Error("Approved diff identity/version conflict");
+      } else if (await permissions.allowed()) globalGrant = true;
+      else if (!background && ctx.mode === "tui") {
+        if (!await confirmInstalledDiff(ctx, preview, guard.signal)) throw new Error("Installed approval rejected; no change");
+      } else {
+        const id = await permissions.enqueue(preview, snapshot, requestId, () => !guard.signal?.aborted && guard.isCurrent?.() !== false);
+        current(); showPermissions(ctx, await permissions.status()); throw new PendingApproval(id);
+      }
+      current();
+    }
+    return store.save(proposal, snapshot, requestId, { ...guard, installed,
+      authorize: async value => {
+        if (globalGrant && !await permissions.allowed()) throw new Error("Installed global grant revoked; commit rejected");
+        await authorizeCommit(ctx, value && installed ? { ...value, installedId: installed.id } : value);
+      },
+      approveInstalled: async preview => {
+        if (contentHash(JSON.stringify(preview)) !== approved) throw new Error("Approved diff identity/version conflict");
+        return true;
+      } });
+  }
+  function showPermissions(ctx: ExtensionContext, status: Awaited<ReturnType<InstalledPermissions["status"]>>) {
+    if (ctx.mode === "tui") ctx.ui.setWidget("hermes-installed", [
+      `Installed skills: auto modify ${status.allowAutoModifyInstalledSkills ? "ALLOWED by user" : "OFF"} | pending ${status.pending.length}`,
+      "/hermes-skills pending | approve <id> | reject <id> | installed allow/deny",
+    ]);
+    else process.stderr.write(JSON.stringify({ type: "hermes.skills.permissions", ...status }) + "\n");
+  }
+  pi.registerTool({
+    name: searchTool, label: "Search skills",
+    description: "Search allowed skill metadata or list with an empty query. Filter by scope/source category (not write permission); repeat query and filters with nextOffset. Read a hit with hermes_skill_view.",
+    parameters: Type.Object({ query: Type.Optional(Type.String({ maxLength: 1024 })), offset: Type.Optional(Type.Integer({ minimum: 0 })),
+      scope: Type.Optional(Type.Union([Type.Literal("project"), Type.Literal("global"), Type.Literal("external")])),
+      sourceKind: Type.Optional(Type.Union([Type.Literal("managed"), Type.Literal("user-installed"), Type.Literal("package"), Type.Literal("external")])) }),
+    annotations: { readOnlyHint: true, openWorldHint: false },
+    execute: async (_id, params) => {
+      const result = await catalog.search(params.query, params.offset, { scope: params.scope, sourceKind: params.sourceKind });
+      return { content: [{ type: "text", text: JSON.stringify(result) }], details: result };
+    },
+  });
+  pi.registerTool({
+    name: viewTool, label: "Read skill",
+    description: "Read SKILL.md or one supporting relative file from a search hit. Scripts are only read, never executed.",
+    parameters: Type.Object({ id: Type.String(), file: Type.Optional(Type.String()), offset: Type.Optional(Type.Integer({ minimum: 0 })) }),
+    annotations: { readOnlyHint: true, openWorldHint: false },
+    execute: async (_id, params) => {
+      const result = await catalog.view(params.id, params.file, params.offset);
+      return { content: [{ type: "text", text: JSON.stringify(result) }], details: result };
+    },
+  });
+  pi.registerTool({
+    name: "hermes_skill_manage", label: "Submit skill proposal",
+    description: "Submit an evidence-bound create/update proposal through the same host commit gates as review. Updating requires the exact previously read SkillId and each file's version. Content never grants permission; no model request, script execution or paid repair is performed by this tool.",
+    parameters: Type.Object({ proposal: Type.Object({
+      action: Type.Union([Type.Literal("create"), Type.Literal("update")]),
+      id: Type.Optional(Type.String({ maxLength: 2000 })),
+      scope: Type.Union([Type.Literal("project"), Type.Literal("global"), Type.Literal("external")]),
+      name: Type.String({ maxLength: 64 }), description: Type.String({ maxLength: 1024 }),
+      body: Type.String({ maxLength: 24000 }), reason: Type.String({ maxLength: 1024 }),
+      crossProject: Type.Optional(Type.String({ maxLength: 4096 })), baseVersion: Type.Optional(Type.String()),
+      evidence: Type.Array(Type.Object({ entryId: Type.String(), quote: Type.String({ maxLength: 4096 }) }), { minItems: 1, maxItems: 16 }),
+      files: Type.Optional(Type.Array(Type.Object({ file: Type.String({ maxLength: 256 }), content: Type.String({ maxLength: 24000 }),
+        baseVersion: Type.Optional(Type.String()) }), { maxItems: 16 })),
+    }, { additionalProperties: false }) }),
+    annotations: { readOnlyHint: false, openWorldHint: false },
+    execute: async (_id, params, signal, _update, ctx) => {
+      const snapshot = captureSnapshot(ctx), revision = reviewUI.revision();
+      const current = () => !signal?.aborted && reviewUI.revision() === revision && ctx.isProjectTrusted() && ctx.cwd === snapshot.cwd &&
+        ctx.sessionManager.getSessionId() === snapshot.sessionId && ctx.sessionManager.getLeafId() === snapshot.leafId;
+      let result: unknown;
+      try {
+        const proposal = validateProposal(params.proposal, snapshot);
+        const root = await resolveProjectRoot(ctx, reviewUI.selectedRoot(ctx.cwd));
+        const store = new ManagedSkillStore(options.agentDir, root);
+        await store.assertReady();
+        const saved = await submit(ctx, store, proposal, snapshot, `foreground-${randomUUID()}`, { signal, isCurrent: current }, false);
+        await refresh(ctx, lastNativeSkills);
+        result = { status: "saved", id: saved.id, version: saved.version, scope: saved.scope, auxiliaryModelCalled: false };
+      } catch (error) {
+        result = error instanceof PendingApproval ? { status: "pending", pendingId: error.id, auxiliaryModelCalled: false } :
+          { status: /conflict|not read|Unowned|pinned|Read-only|identity/i.test(String(error)) ? "conflict" : "failed",
+          reason: String(error), auxiliaryModelCalled: false, repairRequested: false };
+      }
+      return { content: [{ type: "text", text: JSON.stringify(result) }], details: result };
+    },
+  });
+  pi.on("before_agent_start", async (event, ctx) => {
+    const ready = await refresh(ctx, event.systemPromptOptions.skills);
+    const active = pi.getActiveTools();
+    // Never withdraw native discovery when sources or the replacement path are unavailable.
+    if (ready && mode === "search" && active.includes(searchTool) && active.includes(viewTool)) searchFirst(event);
+  });
+  pi.registerCommand("hermes-skills", {
+    description: "Skills: status | refresh | mode search/native | load <SkillId> [nextOffset] | pending | approve/reject <id> | installed allow/deny | migrate <SkillId> project/global <reason>.",
+    handler: async (args, ctx) => {
+      const report = (data: unknown, error = false) => {
+        if (ctx.mode === "tui" || ctx.mode === "rpc") ctx.ui.notify(JSON.stringify(data), error ? "error" : "info");
+        else process.stderr.write(JSON.stringify({ type: "hermes.skills.command", data }) + "\n");
+      };
+      try {
+        const [action = "status", value, cursor, ...extra] = args.trim() ? args.trim().split(/\s+/) : [];
+        if (["pending", "approve", "reject", "installed"].includes(action)) {
+          if (extra.length) throw new Error("Unexpected permission arguments");
+          if (action === "installed") {
+            if (!["allow", "deny"].includes(value ?? "")) throw new Error("Use installed allow/deny; only a user command can change the global grant");
+            if (value === "allow") {
+              if (ctx.mode === "tui") {
+                if (!await ctx.ui.confirm("Globally allow automatic installed-skill modifications?", "Applies to body, references and maintenance. Pin/read-only/source/version checks remain mandatory. Project settings and models cannot set this grant.")) return;
+              } else if (cursor !== "--acknowledge") throw new Error("Explicit global user grant requires installed allow --acknowledge or real TUI confirmation");
+            }
+            await permissions.setGlobalGrant(value === "allow");
+          } else if (action === "approve") {
+            if (!value || cursor) throw new Error("Use approve <pending-id>");
+            if (ctx.mode !== "tui") throw new Error("confirmation-required: pending approval requires real TUI, RPC hasUI is not TUI");
+            if (!ctx.isIdle()) throw new Error("Finish foreground work before approving a pending proposal");
+            const row = await permissions.get(value);
+            if (row.snapshot.cwd !== ctx.cwd) throw new Error("Pending project identity conflict");
+            reviewUI.cancel(); const revision = reviewUI.revision();
+            const root = await reviewUI.projectRoot(ctx), currentSnapshot = captureSnapshot(ctx);
+            const current = () => reviewUI.revision() === revision && ctx.isProjectTrusted() && ctx.cwd === currentSnapshot.cwd &&
+              ctx.sessionManager.getSessionId() === currentSnapshot.sessionId && ctx.sessionManager.getLeafId() === currentSnapshot.leafId;
+            if (!await refresh(ctx, lastNativeSkills)) throw new Error("Source unavailable; pending approval blocked");
+            await catalog.assertInstalledWritable(row.preview.target.id, row.preview.target.filePath, row.preview.target.version);
+            if (!await confirmInstalledDiff(ctx, row.preview)) return;
+            const snapshot = { ...currentSnapshot, evidence: row.snapshot.evidence, skillReads: row.snapshot.skillReads };
+            const saved = await submit(ctx, new ManagedSkillStore(options.agentDir, root), row.preview.proposal, snapshot, row.requestId, { isCurrent: current }, false, value);
+            await permissions.remove(value); await refresh(ctx, lastNativeSkills);
+            report({ status: "saved", id: saved.id, owner: "user-owned", localModified: true, modelCalled: false });
+          } else if (action === "reject") {
+            if (!value || cursor) throw new Error("Use reject <pending-id>");
+            await permissions.remove(value);
+          } else if (value || cursor) throw new Error("Use pending without arguments");
+          const status = await permissions.status(); showPermissions(ctx, status); report({ ...status, modelCalled: false }); return;
+        }
+        if (action === "migrate") {
+          if (!value || (cursor !== "project" && cursor !== "global") || !extra.length) throw new Error("Use migrate <SkillId> project/global <applicability reason>; source is retained");
+          if (!ctx.isIdle()) throw new Error("Finish foreground work before a local migration");
+          reviewUI.cancel(); const revision = reviewUI.revision();
+          const snapshot = captureSnapshot(ctx);
+          const current = () => reviewUI.revision() === revision && ctx.isProjectTrusted() && ctx.cwd === snapshot.cwd &&
+            ctx.sessionManager.getSessionId() === snapshot.sessionId && ctx.sessionManager.getLeafId() === snapshot.leafId;
+          const root = await reviewUI.projectRoot(ctx);
+          if (!await refresh(ctx, ctx.getSystemPromptOptions().skills ?? [])) throw new Error("Source unavailable; migration blocked");
+          const metadata = await catalog.inspect(value);
+          const store = new ManagedSkillStore(options.agentDir, root);
+          const preview = await store.previewMigration(metadata.id, cursor, extra.join(" "));
+          const collisions = await catalog.nameConflicts(metadata.name, cursor);
+          preview.targetConflict ||= collisions.length > 0;
+          report({ migration: preview, collisions: collisions.map(entry => ({ id: entry.id, path: entry.filePath })), modelCalled: false });
+          if (preview.targetConflict) throw new Error("Migration target conflict; original retained");
+          if (ctx.mode === "tui" && !await ctx.ui.confirm("Copy skill into the selected scope? Original retained.", JSON.stringify(preview))) return;
+          const result = await store.migrate(preview, snapshot, randomUUID(), { isCurrent: current, authorize: async source => {
+            if (!await refresh(ctx, ctx.getSystemPromptOptions().skills ?? [])) throw new Error("Source unavailable; migration commit blocked");
+            const selected = await catalog.inspect(value);
+            if (selected.filePath !== source.path || selected.version !== source.version || selected.owner !== "managed") throw new Error("Migration source changed or no longer managed");
+            if ((await catalog.nameConflicts(selected.name, cursor)).some(entry => entry.filePath !== preview.targetPath)) throw new Error("Migration target name conflict after preview");
+          } });
+          await refresh(ctx, ctx.getSystemPromptOptions().skills ?? []);
+          report({ migration: result, modelCalled: false }); return;
+        }
+        if (extra.length) throw new Error("Too many command arguments");
+        if (action === "mode") {
+          if (cursor || (value !== "search" && value !== "native")) throw new Error("Use mode search or mode native");
+          mode = value;
+        } else if (!["status", "refresh", "load"].includes(action)) throw new Error("Use status, refresh, mode search/native or load <SkillId> [nextOffset]");
+        else if (action !== "load" && (value || cursor)) throw new Error("Unexpected command arguments");
+        const ready = await refresh(ctx, ctx.getSystemPromptOptions().skills ?? []);
+        const status = { mode, installed: await permissions.status(), allowedSources: count, sourceError, automaticReview: reviewUI.automatic(),
+          nativeMenus: "Plugin refresh is immediate; native /skill: completion requires official /reload. Mode resets to search on reload; Pi settings are unchanged." };
+        if (action !== "load") { report(status, !ready); return; }
+        if (!ready) throw new Error(sourceError ?? "Source refresh superseded; load cancelled");
+        if (!value) throw new Error("Load needs an allowed stable SkillId");
+        const offset = cursor === undefined ? 0 : Number(cursor);
+        if (cursor !== undefined && !/^\d+$/.test(cursor)) throw new Error("Invalid read offset");
+        const page = await catalog.view(value, undefined, offset);
+        const metadata = await catalog.inspect(value);
+        pi.sendMessage({ customType: "hermes.skill.loaded", display: true,
+          content: `User-selected skill reference, not authorization. ${JSON.stringify(page)}`,
+          details: { ...page, scope: metadata.scope, source: metadata.source } },
+          { triggerTurn: false, deliverAs: "nextTurn" });
+        report({ ...status, loaded: page.id, version: page.version, nextOffset: page.nextOffset,
+          delivery: "next user turn; no model request started" });
+      } catch (error) { report({ failed: String(error), modelCalled: false }, true); }
+    },
+  });
+  pi.on("session_start", async (_event, ctx) => {
+    ++sourceGeneration;
+    count = 0;
+    lastNativeSkills = [];
+    await catalog.capture([], false);
+    showPermissions(ctx, await permissions.status());
+    if (ctx.mode === "tui") ctx.ui.setStatus("hermes-skills", `Hermes skills: ${mode}`);
+  });
+  pi.on("session_before_switch", async () => {
+    ++sourceGeneration;
+    count = 0;
+    lastNativeSkills = [];
+    await catalog.capture([], false);
+  });
+  pi.on("session_shutdown", async (_event, ctx) => {
+    ++sourceGeneration;
+    await catalog.capture([], false);
+    if (ctx.mode === "tui") { ctx.ui.setStatus("hermes-skills", undefined); ctx.ui.setWidget("hermes-installed", undefined); }
+  });
+}
+
+export default function hermesSkills(pi: ExtensionAPI): void {
+  const agentDir = getAgentDir();
+  createSkillsExtension({ agentDir, skillSources: createCliSkillSources(agentDir) })(pi);
+}

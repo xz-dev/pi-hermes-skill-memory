@@ -1,0 +1,14 @@
+salt = "GhUQJ2nI9s145mfH"
+previous_id = "87cfe3c680d87fc4c5251a4faf81e4f806355c5065933ce4104ba3bee2ab558f"
+timestamp = "2026-10-01T10:30:45.065578259Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "e8d583065d3b75d9be2ebf991cd8de38"
+reason = "规划范围：What Changes。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:682b88a67835a7a40c0bdfeaf616575088b7100439181f0f789b42a6c1ed70b2"
+source_version = "d512ae9b38b1f0fcfbddb28c90eed3528c1ae71a161f2ff6535fdcd78739316e"
+target = "range:d53c4c5dcbd70f2e0790f824ede94c10c7d4a0e0253790c6993a6f8bb3609bca"
+target_version = "d53c4c5dcbd70f2e0790f824ede94c10c7d4a0e0253790c6993a6f8bb3609bca"

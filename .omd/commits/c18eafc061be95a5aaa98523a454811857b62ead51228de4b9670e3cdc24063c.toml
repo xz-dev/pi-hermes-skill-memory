@@ -1,0 +1,12 @@
+salt = "5Mo0AutmLeA0zbmz"
+previous_id = "b5540621e135fe8f71c8eac3826d3eb674f0579454e288d9991dc3781fcd6add"
+timestamp = "2026-10-04T17:19:23.616346465Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["203e94bea1298d70b3a409c93cdf9aa4c2311e0432bffe6362ee1e5d815d86e6", "22f36253f58705027ffd23963f3b20e5e00a6351a39f03c316954e4e9d21fad5", "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58", "8b2983bbf549f136c4dee2e3911ba87c2f8bf49cf8860363e03d916af320bf7e", "b3d09716ea94ea6956c37a9bd2362ff0f2bf3a02872120b5272fecc26b67e662", "b8f06a9eb2ecbf3e41494417dbfcac7c12175db60e02c77c2efd32fa6135df15", "defe6b284afa78c37b65755ba2e7cfe14b1c2f01f5ff8c47010265d660dcf9fe"]
+link_id = "e5fc6eaacab1ae4e5727ca0d2868cb59"
+reason = "Task 4's newer authority and member recovery obligations are implemented in store.ts: provenance/read versions, per-member checks, saved approval records and conflict-aware local recovery. Installed/content/rollback tests cover the added paths."
+stop = false

@@ -1,0 +1,14 @@
+salt = "orVjXkKlyGRaGVbK"
+previous_id = "c8e0433fb99799dd5cbbf37a284dd7c1f8bcb8200f5f8c215012b0905c850425"
+timestamp = "2026-10-01T10:30:40.095496022Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "e16231105ba24d7f6464f20d2657433c"
+reason = "规划范围：D4 — 提案与事务入口统一。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:284d84858d930ea293af38032cb1728b22603d9399c5a17dca319384fb59d730"
+source_version = "284d84858d930ea293af38032cb1728b22603d9399c5a17dca319384fb59d730"
+target = "range:8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b"
+target_version = "c8e0433fb99799dd5cbbf37a284dd7c1f8bcb8200f5f8c215012b0905c850425"

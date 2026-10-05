@@ -1,0 +1,12 @@
+salt = "sDJBLGCyRCjYgYx6"
+previous_id = "aed1a5d5c20146bf2567cd4937c82e3f40cb37778b28095869f57dcc37ab06c6"
+timestamp = "2026-10-01T15:46:43.123888261Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c7f0e494294e20e302faed08535cb4514fb3ef00bf252f67da6b80ffd92bdde5"]
+link_id = "0a640b7203075fb4de42e98ee188b930"
+reason = "requirement:scoped-skill-management:Requirement: Managed ownership requires evidence → tasks:4：已核对原规划要求和任务责任。D3–D7及未实施任务仅因D2/3.1插入而移位，正文要求未删减；3.2–7.3仍未完成，关系不代表实现或语义证明。"
+stop = false

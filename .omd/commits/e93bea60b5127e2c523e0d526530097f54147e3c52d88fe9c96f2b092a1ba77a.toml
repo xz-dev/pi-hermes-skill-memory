@@ -1,0 +1,12 @@
+salt = "5IaGRbNLKN6xivpD"
+previous_id = "f01c9e2f8a99fd18664dab0484f5d878833867ef27006bd6fde0a915bc940593"
+timestamp = "2026-10-04T17:19:25.104153862Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"]
+link_id = "3f3051c781d16f9dbbece078ede0c5ce"
+reason = "Task 1 usefulness propagation does not change context.ts semantics. Its public projection/evidence snapshot is the common input for finite-template learning and reuse tests; it is not a claim of final-wire/cache parity."
+stop = false

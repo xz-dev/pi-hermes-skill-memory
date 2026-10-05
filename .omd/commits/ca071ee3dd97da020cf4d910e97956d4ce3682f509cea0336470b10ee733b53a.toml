@@ -1,0 +1,12 @@
+salt = "lParGsc4Lzbgb3ul"
+previous_id = "bfa14a56047758b89ff5b0e1b4e4dd9f76620529160921d67f0d63ddefe27dad"
+timestamp = "2026-10-04T17:19:26.586077158Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d16e0c0dd4f2788eb176d6690feed9cdab4d5efedeed597602a73c01af3df94f", "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "a8004178124110f5a5741f1b8f88cc12"
+reason = "Task 2's unchanged budget rules are enforced by ledger.ts atomic admit/finish. New boundary/target attribution does not change unknown carry; overshoot after late telemetry re-pauses under the existing R2 requirement."
+stop = false

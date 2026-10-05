@@ -1,0 +1,12 @@
+salt = "Yg1ZEXeZY6lMaZ6z"
+previous_id = ""
+timestamp = "2026-10-01T15:23:29.926729961Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "src/sources.ts"
+scope = []

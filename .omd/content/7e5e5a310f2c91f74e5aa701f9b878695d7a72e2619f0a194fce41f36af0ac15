@@ -1,0 +1,73 @@
+# 官方 API、学习与费用门禁实施证据
+
+基线：npm `@earendil-works/pi-coding-agent` / `pi-ai` 0.99.2；只从公共入口导入。宿主包使用 peerDependencies，`package-lock.json` 固定本地开发验证依赖，无需依赖 xz fork 或 pi-subagents。
+
+## 已完成任务 1.1–2.4、3.1–3.4、4.1–4.4、5.1–5.3
+
+`npm run check`、`npm test`：类型检查与 **91 个测试通过**。这些测试使用临时 agentDir、显式 fake model/认证路径和 in-memory settings/session；不导入个人 skill/记忆或默认扩展。
+
+| 行为 | 验证入口 |
+| --- | --- |
+| 官方 SDK 加载、无启动模型调用 | test/bootstrap.test.ts |
+| 搜索/读取工具可用时才撤下原生目录，保留其他 section | test/bootstrap.test.ts |
+| 压缩后有效投影；独立请求不改主 leaf/entries | test/bootstrap.test.ts |
+| 来源提案→受管项目保存→搜索读取→同一 request 记量 | test/learning.test.ts |
+| 新 Agent 经 registered tools 搜索读取技能并使用 | test/learning.test.ts |
+| 2proc竞争、死进程未知费用、丢失/损坏不归零、日期回拨 | test/ledger.test.ts |
+| 单请求、无静默重试、空/无效/挂起响应、部分及迟到 usage | test/review-limits.test.ts |
+| 非 TUI 查询/ack/resume/预留保留、UI 失效不丢账 | test/ui.test.ts |
+| 同名稳定标识、owner/版本、SDK最终允许集与失败回退往返 | test/sources.test.ts |
+| 公开解析器的排除/noSkills/信任/离线临时包与缺包不安装 | test/stock-sources.test.ts |
+| 官方 CLI 默认入口经注册工具发现同名、--no-skills为空 | test/cli-sources.test.ts |
+| 3000技能、完整序列化预算、分类分页、oversize推进及检索零模型调用 | test/search.test.ts |
+| 正文/单个ref/script、无执行、穿越/链接/来源重绑定拒绝、Unicode完整分页 | test/read.test.ts |
+| 稳定标识加载零模型请求、search/native往返、保存即时刷新、官方reload/禁用边界 | test/modes.test.ts |
+| 到期稳定结束→一次fake分析→项目保存→下一任务经注册工具使用；预算/来源/取消反例 | test/automatic-learning.test.ts |
+| 锁后/提交准备撤权、手改冲突、收费后来源拒绝不增加请求 | test/commit-gates.test.ts |
+| 3用户轮次/40含工具模型轮次、前台未稳定不派发、重复事件不误计/重复审查 | test/scheduling.test.ts |
+| 中断→准入前阻止第二请求→本地恢复→下一任务注册工具复用→再次保存；未知预留不释放、手改与元数据错误 | test/recovery.test.ts |
+| 逐成员 intent/前后 hash/备份、部分提交与恢复、引用/脚本只写不执行、路径/链接拒绝 | test/member-transactions.test.ts |
+| 两进程受管根竞争只提交一次，未重复创建批准记录 | test/store-concurrency.test.ts |
+| 非Git明确选根、SDK祖先根、两个worktree隔离、显式复制迁移保留原版本与资产、目标重名不覆盖 | test/scope-migration.test.ts |
+| 同hash不同SkillId/引用文件不借读凭据、粘贴hash拒绝、注册管理入口正例、缺provenance/pin竞态/只读拒绝且不付费修复 | test/proposal.test.ts |
+| 有效分支/压缩状态及读凭据、深复制不改主session文件/模型/工具 | test/snapshot.test.ts |
+| 证据引用/有限宿主模板、未知断言pending、managed本地批准/版本冲突、单请求计量不变及多pending不丢失 | test/content.test.ts |
+| 手装TUI审批契约、Print/RPC/后台pending、只读与撤权、引用版本、部分提交本地恢复、容量与拒绝不升级owner | test/installed-approval.test.ts |
+
+任务 1.4 的四次有限真实 swe2 请求见 [swe2-validation.md](swe2-validation.md)：2,131 reported tokens，价格 unknown。真实复用由宿主检索后提供技能；fake Agent 的自主工具路径是另一项证据，二者不互相冒充。
+
+任务 2.4 的真实官方 TUI 验收见 [tui-validation.md](tui-validation.md)：失败跨前台回复/reload保持可见；paused run零新增请求；明确ack不释放未知预留。
+
+## 当前可用与未完成
+
+完整来源接入与该切片边界见 [source-discovery-boundary.md](source-discovery-boundary.md)。入口提供 `hermes_skill_search/view`、稳定标识加载/刷新和 search/native 模式，以及有界 `/hermes-review` 命令。默认自动调度关闭；用户显式 `enable` 并选定可信项目根后，每10个含工具模型轮次到期，在 `agent_settled` 使用同一单请求入口。`disable` 撤销在途资格并持久关闭；启动本身不创建受管 skill 或发起模型请求。
+
+已验证安全的单插件自动学习切片、受管逐成员恢复、本地作用域/显式迁移以及统一提案的身份/版本提交闸门；剩余7项包括生命周期全矩阵、维护与联合协议，仍未勾选。不要将这一阶段版本安装到个人环境。
+
+`createSkillsExtension` 可接收用户明确的 `projectRoot`，其次使用保存的选根和当前 Git worktree 顶层；非 Git 写入须明确选根，RPC hasUI 不触发 TUI 选根。发现仍只处理来源回调的最终允许集，不补扫描未知目录。`/hermes-skills migrate <SkillId> project|global <适用理由>` 显示作用域/版本及目标冲突；迁移采用明确的跨作用域复制，原来源及其资产保留而不是被移除/归档，agentDir 的 provenance/migrations 留存原版本和操作记录。不执行 script、不安装依赖，不启动模型。
+
+`hermes_skill_manage` 的前台提案与独立审查共用 store.save 和同一来源提交验证。update 使用稳定 `id`、正文 `baseVersion` 与实际读到的每个成员版本；有效投影中的注册 view/显式 load 凭据绑定 id/file/version，用户文本中的 hash 不授予资格。支持匹配目标的正例，拒绝同 hash 的不同作用域/文件、缺创建记录、pin/只读、手改和过期结果；当前手装来源默认仍不获自动写权，4.3的具体版本/diff审批、用户全局允许及有界pending已验收；保存后仍是user-owned/local-modified，不成为managed。实际原生TUI滚动查看/No/Yes与逐成员字节绑定证据见 [installed-approval-evidence.md](installed-approval-evidence.md)。
+
+## 内容验证与本地 pending（5.3）
+
+自动提案先验证引用存在，再通过共享 `assessContent` 门禁。自动保存仅使用来源归因引用或宿主已支持的有限 build-before-manifest 模板；正文/简介由宿主构造，不对任意自由改写做关键词“真实性认证”。模板绑定实际用户来源中的限定指令，不从否定、坏例子或混合语言的未验证断言推断成功；引用只是该来源的摘录，不认证工具执行结果。显式模板选择请求宿主生成固定内容，不采用模型自由正文。其他正文/资产进入原有容量限制的 pending，手装全局 grant 只管权限，不绕内容门禁。
+
+`/hermes-skills pending | approve <id> | reject <id>` 同时处理 managed create/update 和手装更新。实际 TUI 显示版本与逐成员 before/after，批准前和 writer 内复核相同 diff/来源；保存标为 user-approved，不能把人工接受字节叫作事实认证。批准是本地提交，不新增模型请求，也不修改原 review record 的 usage 或 pending 终态。测试证明请求测试→“All tests passed”只能pending、手改后不批准、多个pending分别保留；已有自动学习下一任务经注册工具搜索/读取的正例仍通过。此阶段审批是SDK契约证据，不新增原生TUI/真实provider质量结论。
+
+最新日志：`/var/tmp/hermes-content-check.log` exit0；`/var/tmp/hermes-content-test.log` 91/91、fail0。源码发生后续修改时须重新运行，不能沿用。
+
+## 本地恢复（4.4）
+
+`/hermes-review recovery` 列出受管 intent 的 key、路径、前后版本与各成员状态。`/hermes-review recover <key> commit|abort` 只执行本地操作，不重放模型请求、不释放 unknown 预留，也不自动 resume。commit 完成批准且版本仍匹配的未提交成员；abort 仅保留/移出尚未提交的 staged 数据，若已有成员替换则拒绝假称全部 abort。错误后须查看用量并明确 resume；恢复后下一任务可通过已注册 search/view 读取规则并再次保存。
+
+批准依据位于当前 agentDir 的 provenance，绑定具体计划、路径与版本；项目 intent 本身不能授予权限。成员发生手改、根/链接身份改变、批准记录丢失或未知旧格式，均保持冲突/unsupported，不自动覆盖或清理。引用/script 是 UTF-8 文本资产，仅保存字节，不执行或安装依赖。
+
+授权回调忽略取消曾导致审查先结束但 writer 仍持锁，失败测试已复现。现在 writer 在 AbortSignal 下终止授权等待并退出，终态等待受管 writer/锁释放；迟到回调不能恢复写尾。回调生产者本身或已发出的 OS I/O 不被虚称强制停止，取消也不是对已提交成员的回滚。完整联合及新输入/分支/reload/shutdown 全矩阵仍属于未完成任务。
+
+## 观察边界
+
+当前分支投影不是最终 HTTP payload；其他扩展改写和 provider cache scope不保证相同。保留前缀不证明 cache 命中、固定费用折扣或账单已核实。辅助 usage 不自动并入 Pi 原生统计，界面单列并说明合计范围。
+
+输入预留用 UTF-8 bytes 作保守 token 估计。大型合成上下文会明确 skipped-budget，不能以零超支证明估计适合日常任务，也不会暗改增量或放宽额度。40轮次样本曾因证据附录重复 SDK 元数据而跳过；修正只去掉附录中的 usage/provider/system/tool-schema 元数据，完整有效快照未裁剪、预算未调整。fake正例随后通过，不代表日常真实上下文或模型质量已全面评估。
+
+45文件/95范围、139条本地 healthy 关系是14/26的窄续改检查点；4.1–4.3、5.1及5.3后的本次代码/测试仍需窄续改，不能沿用旧数量声明最新追溯全绿。两项目共享契约的 R2/R5 副本差异另记于 [traceability.md](traceability.md)。memory 现有会话只读确认其新规则仅在memory本项目获批，未授权同步skill；共同收费/兼容是7.1闸门，不阻塞本地权限实施。代码/测试关系不代表剩余7个任务已完成、真实模型质量充分或所有平台支持。

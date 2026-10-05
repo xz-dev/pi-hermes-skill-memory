@@ -1,0 +1,10 @@
+salt = "3IjlXdyb04f4ulBx"
+previous_id = ""
+timestamp = "2026-10-01T15:23:37.432074011Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:b5911d5ffc541caca2aed486b8d73732d1fa83f2b4fc45885cc1e45fe4e5cfe6"
+path = "test/cli-sources.test.ts"

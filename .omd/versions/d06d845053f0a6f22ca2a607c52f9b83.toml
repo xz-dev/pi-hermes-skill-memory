@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [208, 109, 132, 80, 83, 240, 166, 242, 44, 162, 166, 7, 197, 47, 155, 131]
+len = 52619
+sha256 = "b8f55a8fcb5d1175c09c019dc536a69aaa598f28177fc645fe49e6f7805b4fd4"
+encoding = "utf-8"
+content_file = "content/b8f55a8fcb5d1175c09c019dc536a69aaa598f28177fc645fe49e6f7805b4fd4"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "src/store.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "src/store.ts"

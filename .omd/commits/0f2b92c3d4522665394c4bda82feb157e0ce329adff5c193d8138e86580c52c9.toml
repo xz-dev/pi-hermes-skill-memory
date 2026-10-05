@@ -1,0 +1,16 @@
+salt = "ieH9Nil01ctkVk2k"
+previous_id = "14b2beeac9a3aa0ae5cd15a2a581c75368c2879f9349b423efda95404cf85465"
+timestamp = "2026-10-01T12:58:02.261944095Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "8d5c432c6a1370ea76a719ed40fb1702"
+
+[payload]
+mount = "file:343d2eb48b9e3ec3d55e01a7a76a73ba996c878467c1130f41538f94c11334a2"
+path = "docs/tui-validation.md"
+reason = "实际测试/观察回执与明确边界，非虚构通过或全文语义证明。"
+
+[payload.position]
+end = "1294"
+mode = "text"
+start = "18"

@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [230, 77, 102, 49, 0, 230, 238, 3, 184, 151, 122, 37, 122, 224, 250, 59]
+len = 970
+sha256 = "40b5ddbae2f8c7de9dd1e3d93d3f350f837287cd3bd579f9cd599d70c23777f9"
+encoding = "utf-8"
+content_file = "content/40b5ddbae2f8c7de9dd1e3d93d3f350f837287cd3bd579f9cd599d70c23777f9"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/stock-sources.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/stock-sources.test.ts"

@@ -1,0 +1,16 @@
+salt = "qk2xikTmfmvEHlVi"
+previous_id = "5b483f4a6a5a586ed188ee47e6a53c75779c39af210c2646776f3fa411db9fe4"
+timestamp = "2026-10-01T10:30:44.034474473Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "b6bdd9fc806dcc23135250c3b651dfe7"
+
+[payload]
+mount = "file:412517a16e4872485223121945dfa56f5097759889d54eed311353714bc97874"
+path = "docs/review-contract.md"
+reason = "规划范围：R1 — 单一收费入口与调度。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "888"
+mode = "text"
+start = "266"

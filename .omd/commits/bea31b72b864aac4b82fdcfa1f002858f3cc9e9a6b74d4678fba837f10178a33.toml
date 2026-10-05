@@ -1,0 +1,16 @@
+salt = "jjF3zxlFx1W5MfaM"
+previous_id = "fa26802ec0dd54d91f4f98503ae8337a4973f55b53aa79f6a18e3ceddd371b33"
+timestamp = "2026-10-01T10:30:42.277505026Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "3d3690a0cb182601c99d906a7e344e3c"
+
+[payload]
+mount = "file:fe971ee48b20a108208de249b27981bbfa320dd7ef9ff6ea695fba8705213298"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md"
+reason = "规划范围：Requirement: Current-context snapshot review。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "388"
+mode = "text"
+start = "127"

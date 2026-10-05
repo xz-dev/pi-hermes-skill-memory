@@ -1,0 +1,14 @@
+salt = "fkdrdXvfw0qFactO"
+previous_id = "83699127abcabb88f3cab81ab72f9c9db25d2ab2bf08b9d403aa011d545f83a5"
+timestamp = "2026-10-01T10:30:39.950530741Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "5c8e19b70b6d45d2dad770eb264da573"
+reason = "规划范围：D2 — 原生格式加搜索优先，而不是每个 skill 变成工具。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:99a8e36d43cf670c603584a9a7681ea3b52748a92993a4c814f482965cac8fc9"
+source_version = "99a8e36d43cf670c603584a9a7681ea3b52748a92993a4c814f482965cac8fc9"
+target = "range:11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+target_version = "83699127abcabb88f3cab81ab72f9c9db25d2ab2bf08b9d403aa011d545f83a5"

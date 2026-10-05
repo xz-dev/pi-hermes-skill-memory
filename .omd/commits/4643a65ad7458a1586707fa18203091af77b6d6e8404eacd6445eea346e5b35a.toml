@@ -1,0 +1,16 @@
+salt = "8N1IMXaGqLPTLRDW"
+previous_id = "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120"
+timestamp = "2026-10-01T10:30:40.786430543Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "d2d46f380255d31be333d0750eafb980"
+
+[payload]
+mount = "file:47059d41063a8b7ac9513b468c6620aa9dff7ccb370136ee7e66da719da35f50"
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "规划范围：6. 技能维护与恢复。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "2310"
+mode = "text"
+start = "2061"

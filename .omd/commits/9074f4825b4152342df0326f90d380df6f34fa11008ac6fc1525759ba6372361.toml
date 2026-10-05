@@ -1,0 +1,16 @@
+salt = "laj8T7WanRpl0o0a"
+previous_id = "4e9ee293da1b3d17eb227614bd52791f10be97bf39608bd2253831a5f2d07d58"
+timestamp = "2026-10-01T15:23:39.673728486Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "da8cb816231a9b271393e46de5b58b12"
+
+[payload]
+mount = "file:7542741217a4e89c846ed8c92562b6d8bdb3b02b2c428b21ce14516732cf7c9f"
+path = "docs/source-discovery-boundary.md"
+reason = "源码、SDK/CLI实际执行测试或来源决定的精确范围；说明来源与验收责任，不冒充真实模型质量或剩余任务已完成。"
+
+[payload.position]
+end = "3256"
+mode = "text"
+start = "0"

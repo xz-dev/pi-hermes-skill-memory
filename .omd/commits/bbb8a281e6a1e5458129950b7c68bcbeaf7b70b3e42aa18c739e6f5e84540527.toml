@@ -1,0 +1,12 @@
+salt = "PdLg5dDIcipnSc5D"
+previous_id = "5e6aa41afd88d2132d4d8d2d9ba62b6e28f6a02e8adf53885a9da187b442c463"
+timestamp = "2026-10-04T17:19:10.404997966Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58", "f1d8d930d0ce12002089c3af29993a9dc5bab442bca7ea146be734d87e7a82fb"]
+link_id = "0eb81033c52b11fc64e64a1e40885258"
+reason = "The durable maintenance-result requirement is relocated under expanded D6. Task 6.3 and 6.2 now cover persistent archive/member/applying state and explicit local recovery; model costs remain on the original review receipt."
+stop = false

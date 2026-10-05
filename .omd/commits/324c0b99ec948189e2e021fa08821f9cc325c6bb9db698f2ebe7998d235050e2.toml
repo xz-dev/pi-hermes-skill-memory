@@ -1,0 +1,12 @@
+salt = "rj4uKKnoZ555KPlt"
+previous_id = "db10def2bfeace8243c63685e13e031f73773040a0cff260b3dd33d996aad08d"
+timestamp = "2026-10-05T02:52:27.488171432Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"]
+link_id = "456e143d157b0af810d7d9d4e6113625"
+reason = "归档路径传播核对 tasks:7 → evidence:delivery：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 docs/delivery-evidence.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

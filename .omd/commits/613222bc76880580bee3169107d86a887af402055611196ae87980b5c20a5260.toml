@@ -1,0 +1,12 @@
+salt = "pHrtbaD69fyABMeA"
+previous_id = "2f0dc86fa4bc52b16428e52d674c162b6eb626c09c5baddd5673244aee1959a6"
+timestamp = "2026-10-04T17:19:31.695507536Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["83b6c55d57b0e8549961bb0fd78ef7321282eea61c4bb35abaef48adc1493f23", "ee87e44163425319bf46ac03d20bbd21043187484cda5d8175db9f1906e18029"]
+link_id = "c1992e2f65574862eabc2272573de95d"
+reason = "UI's new coordinator preserves old fee controls. ui.test.ts explicitly keeps unknown reservations through acknowledgment/retry and survives a failing subscriber; new fee-matrix tests supplement it with registered TUI/reload cases."
+stop = false

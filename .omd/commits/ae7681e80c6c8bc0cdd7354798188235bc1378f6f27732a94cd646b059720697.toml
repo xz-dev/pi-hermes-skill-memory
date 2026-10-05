@@ -1,0 +1,14 @@
+salt = "NDgQ9B2Z3ur4koDR"
+previous_id = "30179bb9c6fb9e83bf92784341cb6ee02270f39f0460c0070fb9a2fa80097396"
+timestamp = "2026-10-01T10:30:43.41850461Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "e7ab1a262ff7303c83b1f90488eeb087"
+reason = "规划范围：Requirement: Protected skills resist automation。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:38de197e69334d45fcaff79704d7963da21322dd662aa89f9eff096db5573a7e"
+source_version = "0b38ee553c1421f69587cc96a88a7de41e4d122b58e0a54e3bfdb888b69e18fb"
+target = "range:8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120"
+target_version = "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120"

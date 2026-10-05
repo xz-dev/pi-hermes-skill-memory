@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [105, 178, 175, 14, 170, 42, 80, 96, 94, 203, 94, 12, 169, 91, 101, 148]
+len = 9552
+sha256 = "e04c9436a36329b3b772c8fb2c7d3e47e7b890740b5c558e108eb131386c3d32"
+encoding = "utf-8"
+content_file = "content/e04c9436a36329b3b772c8fb2c7d3e47e7b890740b5c558e108eb131386c3d32"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/modes.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/modes.test.ts"

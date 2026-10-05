@@ -1,0 +1,9 @@
+salt = "SPDRUKIZ3TFXX9j3"
+previous_id = ""
+timestamp = "2026-10-04T17:04:55.266884999Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "a84e57d7024a480530662853a86855ac"
+
+[payload]
+path = "test/installed-approval.test.ts"

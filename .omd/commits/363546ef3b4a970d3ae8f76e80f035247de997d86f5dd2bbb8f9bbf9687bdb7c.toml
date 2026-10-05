@@ -1,0 +1,12 @@
+salt = "42gEdFJIKLOhrI1H"
+previous_id = "83b6c55d57b0e8549961bb0fd78ef7321282eea61c4bb35abaef48adc1493f23"
+timestamp = "2026-10-04T17:19:09.806314191Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "07564fc85154f68d44aa3e6f7ef76104"
+reason = "D5 is relocated only. Task group 5 continues to cover full effective snapshot, settled-only scheduling, one-request proposals/content pending, and cancellation; the new cooperation hook reuses that path."
+stop = false

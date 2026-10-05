@@ -1,0 +1,10 @@
+salt = "FGTFcKw2B0RtPCNh"
+previous_id = ""
+timestamp = "2026-10-04T17:04:56.835484622Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:9116cb3d2cf2bf1d9dd841627c8345becfccae55392f2c722ac18288af7fbd14"
+path = "test/proposal.test.ts"

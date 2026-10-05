@@ -1,0 +1,10 @@
+salt = "CFsjgL1NOXaGqy7A"
+previous_id = ""
+timestamp = "2026-10-01T15:23:39.647056971Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:7542741217a4e89c846ed8c92562b6d8bdb3b02b2c428b21ce14516732cf7c9f"
+path = "docs/source-discovery-boundary.md"

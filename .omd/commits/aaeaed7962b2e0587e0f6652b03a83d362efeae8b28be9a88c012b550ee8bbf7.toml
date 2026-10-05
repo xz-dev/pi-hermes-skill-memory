@@ -1,0 +1,12 @@
+salt = "9qOEQdk1ULymkfu7"
+previous_id = "ca071ee3dd97da020cf4d910e97956d4ce3682f509cea0336470b10ee733b53a"
+timestamp = "2026-10-04T17:25:27.538359038Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"]
+link_id = "6e3c6cc96abd168ff8769f26b2953ac9"
+reason = "Propagation is only completion metadata. ledger.ts bytes, policy and joint-boundary admission are unchanged, including unknown carry and late overshoot pause; no R2/R5 synchronization is implied."
+stop = false

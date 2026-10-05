@@ -1,0 +1,12 @@
+salt = "J1Zc7wwVq7B4P8sd"
+previous_id = "af064a4a4c98704280bdd96808a98e9aeb72cf925a62277fa54e8a08286d33c1"
+timestamp = "2026-10-05T02:52:29.083027488Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"]
+link_id = "7337e85c097e4ef06f14d16187b96101"
+reason = "归档路径传播核对 tasks:6 → implementation:archives：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/archives.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

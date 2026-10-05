@@ -1,0 +1,12 @@
+salt = "V2IYOEARBPxvSO2F"
+previous_id = "bb50848d9c581f8abcf4c19f40dc109875cc5c9744568ff8156642600d3842f6"
+timestamp = "2026-10-04T17:19:22.570527441Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "c36035f7b268e3e277f91126cb7abce2"
+reason = "Visibility requirement was unchanged by D5 relocation. Tasks 2.3/2.4 retain reported usage, unknown reservation and persistent pause; registered TUI matrix demonstrates no-change/empty/disconnect/cancel after reload."
+stop = false

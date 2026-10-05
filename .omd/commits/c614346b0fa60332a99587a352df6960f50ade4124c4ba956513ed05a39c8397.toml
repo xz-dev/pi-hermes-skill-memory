@@ -1,0 +1,12 @@
+salt = "l3ql0hWuHC50J6Ek"
+previous_id = "8b2983bbf549f136c4dee2e3911ba87c2f8bf49cf8860363e03d916af320bf7e"
+timestamp = "2026-10-04T17:19:05.699310216Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"]
+link_id = "7d241e11bd1717d0f4d78823ca0d87b5"
+reason = "D4's content gate is represented in managed-ownership wording: ownership evidence is necessary, not sufficient; unknown prose/assets become bounded pending and pin/read-only remain independent."
+stop = false

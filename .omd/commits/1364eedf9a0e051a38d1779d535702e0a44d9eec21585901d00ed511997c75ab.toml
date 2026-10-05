@@ -1,0 +1,14 @@
+salt = "MYWpbwAwUBonSiSQ"
+previous_id = "3b676babbea906781fb652414e50de9ed13bfb49a4b4d609a3621ccb5d68411f"
+timestamp = "2026-10-01T10:30:41.376492979Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "885747796f551508b117a8fd76ba2171"
+reason = "规划范围：Requirement: Version-aware reads and refresh。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+source_version = "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+target = "range:4ebe969df519fca3c41101bc0b8febe64dbfbde88cc984fdb682326397ee2806"
+target_version = "3b676babbea906781fb652414e50de9ed13bfb49a4b4d609a3621ccb5d68411f"

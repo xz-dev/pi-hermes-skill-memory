@@ -1,0 +1,14 @@
+salt = "sC9V2tU56KQiCAwl"
+previous_id = "4643a65ad7458a1586707fa18203091af77b6d6e8404eacd6445eea346e5b35a"
+timestamp = "2026-10-01T10:30:40.803209628Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "29a0c643e826eb8bd5c12b6a0df48bb3"
+reason = "规划范围：6. 技能维护与恢复。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+source_version = "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+target = "range:8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120"
+target_version = "4643a65ad7458a1586707fa18203091af77b6d6e8404eacd6445eea346e5b35a"

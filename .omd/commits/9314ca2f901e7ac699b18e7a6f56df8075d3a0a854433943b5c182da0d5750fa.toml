@@ -1,0 +1,12 @@
+salt = "FUdd301TroLSGv1W"
+previous_id = "f50c658fe8419eaaec352d6be416a9ff0d589a4fd2b1128ce17c2e47b95e9006"
+timestamp = "2026-10-03T16:09:00.067477941Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["5c4836b8595f6857ac52598ae9771b5b899f113a1cb2c545a4a4e6460004445f"]
+link_id = "47006c723ec75eab0033d654541dabd3"
+reason = "tasks:3 → implementation:sources：已核对3.2搜索元数据投影、inspection分离、完整响应预算和实际38项回归；原任务责任不删减，3.3–7.3仍未完成。"
+stop = false

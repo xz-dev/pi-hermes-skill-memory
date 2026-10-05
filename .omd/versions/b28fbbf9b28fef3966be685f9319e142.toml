@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [178, 143, 187, 249, 178, 143, 239, 57, 102, 190, 104, 95, 147, 25, 225, 66]
+len = 1974
+sha256 = "9d0c2bb19a85d5f27581d5c3578438bce46731774e2aa940863280a159c0a50c"
+encoding = "utf-8"
+content_file = "content/9d0c2bb19a85d5f27581d5c3578438bce46731774e2aa940863280a159c0a50c"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/cli-sources.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/cli-sources.test.ts"

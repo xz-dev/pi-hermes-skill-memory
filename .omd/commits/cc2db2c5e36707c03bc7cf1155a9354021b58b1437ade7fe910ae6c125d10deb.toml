@@ -1,0 +1,14 @@
+salt = "muAFM27hy7Lbg1Vy"
+previous_id = "240d0fb2577832c622252d8567dbce68fb811a742b647e4c7c4540e18dc6a136"
+timestamp = "2026-10-01T10:30:42.39657901Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "b4954633e1f3d5ee60f53f4b85d98b6b"
+reason = "规划范围：Requirement: One explicit scheduling path。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+source_version = "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+target = "range:bfdaa5bff73d6820e5811afa1266a3e6293f9f0fde6ea9a218f432e8d46bd681"
+target_version = "240d0fb2577832c622252d8567dbce68fb811a742b647e4c7c4540e18dc6a136"

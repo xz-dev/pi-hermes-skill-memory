@@ -1,0 +1,16 @@
+salt = "5hqK316KnhN758wV"
+previous_id = "9e800d897b33096ddaa59c787dbd2523e2808b79a7a0fcebeede0bc0ea77c6aa"
+timestamp = "2026-10-01T10:30:42.993328478Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "3d3690a0cb182601c99d906a7e344e3c"
+
+[payload]
+mount = "file:fe971ee48b20a108208de249b27981bbfa320dd7ef9ff6ea695fba8705213298"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md"
+reason = "规划范围：Requirement: Disable means no automatic model calls。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "2646"
+mode = "text"
+start = "2397"

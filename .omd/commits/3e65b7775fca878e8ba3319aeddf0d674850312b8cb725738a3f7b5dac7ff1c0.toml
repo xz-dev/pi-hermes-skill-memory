@@ -1,0 +1,16 @@
+salt = "SVOxN7dVxGwwQ1wg"
+previous_id = "d67d70ae0b88749dc594d21f6dc57bc5ed1c8b1dd3c3912b134c6e981966dda9"
+timestamp = "2026-10-01T10:30:42.100586099Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "f9708101abcad7a238cc3965c4c3696a"
+
+[payload]
+mount = "file:7702abf25b44c9515bcd8e00b7884a8679d51163377a360ea389b8c47a7182ad"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md"
+reason = "规划范围：Requirement: Installation is not generation。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "2103"
+mode = "text"
+start = "1841"

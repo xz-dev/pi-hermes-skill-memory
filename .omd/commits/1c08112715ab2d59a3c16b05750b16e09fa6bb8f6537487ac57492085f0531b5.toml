@@ -1,0 +1,14 @@
+salt = "Pv2vFlO8ylwSb4Cp"
+previous_id = "93b55d8ccc37d1d046352ffa237fc1777433c3a57563a82a6f03c98f54644f98"
+timestamp = "2026-10-01T10:30:41.208420835Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "c8ae854da1d82dd7fac0e63520843f90"
+reason = "规划范围：Requirement: Respect native exclusions and project trust。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:2c6a3f041edcf6381e16f77464b1e4a1c8c190bcb167dfba2f3572cabf388875"
+source_version = "91f6b11a7b93387cbd5061efd1eeb5c58ef0bd8047daa03f6d0b4bbcc8737895"
+target = "range:ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+target_version = "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"

@@ -1,0 +1,10 @@
+salt = "cxfBfYQ4ZqvqKL1y"
+previous_id = ""
+timestamp = "2026-10-01T12:58:01.486810032Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:af4779f5a83380da117fe754a9386d3c73eb0419ade55c6a225d50b7341b5ca9"
+path = "docs/implementation-evidence.md"

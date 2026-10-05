@@ -1,0 +1,9 @@
+salt = "lPyxo1p70wUvWgSW"
+previous_id = ""
+timestamp = "2026-10-01T15:23:35.084271811Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "b28fbbf9b28fef3966be685f9319e142"
+
+[payload]
+path = "test/cli-sources.test.ts"

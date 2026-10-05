@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [79, 138, 151, 5, 145, 186, 23, 214, 11, 23, 253, 232, 167, 223, 112, 104]
+len = 4976
+sha256 = "2f27948293c4b98e171fd5ee402bd1233483d6cd18849ce9551375ea3e8fb46e"
+encoding = "utf-8"
+content_file = "content/2f27948293c4b98e171fd5ee402bd1233483d6cd18849ce9551375ea3e8fb46e"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/bootstrap.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/bootstrap.test.ts"

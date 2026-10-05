@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [67, 43, 66, 134, 222, 65, 87, 198, 36, 150, 4, 247, 132, 105, 220, 118]
+len = 5654
+sha256 = "d5136a6c08d7fb0f35aa6da0de86203fb7eb73bde3850d2df6916c8223bb6941"
+encoding = "utf-8"
+content_file = "content/d5136a6c08d7fb0f35aa6da0de86203fb7eb73bde3850d2df6916c8223bb6941"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/snapshot.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/snapshot.test.ts"

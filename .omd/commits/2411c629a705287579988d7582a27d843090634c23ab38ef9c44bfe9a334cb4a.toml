@@ -1,0 +1,9 @@
+salt = "5xJaMDZyrFvImsoY"
+previous_id = "1f1db6ae5cf615f605f91bada7ffd23f24b33f6c2c5bda87cbd0ce556b715aca"
+timestamp = "2026-10-05T02:54:39.342372057Z"
+schema = "omd.commit/3"
+kind = "remove"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md"

@@ -1,0 +1,108 @@
+import type { AssistantMessage, Usage } from "@earendil-works/pi-ai";
+import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { Snapshot } from "./context.ts";
+import { REVIEW_LIMITS, ReviewLedger } from "./ledger.ts";
+import type { ReviewRecord, ReviewStatus } from "./ledger.ts";
+import { ManagedSkillStore, validateProposal } from "./store.ts";
+import type { SkillProposal } from "./store.ts";
+import { PendingApproval } from "./permissions.ts";
+import { awaitWithAbort } from "./async.ts";
+
+export const REVIEW_INSTRUCTION = `Review current effective conversation once. Return JSON only: {"skills":[]},
+  or {"skills":[{"action":"create","scope":"project","name":"lowercase-hyphen-name",
+  "description":"brief use condition","body":"reusable steps, not task diary",
+  "reason":"why reusable","evidence":[{"entryId":"supplied ID","quote":"exact evidence substring"}]}]}.
+  Use project for project-specific rules. Global requires crossProject explanation.
+  For updates use action:update with the exact read SkillId in id and baseVersion; preserve scope/name.
+  Supporting files need file/content and their own read baseVersion when replacing existing bytes.
+  No secrets, invented success claims, temporary instructions, tool calls or other operations.
+  If nothing useful, return empty skills. Do not claim an unrun test passed.`;
+
+/** One-request service. No automatic scheduling or model fallback. */
+export async function reviewSkills(options: {
+  snapshot: Snapshot;
+  registry: Pick<ExtensionContext["modelRegistry"], "streamSimple">;
+  ledger: ReviewLedger; store: ManagedSkillStore;
+  signal?: AbortSignal; timeoutMs?: number; retryOf?: string;
+  isCurrent?: () => boolean;
+  onSaved?: () => Promise<void>;
+  submit?: (proposal: SkillProposal, snapshot: Snapshot, requestId: string, guard: { signal?: AbortSignal; isCurrent?: () => boolean }) => Promise<{ id: string }>;
+  authorizeCommit?: (target?: { path: string; version: string }) => Promise<void>;
+}): Promise<ReviewRecord> {
+  const { snapshot, registry, ledger, store } = options;
+  if (!snapshot.model) throw new Error("No selected model");
+  const timeoutMs = options.timeoutMs ?? REVIEW_LIMITS.timeoutMs;
+  if (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > REVIEW_LIMITS.timeoutMs) throw new Error("Timeout can only tighten the global limit");
+  options.signal?.throwIfAborted();
+  try { await store.assertReady(); }
+  catch (error) {
+    const reason = /store-recovery/.test(String(error)) ? String(error) : `store-check-failed: ${String(error)}`;
+    const skipped = await ledger.skip(snapshot, snapshot.model, reason.slice(0, 1000));
+    await ledger.pause(reason.slice(0, 500));
+    return skipped;
+  }
+  const messages = structuredClone(snapshot.messages);
+  messages.push({ role: "user", content: `${REVIEW_INSTRUCTION}\nEffective evidence: ${JSON.stringify(snapshot.evidence)}`, timestamp: Date.now() });
+  // ponytail: Conservative UTF-8 byte estimate, not a measured token count.
+  const input = Buffer.byteLength(JSON.stringify(messages));
+  const record = await ledger.admit(snapshot, snapshot.model, input, Date.now(), options.retryOf);
+  if (record.status === "skipped") return record;
+  await ledger.running(record.id);
+  let usage: Usage | undefined; let costUnknown = true;
+  let terminal: Promise<ReviewRecord> | undefined;
+  const saved: string[] = [];
+  const deadline = new AbortController();
+  const timer = setTimeout(() => deadline.abort(new Error("review-timeout")), timeoutMs);
+  const signal = options.signal ? AbortSignal.any([deadline.signal, options.signal]) : deadline.signal;
+  const finish = (status: ReviewStatus, reason?: string) => {
+    terminal = ledger.finish(record.id, status, usage, saved, reason, costUnknown);
+    return terminal;
+  };
+  try {
+    signal.throwIfAborted();
+    const response = registry.streamSimple(snapshot.model, { messages }, {
+      maxRetries: 0, maxTokens: REVIEW_LIMITS.output, toolChoice: "none", signal,
+      reasoning: snapshot.thinking === "off" ? undefined : snapshot.thinking,
+    }).result();
+    const observed = response.then(async result => {
+      usage = result.usage;
+      costUnknown = !Number.isFinite(usage?.cost?.total) ||
+        Object.values(snapshot.model!.cost).every(rate => typeof rate !== "number" || rate === 0);
+      // A provider may ignore cancellation. Late response can settle usage only.
+      if (signal.aborted && terminal) {
+        await terminal;
+        await ledger.finish(record.id, "cancelled", usage, [], "late-usage-only", costUnknown);
+      }
+      return result;
+    });
+    const result: AssistantMessage = await awaitWithAbort(observed, signal);
+    if (signal.aborted || options.isCurrent?.() === false) return await finish("cancelled", "stale-or-cancelled");
+    if (result.stopReason === "error" || result.stopReason === "aborted") throw new Error(result.errorMessage ?? result.stopReason);
+    if (result.stopReason !== "stop" || result.content.some(c => c.type === "toolCall")) throw new Error("Incomplete or tool-request output");
+    const text = result.content.filter(c => c.type === "text").map(c => c.text).join("");
+    if (!text.trim()) return await finish("no-proposal", "empty-or-reasoning-only");
+    const parsed: unknown = JSON.parse(text);
+    if (!parsed || typeof parsed !== "object" || !("skills" in parsed) || !Array.isArray(parsed.skills) || parsed.skills.length > 4) throw new Error("Invalid skill response");
+    const proposals = parsed.skills.map(value => validateProposal(value, snapshot));
+    if (!proposals.length) return await finish("no-change");
+    for (const proposal of proposals) {
+      signal.throwIfAborted();
+      if (options.isCurrent?.() === false) return await finish("cancelled", "stale-result");
+      try {
+        // Do not declare a terminal storage outcome until the controlled writer has exited.
+        const guard = { signal, isCurrent: () => !signal.aborted && options.isCurrent?.() !== false, authorize: options.authorizeCommit };
+        saved.push((await (options.submit ? options.submit(proposal, snapshot, record.id, guard) : store.save(proposal, snapshot, record.id, guard))).id);
+        if (options.onSaved) await awaitWithAbort(options.onSaved(), signal);
+      }
+      catch (error) {
+        if (error instanceof PendingApproval) return await finish("pending", error.message);
+        if (/conflict|Unowned|pinned|version not read|identity\/version not read|Read-only/i.test(String(error))) return await finish("conflict", String(error));
+        throw error;
+      }
+    }
+    return await finish("saved");
+  } catch (error) {
+    if (error && typeof error === "object" && "usage" in error) usage = error.usage as Usage;
+    return await finish(deadline.signal.aborted ? "failed" : signal.aborted || options.isCurrent?.() === false || /Stale commit/.test(String(error)) ? "cancelled" : "failed", String(error));
+  } finally { clearTimeout(timer); }
+}

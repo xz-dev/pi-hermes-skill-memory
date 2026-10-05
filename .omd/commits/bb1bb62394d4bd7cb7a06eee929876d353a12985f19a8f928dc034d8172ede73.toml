@@ -1,0 +1,10 @@
+salt = "mDaG3nAVgHARwgF2"
+previous_id = ""
+timestamp = "2026-10-01T10:30:40.626458638Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:47059d41063a8b7ac9513b468c6620aa9dff7ccb370136ee7e66da719da35f50"
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"

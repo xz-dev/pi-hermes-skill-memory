@@ -1,0 +1,12 @@
+salt = "8zshVmbcrHxcV9HU"
+previous_id = "626db060988cc283b4be210b9e046cb6d285064e277af2d45ba2367550f891d8"
+timestamp = "2026-10-03T15:29:44.900913203Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e33b5eb0c836d33cab104817d80ff1a9878fa0ab5dbff4eb16f0951c3153123"]
+link_id = "885747796f551508b117a8fd76ba2171"
+reason = "design:D2 → requirement:skill-discovery:Requirement: Version-aware reads and refresh：用户已确认SDK完整支持及公开来源回调。下游仍需完整满足同名/排除/信任/显式加载/原生回退/版本/containment，不降低要求。"
+stop = false

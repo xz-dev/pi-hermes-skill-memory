@@ -1,0 +1,14 @@
+salt = "ktMKIrIVAt7m0ZiV"
+previous_id = "7d5bc744d9b81453d3763db5c9bb6cb8c8f22f181417bfb375f216e0ba5e9752"
+timestamp = "2026-10-01T10:30:40.582431515Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "5869131dd96eac4939f4439614c1e7d5"
+reason = "规划范围：3. 搜索优先的渐进发现。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+source_version = "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+target = "range:ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+target_version = "7d5bc744d9b81453d3763db5c9bb6cb8c8f22f181417bfb375f216e0ba5e9752"

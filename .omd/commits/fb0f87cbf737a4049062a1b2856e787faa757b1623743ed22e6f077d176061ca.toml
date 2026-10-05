@@ -1,0 +1,9 @@
+salt = "8XSEbrGS7LENuyDe"
+previous_id = ""
+timestamp = "2026-10-01T15:23:38.765663483Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "ff5c62ad0dfa1cb9de84f19a260ec236"
+
+[payload]
+path = "test/fixtures/cli-sources.ts"

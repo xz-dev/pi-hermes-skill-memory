@@ -1,0 +1,15 @@
+salt = "2v6DCuu6dBdDx903"
+previous_id = "935f5cab8a01ad4133632fc7f0ff2d131b95b8d97ae37f5fd7cd14340ea3c6fc"
+timestamp = "2026-10-03T16:08:59.451116842Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "ed3aaa8d5af4be244ff49e51aedd8a15"
+
+[payload]
+path = "test/sources.test.ts"
+reason = "3.2已通过38项回归与公共类型检查：3000个临时skills初始提示词恒定，搜索零模型调用，全响应6000字符/10项、分类及分页推进。search仅规定元数据；owner/version由独立inspect核对。其他未实施任务保持未完成。"
+
+[payload.position]
+end = "9835"
+mode = "text"
+start = "0"

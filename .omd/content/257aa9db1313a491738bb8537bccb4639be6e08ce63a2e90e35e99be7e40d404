@@ -1,0 +1,149 @@
+import { createHash } from "node:crypto";
+import { mkdir, open, readFile, readdir, realpath, rename } from "node:fs/promises";
+import { dirname, join, relative, sep } from "node:path";
+import { loadSkillsFromDir } from "@earendil-works/pi-coding-agent";
+import type { Snapshot } from "./context.ts";
+import { atomicJson, readJson, withLock } from "./files.ts";
+
+export interface SkillProposal {
+  action: "create" | "update";
+  scope: "project" | "global";
+  name: string; description: string; body: string; reason: string;
+  crossProject?: string;
+  baseVersion?: string;
+  evidence: { entryId: string; quote: string }[];
+}
+export interface ManagedSkill {
+  id: string; name: string; description: string; scope: "project" | "global";
+  path: string; version: string; createdBy: "hermes-skills";
+  requestId: string; sessionId: string; evidence: SkillProposal["evidence"];
+  pinned: boolean;
+}
+export const contentHash = (text: string) => createHash("sha256").update(text).digest("hex");
+
+export function validateProposal(value: unknown, snapshot: Snapshot): SkillProposal {
+  if (!value || typeof value !== "object") throw new Error("Invalid proposal object");
+  const p = value as SkillProposal;
+  if (!["create", "update"].includes(p.action) || !["project", "global"].includes(p.scope)) throw new Error("Invalid action or scope");
+  if (typeof p.name !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.name) || p.name.length > 64) throw new Error("Invalid skill name");
+  for (const key of ["description", "body", "reason"] as const) {
+    if (typeof p[key] !== "string" || !p[key].trim()) throw new Error(`Missing ${key}`);
+  }
+  if (p.description.length > 1024 || p.body.length > 24000) throw new Error("Proposal exceeds skill content limit");
+  if (p.scope === "global" && (typeof p.crossProject !== "string" || !p.crossProject.trim())) throw new Error("Global scope needs cross-project evidence");
+  if (!Array.isArray(p.evidence) || !p.evidence.length || p.evidence.length > 16) throw new Error("Missing or excessive evidence");
+  for (const item of p.evidence) {
+    if (!item || typeof item.entryId !== "string" || typeof item.quote !== "string" || !item.quote.trim()) throw new Error("Invalid evidence");
+    if (!snapshot.evidence.some(e => e.entryId === item.entryId && e.text.includes(item.quote))) throw new Error("Evidence not in effective snapshot");
+  }
+  if (p.action === "update" && !/^[a-f0-9]{64}$/.test(p.baseVersion ?? "")) throw new Error("Update needs read version");
+  return structuredClone(p);
+}
+
+export class ManagedSkillStore {
+  readonly agentDir: string;
+  readonly projectRoot: string;
+  constructor(agentDir: string, projectRoot: string) {
+    this.agentDir = agentDir;
+    this.projectRoot = projectRoot;
+  }
+  private stateDir(scope: "project" | "global") {
+    return scope === "project" ? join(this.projectRoot, ".pi", "hermes-skills") : join(this.agentDir, "hermes-skills");
+  }
+  private skillRoot(scope: "project" | "global") {
+    return scope === "project" ? join(this.projectRoot, ".pi", "skills", "hermes-managed") : join(this.agentDir, "skills", "hermes-managed");
+  }
+  private async records(scope: "project" | "global"): Promise<ManagedSkill[]> {
+    const dir = this.stateDir(scope);
+    let files: string[];
+    try { files = await readdir(dir); }
+    catch (error) { if ((error as NodeJS.ErrnoException).code === "ENOENT") return []; throw error; }
+    if (!files.includes("manifest.json")) {
+      if (files.some(name => name !== "store.lock")) throw new Error("Ownership manifest missing");
+      return [];
+    }
+    const records = await readJson<ManagedSkill[]>(join(dir, "manifest.json"));
+    if (!Array.isArray(records) || records.some(r => r.createdBy !== "hermes-skills" || !r.id || !r.version)) throw new Error("Invalid ownership manifest");
+    return records;
+  }
+  async catalog(): Promise<ManagedSkill[]> {
+    return [...await this.records("project"), ...await this.records("global")];
+  }
+
+  async save(p: SkillProposal, snapshot: Snapshot, requestId: string): Promise<ManagedSkill> {
+    const scope = p.scope;
+    const root = this.skillRoot(scope);
+    const state = this.stateDir(scope);
+    return withLock(join(state, "store.lock"), async () => {
+      const parent = scope === "project" ? this.projectRoot : this.agentDir;
+      await mkdir(root, { recursive: true });
+      const canonicalParent = await realpath(parent);
+      const canonicalRoot = await realpath(root);
+      if (!canonicalRoot.startsWith(canonicalParent + sep)) throw new Error("Managed root escapes selected scope");
+      const records = await this.records(scope);
+      const existing = records.find(r => r.name === p.name);
+      const target = join(root, p.name);
+      const path = join(target, "SKILL.md");
+      if (p.action === "create") {
+        if (existing) throw new Error("Skill conflict: name already managed");
+        try { await mkdir(target); }
+        catch (error) {
+          if ((error as NodeJS.ErrnoException).code === "EEXIST") throw new Error("Skill conflict: existing target has no creation authorization");
+          throw error;
+        }
+      } else {
+        if (!existing || existing.path !== path || existing.createdBy !== "hermes-skills") throw new Error("Unowned target: approval required");
+        if (existing.pinned) throw new Error("Skill pinned");
+        const actual = await realpath(path);
+        if (!actual.startsWith(canonicalRoot + sep)) throw new Error("Target escapes managed root");
+        const before = await readFile(path, "utf8");
+        if (contentHash(before) !== p.baseVersion || existing.version !== p.baseVersion) throw new Error("Skill version conflict");
+        if (!snapshot.evidence.some(e => e.text.includes(p.baseVersion!))) throw new Error("Update version not read in snapshot");
+        await atomicJson(join(state, "history", `${requestId}-${p.name}.json`), { path, before, version: p.baseVersion });
+      }
+      const content = `---\nname: ${p.name}\ndescription: ${JSON.stringify(p.description)}\n---\n\n${p.body.trim()}\n`;
+      const record: ManagedSkill = {
+        id: existing?.id ?? `${scope}:${contentHash(canonicalParent).slice(0, 16)}:managed:${relative(root, target)}`,
+        name: p.name, description: p.description, scope, path, version: contentHash(content),
+        createdBy: "hermes-skills", requestId, sessionId: snapshot.sessionId, evidence: p.evidence,
+        pinned: existing?.pinned ?? false,
+      };
+      await atomicJson(join(state, "changes", `${requestId}-${p.name}.json`), { status: "intent", record, reason: p.reason });
+      const tmp = join(target, `${requestId}.new`);
+      const file = await open(tmp, "wx", 0o600);
+      try { await file.writeFile(content); await file.sync(); } finally { await file.close(); }
+      await rename(tmp, path);
+      await atomicJson(join(state, "manifest.json"), [...records.filter(r => r.name !== p.name), record]);
+      await atomicJson(join(state, "changes", `${requestId}-${p.name}.json`), { status: "saved", record, reason: p.reason });
+      return record;
+    });
+  }
+
+  async search(query: string): Promise<ManagedSkill[]> {
+    const words = query.toLocaleLowerCase().split(/\s+/).filter(Boolean);
+    const valid: ManagedSkill[] = [];
+    for (const record of await this.catalog()) {
+      const loaded = loadSkillsFromDir({ dir: dirname(record.path), source: record.scope === "project" ? "project" : "user" });
+      if (!loaded.skills.length) throw new Error(`Skill unavailable or invalid: ${record.id}`);
+      const actual = await realpath(record.path);
+      const root = await realpath(this.skillRoot(record.scope));
+      if (!actual.startsWith(root + sep)) throw new Error("Skill escaped managed root");
+      const content = await readFile(record.path, "utf8");
+      const current = loaded.skills[0]!;
+      const fresh = { ...record, name: current.name, description: current.description, version: contentHash(content) };
+      if (!current.disableModelInvocation && words.every(w => `${fresh.name} ${fresh.description}`.toLocaleLowerCase().includes(w))) valid.push(fresh);
+    }
+    return valid.slice(0, 10);
+  }
+
+  async view(id: string): Promise<{ record: ManagedSkill; content: string }> {
+    const record = (await this.catalog()).find(r => r.id === id);
+    if (!record) throw new Error("Unknown SkillId");
+    const actual = await realpath(record.path);
+    const root = await realpath(this.skillRoot(record.scope));
+    if (!actual.startsWith(root + sep)) throw new Error("Skill escaped managed root");
+    const content = await readFile(record.path, "utf8");
+    if (content.length > 16000) throw new Error("Skill needs paged reading; first-slice reader refuses truncation");
+    return { record: { ...record, version: contentHash(content) }, content };
+  }
+}

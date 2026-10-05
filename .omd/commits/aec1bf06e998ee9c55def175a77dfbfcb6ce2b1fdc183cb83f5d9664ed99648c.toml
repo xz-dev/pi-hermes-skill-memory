@@ -1,0 +1,12 @@
+salt = "7c8Adn50k48aQ6kv"
+previous_id = "843ca84680982679be02878a71c1adcff03bfae60bc7c57c8c7b2bccb389baab"
+timestamp = "2026-10-04T17:19:24.352079549Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d16e0c0dd4f2788eb176d6690feed9cdab4d5efedeed597602a73c01af3df94f", "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "25b63db81fb4e4bc005bf8a16c95bc33"
+reason = "Task 2 received position-only policy propagation. withLock remains the same local FIFO/exclusive-file primitive used for atomic admission; it does not schedule or enable requests, so disabling requires no lock redesign."
+stop = false

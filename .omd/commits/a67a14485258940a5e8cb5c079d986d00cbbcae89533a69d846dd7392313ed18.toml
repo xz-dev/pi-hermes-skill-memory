@@ -1,0 +1,10 @@
+salt = "1kf6Txs6YzNMTyZn"
+previous_id = ""
+timestamp = "2026-10-03T19:55:16.526477865Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:a2ac02225be63403dd8ff50f8d9c4247a49e52e5fb40da07e86de95e86da8d79"
+path = "test/modes.test.ts"

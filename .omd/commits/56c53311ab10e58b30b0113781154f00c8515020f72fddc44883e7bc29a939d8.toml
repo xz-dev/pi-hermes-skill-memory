@@ -1,0 +1,12 @@
+salt = "QLL6Uq2HHBAD0FrR"
+previous_id = "f9f509b5480d9d486eaa4563d4be0af14a5c7b66a2d9a4d6847c0d56ba3064a6"
+timestamp = "2026-10-04T17:25:28.647523777Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"]
+link_id = "cdc60afe3e7bf71747c0f351122c9ee0"
+reason = "The fee tests and their report are unchanged. fee-matrix.md keeps fake/SDK usage distinct from real bills, identifies the original-R2 overshoot fix and retains its historical native-UI boundary."
+stop = false

@@ -1,0 +1,12 @@
+salt = "BGBMhcKokl8OZjLk"
+previous_id = "4702dbc0ad352e11fa0e4355276f77f0215fcdef15cf221012487cedb4d1b1d0"
+timestamp = "2026-10-04T17:19:30.656242713Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["83b6c55d57b0e8549961bb0fd78ef7321282eea61c4bb35abaef48adc1493f23", "ee87e44163425319bf46ac03d20bbd21043187484cda5d8175db9f1906e18029"]
+link_id = "ac8fb17190feacb1fa158ab0e3dc8c7a"
+reason = "UI now has scheduling and target labels; the old TUI page incorrectly said scheduling was still absent. It was revised to label its 2.4 historical scope and link current fee/delivery evidence; old captures are not claimed as a new UI run."
+stop = false

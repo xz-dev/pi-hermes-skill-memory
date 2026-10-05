@@ -1,0 +1,14 @@
+salt = "P9eI0m2Tf9D3z7aL"
+previous_id = "f95c220a3764aa930506ba0d6eae276b50fdece4da0ce1196ee1864b52f08822"
+timestamp = "2026-10-01T10:30:40.021511768Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "42721a8b3d337d24d9eb7694f231e520"
+reason = "规划范围：D3 — Scope 与 owner 两个轴。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+source_version = "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+target = "range:55180c35186847a88a7a4b4667d123f300dc3f9d3cee71d616a1b7b2b88b8a6d"
+target_version = "f95c220a3764aa930506ba0d6eae276b50fdece4da0ce1196ee1864b52f08822"

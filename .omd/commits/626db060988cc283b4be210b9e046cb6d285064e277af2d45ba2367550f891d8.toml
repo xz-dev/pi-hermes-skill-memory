@@ -1,0 +1,15 @@
+salt = "fNrAbzpjmX6SBNWv"
+previous_id = "44bd9c8f55353fad468fd2d2d34cfb1bc51115a28207bbb50773b144f208aeae"
+timestamp = "2026-10-01T15:23:25.249955372Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "20d8025abc1a0ad70d46d5ec96265767"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-discovery/spec.md"
+reason = "逐范围复核SDK完整来源接入的用户决定、官方公开API、同名/排除/信任/版本/owner及原生回退往返。36 tests与公共类型检查通过；3.1已完成，其他未实施任务保持未完成。关系不等于语义证明。"
+
+[payload.position]
+end = "2302"
+mode = "text"
+start = "2022"

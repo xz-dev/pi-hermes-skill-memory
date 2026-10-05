@@ -1,0 +1,12 @@
+salt = "igCeIHW19QjGqkkS"
+previous_id = "9ce127b022f36b9b76f3e6e7251971aa9c4d4a9ce0127b6ff93edc3adaa60187"
+timestamp = "2026-10-04T17:19:24.658196427Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"]
+link_id = "2f38898e17189b6c5cc6f790c8a7961a"
+reason = "Task 1's usefulness propagation reaches index.ts's registered search/view/manage and review controls. Learning tests execute proposal→save→search/read reuse through these entries; invalid source snapshots still preserve native access."
+stop = false

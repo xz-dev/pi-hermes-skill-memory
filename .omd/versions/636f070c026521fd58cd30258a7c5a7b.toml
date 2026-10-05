@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [99, 111, 7, 12, 2, 101, 33, 253, 88, 205, 48, 37, 138, 124, 90, 123]
+len = 1659
+sha256 = "aaaf5478fb53a8796980c845b0e374cb926e4efc4b1e642135f1890f4deca824"
+encoding = "utf-8"
+content_file = "content/aaaf5478fb53a8796980c845b0e374cb926e4efc4b1e642135f1890f4deca824"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "src/scope.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "src/scope.ts"

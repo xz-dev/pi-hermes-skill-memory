@@ -1,0 +1,12 @@
+salt = "hXJ2WZrpDDqMJ67q"
+previous_id = "5e9f194a0864f2137efafbb04d8b14e9ddb93bbf41b83309e8610301921c2771"
+timestamp = "2026-10-03T19:55:20.779786005Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1fa91a6e2bc73a17842522ebb9a1970568b26819906b793fefca569a177e8b74"]
+link_id = "0d306ed3f862f650902503935cf7bd6e"
+reason = "implementation:ledger → test:concurrency：当前公共类型检查及63项fake/SDK回归通过，已完成14/26：3.4模式/加载/刷新，5.2分开计数/settled，4.4逐成员备份/部分提交/本地恢复及取消writer退出释放锁。恢复不重放模型、保留unknown额度、手改拒绝；不是跨文件全原子/全回滚，也不是剩余12项或真实模型质量验收。"
+stop = false

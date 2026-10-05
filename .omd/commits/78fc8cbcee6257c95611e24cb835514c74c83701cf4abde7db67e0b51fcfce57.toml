@@ -1,0 +1,15 @@
+salt = "rgtkHZ08D5nJDadz"
+previous_id = "9f23ddf4a9e1f9823a680621bb3104c3716879c941ab0e998e9a457cff8c6deb"
+timestamp = "2026-10-03T19:55:15.310623949Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "e3d775f0a960d411f2965f29e07bc8bf"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "当前公共类型检查及63项fake/SDK回归通过，已完成14/26：3.4模式/加载/刷新，5.2分开计数/settled，4.4逐成员备份/部分提交/本地恢复及取消writer退出释放锁。恢复不重放模型、保留unknown额度、手改拒绝；不是跨文件全原子/全回滚，也不是剩余12项或真实模型质量验收。"
+
+[payload.position]
+end = "1436"
+mode = "text"
+start = "1026"

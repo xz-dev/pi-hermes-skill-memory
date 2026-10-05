@@ -1,0 +1,12 @@
+salt = "biXDnMZjxclerX78"
+previous_id = "47059d41063a8b7ac9513b468c6620aa9dff7ccb370136ee7e66da719da35f50"
+timestamp = "2026-10-05T02:46:44.080063555Z"
+schema = "omd.commit/3"
+kind = "rename"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = ""
+source = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+target = "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md"

@@ -1,0 +1,12 @@
+salt = "EWRuMYrEzlD6CHXu"
+previous_id = ""
+timestamp = "2026-10-05T02:54:40.211192482Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/proposal.md"
+scope = []

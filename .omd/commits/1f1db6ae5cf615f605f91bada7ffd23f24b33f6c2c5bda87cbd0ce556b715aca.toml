@@ -1,0 +1,12 @@
+salt = "3fPvXOKcPijaZoIa"
+previous_id = ""
+timestamp = "2026-10-01T10:30:43.232677727Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md"
+scope = []

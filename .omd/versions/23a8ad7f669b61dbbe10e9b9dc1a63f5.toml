@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [35, 168, 173, 127, 102, 155, 97, 219, 190, 16, 233, 185, 220, 26, 99, 245]
+len = 17894
+sha256 = "7fcb3607cfd04646f138a14400528811c19687f41455569696f0ec9823b9a218"
+encoding = "utf-8"
+content_file = "content/7fcb3607cfd04646f138a14400528811c19687f41455569696f0ec9823b9a218"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "src/restore-sources.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "src/restore-sources.ts"

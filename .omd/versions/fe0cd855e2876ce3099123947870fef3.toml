@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [254, 12, 216, 85, 226, 135, 108, 227, 9, 145, 35, 148, 120, 112, 254, 243]
+len = 9865
+sha256 = "9b8d1ffa48eba3a6bf2b54dcb780ab56fe49e9d652c319edcd5ca54ed498f04d"
+encoding = "utf-8"
+content_file = "content/9b8d1ffa48eba3a6bf2b54dcb780ab56fe49e9d652c319edcd5ca54ed498f04d"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/scope-migration.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/scope-migration.test.ts"

@@ -1,0 +1,10 @@
+salt = "Ez1FQ6zsNGQwyqXg"
+previous_id = ""
+timestamp = "2026-10-04T17:04:55.061600739Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:33fa23adadb97a145d26518d1ef609f8895d01b3cdfd5e46e1245cf41cfd8b3c"
+path = "test/fee-matrix.test.ts"

@@ -1,0 +1,10 @@
+salt = "PxFzcWNn6PHVkryI"
+previous_id = ""
+timestamp = "2026-10-04T17:04:59.925938534Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:dca5fce7fec808928e7aada3c9dc77f7eb0a4486181e4c7739f799723802de60"
+path = "test/snapshot.test.ts"

@@ -1,0 +1,12 @@
+salt = "acX3KjIy1tXt8bFc"
+previous_id = "fe1ff4e6f9886ed8b7046eaee6e3228c55cc8323ebc64f35df1997a2111026ac"
+timestamp = "2026-10-01T15:46:35.08234315Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["f2d1d50dc7c0bc9a086edcfed5fdc231186e9b8a5ba97287b744e2bce23a869b"]
+link_id = "07564fc85154f68d44aa3e6f7ef76104"
+reason = "design:D5 → tasks:5：已核对原规划要求和任务责任。D3–D7及未实施任务仅因D2/3.1插入而移位，正文要求未删减；3.2–7.3仍未完成，关系不代表实现或语义证明。"
+stop = false

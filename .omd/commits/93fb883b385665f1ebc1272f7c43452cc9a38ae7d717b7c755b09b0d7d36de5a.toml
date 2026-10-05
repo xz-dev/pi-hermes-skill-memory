@@ -1,0 +1,14 @@
+salt = "2pBNEGM2CG908nme"
+previous_id = "a81a16c85507558d976eb8ec93e4fa4d2220a70c0ade92b9fc713f8a8ab47b19"
+timestamp = "2026-10-01T10:32:42.083826752Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "4e3c3a110e31bd9c42c9043bf1ede31d"
+reason = "H4 支撑或约束 D4；是规划依据关系，不声称上游已经实现本插件新增行为。"
+source = "range:b36ffc4536358335eb61a2586b35290dddfa5c0e958925a1a0425e3f6ed4740e"
+source_version = "b36ffc4536358335eb61a2586b35290dddfa5c0e958925a1a0425e3f6ed4740e"
+target = "range:8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b"
+target_version = "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b"

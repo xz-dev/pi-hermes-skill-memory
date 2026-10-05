@@ -1,0 +1,12 @@
+salt = "Aln6q9o431W6Qblj"
+previous_id = "eabd9542e7cef05d50f2e7f0a2dde0c1fd56bbce78ec8e0c4e528e478a8b3cbd"
+timestamp = "2026-10-04T17:19:17.484319117Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "dc4fd58c5fc9537d4afb3f37860a9475"
+reason = "D5's position changed, not its visibility promise. Failure/usage requirement still retains unknown usage and persistent pause; fee-matrix and native failure/delivery evidence show status surviving reload."
+stop = false

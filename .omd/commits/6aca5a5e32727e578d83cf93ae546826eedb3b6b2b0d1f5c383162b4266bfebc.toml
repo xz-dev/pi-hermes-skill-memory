@@ -1,0 +1,12 @@
+salt = "dI9FHaR5KBZFEus0"
+previous_id = ""
+timestamp = "2026-10-04T17:05:03.824789457Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "docs/maintenance-evidence.md"
+scope = []

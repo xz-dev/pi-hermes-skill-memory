@@ -1,0 +1,9 @@
+salt = "XCt5pzhKlnP6Qbn2"
+previous_id = "0850238f3cca804775c9c6713c5a00feb6868ddc28c3eda6a142cecfe5e5eda5"
+timestamp = "2026-10-01T12:57:59.522987725Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/bootstrap.test.ts"

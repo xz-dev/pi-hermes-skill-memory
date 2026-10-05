@@ -1,0 +1,12 @@
+salt = "5ex80kmUT6j7DsWT"
+previous_id = "873fc66c7613712eba375bdfef887ef0e321750ff6a720be42192d8e64c607a3"
+timestamp = "2026-10-04T17:19:15.773425926Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "b4954633e1f3d5ee60f53f4b85d98b6b"
+reason = "D5 moved only. Settled scheduling still separates user versus tool-bearing turns and excludes start/compaction/exit billing; scheduling tests cover three user turns and forty tool loops."
+stop = false

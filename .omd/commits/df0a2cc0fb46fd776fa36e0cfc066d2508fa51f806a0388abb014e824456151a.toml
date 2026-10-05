@@ -1,0 +1,14 @@
+salt = "Ngcdg8N2dKXbbGJQ"
+previous_id = "787934669c2ec9fae64f743b9e91535435b5dd1ff74a75a6fd10da923f86ac49"
+timestamp = "2026-10-01T10:30:43.725559458Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "711113c94c78b3ad8cacd15252dea181"
+reason = "规划范围：Requirement: Scoped knowledge remains scoped。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:57853f14ffd8912768436fe64b3935d6bbeae7e39e1be40409881ae13afc7d54"
+source_version = "97413eea6f63b2d5d27e93a945f2ebd83ad649e4e886f72c3b7fcec665f77d4e"
+target = "range:8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120"
+target_version = "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120"

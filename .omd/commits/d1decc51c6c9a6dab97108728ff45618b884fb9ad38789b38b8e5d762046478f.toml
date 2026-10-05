@@ -1,0 +1,15 @@
+salt = "wljrmyR8X9xdS8Vr"
+previous_id = "f75fb930b4827851e13099e9d068a2a788dcb6214129705b20b072b19e7e2f83"
+timestamp = "2026-10-03T20:05:59.543552732Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "cd45ab76973a0bc8d283f26a81cd56c5"
+
+[payload]
+path = "docs/implementation-evidence.md"
+reason = "实测14/26、63项类型/回归验收；45文件95范围139条本地关系已续改。明确记录memory R2/R5副本分歧，不把本地healthy当作共享正文一致，不变费用语义或另项目。"
+
+[payload.position]
+end = "3567"
+mode = "text"
+start = "173"

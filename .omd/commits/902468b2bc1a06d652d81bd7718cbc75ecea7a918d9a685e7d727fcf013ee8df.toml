@@ -1,0 +1,10 @@
+salt = "zBKl2wV1nYBNFpYv"
+previous_id = ""
+timestamp = "2026-10-03T19:55:18.395210514Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:6a8d7a8c7c6fa2f9e0e73d66de87401112cce48a13080e919aa0b2b20f9a13af"
+path = "test/member-transactions.test.ts"

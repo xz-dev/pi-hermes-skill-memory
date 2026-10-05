@@ -1,0 +1,14 @@
+salt = "T3i55iDL1GfSc0yC"
+previous_id = "d49a059e4eb59abaefdc20712456b5baf7a4595eec69383d8e44bc5f044cbb00"
+timestamp = "2026-10-01T10:30:43.008630968Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "3ef11423656ba575e326b1260526b4c1"
+reason = "规划范围：Requirement: Disable means no automatic model calls。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+source_version = "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+target = "range:9e800d897b33096ddaa59c787dbd2523e2808b79a7a0fcebeede0bc0ea77c6aa"
+target_version = "d49a059e4eb59abaefdc20712456b5baf7a4595eec69383d8e44bc5f044cbb00"

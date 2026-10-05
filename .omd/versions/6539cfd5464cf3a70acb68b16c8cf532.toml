@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [101, 57, 207, 213, 70, 76, 243, 167, 10, 203, 104, 177, 108, 140, 245, 50]
+len = 7387
+sha256 = "72b0863f32515806bd7358fa4528ad4abec49f248d58f977efa4b2cdba14b281"
+encoding = "utf-8"
+content_file = "content/72b0863f32515806bd7358fa4528ad4abec49f248d58f977efa4b2cdba14b281"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/review-limits.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/review-limits.test.ts"

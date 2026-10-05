@@ -1,0 +1,14 @@
+salt = "EFaAAvkSgEZ6mchZ"
+previous_id = "da03607a982f9b5763a03da3b7ecbdeea227a221b8cf35e11223b9705b2acfed"
+timestamp = "2026-10-03T16:47:36.0523807Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "74d5dc5193bd660ac0d71d10ab2a778f"
+reason = "实际执行的正文、单个引用/脚本无执行、穿越/链接/来源重绑定拒绝、长文本Unicode分页与版本检查；不冒充自动学习或完整3.4验收。"
+source = "range:58db73dfcfa95e64e154499e0396de03bbbd13c9cf148b25a2319a56657bd891"
+source_version = "58db73dfcfa95e64e154499e0396de03bbbd13c9cf148b25a2319a56657bd891"
+target = "range:31ab6955cc1edcf98869572d77876807814edbe83bcf22ccef57ba0c89b8c3d6"
+target_version = "da03607a982f9b5763a03da3b7ecbdeea227a221b8cf35e11223b9705b2acfed"

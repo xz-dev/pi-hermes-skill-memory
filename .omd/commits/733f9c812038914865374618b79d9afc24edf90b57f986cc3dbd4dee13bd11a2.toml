@@ -1,0 +1,12 @@
+salt = "Rkm6wEVU9iiADm3G"
+previous_id = "9cdb0e53e9afc96753ae5fab16ee35a368907949bd6183ab088139375df7846d"
+timestamp = "2026-10-03T15:29:45.784656418Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["5531312124af926272fd4d3c7aec4b89918b469f929769a0c422a3c1e3fdc764"]
+link_id = "cf40334326c5419fbadcae59b4fc3a9b"
+reason = "design:D4 → requirement:scoped-skill-management:Requirement: Read and compare before mutation：已核对原规划要求和任务责任。D3–D7及未实施任务仅因D2/3.1插入而移位，正文要求未删减；3.2–7.3仍未完成，关系不代表实现或语义证明。"
+stop = false

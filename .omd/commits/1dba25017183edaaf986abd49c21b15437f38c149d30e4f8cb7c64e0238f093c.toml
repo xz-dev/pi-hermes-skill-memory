@@ -1,0 +1,9 @@
+salt = "iaxsqiYOCK6KCSTT"
+previous_id = ""
+timestamp = "2026-10-01T15:23:29.85055687Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "9449f82d12c26aed245d178cca5e224f"
+
+[payload]
+path = "src/sources.ts"

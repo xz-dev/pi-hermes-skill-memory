@@ -1,0 +1,10 @@
+salt = "MV22xNVneJvQPEJn"
+previous_id = ""
+timestamp = "2026-10-01T12:57:55.235707524Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:ed8a8c1e0ccbeb3f864a2ccb59ab6e7156a1a39d90baaa460eea7577087962c3"
+path = "src/context.ts"

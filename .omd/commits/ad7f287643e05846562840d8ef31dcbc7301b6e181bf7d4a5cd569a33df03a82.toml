@@ -1,0 +1,12 @@
+salt = "Quk66BWamdwxun3s"
+previous_id = "d29352b31110d472bb6804abf0e77f5563d193ef713337b5257a3458f1b62862"
+timestamp = "2026-10-04T17:19:33.048195902Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["44889a9942d4245f7fe5be4255d6103b1ba807010555cb6cebd917d9c9eebc46"]
+link_id = "0d5bdab94fe778c2f71f71780dea2d67"
+reason = "The source tests retain the documented loader/resolver distinction, final-allowed callback and source-failure fallback. source-discovery-boundary.md remains explicitly a 3.1 slice, not a claim that it alone proves maintenance or all learning behavior."
+stop = false

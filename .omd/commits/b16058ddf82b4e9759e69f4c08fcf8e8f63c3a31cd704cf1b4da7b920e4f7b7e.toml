@@ -1,0 +1,14 @@
+salt = "5uPBOWgkeotW9qQe"
+previous_id = "ad40ee1bab6c64a1d52a894d7eebafc3e75897d1afb33e1691f1ac44345d3929"
+timestamp = "2026-10-01T10:30:41.650649396Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "5a61637e92cca0de04450a957735edb8"
+reason = "规划范围：Requirement: Explicit generation scope。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:0739ecce1f9404fe097df2e8259690bb3e15598d7702b9f65de8a89253b4ade8"
+source_version = "a857576822c40873012d2abc16688dca0b1285d8f03ebcbb650262c03ccc6770"
+target = "range:bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"
+target_version = "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"

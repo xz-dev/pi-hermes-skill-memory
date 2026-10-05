@@ -1,0 +1,12 @@
+salt = "3JjqHF4vE37mBcz5"
+previous_id = "c8ef0096b42a0ac035d619962439fc6e258e1d5e40ef8b3f6fe5ad75e88424cf"
+timestamp = "2026-10-05T02:52:31.314025949Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"]
+link_id = "467c8e4a8376df1ac384469091c35552"
+reason = "归档路径传播核对 tasks:2 → implementation:ui：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 src/ui.ts SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

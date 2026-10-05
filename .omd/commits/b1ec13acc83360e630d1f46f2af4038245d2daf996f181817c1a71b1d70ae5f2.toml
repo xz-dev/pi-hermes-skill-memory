@@ -1,0 +1,12 @@
+salt = "qHAJId9HOiHjBeKl"
+previous_id = "0f9bdeb0c96c1f4db4c0e118dc282cdb55cf266479fd629e842620b1da0d4209"
+timestamp = "2026-10-03T16:09:00.253905492Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["5c4836b8595f6857ac52598ae9771b5b899f113a1cb2c545a4a4e6460004445f"]
+link_id = "7f82d0a2d274b8250a80d8612bfb22aa"
+reason = "tasks:3 → implementation:catalog：已核对3.2搜索元数据投影、inspection分离、完整响应预算和实际38项回归；原任务责任不删减，3.3–7.3仍未完成。"
+stop = false

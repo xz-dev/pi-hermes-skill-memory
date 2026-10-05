@@ -1,0 +1,12 @@
+salt = "XXVFD38JJ2wnj6B1"
+previous_id = "8f93aa59e117407da8459cf7780692701b08db3a844fa3f172670a8d405819cd"
+timestamp = "2026-10-04T17:25:27.213511483Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"]
+link_id = "4900fb250b476958d90fc307ca288ef5"
+reason = "Propagation is only the completed delivery marker through unchanged cooperation. review.ts remains identical: one stream, classified target callback and guarded separate commits; no new request path is introduced."
+stop = false

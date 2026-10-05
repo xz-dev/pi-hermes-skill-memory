@@ -1,0 +1,15 @@
+salt = "qemaoUHXCWgsBdgh"
+previous_id = "d9a29c87b2edaff250c510acf6e2dc3430d17e42868a1492c2f72eae6febc256"
+timestamp = "2026-10-01T10:45:21.385105003Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "4107bfd684f575ca49e85f47e6bc1571"
+
+[payload]
+path = "docs/pi-plugin-planning-brief.md"
+reason = "复核并同步后续用户决定：外接仅评估、搜索优先、Hermes 当前快照，以及持续费用/失败可见性与学习效用验收；不扩张实现授权。"
+
+[payload.position]
+end = "1038"
+mode = "text"
+start = "415"

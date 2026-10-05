@@ -1,0 +1,12 @@
+salt = "dR21rPFkqLCAZovC"
+previous_id = "864117319f7161bf7aa933af581d6d2caebf47d1e24d1fe5f8fbf7e3f8b6598e"
+timestamp = "2026-10-04T17:19:05.023713738Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"]
+link_id = "61ccb0c93865bb5c55fee9e5137fc396"
+reason = "D6's statistical contract is reflected explicitly in the expanded requirement: reported versus confirmed, persisted fingerprints beyond 4096 receipts, and statistics failures not disabling reading or pin."
+stop = false

@@ -1,0 +1,10 @@
+salt = "uhWYhMpi8w7mQrcu"
+previous_id = ""
+timestamp = "2026-10-04T17:07:49.744835084Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:513deb8471c0337ddd9aa17e4ace783739e4e40094a4777f58ba5262753830e1"
+path = "docs/usage.md"

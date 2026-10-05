@@ -1,0 +1,14 @@
+salt = "Cn28NnYw3EDW7nfc"
+previous_id = "d3c4baf2913c99e844799653241697901355a4fa9027b5df3c35bdfae0766939"
+timestamp = "2026-10-03T19:55:16.560428952Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "31f94df8c906194b788d28f9efdd7fb2"
+reason = "当前公共类型检查及63项fake/SDK回归通过，已完成14/26：3.4模式/加载/刷新，5.2分开计数/settled，4.4逐成员备份/部分提交/本地恢复及取消writer退出释放锁。恢复不重放模型、保留unknown额度、手改拒绝；不是跨文件全原子/全回滚，也不是剩余12项或真实模型质量验收。"
+source = "range:19b8b8c945b190ed4a56c1d85e92528dc229f55023f8377165b96f6ed05bb486"
+source_version = "19b8b8c945b190ed4a56c1d85e92528dc229f55023f8377165b96f6ed05bb486"
+target = "range:a67a14485258940a5e8cb5c079d986d00cbbcae89533a69d846dd7392313ed18"
+target_version = "d3c4baf2913c99e844799653241697901355a4fa9027b5df3c35bdfae0766939"

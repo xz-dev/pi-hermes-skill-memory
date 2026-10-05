@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [25, 82, 179, 30, 245, 60, 184, 66, 58, 26, 32, 220, 123, 167, 134, 89]
+len = 1115
+sha256 = "2e32e321bea84f9eb568a045100681c8b269498b4b8fa99342ca073c48cd3a85"
+encoding = "utf-8"
+content_file = "content/2e32e321bea84f9eb568a045100681c8b269498b4b8fa99342ca073c48cd3a85"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/fixtures/tui-delivery.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/fixtures/tui-delivery.ts"

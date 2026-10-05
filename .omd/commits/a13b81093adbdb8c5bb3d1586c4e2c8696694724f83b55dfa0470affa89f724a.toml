@@ -1,0 +1,12 @@
+salt = "yvJ3EqZCt0ljQUpr"
+previous_id = "cddd799d2e4428b42241a3e16ace21da7b0fca05280afcdba00675c1a5b42158"
+timestamp = "2026-10-04T17:19:20.422052069Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "5c3ad1b202b30b2cad53ed9b93c83f0a"
+reason = "Lifecycle requirement received only propagated D5 relocation. Task 5.4 still covers actual input/navigation/reload and retirement of the old SDK session before another project; no arbitrary OS kill guarantee was added."
+stop = false

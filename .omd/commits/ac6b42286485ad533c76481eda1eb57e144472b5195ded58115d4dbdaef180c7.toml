@@ -1,0 +1,14 @@
+salt = "77VHjB2XtVMpqbIH"
+previous_id = "3e65b7775fca878e8ba3319aeddf0d674850312b8cb725738a3f7b5dac7ff1c0"
+timestamp = "2026-10-01T10:30:42.116638989Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "db7d9a9592b5defaf249e1e46403899c"
+reason = "规划范围：Requirement: Installation is not generation。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b"
+source_version = "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b"
+target = "range:d67d70ae0b88749dc594d21f6dc57bc5ed1c8b1dd3c3912b134c6e981966dda9"
+target_version = "3e65b7775fca878e8ba3319aeddf0d674850312b8cb725738a3f7b5dac7ff1c0"

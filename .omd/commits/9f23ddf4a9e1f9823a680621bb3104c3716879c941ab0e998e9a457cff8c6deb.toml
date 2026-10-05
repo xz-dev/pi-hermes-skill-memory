@@ -1,0 +1,15 @@
+salt = "KNhw64rYCwuZZrhM"
+previous_id = "5c4836b8595f6857ac52598ae9771b5b899f113a1cb2c545a4a4e6460004445f"
+timestamp = "2026-10-03T16:47:34.198057342Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "65a8d0400a2d9bc6f861e7fb947250fe"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "3.3公共类型检查和41项回归通过：默认读取精确选定文件，单个引用/脚本只读不执行；路径穿越、链接逃逸和逻辑来源重绑定拒绝；完整JSON16000字符预算、Unicode scalar游标及版本指纹。仅勾选已验收3.3，3.4和其余15项仍未完成。"
+
+[payload.position]
+end = "1436"
+mode = "text"
+start = "1026"

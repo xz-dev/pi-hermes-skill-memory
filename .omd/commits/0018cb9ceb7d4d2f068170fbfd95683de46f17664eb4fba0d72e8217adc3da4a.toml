@@ -1,0 +1,12 @@
+salt = "zR1J7A39NTrYe2Eb"
+previous_id = "907d48262a40a52b9a2c2d42f172174d00dd1e955bc82a2c1f7a47fff47b2a8a"
+timestamp = "2026-10-04T17:19:32.324936296Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["44889a9942d4245f7fe5be4255d6103b1ba807010555cb6cebd917d9c9eebc46"]
+link_id = "f505ad8750f1f33624710f8d1d21166e"
+reason = "Catalog now records activity and known references, but sources.test.ts still validates distinct IDs, owners, exclusions, empty sets, refresh failure and native fallback. Added maintenance behavior does not reinterpret user-owned files as managed."
+stop = false

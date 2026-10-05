@@ -1,0 +1,9 @@
+salt = "XpppbqdZmmO0Pobs"
+previous_id = ""
+timestamp = "2026-10-01T10:30:39.532040879Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "45de60056a74e924d09a3afbb415b31a"
+
+[payload]
+path = "docs/planning-evidence.md"

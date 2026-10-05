@@ -1,0 +1,40 @@
+import assert from "node:assert/strict";
+import { mkdir, writeFile, rename, stat, readFile } from "node:fs/promises";
+import { join } from "node:path";
+import { DefaultPackageManager, SettingsManager } from "@earendil-works/pi-coding-agent";
+import { createSkillSources } from "../../src/sources.ts";
+import { authorizeSkillRestore, createSkillRestorePolicy } from "../../src/restore-sources.ts";
+
+const root = process.argv[2]!, cwd = join(root, "project"), agentDir = join(root, "agent");
+const file = join(agentDir, "skills/probe/SKILL.md"), archive = join(root, "archive.md");
+await mkdir(cwd, { recursive: true }); await mkdir(join(agentDir, "skills/probe"), { recursive: true });
+const text = "---\nname: probe\ndescription: Restore policy differential fixture\n---\nPreserve me.\n";
+await writeFile(file, text);
+const settings = SettingsManager.inMemory(); settings.setProjectTrusted(true);
+const skill = (await createSkillSources({ agentDir, settingsManager: settings })({ cwd, projectTrusted: true, nativeSkills: [] })).skills.find(skill => skill.filePath === file)!;
+assert.ok(skill);
+const request = { cwd, projectTrusted: true, id: "restore-probe", skill };
+const cases = [[], ["-skills/probe"], ["!skills/**"], ["!skills/**", "+skills/probe"], ["+skills/probe", "-skills/probe"]];
+const observations = [];
+for (const rules of cases) {
+  const current = SettingsManager.inMemory({ skills: rules }); current.setProjectTrusted(true);
+  const stock = await new DefaultPackageManager({ cwd, agentDir, settingsManager: current }).resolve(async () => "skip");
+  const expected = stock.skills.find(row => row.path === file)?.enabled === true;
+  await rename(file, archive);
+  const policy = createSkillRestorePolicy({ agentDir, settingsManager: current });
+  const actual = await policy(request);
+  assert.equal(actual.allowed, expected, JSON.stringify({ rules, expected, actual }));
+  if (expected) await authorizeSkillRestore(policy, request);
+  else await assert.rejects(authorizeSkillRestore(policy, request), /denied/);
+  await assert.rejects(stat(file), /ENOENT/, "policy must not materialize a target before authorization");
+  assert.equal(await readFile(archive, "utf8"), text);
+  observations.push({ rules, allowed: actual.allowed });
+  await rename(archive, file);
+}
+await rename(file, archive);
+await assert.rejects(authorizeSkillRestore(undefined, request), /host restore policy/);
+const valid = await createSkillRestorePolicy({ agentDir, settingsManager: settings })(request);
+await assert.rejects(authorizeSkillRestore(async () => ({ ...valid, id: "wrong-id" }), request), /identity/);
+await assert.rejects(authorizeSkillRestore(createSkillRestorePolicy({ agentDir, settingsManager: settings, noSkills: true }), request), /noSkills/);
+await assert.rejects(authorizeSkillRestore(async () => valid, { ...request, projectTrusted: false }), /Untrusted/);
+console.log(JSON.stringify({ observations, targetWrittenDuringDecision: false, modelCalls: 0 }));

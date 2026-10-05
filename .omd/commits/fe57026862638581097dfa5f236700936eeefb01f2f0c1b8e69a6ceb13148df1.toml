@@ -1,0 +1,12 @@
+salt = "thKdNbYmSN8rnmzR"
+previous_id = "64e958df1fd198b5cb6e9bf9e4e7bb4b4480dfb2aec6ceadbd2670851776118e"
+timestamp = "2026-10-03T16:09:01.019502377Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["5c4836b8595f6857ac52598ae9771b5b899f113a1cb2c545a4a4e6460004445f"]
+link_id = "c34741a62084e7d454dee116ac315dd0"
+reason = "implementation:sources → implementation:source-worker：已核对3.2搜索元数据投影、inspection分离、完整响应预算和实际38项回归；原任务责任不删减，3.3–7.3仍未完成。"
+stop = false

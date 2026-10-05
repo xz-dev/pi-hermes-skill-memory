@@ -1,0 +1,12 @@
+salt = "KPH0238A7EAZvmc4"
+previous_id = ""
+timestamp = "2026-10-04T17:05:04.524142183Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "docs/review-cooperation.md"
+scope = []

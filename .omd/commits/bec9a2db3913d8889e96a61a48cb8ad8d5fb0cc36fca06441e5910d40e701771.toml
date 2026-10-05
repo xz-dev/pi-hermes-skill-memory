@@ -1,0 +1,14 @@
+salt = "cZq1A662PmL5nZBN"
+previous_id = "fc65fe02e9e9e9f7a066830f9fc053d316e18414e897fbc52e1a627ea18b85c2"
+timestamp = "2026-10-01T10:30:43.504460642Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "61343f40cf5f3a3ce247762444b0acaf"
+reason = "规划范围：Requirement: Reviewable curation。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+source_version = "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+target = "range:1ba29776a03c68404e8a57361c9a8f7a2e1f114ff6d6a6e42af2f67c7a5d3a49"
+target_version = "fc65fe02e9e9e9f7a066830f9fc053d316e18414e897fbc52e1a627ea18b85c2"

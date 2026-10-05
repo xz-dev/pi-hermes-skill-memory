@@ -1,0 +1,12 @@
+salt = "CcD9QOvUFJRjXeYK"
+previous_id = "bae4f577972ae30d6463089c0af62a7368eea666989b73aec5b334f6b0ebb286"
+timestamp = "2026-10-04T17:19:17.867438797Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "e10045eada8e64889df05cb99e93f296"
+reason = "D5 relocation propagates to unchanged task group 2. Its existing budget, accounting and TUI obligations remain met; late-over-reservation handling was added under the original overshoot rule, not memory's new R2."
+stop = false

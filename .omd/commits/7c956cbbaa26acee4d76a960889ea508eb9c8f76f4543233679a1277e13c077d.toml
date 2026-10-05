@@ -1,0 +1,12 @@
+salt = "XbVwEnPgP4aHPFen"
+previous_id = "93fb883b385665f1ebc1272f7c43452cc9a38ae7d717b7c755b09b0d7d36de5a"
+timestamp = "2026-10-05T02:45:50.598318996Z"
+schema = "omd.commit/3"
+kind = "rename"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/design.md"
+reason = ""
+source = "openspec/changes/add-managed-skill-lifecycle/design.md"
+target = "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md"

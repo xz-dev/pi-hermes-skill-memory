@@ -1,0 +1,16 @@
+salt = "BFk8B56Bz9FhXeNU"
+previous_id = "0c37f9ca154e37269750030a3f9480fef2d4be63ce856bf049d4db7b00d1580e"
+timestamp = "2026-10-01T10:30:43.800436461Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "0c4d7f667f609bf7c50bd098e90cbfa9"
+
+[payload]
+mount = "file:f26da02b85a8c9e0b4e06576381358b9581acbf11854621fc6f7ae3682524407"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md"
+reason = "规划范围：Requirement: Maintenance results are durable and visible。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "1637"
+mode = "text"
+start = "1351"

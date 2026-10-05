@@ -1,0 +1,12 @@
+salt = "UzTne7qECE3zfcsu"
+previous_id = "a0a52fca664c557b3efe05cd0f3e3da52363c2707eb477e598dc5f14a6ead8f4"
+timestamp = "2026-10-03T15:29:44.263199394Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["eb6eeb50d20e5a776feff3fc7c0e3c97b2090ea431da66b32e3327c767f9f4b7"]
+link_id = "61ccb0c93865bb5c55fee9e5137fc396"
+reason = "design:D6 → requirement:skill-maintenance:Requirement: Evidence distinguishes viewing from success：已核对原规划要求和任务责任。D3–D7及未实施任务仅因D2/3.1插入而移位，正文要求未删减；3.2–7.3仍未完成，关系不代表实现或语义证明。"
+stop = false

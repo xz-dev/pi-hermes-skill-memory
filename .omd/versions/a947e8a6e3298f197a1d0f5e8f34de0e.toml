@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [169, 71, 232, 166, 227, 41, 143, 25, 122, 29, 15, 94, 143, 52, 222, 14]
+len = 1070
+sha256 = "a116dd5bfd78001d4d98368dd7663a2b8952b29a8b7bb5984bc7ca5445c38c83"
+encoding = "utf-8"
+content_file = "content/a116dd5bfd78001d4d98368dd7663a2b8952b29a8b7bb5984bc7ca5445c38c83"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/resource-boundary.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/resource-boundary.test.ts"

@@ -1,0 +1,14 @@
+salt = "9CNKtAoyBeVylohh"
+previous_id = "48f9b7f8809fff57d0a93e39e4d43e7fa375dc26265fa57b1abc31ed87805338"
+timestamp = "2026-10-01T10:30:39.876898598Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "6d57d41f983db95335cf20ef95d68018"
+reason = "规划范围：D1 — 官方 Pi 是宿主，不是待修改的依赖。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:39eaec558cb9e63cf9e37de8586844991127b363f05aa10dffc9d6da1e1e3496"
+source_version = "39eaec558cb9e63cf9e37de8586844991127b363f05aa10dffc9d6da1e1e3496"
+target = "range:d53c4c5dcbd70f2e0790f824ede94c10c7d4a0e0253790c6993a6f8bb3609bca"
+target_version = "48f9b7f8809fff57d0a93e39e4d43e7fa375dc26265fa57b1abc31ed87805338"

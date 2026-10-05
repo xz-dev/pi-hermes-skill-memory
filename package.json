@@ -1,0 +1,49 @@
+{
+  "name": "pi-hermes-skill-memory",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "author": "Xiangzhe",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xz-dev/pi-hermes-skill-memory.git"
+  },
+  "bugs": { "url": "https://github.com/xz-dev/pi-hermes-skill-memory/issues" },
+  "homepage": "https://github.com/xz-dev/pi-hermes-skill-memory#readme",
+  "keywords": ["pi", "pi-package", "pi-extension", "skills"],
+  "files": ["src", "docs", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md"],
+  "type": "module",
+  "description": "Search-first managed skills for official Pi",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "node --test test/*.test.ts"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-ai": "0.99.2",
+    "@earendil-works/pi-coding-agent": "0.99.2",
+    "@types/hosted-git-info": "3.0.5",
+    "@types/node": "^22.0.0",
+    "@types/semver": "^7.7.1",
+    "typebox": "1.3.27",
+    "typescript": "^5.9.0"
+  },
+  "dependencies": {
+    "hosted-git-info": "9.0.3",
+    "ignore": "7.0.8",
+    "minimatch": "10.2.6",
+    "semver": "^7.8.5"
+  }
+}

@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [198, 216, 231, 24, 105, 223, 238, 147, 72, 20, 187, 187, 28, 155, 40, 47]
+len = 6415
+sha256 = "60fe68dd396a919f7fbcdd2fe73b306d416ebc98dcebfac7c6609d606d02e4a7"
+encoding = "utf-8"
+content_file = "content/60fe68dd396a919f7fbcdd2fe73b306d416ebc98dcebfac7c6609d606d02e4a7"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/member-transactions.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/member-transactions.test.ts"

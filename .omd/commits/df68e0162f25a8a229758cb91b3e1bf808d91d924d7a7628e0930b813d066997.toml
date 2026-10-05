@@ -1,0 +1,16 @@
+salt = "WbVp606FnfQxtlrb"
+previous_id = "319caecb51989597ed5f89cf96cf83b011ee33a3e75695cba73981f3365cc903"
+timestamp = "2026-10-01T12:58:00.81284591Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "185045013d461d98673bce92a4e86bad"
+
+[payload]
+mount = "file:7a08fe7faf7aac0b182210d8ce98dce9da48838c33af36a91684985b978dee4d"
+path = "test/ui.test.ts"
+reason = "实际运行的node:test场景；当前合计27通过，覆盖所列行为和反例，不外推真实模型质量或所有平台。"
+
+[payload.position]
+end = "3292"
+mode = "text"
+start = "218"

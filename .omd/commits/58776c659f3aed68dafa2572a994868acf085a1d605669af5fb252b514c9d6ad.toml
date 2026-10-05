@@ -1,0 +1,9 @@
+salt = "kD3BJLfBER2Iwz6u"
+previous_id = "f8a06ae5f0fd95873c1c6568ff0f112bae62799bdada02263bcbfbd54a469bbd"
+timestamp = "2026-10-01T15:23:29.7878736Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-discovery/spec.md"

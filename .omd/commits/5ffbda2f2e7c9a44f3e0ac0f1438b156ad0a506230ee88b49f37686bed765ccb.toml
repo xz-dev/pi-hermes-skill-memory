@@ -1,0 +1,12 @@
+salt = "SqWfQVe8mBzb4HIk"
+previous_id = "cc613e45fcab1b839c6e1602f0368a556f5d4ba2bfc02156af6ea906391bb3a1"
+timestamp = "2026-10-03T16:09:01.30588573Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["5c4836b8595f6857ac52598ae9771b5b899f113a1cb2c545a4a4e6460004445f", "d01dcff28c1a3efba623832b0c34078a1acfaa3d9c02ae78d7088a7dcc87433a"]
+link_id = "93cfb2c9165cdffddb591e393e935155"
+reason = "implementation:entry → test:cli-sources：已核对3.2搜索元数据投影、inspection分离、完整响应预算和实际38项回归；原任务责任不删减，3.3–7.3仍未完成。"
+stop = false

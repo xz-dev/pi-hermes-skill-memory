@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [45, 95, 84, 222, 154, 240, 183, 251, 227, 106, 131, 75, 49, 24, 110, 205]
+len = 2704
+sha256 = "b5731576ccff13cf2b3698b6ad828cb0fdaf1dd9621b600ac9fef378cc2d3519"
+encoding = "utf-8"
+content_file = "content/b5731576ccff13cf2b3698b6ad828cb0fdaf1dd9621b600ac9fef378cc2d3519"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/store-concurrency.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/store-concurrency.test.ts"

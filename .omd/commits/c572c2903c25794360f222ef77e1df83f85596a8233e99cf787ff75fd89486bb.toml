@@ -1,0 +1,12 @@
+salt = "GcmxYr2pR9JPWfc4"
+previous_id = "7b73e665f2c5bd91095523b7286a48a6906a928c5c84578030484aa6be3f33e3"
+timestamp = "2026-10-03T16:09:01.870080168Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d01dcff28c1a3efba623832b0c34078a1acfaa3d9c02ae78d7088a7dcc87433a"]
+link_id = "3c290d9ee89f2cdf2d309a8fd20c8d17"
+reason = "test:bootstrap → evidence:api：已核对3.2搜索元数据投影、inspection分离、完整响应预算和实际38项回归；原任务责任不删减，3.3–7.3仍未完成。"
+stop = false

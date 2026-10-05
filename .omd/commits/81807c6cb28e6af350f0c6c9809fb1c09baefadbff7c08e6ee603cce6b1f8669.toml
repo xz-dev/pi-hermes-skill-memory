@@ -1,0 +1,12 @@
+salt = "DFnsch5itj6kJJdN"
+previous_id = "f99eb77a0de8dd8db51552d399280e9b104d9482df363627fecbf1c5df14aada"
+timestamp = "2026-10-04T17:19:06.347479284Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"]
+link_id = "978f0b6c9c963c5330a54ef9a5c5ce2b"
+reason = "D4's proposal/permission expansion does not widen project/global scope. Explicit-generation-scope remains unchanged: project-specific knowledge stays project and promotion must be requested; scope-migration tests enforce it."
+stop = false

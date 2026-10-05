@@ -1,0 +1,14 @@
+salt = "ZZJecby8uQQbXGKi"
+previous_id = "4aa59d753df57f304816358bcae9eb7d65f10a85a66c1da92dfc781b6e685214"
+timestamp = "2026-10-01T10:30:41.01649743Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "643af1cfa161c50298ab102cb5ed23e1"
+reason = "规划范围：Requirement: Search-first progressive disclosure。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+source_version = "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+target = "range:8ea9c1f3a8504a614bc863f8c49fa424f09321b13a58c746d92cddc55cc50f18"
+target_version = "4aa59d753df57f304816358bcae9eb7d65f10a85a66c1da92dfc781b6e685214"

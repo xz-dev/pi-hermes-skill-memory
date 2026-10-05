@@ -1,0 +1,12 @@
+salt = "v7DtMCwC3yJeLUKx"
+previous_id = "e602273b19f3f7be498fb308e7a117daeed7b99bd5a9e93e892bbdccfb7a47e4"
+timestamp = "2026-10-05T02:52:19.943550781Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"]
+link_id = "0eb81033c52b11fc64e64a1e40885258"
+reason = "归档路径传播核对 requirement:skill-maintenance:Requirement: Maintenance results are durable and visible → tasks:6：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

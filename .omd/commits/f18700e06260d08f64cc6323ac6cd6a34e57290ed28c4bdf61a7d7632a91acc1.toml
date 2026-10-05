@@ -1,0 +1,12 @@
+salt = "jw9dOwSYmTPGU6F2"
+previous_id = "df2fc13c7161e7a406dd82c3ee86af3d7f1d4d4a9b182767d05f27cc7450ff8b"
+timestamp = "2026-10-05T02:52:18.104008771Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"]
+link_id = "c3358af59931b26441c0b89f14dec832"
+reason = "归档路径传播核对 design:D6 → requirement:skill-maintenance:Requirement: Protected skills resist automation：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

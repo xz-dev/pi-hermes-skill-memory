@@ -1,0 +1,10 @@
+salt = "PvHcTEm92qfPbwww"
+previous_id = ""
+timestamp = "2026-10-04T17:04:50.580272958Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:3bccb9156908487968964069d53008144fe3a0b8910bc75ad3e9af9c87fcfa0b"
+path = "src/permissions.ts"

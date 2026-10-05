@@ -1,0 +1,9 @@
+salt = "2Mtw0A97O5HoGCch"
+previous_id = ""
+timestamp = "2026-10-01T10:30:40.346026432Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "d2d46f380255d31be333d0750eafb980"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"

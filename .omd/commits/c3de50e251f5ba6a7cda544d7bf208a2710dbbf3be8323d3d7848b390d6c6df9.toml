@@ -1,0 +1,12 @@
+salt = "BoAUk3luYFBadQYJ"
+previous_id = "5a225cd3c3ddeb74f4c34153ab329fffddbb86811ed5f26230f1c31092b939ee"
+timestamp = "2026-10-03T19:55:21.639284364Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["78fc8cbcee6257c95611e24cb835514c74c83701cf4abde7db67e0b51fcfce57", "b25a1c184515ad91d38d30823fb121c7a3723b04d948091e860bd883f6af2cf0"]
+link_id = "93cfb2c9165cdffddb591e393e935155"
+reason = "implementation:entry → test:cli-sources：当前公共类型检查及63项fake/SDK回归通过，已完成14/26：3.4模式/加载/刷新，5.2分开计数/settled，4.4逐成员备份/部分提交/本地恢复及取消writer退出释放锁。恢复不重放模型、保留unknown额度、手改拒绝；不是跨文件全原子/全回滚，也不是剩余12项或真实模型质量验收。"
+stop = false

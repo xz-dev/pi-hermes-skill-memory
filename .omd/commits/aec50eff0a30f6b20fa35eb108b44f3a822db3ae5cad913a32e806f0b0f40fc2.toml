@@ -1,0 +1,14 @@
+salt = "5Ol0YDlOLIIuYJUZ"
+previous_id = "8682e4c88e860e9954d92221f618f806db381d179509eab6fd5b6b5697f4bc0e"
+timestamp = "2026-10-01T10:30:44.471485245Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "e9da932cb6bd496ad48e212e4eb6e11d"
+reason = "规划范围：R5 — 用量与 TUI 契约。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+source_version = "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+target = "range:03e0e3b691e1ff59c1a8df598fc2c21eab0be120ea70bcb02928dda1c4d23011"
+target_version = "8682e4c88e860e9954d92221f618f806db381d179509eab6fd5b6b5697f4bc0e"

@@ -1,0 +1,12 @@
+salt = "aX7wEZpc9HQinJ8X"
+previous_id = "df69c8e5bfa117f9710fc2dd7e3c8fbe683f4c63251b629e5b45346e98522879"
+timestamp = "2026-10-04T17:25:28.096405641Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"]
+link_id = "c4e985b7fde78f7c15546ccaa2fcb91b"
+reason = "The native fixture is unchanged; the downstream evidence still describes the observed isolated run, not an arbitrary installation. No new screenshot or personal-data guarantee is inferred from the completion marker."
+stop = false

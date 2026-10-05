@@ -1,0 +1,1761 @@
+{
+  "schema": "hermes-planning-trace/1",
+  "project": "pi-hermes-skill-memory",
+  "change": "add-managed-skill-lifecycle",
+  "sourceBaselines": {
+    "hermes": "234badf4012af380d23c91eae55d045a69c69ffb",
+    "officialPi": "a4715ec9bffbfcb8a32a1a4100dcfd06c12c93e4"
+  },
+  "files": {
+    "docs/planning-evidence.md": {
+      "sha256": "f578fbf0cbf7ca916f331ac1ebb01bd2fd52e5bae37a9c9b422d717739a6707c",
+      "fileRoot": "b3808d1a3f093295a39904ff159c2e2779526cdc477d0d81e5d67838020f1afb"
+    },
+    "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md": {
+      "sha256": "953d4efc79638db19e0ac509799c78d00ab6830d7e6200bdfe3420ab15f570d1",
+      "fileRoot": "ea29693cb8ca7ff19a80607692ebcd027ca1eba40d613262ea37da6122fc67c1"
+    },
+    "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md": {
+      "sha256": "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4",
+      "fileRoot": "47059d41063a8b7ac9513b468c6620aa9dff7ccb370136ee7e66da719da35f50"
+    },
+    "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md": {
+      "sha256": "7433a048697303df4c136700dab5e9236ce5a634191db012946d8ebba9dd2261",
+      "fileRoot": "42e52577a89428fc68c4e43c50d293f54b20c12892b1c3a88e10335e330784ef"
+    },
+    "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md": {
+      "sha256": "a7c54ac9fa631ac6368bf2e547e29f90f5e2e7f4ab097fa5c9d04648ffc371ee",
+      "fileRoot": "7702abf25b44c9515bcd8e00b7884a8679d51163377a360ea389b8c47a7182ad"
+    },
+    "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md": {
+      "sha256": "eafc4cbbc04f6147f2b93cd70e05dd6ab5bf8874578e462fbf5fd12a40f3ecfe",
+      "fileRoot": "fe971ee48b20a108208de249b27981bbfa320dd7ef9ff6ea695fba8705213298"
+    },
+    "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md": {
+      "sha256": "bdf5dba1317d3e63d518ff25582fe521ccbb11bf5d4a33543afdaa69ea89eec6",
+      "fileRoot": "f26da02b85a8c9e0b4e06576381358b9581acbf11854621fc6f7ae3682524407"
+    },
+    "docs/review-contract.md": {
+      "sha256": "2e3bf129051fcb64c9d2fed7b14653b7f6c22793e9ae7a65d88b8f37017dadf6",
+      "fileRoot": "412517a16e4872485223121945dfa56f5097759889d54eed311353714bc97874"
+    },
+    "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/proposal.md": {
+      "sha256": "ab17810a001612f644481f95326fb463b687c6470ee4a50165365022e2d1345e",
+      "fileRoot": "7c843eed159d8db1f6e3491650fec6667e813bf45a1f109daad60b2ddb63e0cb"
+    },
+    "src/context.ts": {
+      "sha256": "1a2b3da2ed85de993ee9ad35065d9d470278879306750a3bb4e622fe0c9da762",
+      "fileRoot": "ed8a8c1e0ccbeb3f864a2ccb59ab6e7156a1a39d90baaa460eea7577087962c3"
+    },
+    "src/index.ts": {
+      "sha256": "29e6a02c879625313ea0c9f363d2860ddcc600ec63acaa400304d9af063eb5f2",
+      "fileRoot": "cfa4cc7befa3ffd5f06f908a31ac0823ff7b548f0621b6278d351855b46e24b4"
+    },
+    "src/catalog.ts": {
+      "sha256": "0f6053f59d0f31d6bc92c03ad3be3a9879d7d81939a293227be6213505dcfab8",
+      "fileRoot": "e7758862da9421f791465dadcad0f67ba809aa5c63ed499a1be0e2527bd825d8"
+    },
+    "src/store.ts": {
+      "sha256": "d475f8090a22c39bcb9957d2857f84965ccd088e77b23ee7956852dfbab48431",
+      "fileRoot": "89f86c64467d3b64d7f2ecfd3bff0ec17168b1175e3cf2c27f36be75c5873f35"
+    },
+    "src/ledger.ts": {
+      "sha256": "e97805a81c0c63000f23941ac10763842a8ba96b2b6a2ea7e36553c95dc260f4",
+      "fileRoot": "d75f53185d93a623bd3d61f26b3fad03632ab569f6e95b238fbaf83221ff7814"
+    },
+    "src/review.ts": {
+      "sha256": "86afd069d5029bea65f1c8129fafa660eb267262181bc99c90444dec5608ecb7",
+      "fileRoot": "5e0edecff4112ee65287047d117f790181dfe90b76a54716ee3b3fec54d19611"
+    },
+    "src/ui.ts": {
+      "sha256": "59b10cc7deffe6f1f2d903acd8c06c5d7b0e8010cc6f36f7d72ef4b48f2cec1f",
+      "fileRoot": "886d1f195e205904649535c1f768518d7c98cd0da04f66e0238524a6d682db54"
+    },
+    "src/files.ts": {
+      "sha256": "5923dcbce4249d44f589f801f54633c2fecf3df6e820d2becd2bf90b0b565806",
+      "fileRoot": "6db196177ef71079c276578d732bd9d0b44abe25fc919e76dde01c3aa5ce671f"
+    },
+    "test/bootstrap.test.ts": {
+      "sha256": "2f27948293c4b98e171fd5ee402bd1233483d6cd18849ce9551375ea3e8fb46e",
+      "fileRoot": "62905d2c359485c5ce67ed5adb8033ddaa5ffc55d1eb7b1ceda86523aea09f3a"
+    },
+    "test/learning.test.ts": {
+      "sha256": "223982c51fb2ac13f9450e63156dfdc4789ccac35f7066075ffef4c6d6cab27c",
+      "fileRoot": "c63fa75efe9bdee047f1ac6f04e99ec9580950ec2cac57728378bf8ea9b80949"
+    },
+    "test/ledger.test.ts": {
+      "sha256": "7c3dc593c767aee8fb81ed00d64d7428740b3c12eca8d75013c2b6fc3b91f227",
+      "fileRoot": "8af61bbece2866e40961c46b3ac8907e967d98e9216d0affbf87f987a25c2033"
+    },
+    "test/review-limits.test.ts": {
+      "sha256": "72b0863f32515806bd7358fa4528ad4abec49f248d58f977efa4b2cdba14b281",
+      "fileRoot": "4bcda285206a8387a71a88eca08b45c0bdf7814bdd815fdf60cd196eb1b4f040"
+    },
+    "test/ui.test.ts": {
+      "sha256": "1836f5cf6d0740ff764647ea1e3a39838594cab14e4b8d752edddffc380da291",
+      "fileRoot": "7a08fe7faf7aac0b182210d8ce98dce9da48838c33af36a91684985b978dee4d"
+    },
+    "docs/implementation-evidence.md": {
+      "sha256": "d5f27432efa527f8eceb7fb830771d8e41dd71a1dbed2b5658df5afb36c963a3",
+      "fileRoot": "af4779f5a83380da117fe754a9386d3c73eb0419ade55c6a225d50b7341b5ca9"
+    },
+    "docs/swe2-validation.md": {
+      "sha256": "f1cb2059bcbe2b1ed3be15b668867f099854c75b03732db3ec06700e3f55527f",
+      "fileRoot": "9957effbe9a558c7163f53d616a17ba20f28aed5a694568034f76809ebcc5844"
+    },
+    "docs/tui-validation.md": {
+      "sha256": "66a0a061ae26260739754a4f483376170b09ab4ca37e847eabc786129b8f8022",
+      "fileRoot": "343d2eb48b9e3ec3d55e01a7a76a73ba996c878467c1130f41538f94c11334a2"
+    },
+    "src/sources.ts": {
+      "fileRoot": "1dba25017183edaaf986abd49c21b15437f38c149d30e4f8cb7c64e0238f093c",
+      "sha256": "8baa239d071ebe281540236db4f06b2d450dbaeb07636510ef4d7acc4552b178"
+    },
+    "src/source-worker.mjs": {
+      "fileRoot": "75bc6818ca5846cf376b78e0bea970967c04282313f1395a9c48e7b6d68e8d1e",
+      "sha256": "ff47f3110451bd677a9b1c4133a8da119a409b148d087e19fbb80f9bfb711b9a"
+    },
+    "test/sources.test.ts": {
+      "fileRoot": "a84a4a76022fd76f6154bec7bc8a0f80f3ceec909febde5ffeceb0a08f993951",
+      "sha256": "a8594431261c23b49c3759735cd7ab9dfd7394fa20810ab21d349362b53ddcf8"
+    },
+    "test/stock-sources.test.ts": {
+      "fileRoot": "bdf6f864e3d09d4c772644257bde3c5eb643006832394662a5e2ebeeb312845d",
+      "sha256": "40b5ddbae2f8c7de9dd1e3d93d3f350f837287cd3bd579f9cd599d70c23777f9"
+    },
+    "test/cli-sources.test.ts": {
+      "fileRoot": "b5911d5ffc541caca2aed486b8d73732d1fa83f2b4fc45885cc1e45fe4e5cfe6",
+      "sha256": "9d0c2bb19a85d5f27581d5c3578438bce46731774e2aa940863280a159c0a50c"
+    },
+    "test/fixtures/source-resolver.ts": {
+      "fileRoot": "abc61fc173923c813d36ac8cac1166412936901ed3b94fa6103465e46ec7fb1a",
+      "sha256": "435a91b0f86c21fa5d373cb62fb366b87d9ac194f9e02f995085ad81e8154b25"
+    },
+    "test/fixtures/cli-sources.ts": {
+      "fileRoot": "fb0f87cbf737a4049062a1b2856e787faa757b1623743ed22e6f077d176061ca",
+      "sha256": "dd6513580c2fbe4d2ab601d89379c9d0311ce0013e2b8e3b7fbeeab5d2b48f3c"
+    },
+    "test/support.ts": {
+      "fileRoot": "b37091a093dd97c6443c05b30ae50bb89cd99fb9ee9c6078cb4c8ceeaa073a49",
+      "sha256": "de88952a320bd5dfdf89942ef63bb67b1d949798e613c289d40f13efdd70c044"
+    },
+    "docs/source-discovery-boundary.md": {
+      "fileRoot": "7542741217a4e89c846ed8c92562b6d8bdb3b02b2c428b21ce14516732cf7c9f",
+      "sha256": "240c7c9393094b253cc04611e01bc9f881d70b2c24f9c88e70fc94ff285121d7"
+    },
+    "test/search.test.ts": {
+      "fileRoot": "b9071bca0faed900123b3b415b78f106be78d8857dcf1dc314bb45b4bf6ef69f",
+      "sha256": "9ca7af06159ff746de2a71332d0ab5583e198700f299076d46f8153b7dda5044"
+    },
+    "test/read.test.ts": {
+      "fileRoot": "1a19f46b0765e06d621fb12ef93a8c3b29e4bcf45524af0fcb0fcb2842d10d32",
+      "sha256": "e586e80e3e42d20416886cb1abb7153bd02b4ed59f6d927e4c38fa380f8c8f78"
+    },
+    "src/scope.ts": {
+      "fileRoot": "35f8494e0cda728bb73ad2f5e55d535b5c685521e48792c725edeab390e13ca7",
+      "sha256": "aaaf5478fb53a8796980c845b0e374cb926e4efc4b1e642135f1890f4deca824"
+    },
+    "src/async.ts": {
+      "fileRoot": "5f19768c928851d30e89618ca8c4463bac5dffcf4fc587eb1c5aeadc633b4997",
+      "sha256": "5730f0cd72a417700d870e71cb4bd5261c1a99a8b1ea5f4edd3bd17c8f5777a4"
+    },
+    "test/modes.test.ts": {
+      "fileRoot": "a2ac02225be63403dd8ff50f8d9c4247a49e52e5fb40da07e86de95e86da8d79",
+      "sha256": "f3ef8a5382fb4d6e0ba0db12677f3f4e02a3a03703119055a2a9209d4c2aa011"
+    },
+    "test/automatic-learning.test.ts": {
+      "fileRoot": "3676da86476710c038fc6a31842227e9c160bd668a71133e35cd229cbad4581d",
+      "sha256": "63ad36285d696e4e2b4e6051a606d6ce5e5a48cf91e0f4353f1f533026035d29"
+    },
+    "test/commit-gates.test.ts": {
+      "fileRoot": "cb366edbe4882751176b9c045d71e4f254ab1d58f4bb94fc2e9dcb0a9cfc1b83",
+      "sha256": "bf83e65c5a779e56ba0e2b874c8e9682c056893892fd8b54c421f27908b8c1df"
+    },
+    "test/scheduling.test.ts": {
+      "fileRoot": "544a67a33780bc305ac726c44c7c171ecb554c9978797cd58ab5a724c2deaf4d",
+      "sha256": "9663c77bebef350d5d8f6eeb4e9a962b7894d5eb5934e0cd452b09899956c3b5"
+    },
+    "test/recovery.test.ts": {
+      "fileRoot": "d37d4109917429c0976f1e19959bf3b6794c666a03e42b23300391b616358dbf",
+      "sha256": "a3726507ee2366dfe76d3c3cc841871686c96f78cee0274e0d36d233f5356612"
+    },
+    "test/member-transactions.test.ts": {
+      "fileRoot": "6a8d7a8c7c6fa2f9e0e73d66de87401112cce48a13080e919aa0b2b20f9a13af",
+      "sha256": "a4b58fdef9e58c06a840be8830af40f30b0032233c6e03becb616ccd2e1fe02e"
+    },
+    "test/store-concurrency.test.ts": {
+      "fileRoot": "5902df28b7201098f409bd5ecb73086bc4d3195b5da9e3f463d639d4e3a0a5ed",
+      "sha256": "b5731576ccff13cf2b3698b6ad828cb0fdaf1dd9621b600ac9fef378cc2d3519"
+    },
+    "src/activity.ts": {
+      "fileRoot": "39fefdb6cbecfd6a4737c285f32300efa594aff56ea2d4e0a508d4574adb725a",
+      "sha256": "8c3d3608b8cd04d2d1d4feb4dfd0d1643c6eb750dfd7350e7238e421148652eb"
+    },
+    "src/archives.ts": {
+      "fileRoot": "b1bbec7cce75caacb314d510d8625528d13e72823bf7b857396fec6b5cfca74e",
+      "sha256": "941929bf38884a002e0706717372e881eb8fe836546964b52860c2876b7829ae"
+    },
+    "src/content.ts": {
+      "fileRoot": "0c08e689dc9749251d6711deab325cf93109348897e97cf8af0504ea0278d475",
+      "sha256": "c495087cc48c9a39346c0617437e6d1b6edf5bc5867dab537e1a37126921c6c6"
+    },
+    "src/cooperation.ts": {
+      "fileRoot": "a7d2b2c561ed3a5938b2ce65be275c6e45584460be766bb68d9829f1a1112ec2",
+      "sha256": "57d875d6b93d13b1da8abfabbce38aac4e120309ac1ef498f07145a1f473192a"
+    },
+    "src/curation.ts": {
+      "fileRoot": "77ccd2099add7aafb48825c3685598ac3c045810e2507e0b1f91784837878206",
+      "sha256": "dfb2c3a7c0bd891d1d08fd034aa8a734d9a0167912305054fe44625f2169eb45"
+    },
+    "src/permissions.ts": {
+      "fileRoot": "3bccb9156908487968964069d53008144fe3a0b8910bc75ad3e9af9c87fcfa0b",
+      "sha256": "8efda9acf926dab72e07a1924a812ee18e039fc420c0591d6dbe544449484c0b"
+    },
+    "src/restore-sources.ts": {
+      "fileRoot": "7ba279bfa398dc2557e179d4f6d2eba0bb21a347af7c80db0ac3d6b0a4d5e347",
+      "sha256": "7fcb3607cfd04646f138a14400528811c19687f41455569696f0ec9823b9a218"
+    },
+    "src/temporary-package-root.ts": {
+      "fileRoot": "f90188f8cbad13105d3bfd20d72a9a50824eefa7bc0d5303ebdd37617241939d",
+      "sha256": "7770e82930dd2f2050ecde270d8dffb91030a94f8d6eec90a3a5bfcfb6f8006b"
+    },
+    "test/activity.test.ts": {
+      "fileRoot": "d05274c605f8b713262ca22882bdf2cb031b4d51280562b6ae1834aee23a9b1a",
+      "sha256": "3a3594ba2bd59ddefbd9d647ff50450c59302e2f1430b0be4bc4af01529a3cff"
+    },
+    "test/archive.test.ts": {
+      "fileRoot": "f05d1371e13765ebe6e064272d56a2039aae66c759b4cafed1f9783a0376ff64",
+      "sha256": "0ea9fbf60127002ec22040fec53a1d067db02337b12b3591aeed2bb02b8abb91"
+    },
+    "test/content.test.ts": {
+      "fileRoot": "d6be65d51344399e67078a3979c6484863ca30ab4739c7bfb8b0102c97b38346",
+      "sha256": "d381ef132390422e3007ff3ffa9f651662b978885d1330d89949e0cd2158f9c5"
+    },
+    "test/cooperation.test.ts": {
+      "fileRoot": "83e9d6d533462c3a21e7b42d559e635dd3bb9c6f97e7de1869835ad3af30f2d5",
+      "sha256": "534403479e22cd11dbe93a12ce1a24f125874e28c95d9755ff421256cec19389"
+    },
+    "test/curation.test.ts": {
+      "fileRoot": "f43bde1cad3ec33c5ede9e4af4ece2e752a8957c5a545991ea1e8ea4e2571d7e",
+      "sha256": "7d7497b59b8d30fcad05c511cc41bc058f23240e9d73b7cb83b86c8e5066c711"
+    },
+    "test/fee-matrix.test.ts": {
+      "fileRoot": "33fa23adadb97a145d26518d1ef609f8895d01b3cdfd5e46e1245cf41cfd8b3c",
+      "sha256": "d2a70f292b381fb5ec1e8868dcf4fa27b2f3a3576012ee6ef38eafbc7e57720e"
+    },
+    "test/installed-approval.test.ts": {
+      "fileRoot": "97ef06038ca9a283ba1f35a3bfbe23f2a30ca90d7b0d0447c591414250bbcf85",
+      "sha256": "66d11fe4908411b5738cd29a6c15977ce984071c5cd08e2cdca0602c64de047c"
+    },
+    "test/lifecycle.test.ts": {
+      "fileRoot": "1b0cba268acb3a91d0390cc788185f578c52e9d91b5e44774a61bd33b9a4b6b2",
+      "sha256": "c1bf8fcc66a22782f08e9791539c109f546c7bffbd08378632deeff128f2671f"
+    },
+    "test/proposal.test.ts": {
+      "fileRoot": "9116cb3d2cf2bf1d9dd841627c8345becfccae55392f2c722ac18288af7fbd14",
+      "sha256": "9a99df41eacbe0214ee89a1c59d5319926ee41b7346c77a2456901344fbc3799"
+    },
+    "test/resource-boundary.test.ts": {
+      "fileRoot": "7f3075f2143afd1e2bc662ecd040450582c325eed2248fbc8b7b5e50237850ec",
+      "sha256": "a116dd5bfd78001d4d98368dd7663a2b8952b29a8b7bb5984bc7ca5445c38c83"
+    },
+    "test/restore-sources.test.ts": {
+      "fileRoot": "e0a85093d0153dbb58b8e172d5cb5d4b8ea866ad043bbafacec3e950bd3d5ff5",
+      "sha256": "f7c53ba72b5406b44110dd2ecb6740259443554cce0832aa6c759a7f39bafc3c"
+    },
+    "test/rollback.test.ts": {
+      "fileRoot": "c3e189e8cb8e7e7f0d5b889dc00b5747736ec0876062e28eff7b5460a331f96c",
+      "sha256": "dfad4ffe08fcac3cd3f59c372f4cc9c4fec20ec5e600554083f5dd923940f14d"
+    },
+    "test/scope-migration.test.ts": {
+      "fileRoot": "d890b20523b7368704553f3a4b2bc2fced565c8325ebedd60a440e29d74a3b5a",
+      "sha256": "9b8d1ffa48eba3a6bf2b54dcb780ab56fe49e9d652c319edcd5ca54ed498f04d"
+    },
+    "test/snapshot.test.ts": {
+      "fileRoot": "dca5fce7fec808928e7aada3c9dc77f7eb0a4486181e4c7739f799723802de60",
+      "sha256": "d5136a6c08d7fb0f35aa6da0de86203fb7eb73bde3850d2df6916c8223bb6941"
+    },
+    "test/fixtures/tui-delivery.ts": {
+      "fileRoot": "893ab7c00ed7639e28899fa2f6713451346de3ef69ce55c4c1ae721b6007869e",
+      "sha256": "2e32e321bea84f9eb568a045100681c8b269498b4b8fa99342ca073c48cd3a85"
+    },
+    "test/fixtures/tui-maintenance.ts": {
+      "fileRoot": "cf1d9a66413f630aa2e253cd3f58345de26a5601575f6836577eace2f88e90a6",
+      "sha256": "f55c7493d87b589604ce61465afe728cc7ae6ac0a7cbee0054664e70efffa2f3"
+    },
+    "test/fixtures/restore-source-matrix.ts": {
+      "fileRoot": "54ef9f5cfa49846e94ac1531b382daeae11445b09280aa66a2004d01184317c0",
+      "sha256": "1cd0b2c8af7b44584040c246fe7e85eef48b5f837c3b8a95cc8e212d1a871d2b"
+    },
+    "test/fixtures/temporary-root-probe.ts": {
+      "fileRoot": "4b8cd8cbaf42d0cd407db8ae1351176e9181b7d5f3c4093b766b2858ec3d6586",
+      "sha256": "f27b712c2aaa3463fd412a41af4be991fee8a4b866221e89b5bb113c0daa8a3a"
+    },
+    "docs/curation.md": {
+      "fileRoot": "cc9b9a50275279aaf74fca46cc6379c2c9a0d6aff37794cddf3e0bf2ab125641",
+      "sha256": "a8a71447cb0edf3f77f0a49c924bf7bb5ea71c1365b1dee5a43731c58a097b2a"
+    },
+    "docs/maintenance-evidence.md": {
+      "fileRoot": "34710e8a73ef32018708e59adc5cf030408935633adce07dbead5e8a4a0ba662",
+      "sha256": "8fcb0edd272839f82673e5c364ef199326ce954a5910724c8dd754d5be4710fb"
+    },
+    "docs/review-cooperation.md": {
+      "fileRoot": "6c74c7ec9a104880b1a0b4c881efd6c964c2ee7fb20dcbeecac6f279f186da1b",
+      "sha256": "580fd034ea1852c5d5102d93139a7df6f7375e2b4a66fe4b020500eec52662f4"
+    },
+    "docs/fee-matrix.md": {
+      "fileRoot": "30e404dc660be7effff7caaf12249abdcf393fb20589edfdb087b247823af991",
+      "sha256": "40c4108cfed969eff02be8b7a7ed18fb8639e06f32bc939b5dc268b3602d0e4c"
+    },
+    "docs/delivery-evidence.md": {
+      "fileRoot": "b912fbc2d2127ac725cb1803067c022b6272f3c9d98657e6c37ad6572ee8e6f6",
+      "sha256": "f4d8ad22051c701b73360946edfa33eadfcee8566e936016cd3e501e623657f8"
+    },
+    "docs/usage.md": {
+      "fileRoot": "513deb8471c0337ddd9aa17e4ace783739e4e40094a4777f58ba5262753830e1",
+      "sha256": "13c1d8a900fe9319d79f79a5f465cb46931af2d3a2ea73b2177893d1faba2bec"
+    }
+  },
+  "ranges": {
+    "source:U1": {
+      "id": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "file": "docs/planning-evidence.md",
+      "heading": "U1 — 已确认的产品决定",
+      "start": 462,
+      "end": 691,
+      "from": null,
+      "to": null
+    },
+    "source:P1": {
+      "id": "99a8e36d43cf670c603584a9a7681ea3b52748a92993a4c814f482965cac8fc9",
+      "file": "docs/planning-evidence.md",
+      "heading": "P1 — 官方提示词可以改变 skill 输入集合",
+      "start": 691,
+      "end": 1314,
+      "from": null,
+      "to": null
+    },
+    "source:P2": {
+      "id": "39eaec558cb9e63cf9e37de8586844991127b363f05aa10dffc9d6da1e1e3496",
+      "file": "docs/planning-evidence.md",
+      "heading": "P2 — 独立模型调用与生命周期是公开能力",
+      "start": 1314,
+      "end": 2271,
+      "from": null,
+      "to": null
+    },
+    "source:P3": {
+      "id": "4e0b21305a3704e14986e4c49c6c8fd112a0d0aa72b648547c6c8be93ea8e0af",
+      "file": "docs/planning-evidence.md",
+      "heading": "P3 — 分支状态与资源格式可复用",
+      "start": 2271,
+      "end": 2940,
+      "from": null,
+      "to": null
+    },
+    "source:H1": {
+      "id": "16155e08e6079b8d0d8e254ab0e6c59096c539da703e9c2f2e0e9684cb3805f3",
+      "file": "docs/planning-evidence.md",
+      "heading": "H1 — Hermes 的披露层次与发现过滤",
+      "start": 2940,
+      "end": 3637,
+      "from": null,
+      "to": null
+    },
+    "source:H2": {
+      "id": "284d84858d930ea293af38032cb1728b22603d9399c5a17dca319384fb59d730",
+      "file": "docs/planning-evidence.md",
+      "heading": "H2 — 后台所有权与写前读守卫",
+      "start": 3637,
+      "end": 4033,
+      "from": null,
+      "to": null
+    },
+    "source:H3": {
+      "id": "636489228b2647024386500a48bd365881691cbd75d311a510a871cbcf5d5474",
+      "file": "docs/planning-evidence.md",
+      "heading": "H3 — 当前快照与审查成本",
+      "start": 4033,
+      "end": 4754,
+      "from": null,
+      "to": null
+    },
+    "source:H4": {
+      "id": "b36ffc4536358335eb61a2586b35290dddfa5c0e958925a1a0425e3f6ed4740e",
+      "file": "docs/planning-evidence.md",
+      "heading": "H4 — 可追溯维护，而非自动删除即正确",
+      "start": 4754,
+      "end": 5236,
+      "from": null,
+      "to": null
+    },
+    "design:D1": {
+      "id": "d53c4c5dcbd70f2e0790f824ede94c10c7d4a0e0253790c6993a6f8bb3609bca",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md",
+      "heading": "D1 — 官方 Pi 是宿主，不是待修改的依赖",
+      "start": 656,
+      "end": 1076,
+      "from": "39eaec558cb9e63cf9e37de8586844991127b363f05aa10dffc9d6da1e1e3496",
+      "to": null,
+      "tip": "24d34604502302f823597b91d8e078b1aa463801a673cdd976dd2f63abc2a905"
+    },
+    "design:D2": {
+      "id": "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md",
+      "heading": "D2 — 原生格式加搜索优先，而不是每个 skill 变成工具",
+      "start": 1076,
+      "end": 2455,
+      "from": "99a8e36d43cf670c603584a9a7681ea3b52748a92993a4c814f482965cac8fc9",
+      "to": null,
+      "tip": "1e33b5eb0c836d33cab104817d80ff1a9878fa0ab5dbff4eb16f0951c3153123"
+    },
+    "design:D3": {
+      "id": "55180c35186847a88a7a4b4667d123f300dc3f9d3cee71d616a1b7b2b88b8a6d",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md",
+      "heading": "D3 — Scope 与 owner 两个轴",
+      "start": 2455,
+      "end": 3135,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": null,
+      "tip": "70c203eab78b8c3555c668216c1e844a708eb5d181e2a75bdb80e92f31bbe17f"
+    },
+    "design:D4": {
+      "id": "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md",
+      "heading": "D4 — 提案与事务入口统一",
+      "start": 3135,
+      "end": 4271,
+      "from": "284d84858d930ea293af38032cb1728b22603d9399c5a17dca319384fb59d730",
+      "to": null,
+      "tip": "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"
+    },
+    "design:D5": {
+      "id": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md",
+      "heading": "D5 — 当前快照审查与可见费用",
+      "start": 4271,
+      "end": 4985,
+      "from": "636489228b2647024386500a48bd365881691cbd75d311a510a871cbcf5d5474",
+      "to": null,
+      "tip": "8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"
+    },
+    "design:D6": {
+      "id": "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md",
+      "heading": "D6 — 维护不以 mtime 自动删除知识",
+      "start": 4985,
+      "end": 5705,
+      "from": "b36ffc4536358335eb61a2586b35290dddfa5c0e958925a1a0425e3f6ed4740e",
+      "to": null,
+      "tip": "0bfb40afbea516ba5a44eda0c2a37fff4a917926d7701724a41ff6babb88d33e"
+    },
+    "design:D7": {
+      "id": "4f5d27f56174cc29e7ffa4fe5cc4ed6c54264a49a3584a7a610d0992c9f1c060",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md",
+      "heading": "D7 — 两插件共存不双倍收费",
+      "start": 5705,
+      "end": 5963,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": null,
+      "tip": "1578924323c18a7c9290bb1ef369620dda75e83cdb8d4764f0f0d5724290b1c1"
+    },
+    "tasks:1": {
+      "id": "b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "heading": "1. 官方 API 与隔离验证入口",
+      "start": 0,
+      "end": 571,
+      "from": "d53c4c5dcbd70f2e0790f824ede94c10c7d4a0e0253790c6993a6f8bb3609bca",
+      "to": null,
+      "tip": "d9bea41fd2cfd9026f4cbbd8c9fa9af6f7eedb9606d24354fbcb31e27e53ad65"
+    },
+    "tasks:2": {
+      "id": "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "heading": "2. 收费准入与持久可见性优先",
+      "start": 571,
+      "end": 1026,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": null,
+      "tip": "7011740d1f7bb90e54bccacf953141be3beb78e9cf262bae01d7032f47715263"
+    },
+    "tasks:3": {
+      "id": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "heading": "3. 搜索优先的渐进发现",
+      "start": 1026,
+      "end": 1436,
+      "from": "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517",
+      "to": null,
+      "tip": "784eb9aa661fb5983e0ece465e6457852ce4d7153ca5ddddaf86d55a36057e7c"
+    },
+    "tasks:4": {
+      "id": "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "heading": "4. 作用域写入与授权",
+      "start": 1436,
+      "end": 1808,
+      "from": "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b",
+      "to": null,
+      "tip": "cf18b434a90e6909013113bc1c4814e42ed1abc22b75f8f5ae6027ddb3a67b10"
+    },
+    "tasks:5": {
+      "id": "8c78a75ab62efa134ab20f6019fd513efcf77c13265dbd67a67a0a3d3a4ec8fc",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "heading": "5. 当前快照自动生成",
+      "start": 1808,
+      "end": 2201,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": null,
+      "tip": "4cd1f843cecefa4341e708a41066740bb5eda956b14f45e8c8828acb7c846dbb"
+    },
+    "tasks:6": {
+      "id": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "heading": "6. 技能维护与恢复",
+      "start": 2201,
+      "end": 2474,
+      "from": "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1",
+      "to": null,
+      "tip": "2fc2829c936450f1755cc15f7842de3faee5a70efaade0e9fd568131c10e7c22"
+    },
+    "tasks:7": {
+      "id": "e7335f0ea606d1de628b0dac6f5f0213a4e399ccdeb6a8fca0c89bf0de00bf06",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "heading": "7. 联合与交付验收",
+      "start": 2474,
+      "end": 2761,
+      "from": "4f5d27f56174cc29e7ffa4fe5cc4ed6c54264a49a3584a7a610d0992c9f1c060",
+      "to": null,
+      "tip": "b14cb6d47d565e671a03d434cad7a20dcba6eb63c4fc51264317d4dfdc7ed457"
+    },
+    "requirement:skill-discovery:Requirement: Search-first progressive disclosure": {
+      "id": "8ea9c1f3a8504a614bc863f8c49fa424f09321b13a58c746d92cddc55cc50f18",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md",
+      "heading": "Requirement: Search-first progressive disclosure",
+      "start": 121,
+      "end": 576,
+      "from": "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517",
+      "to": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+    },
+    "requirement:skill-discovery:Requirement: Scope and ownership are separate": {
+      "id": "1b2438bee9d13c4ec622b961dac47db970d99ae2d6cdb7cdf77e21e75bafc3dc",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md",
+      "heading": "Requirement: Scope and ownership are separate",
+      "start": 576,
+      "end": 837,
+      "from": "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517",
+      "to": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+    },
+    "requirement:skill-discovery:Requirement: Respect native exclusions and project trust": {
+      "id": "2c6a3f041edcf6381e16f77464b1e4a1c8c190bcb167dfba2f3572cabf388875",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md",
+      "heading": "Requirement: Respect native exclusions and project trust",
+      "start": 837,
+      "end": 1130,
+      "from": "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517",
+      "to": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59"
+    },
+    "requirement:skill-discovery:Requirement: Explicit loading and native fallback": {
+      "id": "5990caef9735fadbe50c4da102f48319ebbbc2655ee74a0dd2f46bb95924efb6",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md",
+      "heading": "Requirement: Explicit loading and native fallback",
+      "start": 1801,
+      "end": 2160,
+      "from": "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517",
+      "to": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59",
+      "tip": "18096e5800c8879a7f7305131f58943eee884d6e33b86beba020b2fc2b3b040b"
+    },
+    "requirement:skill-discovery:Requirement: Version-aware reads and refresh": {
+      "id": "4ebe969df519fca3c41101bc0b8febe64dbfbde88cc984fdb682326397ee2806",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md",
+      "heading": "Requirement: Version-aware reads and refresh",
+      "start": 2160,
+      "end": 2440,
+      "from": "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517",
+      "to": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59",
+      "tip": "bc44287bd42b7fbbbf14f52232b84cb5f7289f0116916ab021b8068e36ee3fb2"
+    },
+    "requirement:skill-discovery:Requirement: File containment": {
+      "id": "6f93b687e56450459c80046e944125db165f6b41a2cec80dbc2c61d5e6b1e505",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md",
+      "heading": "Requirement: File containment",
+      "start": 2440,
+      "end": 2638,
+      "from": "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517",
+      "to": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59",
+      "tip": "20f05526b05ff7fee7937aa118bffa96f9daea38104d5d512cb924f0af73a514"
+    },
+    "requirement:scoped-skill-management:Requirement: Explicit generation scope": {
+      "id": "0739ecce1f9404fe097df2e8259690bb3e15598d7702b9f65de8a89253b4ade8",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "heading": "Requirement: Explicit generation scope",
+      "start": 119,
+      "end": 519,
+      "from": "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b",
+      "to": "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73",
+      "tip": "81807c6cb28e6af350f0c6c9809fb1c09baefadbff7c08e6ee603cce6b1f8669"
+    },
+    "requirement:scoped-skill-management:Requirement: Managed ownership requires evidence": {
+      "id": "665172b0cd26c490247ee891f1600ea8cfc4dba341a616aa52c42e7efb5f891a",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "heading": "Requirement: Managed ownership requires evidence",
+      "start": 519,
+      "end": 838,
+      "from": "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b",
+      "to": "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73",
+      "tip": "c614346b0fa60332a99587a352df6960f50ade4124c4ba956513ed05a39c8397"
+    },
+    "requirement:scoped-skill-management:Requirement: Authorize installed-skill mutations": {
+      "id": "45206a1fc7e5416a520c5e0a0e607a25ce69ffbedf2ae0f81a4be9d77b98c137",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "heading": "Requirement: Authorize installed-skill mutations",
+      "start": 838,
+      "end": 1399,
+      "from": "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b",
+      "to": "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73",
+      "tip": "4b87d85191761675d02ead952ccbcec289cf24d0f1fb034de0042f5775b3a715"
+    },
+    "requirement:scoped-skill-management:Requirement: Read and compare before mutation": {
+      "id": "98ccfd99df48b73d26519537184dae7b3577097285d640ce648cd29c2ff3b5d5",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "heading": "Requirement: Read and compare before mutation",
+      "start": 1399,
+      "end": 1640,
+      "from": "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b",
+      "to": "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73",
+      "tip": "6404b942bab905e96dec6c8f6b469dd0b2acbf1f30ca4ed7c10e5b003b5423e8"
+    },
+    "requirement:scoped-skill-management:Requirement: Durable and recoverable writes": {
+      "id": "34df985e74ffb5941eb208ce6f02783dc8a871f50a30630dfcc19deedd1fbc94",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "heading": "Requirement: Durable and recoverable writes",
+      "start": 1640,
+      "end": 1908,
+      "from": "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b",
+      "to": "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73",
+      "tip": "9bd7368bf2d994cd16db1f6ec7ca2796a9f0510cfe45db409d5a8729a8377708"
+    },
+    "requirement:scoped-skill-management:Requirement: Installation is not generation": {
+      "id": "d67d70ae0b88749dc594d21f6dc57bc5ed1c8b1dd3c3912b134c6e981966dda9",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "heading": "Requirement: Installation is not generation",
+      "start": 1908,
+      "end": 2170,
+      "from": "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b",
+      "to": "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73",
+      "tip": "460f74f896dcf8959111634166d5a0c7844ad7b7e2072916dbcde488490a6e11"
+    },
+    "requirement:skill-reflection:Requirement: Current-context snapshot review": {
+      "id": "fa26802ec0dd54d91f4f98503ae8337a4973f55b53aa79f6a18e3ceddd371b33",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "heading": "Requirement: Current-context snapshot review",
+      "start": 127,
+      "end": 388,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": "8c78a75ab62efa134ab20f6019fd513efcf77c13265dbd67a67a0a3d3a4ec8fc",
+      "tip": "115db08bb25fcabe8dba4caba7d84bfe08a5d1e4c9285441e019de36d462a0f0"
+    },
+    "requirement:skill-reflection:Requirement: One explicit scheduling path": {
+      "id": "bfdaa5bff73d6820e5811afa1266a3e6293f9f0fde6ea9a218f432e8d46bd681",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "heading": "Requirement: One explicit scheduling path",
+      "start": 388,
+      "end": 634,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": "8c78a75ab62efa134ab20f6019fd513efcf77c13265dbd67a67a0a3d3a4ec8fc",
+      "tip": "3c3e762ff2d155759228542ea64948c02dc5abd56b23b4772e0681c6f044bf0f"
+    },
+    "requirement:skill-reflection:Requirement: Admission and cumulative budgets": {
+      "id": "ee1cb77d9f00cd8ddd37517251c70c02aa48c43efdce30b45f85ace71849d56a",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "heading": "Requirement: Admission and cumulative budgets",
+      "start": 634,
+      "end": 1069,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66",
+      "tip": "3b025ce3e6360e71141d647d216f6fe967fa6540601458fda43daf9216154d5e"
+    },
+    "requirement:skill-reflection:Requirement: Failures and usage remain visible": {
+      "id": "c73b9ac630f1ffc1608caac40a8b43c3ebd191fc1cfc918608d9efd4053980a6",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "heading": "Requirement: Failures and usage remain visible",
+      "start": 1069,
+      "end": 1541,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66",
+      "tip": "6882f8092799a0ccf79992c805c2239bc3b33a35bc9c1a8acad35de2e78bf71f"
+    },
+    "requirement:skill-reflection:Requirement: Isolated lifecycle and stale-result rejection": {
+      "id": "61317f50f479b8cebb2a142b2a6ab3dd9264c49b81a456f02170ce33cc98cb57",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "heading": "Requirement: Isolated lifecycle and stale-result rejection",
+      "start": 1541,
+      "end": 1829,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": "8c78a75ab62efa134ab20f6019fd513efcf77c13265dbd67a67a0a3d3a4ec8fc",
+      "tip": "35da03d49a1aa56e6b5799493907f33ee1de6e44c75984bffcaf97d01a96494a"
+    },
+    "requirement:skill-reflection:Requirement: Validated proposals and no recursive work": {
+      "id": "c9af86f78344684f488bb439b9de3e30f848980df3ebcccb4a8c4c993fe8580e",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "heading": "Requirement: Validated proposals and no recursive work",
+      "start": 1829,
+      "end": 2690,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": "8c78a75ab62efa134ab20f6019fd513efcf77c13265dbd67a67a0a3d3a4ec8fc",
+      "tip": "b5ba5d592c7660fc37c5713baae0f5263bdc8393fddcd4ae93d901d711ae6ba7"
+    },
+    "requirement:skill-reflection:Requirement: Independent operation and shared charging": {
+      "id": "243a83bbcbacb92983f833fb521df22c6307d370844dcefefbb52402ff4746a1",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "heading": "Requirement: Independent operation and shared charging",
+      "start": 2690,
+      "end": 2981,
+      "from": "4f5d27f56174cc29e7ffa4fe5cc4ed6c54264a49a3584a7a610d0992c9f1c060",
+      "to": "e7335f0ea606d1de628b0dac6f5f0213a4e399ccdeb6a8fca0c89bf0de00bf06",
+      "tip": "fc633a828184402aeeb93baf898238845f74c14c14d33cc937484955e50160d3"
+    },
+    "requirement:skill-reflection:Requirement: Disable means no automatic model calls": {
+      "id": "9e800d897b33096ddaa59c787dbd2523e2808b79a7a0fcebeede0bc0ea77c6aa",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "heading": "Requirement: Disable means no automatic model calls",
+      "start": 2981,
+      "end": 3230,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66",
+      "tip": "6c56b5dd08baf915a58e68d3afd57bcd294e04a9fde78b317d0a390b047bd7ae"
+    },
+    "requirement:skill-reflection:Requirement: Learning usefulness is observable": {
+      "id": "d71e89c7f09cd39a8eba22c8b614de6e6d7722b03d2918a54faa20404e989774",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "heading": "Requirement: Learning usefulness is observable",
+      "start": 3230,
+      "end": 3553,
+      "from": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4",
+      "to": "b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e",
+      "tip": "fe4f8775837ae7ea8b022dbc9edd48dc805861c9c2612865c6b3f96eb59a7148"
+    },
+    "requirement:skill-maintenance:Requirement: Evidence distinguishes viewing from success": {
+      "id": "5a4bde16a29a620b94bebbe80deae8c980b4630aed3aa6b62d8e4fd96b91a983",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "heading": "Requirement: Evidence distinguishes viewing from success",
+      "start": 120,
+      "end": 991,
+      "from": "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1",
+      "to": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "tip": "ddf3d70647491863a34e06d1f44f90d6972c4702cf95cda2f8acababa5df2930"
+    },
+    "requirement:skill-maintenance:Requirement: Protected skills resist automation": {
+      "id": "38de197e69334d45fcaff79704d7963da21322dd662aa89f9eff096db5573a7e",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "heading": "Requirement: Protected skills resist automation",
+      "start": 991,
+      "end": 1214,
+      "from": "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1",
+      "to": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "tip": "f18700e06260d08f64cc6323ac6cd6a34e57290ed28c4bdf61a7d7632a91acc1"
+    },
+    "requirement:skill-maintenance:Requirement: Reviewable curation": {
+      "id": "1ba29776a03c68404e8a57361c9a8f7a2e1f114ff6d6a6e42af2f67c7a5d3a49",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "heading": "Requirement: Reviewable curation",
+      "start": 1214,
+      "end": 1491,
+      "from": "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1",
+      "to": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "tip": "80ab4bf320f2fca225502a07c902f37cf10fd3a5bc6717f6b2d2d8ed5e2a6212"
+    },
+    "requirement:skill-maintenance:Requirement: Reversible archive and guarded rollback": {
+      "id": "a01d02dc493a04ec87bf80c9301c0daab7f17f23c6283ec064cf73d2c29df38c",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "heading": "Requirement: Reversible archive and guarded rollback",
+      "start": 1491,
+      "end": 1742,
+      "from": "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1",
+      "to": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "tip": "be34382277809f54d55ce8a72f546e13d3f29e43b36512aab611df9eca6e90e7"
+    },
+    "requirement:skill-maintenance:Requirement: Scoped knowledge remains scoped": {
+      "id": "57853f14ffd8912768436fe64b3935d6bbeae7e39e1be40409881ae13afc7d54",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "heading": "Requirement: Scoped knowledge remains scoped",
+      "start": 1742,
+      "end": 1969,
+      "from": "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1",
+      "to": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "tip": "056e1a8398b2935e3e521ab29f90465b990a837b7b29f62a03168507a8328f7b"
+    },
+    "requirement:skill-maintenance:Requirement: Maintenance results are durable and visible": {
+      "id": "0c37f9ca154e37269750030a3f9480fef2d4be63ce856bf049d4db7b00d1580e",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "heading": "Requirement: Maintenance results are durable and visible",
+      "start": 1969,
+      "end": 2255,
+      "from": "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1",
+      "to": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "tip": "bd68abc1eb7c57ca1e26096a58f469b75c1c9fda6a6a476857eabd9167ba87c4"
+    },
+    "contract:R1": {
+      "id": "5b483f4a6a5a586ed188ee47e6a53c75779c39af210c2646776f3fa411db9fe4",
+      "file": "docs/review-contract.md",
+      "heading": "R1 — 单一收费入口与调度",
+      "start": 266,
+      "end": 888,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+    },
+    "contract:R2": {
+      "id": "8d5334bb48fefc16b10cc02f6386f01a29906edf67a925fde14c8a0b83e816ac",
+      "file": "docs/review-contract.md",
+      "heading": "R2 — 默认限制与准入",
+      "start": 888,
+      "end": 1717,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+    },
+    "contract:R3": {
+      "id": "e798a95d827af30b7a1c3a8b76230e1a8117c6e0f69e10d40ac4b82a147fb4ee",
+      "file": "docs/review-contract.md",
+      "heading": "R3 — 快照与独立请求",
+      "start": 1717,
+      "end": 2563,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+    },
+    "contract:R4": {
+      "id": "8da3525b0a12af9c153d210961b07faee39917fbe1801bfe5d90767d16f35d1d",
+      "file": "docs/review-contract.md",
+      "heading": "R4 — 状态、取消与提交",
+      "start": 2563,
+      "end": 3145,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+    },
+    "contract:R5": {
+      "id": "03e0e3b691e1ff59c1a8df598fc2c21eab0be120ea70bcb02928dda1c4d23011",
+      "file": "docs/review-contract.md",
+      "heading": "R5 — 用量与 TUI 契约",
+      "start": 3145,
+      "end": 3903,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+    },
+    "contract:R6": {
+      "id": "683708924f38255ba3aaf80e365e6fc524028864de79c8dd927a6897826883a5",
+      "file": "docs/review-contract.md",
+      "heading": "R6 — 最小验收矩阵",
+      "start": 3903,
+      "end": 4332,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+    },
+    "contract:R7": {
+      "id": "d11123a4923ecef24fa82d1ee4c79d5256017f94c908de14e6d128cd8c32016a",
+      "file": "docs/review-contract.md",
+      "heading": "R7 — 先验证学习闭环，再扩展协调",
+      "start": 4332,
+      "end": 4850,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+    },
+    "proposal:scope": {
+      "id": "682b88a67835a7a40c0bdfeaf616575088b7100439181f0f789b42a6c1ed70b2",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/proposal.md",
+      "heading": "What Changes",
+      "start": 140,
+      "end": 909,
+      "from": "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4",
+      "to": "d53c4c5dcbd70f2e0790f824ede94c10c7d4a0e0253790c6993a6f8bb3609bca",
+      "tip": "a93b952967b27d39dd1d753547cdc3783fb0f176237915f38956432208ac4323"
+    },
+    "implementation:context": {
+      "id": "0da25f5f73d04c33c6d2d63518ba03d27d42bf4b1866ecfc8705652a3686f9b5",
+      "file": "src/context.ts",
+      "heading": "implementation:context",
+      "start": 0,
+      "end": 3967,
+      "from": "b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e",
+      "to": null,
+      "tip": "e93bea60b5127e2c523e0d526530097f54147e3c52d88fe9c96f2b092a1ba77a"
+    },
+    "implementation:entry": {
+      "id": "19b8b8c945b190ed4a56c1d85e92528dc229f55023f8377165b96f6ed05bb486",
+      "file": "src/index.ts",
+      "heading": "implementation:entry",
+      "start": 0,
+      "end": 49197,
+      "from": "b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e",
+      "to": null,
+      "tip": "12f0e9b90fcda3c9e4f63197ada78d8d4014030be4cc7eb8dff1566af565f39f"
+    },
+    "implementation:catalog": {
+      "id": "58db73dfcfa95e64e154499e0396de03bbbd13c9cf148b25a2319a56657bd891",
+      "file": "src/catalog.ts",
+      "heading": "implementation:catalog",
+      "start": 0,
+      "end": 17961,
+      "from": "b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e",
+      "to": null,
+      "tip": "08bd35d79cb29129631bd4fa2c88c2ebe3cfa56738280ed2b87d51eed3c2ac86"
+    },
+    "implementation:store": {
+      "id": "89ded53769b34e85336d7e1681e2ea5c388f1ec3d4f4c36d5b7805a099f540ab",
+      "file": "src/store.ts",
+      "heading": "implementation:store",
+      "start": 0,
+      "end": 65527,
+      "from": "b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e",
+      "to": null,
+      "tip": "d934bc136c7fd88e3d162531a771828b198467aebfe82e642a31c5cd4bcb79e4"
+    },
+    "implementation:ledger": {
+      "id": "70b1aabf82a54808c804ff3132c7df094ff1397a04ff8e11dcabbf2f4760afa1",
+      "file": "src/ledger.ts",
+      "heading": "implementation:ledger",
+      "start": 0,
+      "end": 12259,
+      "from": "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66",
+      "to": null,
+      "tip": "ee4475739987ea3b94354b577f50ca20615f99fb9d6c1ff6ac52ad97b3460de7"
+    },
+    "implementation:review": {
+      "id": "aeb2b4e1b2982b92e03b50384b564a26047d433d0086765e9e3827ef1b96ce80",
+      "file": "src/review.ts",
+      "heading": "implementation:review",
+      "start": 0,
+      "end": 10997,
+      "from": "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66",
+      "to": null,
+      "tip": "c12e0e249778673bec2c5a28f34fe6b52379e0a5013de1788de50d11e9253cbb"
+    },
+    "implementation:ui": {
+      "id": "8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf",
+      "file": "src/ui.ts",
+      "heading": "implementation:ui",
+      "start": 0,
+      "end": 21270,
+      "from": "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66",
+      "to": null,
+      "tip": "f7acb3725e5c2e8443611279e1dc41e77b823f6d7787303eaf1905872d5c0ec8"
+    },
+    "implementation:atomic": {
+      "id": "38216266f666eb5ebd33606d31858347ee841f05e968e8194c0f41ca381da31d",
+      "file": "src/files.ts",
+      "heading": "implementation:atomic",
+      "start": 206,
+      "end": 589,
+      "from": "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66",
+      "to": null,
+      "tip": "8680f1e0f47ffcce8bcf601d8a81d520807162ddb2f1ccdfce867cf2e8ab639d"
+    },
+    "implementation:lock": {
+      "id": "46e75554514c3997eb726cc46ee153dee18a870842e8becae2a8de96c4dc8142",
+      "file": "src/files.ts",
+      "heading": "implementation:lock",
+      "start": 1755,
+      "end": 2443,
+      "from": "694d01ba14827a1d8237f9e5da18945b1e35089d013f12b6b125a777ec500f66",
+      "to": null,
+      "tip": "46a7d272d0512879da86aadcc57b7147d6120ad5801adb9bf70c54d8126f5dce"
+    },
+    "test:bootstrap": {
+      "id": "14d5f6d9ca57a5a51957dbb37407da1d00809c29907ada4eccb36516039fd975",
+      "file": "test/bootstrap.test.ts",
+      "heading": "test:bootstrap",
+      "start": 447,
+      "end": 4976,
+      "from": "19b8b8c945b190ed4a56c1d85e92528dc229f55023f8377165b96f6ed05bb486",
+      "to": null,
+      "tip": "fd82bff0b64531abe8192243282fab8c62815e3ade55a9b035cafaacd455bd85"
+    },
+    "test:learning": {
+      "id": "854298d3780d6adee6bcaee4de39dba515d8779979ec5b3dd37593b901d345e2",
+      "file": "test/learning.test.ts",
+      "heading": "test:learning",
+      "start": 0,
+      "end": 10301,
+      "from": "aeb2b4e1b2982b92e03b50384b564a26047d433d0086765e9e3827ef1b96ce80",
+      "to": null,
+      "tip": "bfdf0ef3557f5c2dcc3b77a01fbba2ac21802af731d9ddbaa51574ee5633058d"
+    },
+    "test:concurrency": {
+      "id": "51d34d6a5745073a841aa97982bb502d4e9d028829ee35ea9be56f82ef323762",
+      "file": "test/ledger.test.ts",
+      "heading": "test:concurrency",
+      "start": 0,
+      "end": 6880,
+      "from": "70b1aabf82a54808c804ff3132c7df094ff1397a04ff8e11dcabbf2f4760afa1",
+      "to": null,
+      "tip": "032bb3a14dfa66114fb5c8e3daa84df01ffbf057ec8dc0917e0a4c02ba0e2993"
+    },
+    "test:limits": {
+      "id": "68d3ac2967219e7ac71e1d239e1e05786411fdcd5e613ec79eb64553e80fbaae",
+      "file": "test/review-limits.test.ts",
+      "heading": "test:limits",
+      "start": 0,
+      "end": 7387,
+      "from": "aeb2b4e1b2982b92e03b50384b564a26047d433d0086765e9e3827ef1b96ce80",
+      "to": null,
+      "tip": "f4c9dc162b616e6244e8b0042fd988437b62cc89827d7376ccbec070d2cba64e"
+    },
+    "test:ui": {
+      "id": "319caecb51989597ed5f89cf96cf83b011ee33a3e75695cba73981f3365cc903",
+      "file": "test/ui.test.ts",
+      "heading": "test:ui",
+      "start": 218,
+      "end": 3292,
+      "from": "8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf",
+      "to": null,
+      "tip": "613222bc76880580bee3169107d86a887af402055611196ae87980b5c20a5260"
+    },
+    "evidence:api": {
+      "id": "4e8534e7b325fef1ba44dd056942d28e78a58e2fcb8e97a57cc237fce1c4548e",
+      "file": "docs/implementation-evidence.md",
+      "heading": "evidence:api",
+      "start": 0,
+      "end": 9235,
+      "from": "14d5f6d9ca57a5a51957dbb37407da1d00809c29907ada4eccb36516039fd975",
+      "to": null,
+      "tip": "381f07118516661fc7a0df9b54bc51c213ee08e0908e945e601e31e52b7a555c"
+    },
+    "evidence:swe2": {
+      "id": "1b6cf12583fa73a255710e995e1f41155f05049c09e1c3d58ade7230a2b69926",
+      "file": "docs/swe2-validation.md",
+      "heading": "evidence:swe2",
+      "start": 0,
+      "end": 1336,
+      "from": "aeb2b4e1b2982b92e03b50384b564a26047d433d0086765e9e3827ef1b96ce80",
+      "to": null,
+      "tip": "62570d5a78111d72268c7771d8ba0e208cea10871cbfc117c88f0fced866f53c"
+    },
+    "evidence:tui": {
+      "id": "14b2beeac9a3aa0ae5cd15a2a581c75368c2879f9349b423efda95404cf85465",
+      "file": "docs/tui-validation.md",
+      "heading": "evidence:tui",
+      "start": 0,
+      "end": 1401,
+      "from": "8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf",
+      "to": null,
+      "tip": "747181a13edb4474359a8c60a2d7f25d92ad7059972a1fabb32d88830fa2537c"
+    },
+    "requirement:skill-discovery:Requirement: Complete CLI and SDK source snapshots": {
+      "id": "113e2d535ddbda2a8d89af4fdfbd86922be05b61742eeccf709dda9f1968acf9",
+      "file": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md",
+      "heading": "requirement:skill-discovery:Requirement: Complete CLI and SDK source snapshots",
+      "start": 1130,
+      "end": 1801,
+      "from": "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517",
+      "to": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59",
+      "tip": "a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80"
+    },
+    "implementation:sources": {
+      "id": "9d4539a328708495f27a9a783c03782dad505600d3031254b1654dfb6dd96f5f",
+      "file": "src/sources.ts",
+      "heading": "implementation:sources",
+      "start": 0,
+      "end": 7272,
+      "from": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59",
+      "to": null,
+      "tip": "39df609ed4f457930490d642ffd2c1da08f307cbb799f7375f0cd88bb4e302e2"
+    },
+    "implementation:source-worker": {
+      "id": "c0b93a325762d9dbaf854e9847e501c5ffb5644d3d1082bc674c3848ab90ae12",
+      "file": "src/source-worker.mjs",
+      "heading": "implementation:source-worker",
+      "start": 0,
+      "end": 712,
+      "from": "9d4539a328708495f27a9a783c03782dad505600d3031254b1654dfb6dd96f5f",
+      "to": null,
+      "tip": "183cc9f8658204ca20410872f2d34f37fa819ef4d40ebfae3f026a6d3ac48a22"
+    },
+    "test:sources": {
+      "id": "116e990be5631ee8fb1a02312567f2323fbad418a660bd8907346aa86e4b1ff2",
+      "file": "test/sources.test.ts",
+      "heading": "test:sources",
+      "start": 0,
+      "end": 9835,
+      "from": "58db73dfcfa95e64e154499e0396de03bbbd13c9cf148b25a2319a56657bd891",
+      "to": null,
+      "tip": "0018cb9ceb7d4d2f068170fbfd95683de46f17664eb4fba0d72e8217adc3da4a"
+    },
+    "test:stock-sources": {
+      "id": "e9f1c67a6fc63b3c32e0855dfb3744da2729119d945797346d43599286e8f4a8",
+      "file": "test/stock-sources.test.ts",
+      "heading": "test:stock-sources",
+      "start": 0,
+      "end": 970,
+      "from": "9d4539a328708495f27a9a783c03782dad505600d3031254b1654dfb6dd96f5f",
+      "to": null,
+      "tip": "f45d4bcc143b28d1ad39ce9e7a312f4d41bd5434b6ed8364aafcbb3e7a28e962"
+    },
+    "test:cli-sources": {
+      "id": "505cbdcdf4229febe20bad2278dbe3d7a3efc3ef5dd23f4990013e287354f571",
+      "file": "test/cli-sources.test.ts",
+      "heading": "test:cli-sources",
+      "start": 0,
+      "end": 1974,
+      "from": "19b8b8c945b190ed4a56c1d85e92528dc229f55023f8377165b96f6ed05bb486",
+      "to": null,
+      "tip": "c05fae15c13f7c88375c832909a82f94f4354230ee872b981a071e2114f89819"
+    },
+    "fixture:source-resolver": {
+      "id": "958e5da402da83227488282a1e1aa5a27373a20180ae9b3fa52569d1310321b5",
+      "file": "test/fixtures/source-resolver.ts",
+      "heading": "fixture:source-resolver",
+      "start": 0,
+      "end": 3005,
+      "from": "e9f1c67a6fc63b3c32e0855dfb3744da2729119d945797346d43599286e8f4a8",
+      "to": null
+    },
+    "fixture:cli-sources": {
+      "id": "23d41aa03bf1f582a3f17a10e657d93ee5b17ad2bcb5432b5230a67c4429f328",
+      "file": "test/fixtures/cli-sources.ts",
+      "heading": "fixture:cli-sources",
+      "start": 0,
+      "end": 2497,
+      "from": "505cbdcdf4229febe20bad2278dbe3d7a3efc3ef5dd23f4990013e287354f571",
+      "to": null,
+      "tip": "f6316bdd4b32ca5b848fde61898d118e0bc9a7c1396f15fdc6bada271d875bf0"
+    },
+    "fixture:sdk-support": {
+      "id": "9012478447e07d90052cb883b4ee7ae0699a34af6e921f7cbe911e3d90685420",
+      "file": "test/support.ts",
+      "heading": "fixture:sdk-support",
+      "start": 0,
+      "end": 5031,
+      "from": "116e990be5631ee8fb1a02312567f2323fbad418a660bd8907346aa86e4b1ff2",
+      "to": null,
+      "tip": "f6283ea1e4d431e578740f9986d27f67bd71a3345f00208719820a84ad043194"
+    },
+    "evidence:sources": {
+      "id": "4e9ee293da1b3d17eb227614bd52791f10be97bf39608bd2253831a5f2d07d58",
+      "file": "docs/source-discovery-boundary.md",
+      "heading": "evidence:sources",
+      "start": 0,
+      "end": 3256,
+      "from": "116e990be5631ee8fb1a02312567f2323fbad418a660bd8907346aa86e4b1ff2",
+      "to": null,
+      "tip": "ad7f287643e05846562840d8ef31dcbc7301b6e181bf7d4a5cd569a33df03a82"
+    },
+    "test:search": {
+      "id": "ea63c92cb540587811374b8937c97ca18fa6f3b4539b5073d997cf32a68b25b6",
+      "file": "test/search.test.ts",
+      "heading": "test:search",
+      "start": 0,
+      "end": 4816,
+      "from": "58db73dfcfa95e64e154499e0396de03bbbd13c9cf148b25a2319a56657bd891",
+      "to": null,
+      "tip": "df9d91742b5ef8ba52d370bbfcd10274542025ff12dc524995d525516fc3d755"
+    },
+    "test:read": {
+      "id": "31ab6955cc1edcf98869572d77876807814edbe83bcf22ccef57ba0c89b8c3d6",
+      "file": "test/read.test.ts",
+      "heading": "test:read",
+      "start": 0,
+      "end": 5326,
+      "from": "58db73dfcfa95e64e154499e0396de03bbbd13c9cf148b25a2319a56657bd891",
+      "to": null,
+      "tip": "7395db018b75c8765c7983d6eae0bf181ffb47c4e70a59b59f206c6d33ee1669"
+    },
+    "implementation:scope": {
+      "id": "cdcfb45c20e44851ded13ded85d77de212c6cac4247cc398af6987ef468daa8b",
+      "file": "src/scope.ts",
+      "heading": "implementation:scope",
+      "start": 0,
+      "end": 1659,
+      "from": "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73",
+      "to": null,
+      "tip": "5f39ada6b65776c3ffe89586ae41dee3d9e38bf928c37cfc92283b7d8eecf149"
+    },
+    "implementation:async": {
+      "id": "9f0afe59a50f73cb37cc90ed389fb1fd7fce9bce8e99c77ff7e41383c779081a",
+      "file": "src/async.ts",
+      "heading": "implementation:async",
+      "start": 0,
+      "end": 682,
+      "from": "aeb2b4e1b2982b92e03b50384b564a26047d433d0086765e9e3827ef1b96ce80",
+      "to": null,
+      "tip": "7a179264ba5619462d86e486412c2d3eda4ae2c9c4745ae91a17e80eba91f562"
+    },
+    "test:modes": {
+      "id": "a67a14485258940a5e8cb5c079d986d00cbbcae89533a69d846dd7392313ed18",
+      "file": "test/modes.test.ts",
+      "heading": "test:modes",
+      "start": 0,
+      "end": 9545,
+      "from": "19b8b8c945b190ed4a56c1d85e92528dc229f55023f8377165b96f6ed05bb486",
+      "to": null,
+      "tip": "09e6d32e8995c371241a1cd9f9e0587055bf8aec973b19364088260655a79d6e"
+    },
+    "test:automatic-learning": {
+      "id": "4130f91d3924585db38f19b69b466eaa32e9d01399a72f6913c6a0eb5c911605",
+      "file": "test/automatic-learning.test.ts",
+      "heading": "test:automatic-learning",
+      "start": 0,
+      "end": 12242,
+      "from": "8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf",
+      "to": null,
+      "tip": "3ea9b11697b9bc22e44fc6466be48c5633f4467d8e2e4119549943580a21081a"
+    },
+    "test:commit-gates": {
+      "id": "5ff6d7a6c466eb0dc0ea877240e9e8bcc23256ab5fe5a55e6ab0814f862f989c",
+      "file": "test/commit-gates.test.ts",
+      "heading": "test:commit-gates",
+      "start": 0,
+      "end": 6102,
+      "from": "89ded53769b34e85336d7e1681e2ea5c388f1ec3d4f4c36d5b7805a099f540ab",
+      "to": null,
+      "tip": "9e9d50a0e4c0ccc822e0f1f7cb0ddf5cb9d8c478da7baacf58a30aff9bc02a78"
+    },
+    "test:scheduling": {
+      "id": "5cb6cae75cacae762bd0c082bae9fbd56b351dccf5c19174c3b34cc50dafd630",
+      "file": "test/scheduling.test.ts",
+      "heading": "test:scheduling",
+      "start": 0,
+      "end": 4057,
+      "from": "8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf",
+      "to": null,
+      "tip": "3567b89e46b038ffd1c2689a3b74088cb6250c5fec163d223e48a0d41b19e32b"
+    },
+    "test:recovery": {
+      "id": "612493a66cddc9d3bf4fd8eb0168f21f5e4ac5fed90052a599fc3194579ec975",
+      "file": "test/recovery.test.ts",
+      "heading": "test:recovery",
+      "start": 0,
+      "end": 12609,
+      "from": "89ded53769b34e85336d7e1681e2ea5c388f1ec3d4f4c36d5b7805a099f540ab",
+      "to": null,
+      "tip": "f47cfea9c451819f6d225da0d854ec359624e04f439427b7cfa4ed115edfc570"
+    },
+    "test:member-transactions": {
+      "id": "902468b2bc1a06d652d81bd7718cbc75ecea7a918d9a685e7d727fcf013ee8df",
+      "file": "test/member-transactions.test.ts",
+      "heading": "test:member-transactions",
+      "start": 0,
+      "end": 6695,
+      "from": "89ded53769b34e85336d7e1681e2ea5c388f1ec3d4f4c36d5b7805a099f540ab",
+      "to": null,
+      "tip": "c789e504cf51a592a31652f92acd0af13c0ee3dd676b9c4ecf40c153b29cb231"
+    },
+    "test:store-concurrency": {
+      "id": "4ef6eda61233d9445e49effda237e1dbac13266380ca35c23499ee4195ae53b6",
+      "file": "test/store-concurrency.test.ts",
+      "heading": "test:store-concurrency",
+      "start": 0,
+      "end": 2704,
+      "from": "46e75554514c3997eb726cc46ee153dee18a870842e8becae2a8de96c4dc8142",
+      "to": null
+    },
+    "implementation:activity": {
+      "id": "288c6724ebd4f20248cd1fba1df6bd83d0285ffc5ceb7c7fc72ca20862e9e899",
+      "tip": "7b7429af9144b3c9456f80710fedcfa451c128441d3948273472f632d7836639",
+      "file": "src/activity.ts",
+      "heading": "implementation:activity",
+      "start": 0,
+      "end": 11048,
+      "from": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "to": null
+    },
+    "implementation:archives": {
+      "id": "5fe997da124cece632dc38402774fec46e907d56335ca319aa55d1032b12d67b",
+      "tip": "a706989286e2a42a4e876e03f32a5004b4a158a7b86e4c3233f8aa1e57c52f51",
+      "file": "src/archives.ts",
+      "heading": "implementation:archives",
+      "start": 0,
+      "end": 19009,
+      "from": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "to": null
+    },
+    "implementation:content": {
+      "id": "b1bf8440d43479855074a9adce44696e542c30c832992e10555cc4c2c27e300a",
+      "tip": "d71705a684b5d1cfb871bd378228b6996f12f67fd1b67b105979142043019161",
+      "file": "src/content.ts",
+      "heading": "implementation:content",
+      "start": 0,
+      "end": 4764,
+      "from": "8c78a75ab62efa134ab20f6019fd513efcf77c13265dbd67a67a0a3d3a4ec8fc",
+      "to": null
+    },
+    "implementation:cooperation": {
+      "id": "eda5e969c7351f880614299ea123277a99eb06776887ef2a4cc71c25c8072cd1",
+      "tip": "218430afea2eed570541bd0b55d92134d1411de732e1527d3d7aec41672bd834",
+      "file": "src/cooperation.ts",
+      "heading": "implementation:cooperation",
+      "start": 0,
+      "end": 5679,
+      "from": "e7335f0ea606d1de628b0dac6f5f0213a4e399ccdeb6a8fca0c89bf0de00bf06",
+      "to": null
+    },
+    "implementation:curation": {
+      "id": "d96638e079e96a7fc063577235bc39e419068264f7d72f6fd4b09ce699c54407",
+      "tip": "77ca6b503afe54c51b90f30276466999be496ffeb581eb81a8ab29ec5f8dee49",
+      "file": "src/curation.ts",
+      "heading": "implementation:curation",
+      "start": 0,
+      "end": 9921,
+      "from": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "to": null
+    },
+    "implementation:permissions": {
+      "id": "a876e1cc720881a08c2c40a16f69f2abc4aa1964d4016d393cc67bbd5edcdce0",
+      "tip": "14ca6974e8c76fab53cb5039bb6d594851267414aa69702505acc7e7b5cfb614",
+      "file": "src/permissions.ts",
+      "heading": "implementation:permissions",
+      "start": 0,
+      "end": 9332,
+      "from": "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73",
+      "to": null
+    },
+    "implementation:restore-sources": {
+      "id": "0bb8531e6acf9598781c672e21cd59b9099349abfaf379ba4b20480fd8959429",
+      "tip": "13ad542cc75b9c1ce64e5eaf220327fe01b106d40bd0d4e5f3337a0295b08579",
+      "file": "src/restore-sources.ts",
+      "heading": "implementation:restore-sources",
+      "start": 0,
+      "end": 17894,
+      "from": "ee0a04fef9b9a96ea75c7e2b633e365356c80246a14cb259282a5af77729ea59",
+      "to": null
+    },
+    "implementation:temporary-package-root": {
+      "id": "68c8a2c1b1a38d2053f3c3478f6c5fe68bdd750270be3e2f1e1165eee08567a3",
+      "tip": "65fc82b75efcabf3f258196cc2dfd2d8f03014f42849cfe7c2cca797025b92fb",
+      "file": "src/temporary-package-root.ts",
+      "heading": "implementation:temporary-package-root",
+      "start": 0,
+      "end": 4069,
+      "from": "0bb8531e6acf9598781c672e21cd59b9099349abfaf379ba4b20480fd8959429",
+      "to": null
+    },
+    "test:activity": {
+      "id": "ea85fb3c29de5a78bc863924fa729e822b7b4b8291771898397ef7bce2bb5ba9",
+      "tip": "c2f8f9514262762d7070189f7a1d1240e404dc08634ecdacc2c47261b86faf49",
+      "file": "test/activity.test.ts",
+      "heading": "test:activity",
+      "start": 0,
+      "end": 17356,
+      "from": "288c6724ebd4f20248cd1fba1df6bd83d0285ffc5ceb7c7fc72ca20862e9e899",
+      "to": null
+    },
+    "test:archive": {
+      "id": "644469b82d38a3baaa91ad662ccf24c9a70843e577c7e6476e283b26b7cb3866",
+      "tip": "8ad2e8bf9fe823d3972fee06430de4152b605ef2c4d5481d555504142b4fc3d2",
+      "file": "test/archive.test.ts",
+      "heading": "test:archive",
+      "start": 0,
+      "end": 18580,
+      "from": "5fe997da124cece632dc38402774fec46e907d56335ca319aa55d1032b12d67b",
+      "to": null
+    },
+    "test:content": {
+      "id": "78cb253db9281b8c91d45d61e4b4a62667dc297de5c7f621ec498af59fe44924",
+      "tip": "077f1aa784b318942d249b54cc2bb4df9869b9064c79c59c63c1dcb82b39c7a7",
+      "file": "test/content.test.ts",
+      "heading": "test:content",
+      "start": 0,
+      "end": 11246,
+      "from": "b1bf8440d43479855074a9adce44696e542c30c832992e10555cc4c2c27e300a",
+      "to": null
+    },
+    "test:cooperation": {
+      "id": "e5dc07f5dcafdd0c2fdc3a4e428f4bedff05eb5c5adff71204768be2ff3220bc",
+      "tip": "cf105664077c21777d77733b01e94279fe3e8a63571e0dfe5bdea63a3d76f5e8",
+      "file": "test/cooperation.test.ts",
+      "heading": "test:cooperation",
+      "start": 0,
+      "end": 12735,
+      "from": "eda5e969c7351f880614299ea123277a99eb06776887ef2a4cc71c25c8072cd1",
+      "to": null
+    },
+    "test:curation": {
+      "id": "f1cb40743e9c4bba3505675f5bf544e5590b30942f50bfe75ec6bb2a8ebb6987",
+      "tip": "6d8fff92e9e6cfb3249b513f3b0252de61fc3b3af0398c7f61642f6267b51913",
+      "file": "test/curation.test.ts",
+      "heading": "test:curation",
+      "start": 0,
+      "end": 21652,
+      "from": "d96638e079e96a7fc063577235bc39e419068264f7d72f6fd4b09ce699c54407",
+      "to": null
+    },
+    "test:fees": {
+      "id": "e0b5394d440c46bf66890f4ed93a7906b0e65272787656eba60c56f3dd80d071",
+      "tip": "2f37962eb15a01e558f63d63fea225c0eb8af5f5065fd608c136e7728d53b571",
+      "file": "test/fee-matrix.test.ts",
+      "heading": "test:fees",
+      "start": 0,
+      "end": 7909,
+      "from": "70b1aabf82a54808c804ff3132c7df094ff1397a04ff8e11dcabbf2f4760afa1",
+      "to": null
+    },
+    "test:installed": {
+      "id": "600debad18625f49be74dc90b50005d41fe92e0a9a16797a2658fd726ccbb3ad",
+      "tip": "a27d298f1687ed627cef766f5c59a5121c970978c5792ce67a41c4ef0fe423f9",
+      "file": "test/installed-approval.test.ts",
+      "heading": "test:installed",
+      "start": 0,
+      "end": 16550,
+      "from": "a876e1cc720881a08c2c40a16f69f2abc4aa1964d4016d393cc67bbd5edcdce0",
+      "to": null
+    },
+    "test:lifecycle": {
+      "id": "5e43ae6cc7e54b25a451bb74306681dad45ee39a69bda6904625bc3224c43670",
+      "tip": "a647c00cdff4927157eedcd5fcd9efd846654942bec7bef029bb61998637e6d1",
+      "file": "test/lifecycle.test.ts",
+      "heading": "test:lifecycle",
+      "start": 0,
+      "end": 7768,
+      "from": "8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf",
+      "to": null
+    },
+    "test:proposal": {
+      "id": "7b855d42451ea39d6686224321fac21d951b7a15b32afbe730cfeb12bd5d0fe0",
+      "tip": "c19a6681040f099d1d8519ac727796ee3e39ebbeb99de6cf69c73f683a9d9244",
+      "file": "test/proposal.test.ts",
+      "heading": "test:proposal",
+      "start": 0,
+      "end": 9696,
+      "from": "89ded53769b34e85336d7e1681e2ea5c388f1ec3d4f4c36d5b7805a099f540ab",
+      "to": null
+    },
+    "test:resource-boundary": {
+      "id": "800ebe2a6d6fb1227c8c2067f89c8b09d844f21d3a49819d8fcfeee980470092",
+      "tip": "a2f55db5699152ea951fefba4a66a815a50478711ab5da7c7b5d633b1d81c338",
+      "file": "test/resource-boundary.test.ts",
+      "heading": "test:resource-boundary",
+      "start": 0,
+      "end": 1070,
+      "from": "9d4539a328708495f27a9a783c03782dad505600d3031254b1654dfb6dd96f5f",
+      "to": null
+    },
+    "test:restore-sources": {
+      "id": "78270c10354589c3fa99532ede51cf58baba88d6178e3f217609f8d57831a843",
+      "tip": "7453a14a1c3bdcb81dd7e7f2594bfbdcf16abca31a386291ca0a9518b4a56428",
+      "file": "test/restore-sources.test.ts",
+      "heading": "test:restore-sources",
+      "start": 0,
+      "end": 3844,
+      "from": "0bb8531e6acf9598781c672e21cd59b9099349abfaf379ba4b20480fd8959429",
+      "to": null
+    },
+    "test:rollback": {
+      "id": "9f1013f641f5675b35d29184a2953c27568a9e8a6739d74ad624a55469184f35",
+      "tip": "40912a784d9aba421bdae35557f57b1a49962ca599c1fa5c77527fb408d18b7c",
+      "file": "test/rollback.test.ts",
+      "heading": "test:rollback",
+      "start": 0,
+      "end": 12993,
+      "from": "89ded53769b34e85336d7e1681e2ea5c388f1ec3d4f4c36d5b7805a099f540ab",
+      "to": null
+    },
+    "test:scope-migration": {
+      "id": "ac144e50edc36f4996427fc8988697e9379a4eba25981ab9dbeb31b74ec44f06",
+      "tip": "86c3c29a22c6917752a9604dd790b598c1d6c23b5d922951344f502bec4908de",
+      "file": "test/scope-migration.test.ts",
+      "heading": "test:scope-migration",
+      "start": 0,
+      "end": 9865,
+      "from": "cdcfb45c20e44851ded13ded85d77de212c6cac4247cc398af6987ef468daa8b",
+      "to": null
+    },
+    "test:snapshot": {
+      "id": "00f91da605a067b4c14c209fdf1721331cfd2cfb0ef866b249d09cea57165d64",
+      "tip": "0a151a85944da499a97cd532d74eefab5c8c71e017c4b5a12b9fdb62169a24d2",
+      "file": "test/snapshot.test.ts",
+      "heading": "test:snapshot",
+      "start": 0,
+      "end": 5654,
+      "from": "0da25f5f73d04c33c6d2d63518ba03d27d42bf4b1866ecfc8705652a3686f9b5",
+      "to": null
+    },
+    "fixture:delivery": {
+      "id": "92c947c09d20d35ae81e11313ed27be3738255c80747152d8aaaa0c240776698",
+      "tip": "19836b0b8aa527fd09ca8d3f119c65fc0cc6091da6418de618edcea3154522c3",
+      "file": "test/fixtures/tui-delivery.ts",
+      "heading": "fixture:delivery",
+      "start": 0,
+      "end": 1115,
+      "from": "e7335f0ea606d1de628b0dac6f5f0213a4e399ccdeb6a8fca0c89bf0de00bf06",
+      "to": null
+    },
+    "fixture:maintenance": {
+      "id": "a41692c5734fb4fd737edb41a14252ba883a1436d0354600788fc4b9869485c7",
+      "tip": "0a14cbd6c5d153be7bd0b20b47894793ac1978aea83ddcec8106644e36ef797a",
+      "file": "test/fixtures/tui-maintenance.ts",
+      "heading": "fixture:maintenance",
+      "start": 0,
+      "end": 3504,
+      "from": "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120",
+      "to": null
+    },
+    "fixture:restore-matrix": {
+      "id": "9e827f126ccd27529b9383e2075a264d93d7622501597a6acbca50ae832c7e43",
+      "tip": "68bb0fd0f359e964b77f2e4d47ff3edf901947a48ec43dbc1ada438d40a98f84",
+      "file": "test/fixtures/restore-source-matrix.ts",
+      "heading": "fixture:restore-matrix",
+      "start": 0,
+      "end": 10882,
+      "from": "78270c10354589c3fa99532ede51cf58baba88d6178e3f217609f8d57831a843",
+      "to": null
+    },
+    "fixture:temporary-root": {
+      "id": "61eae39a50e1f253837ec465c3ee43508e94feaf8b6b7d0fed0dd9f853d99723",
+      "tip": "8cd6a836da58c2fee5e76ff4fd7c4646995d4d7e769efdd5f245cce788db74d1",
+      "file": "test/fixtures/temporary-root-probe.ts",
+      "heading": "fixture:temporary-root",
+      "start": 0,
+      "end": 5746,
+      "from": "68c8a2c1b1a38d2053f3c3478f6c5fe68bdd750270be3e2f1e1165eee08567a3",
+      "to": null
+    },
+    "evidence:curation": {
+      "id": "76b83f0b1a3895fe3d98b00a97cd599993114a3cc1de463230aca4a7b36681bf",
+      "tip": "a81709faf167c8894649c433930934fc774582f4eedf9729414caa936310622a",
+      "file": "docs/curation.md",
+      "heading": "evidence:curation",
+      "start": 0,
+      "end": 1473,
+      "from": "f1cb40743e9c4bba3505675f5bf544e5590b30942f50bfe75ec6bb2a8ebb6987",
+      "to": null
+    },
+    "evidence:maintenance": {
+      "id": "6081c4befe1aec617ee7d06de823f200d48e3e384733375f5adf769b0e6e992c",
+      "tip": "7c86d6e4c63be09967e1556a6c848ed525c6c2345d5a8093d817a14302110019",
+      "file": "docs/maintenance-evidence.md",
+      "heading": "evidence:maintenance",
+      "start": 0,
+      "end": 2659,
+      "from": "644469b82d38a3baaa91ad662ccf24c9a70843e577c7e6476e283b26b7cb3866",
+      "to": null
+    },
+    "evidence:cooperation": {
+      "id": "9524a78c7ba18a5e0f1de87c497936f0748dd5a74708976c6e660b61c34877ed",
+      "tip": "87c72598a2c77354b854bafacd4a83e07d6475f1526d8fb277c844bd83a11783",
+      "file": "docs/review-cooperation.md",
+      "heading": "evidence:cooperation",
+      "start": 0,
+      "end": 2054,
+      "from": "e5dc07f5dcafdd0c2fdc3a4e428f4bedff05eb5c5adff71204768be2ff3220bc",
+      "to": null
+    },
+    "evidence:fees": {
+      "id": "08a36ed19f12f400cf64c94840bb93e2f80553f5b1126458eb9aeaa896d9d748",
+      "tip": "56c53311ab10e58b30b0113781154f00c8515020f72fddc44883e7bc29a939d8",
+      "file": "docs/fee-matrix.md",
+      "heading": "evidence:fees",
+      "start": 0,
+      "end": 1511,
+      "from": "e0b5394d440c46bf66890f4ed93a7906b0e65272787656eba60c56f3dd80d071",
+      "to": null
+    },
+    "evidence:delivery": {
+      "id": "00eccb8b1b4198cf5acfa9c39e5a4b517a447321ab1fbd4456982b8116835392",
+      "tip": "324c0b99ec948189e2e021fa08821f9cc325c6bb9db698f2ebe7998d235050e2",
+      "file": "docs/delivery-evidence.md",
+      "heading": "evidence:delivery",
+      "start": 0,
+      "end": 1441,
+      "from": "92c947c09d20d35ae81e11313ed27be3738255c80747152d8aaaa0c240776698",
+      "to": null
+    },
+    "guide:usage": {
+      "id": "df20468879432ad8fe58bf6b6a8e0e43f0e490cb28d0c2f87350c3f27e5cf5de",
+      "tip": "752441c6bc5c774929ef670e2bf5f964cd09ed180e44c20656e2183897cb4cc0",
+      "file": "docs/usage.md",
+      "heading": "guide:usage",
+      "start": 0,
+      "end": 2393,
+      "from": "00eccb8b1b4198cf5acfa9c39e5a4b517a447321ab1fbd4456982b8116835392",
+      "to": null
+    }
+  },
+  "additionalEdges": [
+    [
+      "H1",
+      "D2"
+    ],
+    [
+      "P3",
+      "D2"
+    ],
+    [
+      "P3",
+      "D5"
+    ],
+    [
+      "U1",
+      "D2"
+    ],
+    [
+      "U1",
+      "D4"
+    ],
+    [
+      "P2",
+      "D5"
+    ],
+    [
+      "H2",
+      "D6"
+    ],
+    [
+      "H4",
+      "D4"
+    ],
+    {
+      "source": "e7335f0ea606d1de628b0dac6f5f0213a4e399ccdeb6a8fca0c89bf0de00bf06",
+      "target": "e0b5394d440c46bf66890f4ed93a7906b0e65272787656eba60c56f3dd80d071",
+      "sourceKey": "tasks:7",
+      "targetKey": "test:fees"
+    },
+    {
+      "source": "e7335f0ea606d1de628b0dac6f5f0213a4e399ccdeb6a8fca0c89bf0de00bf06",
+      "target": "00eccb8b1b4198cf5acfa9c39e5a4b517a447321ab1fbd4456982b8116835392",
+      "sourceKey": "tasks:7",
+      "targetKey": "evidence:delivery"
+    },
+    {
+      "source": "5fe997da124cece632dc38402774fec46e907d56335ca319aa55d1032b12d67b",
+      "target": "9f1013f641f5675b35d29184a2953c27568a9e8a6739d74ad624a55469184f35",
+      "sourceKey": "implementation:archives",
+      "targetKey": "test:rollback"
+    },
+    {
+      "source": "d96638e079e96a7fc063577235bc39e419068264f7d72f6fd4b09ce699c54407",
+      "target": "5fe997da124cece632dc38402774fec46e907d56335ca319aa55d1032b12d67b",
+      "sourceKey": "implementation:curation",
+      "targetKey": "implementation:archives"
+    },
+    {
+      "source": "eda5e969c7351f880614299ea123277a99eb06776887ef2a4cc71c25c8072cd1",
+      "target": "aeb2b4e1b2982b92e03b50384b564a26047d433d0086765e9e3827ef1b96ce80",
+      "sourceKey": "implementation:cooperation",
+      "targetKey": "implementation:review"
+    },
+    {
+      "source": "eda5e969c7351f880614299ea123277a99eb06776887ef2a4cc71c25c8072cd1",
+      "target": "70b1aabf82a54808c804ff3132c7df094ff1397a04ff8e11dcabbf2f4760afa1",
+      "sourceKey": "implementation:cooperation",
+      "targetKey": "implementation:ledger"
+    },
+    {
+      "source": "a876e1cc720881a08c2c40a16f69f2abc4aa1964d4016d393cc67bbd5edcdce0",
+      "target": "78cb253db9281b8c91d45d61e4b4a62667dc297de5c7f621ec498af59fe44924",
+      "sourceKey": "implementation:permissions",
+      "targetKey": "test:content"
+    },
+    {
+      "source": "78270c10354589c3fa99532ede51cf58baba88d6178e3f217609f8d57831a843",
+      "target": "6081c4befe1aec617ee7d06de823f200d48e3e384733375f5adf769b0e6e992c",
+      "sourceKey": "test:restore-sources",
+      "targetKey": "evidence:maintenance"
+    },
+    {
+      "source": "9f1013f641f5675b35d29184a2953c27568a9e8a6739d74ad624a55469184f35",
+      "target": "6081c4befe1aec617ee7d06de823f200d48e3e384733375f5adf769b0e6e992c",
+      "sourceKey": "test:rollback",
+      "targetKey": "evidence:maintenance"
+    }
+  ],
+  "summary": {
+    "requirements": 27,
+    "rangeCount": 57,
+    "links": {
+      "by_status": {
+        "broken": 0,
+        "healthy": 92,
+        "obliged": 0,
+        "stale": 0,
+        "unchecked": 0,
+        "withdrawn": 0
+      },
+      "by_stratum": {
+        "0": 23,
+        "1": 31,
+        "2": 30,
+        "3": 8
+      },
+      "ok": true,
+      "total": 92
+    },
+    "verifyOk": true,
+    "checkOk": true
+  },
+  "limitations": [
+    "Planning relationships only; no implementation or runtime proof.",
+    "Only selected evidence, decisions, requirements and tasks are tracked; not whole-repository text coverage.",
+    "The two stores are independent; shared review contract consistency is checked by content hash, not by a cross-store peer link."
+  ],
+  "implementationSummary": {
+    "completedTasks": 26,
+    "totalTasks": 26,
+    "testsPassed": 160,
+    "verifyOk": true,
+    "checkOk": true,
+    "links": {
+      "by_status": {
+        "broken": 0,
+        "healthy": 180,
+        "obliged": 0,
+        "stale": 0,
+        "unchecked": 0,
+        "withdrawn": 0
+      },
+      "by_stratum": {
+        "0": 23,
+        "1": 32,
+        "2": 31,
+        "3": 26,
+        "4": 26,
+        "5": 29,
+        "6": 7,
+        "7": 5,
+        "8": 1
+      },
+      "ok": true,
+      "total": 180
+    },
+    "nativeDelivery": "docs/delivery-evidence.md",
+    "companionRuntime": "not verified compatible"
+  },
+  "archiveSummary": {
+    "path": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle",
+    "mainSpecs": "openspec/specs",
+    "requirements": 28,
+    "relocations": {
+      "openspec/changes/add-managed-skill-lifecycle/design.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md",
+      "openspec/changes/add-managed-skill-lifecycle/tasks.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md",
+      "openspec/changes/add-managed-skill-lifecycle/specs/skill-discovery/spec.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-discovery/spec.md",
+      "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md",
+      "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md",
+      "openspec/changes/add-managed-skill-lifecycle/specs/skill-maintenance/spec.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-maintenance/spec.md",
+      "openspec/changes/add-managed-skill-lifecycle/proposal.md": "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/proposal.md"
+    },
+    "verifyOk": true,
+    "checkOk": true,
+    "links": {
+      "by_status": {
+        "broken": 0,
+        "healthy": 180,
+        "obliged": 0,
+        "stale": 0,
+        "unchecked": 0,
+        "withdrawn": 0
+      },
+      "by_stratum": {
+        "0": 23,
+        "1": 32,
+        "2": 31,
+        "3": 26,
+        "4": 26,
+        "5": 29,
+        "6": 7,
+        "7": 5,
+        "8": 1
+      },
+      "ok": true,
+      "total": 180
+    },
+    "reviewedRelations": 49,
+    "statisticsScopesRelocated": 7
+  }
+}

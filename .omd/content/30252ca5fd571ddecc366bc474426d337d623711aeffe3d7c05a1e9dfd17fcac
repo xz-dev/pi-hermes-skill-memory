@@ -1,0 +1,90 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { mkdir, mkdtemp, readFile, access, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { ManagedSkillStore } from "../src/store.ts";
+import { withLock } from "../src/files.ts";
+import { reviewSkills } from "../src/review.ts";
+import { ReviewLedger } from "../src/ledger.ts";
+import { captureSnapshot } from "../src/context.ts";
+import { isolatedSession } from "./support.ts";
+import { createAssistantMessageEventStream } from "@earendil-works/pi-ai";
+import type { AssistantMessage } from "@earendil-works/pi-ai";
+
+async function fixture() {
+  const root = await mkdtemp("/var/tmp/hermes-commit-gate-");
+  const agentDir = join(root, "agent"), cwd = join(root, "project"); await mkdir(agentDir); await mkdir(cwd);
+  const snapshot = { cwd, sessionId: "fixture", leafId: null, model: undefined, thinking: undefined, messages: [],
+    evidence: [{ entryId: "user-1", text: "Build first" }], digest: "fixture" };
+  const proposal = { action: "create" as const, scope: "project" as const, name: "release-check", description: "Release ordering",
+    body: "Build first", reason: "Reusable correction", evidence: [{ entryId: "user-1", quote: "Build first" }] };
+  const store = new ManagedSkillStore(agentDir, cwd);
+  const target = join(cwd, ".pi/skills/hermes-managed/release-check/SKILL.md");
+  return { agentDir, cwd, snapshot, proposal, store, target };
+}
+
+test("a queued commit rechecks eligibility after acquiring the root lock", async () => {
+  const f = await fixture(); let release!: () => void, entered!: () => void;
+  const held = new Promise<void>(resolve => { entered = resolve; });
+  const hold = new Promise<void>(resolve => { release = resolve; });
+  const lock = withLock(join(f.cwd, ".pi/hermes-skills/store.lock"), async () => { entered(); await hold; });
+  await held;
+  let current = true;
+  const save = f.store.save(f.proposal, f.snapshot, "queued-request", { isCurrent: () => current });
+  const rejection = assert.rejects(save, /Stale commit/);
+  current = false; release(); await lock; await rejection;
+  await assert.rejects(access(f.target), /ENOENT/);
+});
+
+test("revoked eligibility or source authority during commit preparation never replaces the content", async () => {
+  for (const reason of ["stale", "source"] as const) {
+    const f = await fixture(); let current = true, calls = 0;
+    let prepared!: () => void, release!: () => void;
+    const ready = new Promise<void>(resolve => { prepared = resolve; });
+    const hold = new Promise<void>(resolve => { release = resolve; });
+    const save = f.store.save(f.proposal, f.snapshot, `prepared-${reason}`, {
+      isCurrent: () => current,
+      authorize: async () => {
+        if (++calls === 2) { prepared(); await hold; if (reason === "source") throw new Error("Source unavailable"); }
+      },
+    });
+    const rejection = assert.rejects(save, reason === "stale" ? /Stale commit/ : /Source unavailable/);
+    await ready; if (reason === "stale") current = false; release(); await rejection;
+    await assert.rejects(access(f.target), /ENOENT/);
+    const intent = JSON.parse(await readFile(join(f.cwd, `.pi/hermes-skills/changes/prepared-${reason}-release-check.json`), "utf8"));
+    assert.equal(intent.status, "intent", "uncommitted preparation is not reported as saved");
+  }
+});
+
+test("last-moment manual edit rejects an update and preserves the user's content", async () => {
+  const f = await fixture(); const created = await f.store.save(f.proposal, f.snapshot, "create-fixture");
+  const snapshot = { ...f.snapshot, evidence: [...f.snapshot.evidence, { entryId: "read-1", text: created.version }] };
+  let calls = 0;
+  await assert.rejects(f.store.save({ ...f.proposal, action: "update", body: "Model replacement", baseVersion: created.version }, snapshot, "update-fixture", {
+    authorize: async () => { if (++calls === 2) await writeFile(f.target, "User edit during preparation"); },
+  }), /version conflict/);
+  assert.equal(await readFile(f.target, "utf8"), "User edit during preparation");
+});
+
+test("paid analysis whose source permission fails at commit is metered once and never repaired by another request", async () => {
+  const f = await isolatedSession();
+  try {
+    const manager = f.session.sessionManager;
+    const entryId = manager.appendMessage({ role: "user", content: "Build first", timestamp: 1 });
+    const snapshot = captureSnapshot({ cwd: f.cwd, sessionManager: manager, model: f.runtime.getModel("hermes-test", "fake"), getSystemPrompt: () => "Fixture" });
+    const ledger = new ReviewLedger(f.agentDir); let calls = 0;
+    const message: AssistantMessage = { role: "assistant", provider: "hermes-test", api: "openai-completions", model: "fake", timestamp: 2, stopReason: "stop",
+      content: [{ type: "text", text: JSON.stringify({ skills: [{ action: "create", scope: "project", name: "release-check", description: "Release order",
+        body: "Build first", reason: "Reusable", evidence: [{ entryId, quote: "Build first" }] }] }) }],
+      usage: { input: 100, output: 10, cacheRead: 0, cacheWrite: 0, totalTokens: 110,
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 } } };
+    const result = await reviewSkills({ snapshot, ledger, store: new ManagedSkillStore(f.agentDir, f.cwd),
+      authorizeCommit: async () => { throw new Error("Source unavailable at commit"); },
+      registry: { streamSimple: () => { calls++; const stream = createAssistantMessageEventStream(); stream.end(message); return stream; } },
+    });
+    assert.equal(calls, 1); assert.equal(result.status, "failed"); assert.deepEqual(result.saved, []);
+    assert.equal(result.usage?.totalTokens, 110); assert.equal(result.usageUnknown, false);
+    assert.match((await ledger.inspect()).paused!, /Source unavailable/);
+    await assert.rejects(access(join(f.cwd, ".pi/skills/hermes-managed/release-check/SKILL.md")), /ENOENT/);
+  } finally { f.session.dispose(); }
+});

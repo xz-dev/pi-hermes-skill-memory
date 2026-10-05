@@ -1,0 +1,12 @@
+salt = "0YYMHoDags2rLwBL"
+previous_id = "d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"
+timestamp = "2026-10-04T17:19:16.517820372Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "ce26d188d842db0a9e1c2043ccef46fb"
+reason = "D5 relocation does not expand learning-quality claims. Usefulness requirement still separates saved/reused from skipped/no-proposal and requires new authorization for extra real tests; evidence pages state those limits."
+stop = false

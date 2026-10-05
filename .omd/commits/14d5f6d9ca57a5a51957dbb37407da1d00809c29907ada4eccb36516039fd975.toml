@@ -1,0 +1,10 @@
+salt = "7FebSlHO1vwGBgnB"
+previous_id = ""
+timestamp = "2026-10-01T12:57:59.472966329Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:62905d2c359485c5ce67ed5adb8033ddaa5ffc55d1eb7b1ceda86523aea09f3a"
+path = "test/bootstrap.test.ts"

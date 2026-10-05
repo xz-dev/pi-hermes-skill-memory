@@ -1,0 +1,9 @@
+salt = "tfVHTnCX8qe7DIRv"
+previous_id = "6ffdd6913c61e0e9691a333f9bb70933be8577824926d266e26c8974d6be6a58"
+timestamp = "2026-10-04T17:04:58.781362524Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/rollback.test.ts"

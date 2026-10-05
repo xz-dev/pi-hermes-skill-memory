@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [241, 110, 180, 191, 1, 215, 28, 206, 224, 206, 233, 58, 181, 19, 157, 91]
+len = 2688
+sha256 = "f1cb2059bcbe2b1ed3be15b668867f099854c75b03732db3ec06700e3f55527f"
+encoding = "utf-8"
+content_file = "content/f1cb2059bcbe2b1ed3be15b668867f099854c75b03732db3ec06700e3f55527f"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "docs/swe2-validation.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "docs/swe2-validation.md"

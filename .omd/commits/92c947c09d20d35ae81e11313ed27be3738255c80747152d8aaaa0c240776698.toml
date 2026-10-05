@@ -1,0 +1,10 @@
+salt = "Y7EWYBiVm0KF7goA"
+previous_id = ""
+timestamp = "2026-10-04T17:05:00.595465161Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:893ab7c00ed7639e28899fa2f6713451346de3ef69ce55c4c1ae721b6007869e"
+path = "test/fixtures/tui-delivery.ts"

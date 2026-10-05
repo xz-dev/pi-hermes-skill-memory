@@ -1,0 +1,16 @@
+salt = "1z3M4LeUbQI8Qepc"
+previous_id = "e0b5394d440c46bf66890f4ed93a7906b0e65272787656eba60c56f3dd80d071"
+timestamp = "2026-10-04T17:04:55.077857709Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "d3fcb1103a5f18a6ab43e813c7547087"
+
+[payload]
+mount = "file:33fa23adadb97a145d26518d1ef609f8895d01b3cdfd5e46e1245cf41cfd8b3c"
+path = "test/fee-matrix.test.ts"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "7909"
+mode = "text"
+start = "0"

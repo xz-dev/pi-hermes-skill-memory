@@ -1,0 +1,14 @@
+salt = "1AkDBQDWb11BRpJE"
+previous_id = "7b87354091046281a3ea7678b0b11193e7c6c339232eb7c89f3ada3083128391"
+timestamp = "2026-10-01T10:30:44.169400271Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "e3b43b1cfc47e1bbb2a6b71bd1faa6d1"
+reason = "规划范围：R2 — 默认限制与准入。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:8d5334bb48fefc16b10cc02f6386f01a29906edf67a925fde14c8a0b83e816ac"
+source_version = "3c1f8d3ba5cf808b25a5922273cc4f1b9646bae8b2157ba3b5b1f5faa6c93491"
+target = "range:7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+target_version = "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"

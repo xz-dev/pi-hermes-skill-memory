@@ -1,0 +1,12 @@
+salt = "KEGM5XXVICs9XunA"
+previous_id = "ee87e44163425319bf46ac03d20bbd21043187484cda5d8175db9f1906e18029"
+timestamp = "2026-10-04T17:19:25.537566575Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d16e0c0dd4f2788eb176d6690feed9cdab4d5efedeed597602a73c01af3df94f", "d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "467c8e4a8376df1ac384469091c35552"
+reason = "Task 2's unchanged fee/disable policy maps to UI persistent controls. registerReviewUI cancels on disable, persists auto=false, subscribes to the ledger and does not release unknown reservations on resume."
+stop = false

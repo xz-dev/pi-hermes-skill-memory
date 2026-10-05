@@ -1,0 +1,14 @@
+salt = "g0zLXnmc1NSZNsRe"
+previous_id = "423a656d10923abc6f157eba0ebb890cb67c145a27c44fca3caef994778a154a"
+timestamp = "2026-10-01T10:30:40.169444409Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "35c8d59d88f5f2003cb970c94d9273cb"
+reason = "规划范围：D5 — 当前快照审查与可见费用。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:636489228b2647024386500a48bd365881691cbd75d311a510a871cbcf5d5474"
+source_version = "636489228b2647024386500a48bd365881691cbd75d311a510a871cbcf5d5474"
+target = "range:7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+target_version = "423a656d10923abc6f157eba0ebb890cb67c145a27c44fca3caef994778a154a"

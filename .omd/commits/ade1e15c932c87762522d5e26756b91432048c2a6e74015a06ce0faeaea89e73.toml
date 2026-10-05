@@ -1,0 +1,14 @@
+salt = "KjdhZDptvsO1jR04"
+previous_id = "3b8c6bd78e6ca23a8050731fc6662a22e8dc10019f7b91b5e6ccb71336295952"
+timestamp = "2026-10-01T10:30:40.656455984Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "efa5c460dc85591c6bfe1b3e6fbe37bc"
+reason = "规划范围：4. 作用域写入与授权。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b"
+source_version = "8c6683111822d53e56357d2131d8481471cbb32f79f086d41ee483b2af48036b"
+target = "range:bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"
+target_version = "3b8c6bd78e6ca23a8050731fc6662a22e8dc10019f7b91b5e6ccb71336295952"

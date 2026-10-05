@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [168, 78, 87, 215, 2, 74, 72, 5, 48, 102, 40, 83, 168, 104, 85, 172]
+len = 16550
+sha256 = "66d11fe4908411b5738cd29a6c15977ce984071c5cd08e2cdca0602c64de047c"
+encoding = "utf-8"
+content_file = "content/66d11fe4908411b5738cd29a6c15977ce984071c5cd08e2cdca0602c64de047c"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/installed-approval.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/installed-approval.test.ts"

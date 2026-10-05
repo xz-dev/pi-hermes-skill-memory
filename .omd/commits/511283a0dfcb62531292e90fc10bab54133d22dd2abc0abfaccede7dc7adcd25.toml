@@ -1,0 +1,12 @@
+salt = "JfimtcqLH5uLQ3uv"
+previous_id = "c18eafc061be95a5aaa98523a454811857b62ead51228de4b9670e3cdc24063c"
+timestamp = "2026-10-04T17:19:26.258020186Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d593d36f5057e8cb65d770b1bbc363349de8e1fd2e4058ab78ef28dd485998e2"]
+link_id = "69da23517e7afc85a93ed48be7ae7736"
+reason = "Task 1 usefulness propagation maps to store submit/save: evidenced template proposals are saved and then actually read in learning tests. Free prose may now be pending; historical SWE-2 evidence was qualified rather than treated as a current guarantee."
+stop = false

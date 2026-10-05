@@ -1,0 +1,9 @@
+salt = "CsQiikKAdkiu7VAB"
+previous_id = ""
+timestamp = "2026-10-04T17:05:02.171753238Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "db21753dc543e0313b6048b1d36d228e"
+
+[payload]
+path = "test/fixtures/temporary-root-probe.ts"

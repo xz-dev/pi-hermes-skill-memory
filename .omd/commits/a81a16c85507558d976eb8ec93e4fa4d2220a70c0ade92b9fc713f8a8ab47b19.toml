@@ -1,0 +1,14 @@
+salt = "PlDj75mCdoC91JUS"
+previous_id = "e42fda021920545d5e68d487c20655ad001b4d45d0c3821c1e87e1bf1cabf7b7"
+timestamp = "2026-10-01T10:32:42.03823114Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "4ab96a50ccae40b605e89eb9c70b9183"
+reason = "H2 支撑或约束 D6；是规划依据关系，不声称上游已经实现本插件新增行为。"
+source = "range:284d84858d930ea293af38032cb1728b22603d9399c5a17dca319384fb59d730"
+source_version = "284d84858d930ea293af38032cb1728b22603d9399c5a17dca319384fb59d730"
+target = "range:061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+target_version = "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"

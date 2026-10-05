@@ -1,0 +1,95 @@
+import { readFile, realpath } from "node:fs/promises";
+import { isAbsolute, relative, resolve, sep } from "node:path";
+import { parseFrontmatter } from "@earendil-works/pi-coding-agent";
+import type { Skill } from "@earendil-works/pi-coding-agent";
+import { contentHash } from "./store.ts";
+
+export interface CatalogEntry {
+  id: string; name: string; description: string; scope: string; source: string;
+  filePath: string; baseDir: string; explicitOnly: boolean;
+}
+
+/** Only host-enabled sources. This reader never discovers arbitrary filesystem roots. */
+export class EnabledCatalog {
+  private entries: CatalogEntry[] = [];
+  private diagnostics: string[] = [];
+
+  async capture(skills: Skill[], trusted: boolean): Promise<void> {
+    const entries: CatalogEntry[] = [];
+    const diagnostics: string[] = [];
+    const seen = new Set<string>();
+    for (const skill of skills) {
+      if (skill.sourceInfo.scope === "project" && !trusted) {
+        diagnostics.push(`Untrusted project source: ${skill.name}`);
+        continue;
+      }
+      try {
+        const path = await realpath(skill.filePath);
+        const base = await realpath(skill.baseDir);
+        if (!path.startsWith(base + sep)) throw new Error("Skill file escapes source root");
+        if (seen.has(path)) continue;
+        seen.add(path);
+        entries.push({
+          id: `${skill.sourceInfo.scope}:${contentHash(path).slice(0, 24)}`,
+          name: skill.name, description: skill.description, scope: skill.sourceInfo.scope,
+          source: skill.sourceInfo.source, filePath: path, baseDir: base,
+          explicitOnly: skill.disableModelInvocation,
+        });
+      } catch (error) { diagnostics.push(`${skill.name}: ${String(error)}`); }
+    }
+    this.entries = entries;
+    this.diagnostics = diagnostics;
+  }
+
+  async search(query = "", offset = 0) {
+    if (!Number.isSafeInteger(offset) || offset < 0) throw new Error("Invalid search offset");
+    const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+    const matches: CatalogEntry[] = [];
+    const diagnostics = [...this.diagnostics];
+    for (const entry of this.entries) {
+      if (entry.explicitOnly) continue;
+      try {
+        const updated = await this.read(entry);
+        if (updated.explicitOnly) continue;
+        if (terms.every(term => `${updated.name} ${updated.description}`.toLowerCase().includes(term))) matches.push(updated);
+      } catch (error) { diagnostics.push(`${entry.id}: ${String(error)}`); }
+    }
+    matches.sort((a, b) => Number(b.scope === "project") - Number(a.scope === "project") || a.id.localeCompare(b.id));
+    const items: Omit<CatalogEntry, "baseDir" | "explicitOnly">[] = [];
+    for (const entry of matches.slice(offset, offset + 10)) {
+      const { baseDir: _base, explicitOnly: _explicit, ...item } = entry;
+      if (JSON.stringify([...items, item]).length > 5200) break;
+      items.push(item);
+    }
+    return {
+      items, total: matches.length,
+      nextOffset: offset + items.length < matches.length ? offset + items.length : null,
+      diagnostics: diagnostics.slice(0, 3).map(s => s.slice(0, 180)),
+    };
+  }
+
+  private async read(entry: CatalogEntry): Promise<CatalogEntry> {
+    const canonical = await realpath(entry.filePath);
+    if (canonical !== entry.filePath || !canonical.startsWith(entry.baseDir + sep)) throw new Error("Source moved or escaped root");
+    const text = await readFile(canonical, "utf8");
+    const { frontmatter } = parseFrontmatter(text);
+    if (typeof frontmatter.name !== "string" || typeof frontmatter.description !== "string") throw new Error("Invalid skill frontmatter");
+    return { ...entry, name: frontmatter.name, description: frontmatter.description,
+      explicitOnly: frontmatter["disable-model-invocation"] === true };
+  }
+
+  async view(id: string, file = "SKILL.md", offset = 0) {
+    const entry = this.entries.find(item => item.id === id);
+    if (!entry) throw new Error("Unknown or host-excluded SkillId");
+    if (!Number.isSafeInteger(offset) || offset < 0) throw new Error("Invalid read offset");
+    if (isAbsolute(file)) throw new Error("Supporting file must be relative");
+    const path = await realpath(resolve(entry.baseDir, file));
+    const rel = relative(entry.baseDir, path);
+    if (rel.startsWith(".." + sep) || rel === ".." || isAbsolute(rel)) throw new Error("Supporting file escapes skill root");
+    const text = await readFile(path, "utf8");
+    const content = Array.from(text).slice(offset, offset + 15000).join("");
+    const length = Array.from(text).length;
+    return { id, file: rel, version: contentHash(text), content,
+      nextOffset: offset + Array.from(content).length < length ? offset + Array.from(content).length : null };
+  }
+}

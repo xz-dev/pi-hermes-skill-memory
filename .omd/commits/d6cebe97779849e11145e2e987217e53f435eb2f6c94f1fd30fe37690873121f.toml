@@ -1,0 +1,12 @@
+salt = "UmCGieglsDGgCvrT"
+previous_id = ""
+timestamp = "2026-10-01T15:23:30.98346205Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "src/source-worker.mjs"
+scope = []

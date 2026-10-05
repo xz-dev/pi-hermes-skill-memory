@@ -1,0 +1,12 @@
+salt = "tgUQKlfGAR5jIUqD"
+previous_id = ""
+timestamp = "2026-10-04T17:05:01.062737334Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "test/fixtures/tui-maintenance.ts"
+scope = []

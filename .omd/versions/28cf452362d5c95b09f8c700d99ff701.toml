@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [40, 207, 69, 35, 98, 213, 201, 91, 9, 248, 199, 0, 217, 159, 247, 1]
+len = 2917
+sha256 = "a8a71447cb0edf3f77f0a49c924bf7bb5ea71c1365b1dee5a43731c58a097b2a"
+encoding = "utf-8"
+content_file = "content/a8a71447cb0edf3f77f0a49c924bf7bb5ea71c1365b1dee5a43731c58a097b2a"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "docs/curation.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "docs/curation.md"

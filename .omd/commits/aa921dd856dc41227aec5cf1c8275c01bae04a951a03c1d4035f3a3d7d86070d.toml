@@ -1,0 +1,16 @@
+salt = "mN6ps5MP9kuHeCRD"
+previous_id = "0bb8531e6acf9598781c672e21cd59b9099349abfaf379ba4b20480fd8959429"
+timestamp = "2026-10-04T17:04:51.182097036Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "23a8ad7f669b61dbbe10e9b9dc1a63f5"
+
+[payload]
+mount = "file:7ba279bfa398dc2557e179d4f6d2eba0bb21a347af7c80db0ac3d6b0a4d5e347"
+path = "src/restore-sources.ts"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "17894"
+mode = "text"
+start = "0"

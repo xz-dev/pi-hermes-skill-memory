@@ -1,0 +1,10 @@
+salt = "kfW8gH2moxOfAvaE"
+previous_id = ""
+timestamp = "2026-10-04T17:04:55.678540291Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:97ef06038ca9a283ba1f35a3bfbe23f2a30ca90d7b0d0447c591414250bbcf85"
+path = "test/installed-approval.test.ts"

@@ -1,0 +1,16 @@
+salt = "BfbyGuzVxJpVbLs7"
+previous_id = "665172b0cd26c490247ee891f1600ea8cfc4dba341a616aa52c42e7efb5f891a"
+timestamp = "2026-10-01T10:30:41.717588806Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "f9708101abcad7a238cc3965c4c3696a"
+
+[payload]
+mount = "file:7702abf25b44c9515bcd8e00b7884a8679d51163377a360ea389b8c47a7182ad"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/scoped-skill-management/spec.md"
+reason = "规划范围：Requirement: Managed ownership requires evidence。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "795"
+mode = "text"
+start = "519"

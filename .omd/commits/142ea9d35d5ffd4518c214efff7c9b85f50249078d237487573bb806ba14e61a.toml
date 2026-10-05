@@ -1,0 +1,9 @@
+salt = "gLZdJtQ7PQnkXMdc"
+previous_id = "94c517fce03099188ac75945b9c033cbf3c83315efd8941d7f0df3292bde73f4"
+timestamp = "2026-10-01T15:23:38.683599466Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/fixtures/source-resolver.ts"

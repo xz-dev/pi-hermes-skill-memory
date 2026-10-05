@@ -1,0 +1,9 @@
+salt = "IiTvGgQ8dLwQjos3"
+previous_id = "01f7cde9ae5132629d1b0a69564d6fa09847569d3cd033bbf197da57d44fcc58"
+timestamp = "2026-10-01T15:23:37.956889936Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/cli-sources.test.ts"

@@ -1,0 +1,12 @@
+salt = "EBhuguGLG7ABid7p"
+previous_id = "1f8d5792ca564d3de53864829f254d7c9028d74c3343b23ee05a16d06421d46a"
+timestamp = "2026-10-03T15:29:43.195096191Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e33b5eb0c836d33cab104817d80ff1a9878fa0ab5dbff4eb16f0951c3153123"]
+link_id = "132c4aac793981292b5428478aac6d8a"
+reason = "design:D2 → requirement:skill-discovery:Requirement: Scope and ownership are separate：用户已确认SDK完整支持及公开来源回调。下游仍需完整满足同名/排除/信任/显式加载/原生回退/版本/containment，不降低要求。"
+stop = false

@@ -1,0 +1,12 @@
+salt = "jex482EhW7uZwHhz"
+previous_id = "df1b56c67ccd50e79817b96c86282db00012f230749f38b55e5f578f2e5607cf"
+timestamp = "2026-10-03T15:29:43.656939854Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e33b5eb0c836d33cab104817d80ff1a9878fa0ab5dbff4eb16f0951c3153123"]
+link_id = "4464ee2a6c5e169f00d55ba3d014bf9e"
+reason = "design:D2 → requirement:skill-discovery:Requirement: File containment：用户已确认SDK完整支持及公开来源回调。下游仍需完整满足同名/排除/信任/显式加载/原生回退/版本/containment，不降低要求。"
+stop = false

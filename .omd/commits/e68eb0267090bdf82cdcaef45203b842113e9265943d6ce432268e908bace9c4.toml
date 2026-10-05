@@ -1,0 +1,12 @@
+salt = "FND98615UdLHseGY"
+previous_id = "64382842c0f4de3e28d8cd3aaa73f2c7d987b07f99687e338541e3e15d9ef744"
+timestamp = "2026-10-04T17:19:23.259421496Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "e107f2cc0539e79603bf875bb6c46f4e"
+reason = "Current-snapshot requirement was only relocated. Task 5.1 captures effective projected entries/system/model and read versions without mutating the primary session; task 5.4 handles later invalidation."
+stop = false

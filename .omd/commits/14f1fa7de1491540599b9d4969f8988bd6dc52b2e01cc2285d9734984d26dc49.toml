@@ -1,0 +1,16 @@
+salt = "qfZMFXMz2uIDZsuc"
+previous_id = "800ebe2a6d6fb1227c8c2067f89c8b09d844f21d3a49819d8fcfeee980470092"
+timestamp = "2026-10-04T17:04:57.453072182Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "a947e8a6e3298f197a1d0f5e8f34de0e"
+
+[payload]
+mount = "file:7f3075f2143afd1e2bc662ecd040450582c325eed2248fbc8b7b5e50237850ec"
+path = "test/resource-boundary.test.ts"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "1070"
+mode = "text"
+start = "0"

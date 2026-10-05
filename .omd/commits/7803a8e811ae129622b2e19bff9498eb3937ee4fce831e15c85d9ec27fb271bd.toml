@@ -1,0 +1,16 @@
+salt = "PyrP8iS3BXxA6LXd"
+previous_id = "4f5d27f56174cc29e7ffa4fe5cc4ed6c54264a49a3584a7a610d0992c9f1c060"
+timestamp = "2026-10-01T10:30:40.293444004Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "efc78faf427f2986c0fdae69045736d8"
+
+[payload]
+mount = "file:ea29693cb8ca7ff19a80607692ebcd027ca1eba40d613262ea37da6122fc67c1"
+path = "openspec/changes/add-managed-skill-lifecycle/design.md"
+reason = "规划范围：D7 — 两插件共存不双倍收费。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "4742"
+mode = "text"
+start = "4484"

@@ -1,0 +1,15 @@
+salt = "Z7cfxaIrR04Dkbm5"
+previous_id = "78919d4d17054e76768224151c37d8f6fbce1de5d23d27b5a2298f24d39eed50"
+timestamp = "2026-10-04T17:13:33.878019393Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "f16eb4bf01d71ccee0cee93ab5139d5b"
+
+[payload]
+path = "docs/swe2-validation.md"
+reason = "审阅review→SWE2证据：四个实调用例属于旧实现；新增pending/cooperation未重跑，明确新授权和质量未知，不以旧保存结果证明当前自由正文自动保存。"
+
+[payload.position]
+end = "1336"
+mode = "text"
+start = "0"

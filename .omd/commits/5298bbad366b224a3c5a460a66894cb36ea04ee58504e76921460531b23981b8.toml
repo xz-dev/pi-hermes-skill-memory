@@ -1,0 +1,14 @@
+salt = "63531Nk0SOyeqTSx"
+previous_id = "21c42eb43205a861bbdab165d11c90dd8850c5a39ac84280e3465051701aa012"
+timestamp = "2026-10-01T10:30:41.938455556Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "d4077332e6b7f2111b720e6c32cc85b0"
+reason = "规划范围：Requirement: Read and compare before mutation。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:98ccfd99df48b73d26519537184dae7b3577097285d640ce648cd29c2ff3b5d5"
+source_version = "819b0028314666fdb6eb0c0b78df509e389da73b6a2b39eb92b004e2fb169634"
+target = "range:bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"
+target_version = "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"

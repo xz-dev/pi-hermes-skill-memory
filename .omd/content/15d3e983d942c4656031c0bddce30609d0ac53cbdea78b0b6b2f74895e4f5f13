@@ -1,0 +1,196 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { mkdtemp, mkdir, readFile, writeFile, symlink } from "node:fs/promises";
+import { join } from "node:path";
+import { createAssistantMessageEventStream } from "@earendil-works/pi-ai";
+import type { AssistantMessage } from "@earendil-works/pi-ai";
+import { ModelRegistry, ModelRuntime, SessionManager, loadSkillsFromDir } from "@earendil-works/pi-coding-agent";
+import { isolatedSession } from "./support.ts";
+import { captureSnapshot } from "../src/context.ts";
+import { ReviewLedger } from "../src/ledger.ts";
+import { ManagedSkillStore } from "../src/store.ts";
+import { reviewSkills } from "../src/review.ts";
+
+async function setup(response: "useful" | "empty" | "bad-evidence" | "reasoning-only" = "useful") {
+  const root = await mkdtemp("/var/tmp/hermes-learning-test-");
+  const project = join(root, "project");
+  const agentDir = join(root, "agent");
+  await mkdir(project); await mkdir(agentDir);
+  const manager = SessionManager.inMemory(project);
+  const userId = manager.appendMessage({ role: "user", content: "For this repo, build before checking the release manifest.", timestamp: 1 });
+  manager.appendMessage({ role: "user", content: "Do not deploy during this task.", timestamp: 2 });
+  let calls = 0;
+  const runtime = await ModelRuntime.create({
+    authPath: join(agentDir, "auth.json"), modelsPath: null,
+    modelsStorePath: join(agentDir, "models-store.json"), allowModelNetwork: false, refreshOnCreate: false,
+  });
+  runtime.registerProvider("hermes-test", {
+    baseUrl: "https://invalid.test", apiKey: "fake-not-a-credential", api: "openai-completions",
+    models: [{ id: "fake", name: "Fake", input: ["text"], reasoning: false, contextWindow: 128000, maxTokens: 4096,
+      cost: { input: 1, output: 1, cacheRead: 1, cacheWrite: 1 } }],
+    streamSimple: (model, _context, options) => {
+      calls++;
+      assert.equal(options?.maxRetries, 0);
+      assert.equal(options?.toolChoice, "none");
+      const skills = response === "empty" ? [] : [{
+        action: "create", scope: "project", name: "release-check", description: "Check release manifest after build",
+        body: "Build this repo first, then check release manifest. Not a deployment authorization.",
+        reason: "Reusable project release ordering", evidence: [{ entryId: userId,
+          quote: response === "bad-evidence" ? "Tests passed" : "build before checking the release manifest" }],
+      }];
+      const message: AssistantMessage = {
+        role: "assistant", api: model.api, model: model.id, provider: model.provider, stopReason: "stop", timestamp: 3,
+        content: response === "reasoning-only" ? [{ type: "thinking", thinking: "No justified change." }]
+          : [{ type: "text", text: JSON.stringify({ skills }) }],
+        usage: { input: 120, output: 90, cacheRead: 10, cacheWrite: 0, totalTokens: 220,
+          cost: { input: .00012, output: .00009, cacheRead: .00001, cacheWrite: 0, total: .00022 } },
+      };
+      const stream = createAssistantMessageEventStream();
+      stream.push({ type: "start", partial: message }); stream.push({ type: "done", reason: "stop", message });
+      return stream;
+    },
+  });
+  const model = runtime.getModel("hermes-test", "fake");
+  assert.ok(model);
+  const snapshot = captureSnapshot({ cwd: project, model, sessionManager: manager,
+    getSystemPrompt: () => "Preserve project knowledge, not temporary deployment instructions.", thinkingLevel: "off" });
+  const ledger = new ReviewLedger(agentDir);
+  const store = new ManagedSkillStore(agentDir, project);
+  const registry = new ModelRegistry(runtime);
+  return { agentDir, project, store, snapshot, ledger, registry, manager, calls: () => calls };
+}
+
+test("snapshot -> sourced proposal -> project skill -> next task search/view -> one usage record", async () => {
+  const f = await setup();
+  const entries = JSON.stringify(f.manager.getEntries());
+  const result = await reviewSkills(f);
+  assert.equal(result.status, "saved");
+  assert.equal(result.saved.length, 1);
+  assert.equal(result.usage?.totalTokens, 220);
+  assert.equal(result.usageUnknown, false);
+  assert.equal(f.calls(), 1);
+  assert.equal(JSON.stringify(f.manager.getEntries()), entries);
+  const nextTask = new ManagedSkillStore(f.agentDir, f.project);
+  const found = await nextTask.search("release manifest");
+  assert.equal(found.length, 1);
+  assert.equal(found[0]?.scope, "project");
+  const read = await nextTask.view(found[0]!.id);
+  assert.ok(read.content.includes("Build this repo first"));
+  assert.equal(read.record.requestId, result.id);
+  await f.ledger.reused(read.record.id);
+  const state = await new ReviewLedger(f.agentDir).inspect();
+  assert.equal(state.records.length, 1);
+  assert.equal(state.records[0]?.id, result.id);
+  assert.deepEqual(state.reused, [found[0]!.id]);
+});
+
+test("saved skill is found through registered tools and guides a new Agent task", async () => {
+  const f = await setup();
+  const result = await reviewSkills(f);
+  assert.equal(result.status, "saved");
+  const skillRoot = join(f.project, ".pi/skills/hermes-managed");
+  const loaded = loadSkillsFromDir({ dir: skillRoot, source: "user" });
+  const trace: string[] = [];
+  const { session } = await isolatedSession("", {
+    skills: loaded.skills,
+    observe: pi => pi.on("tool_execution_end", event => { trace.push(event.toolName); }),
+    streamReply: context => {
+      const results = context.messages.filter(m => m.role === "toolResult");
+      if (!results.length) return { stopReason: "toolUse", content: [{ type: "toolCall", id: "search", name: "hermes_skill_search", arguments: { query: "release manifest" } }] };
+      const latest = results.at(-1)!;
+      const text = latest.content.filter(c => c.type === "text").map(c => c.text).join("");
+      if (latest.toolName === "hermes_skill_search") {
+        const hits = JSON.parse(text);
+        assert.equal(hits.items.length, 1, "registered search must discover the saved skill");
+        return { stopReason: "toolUse", content: [{ type: "toolCall", id: "view", name: "hermes_skill_view", arguments: { id: hits.items[0].id } }] };
+      }
+      assert.ok(text.includes("Build this repo first"));
+      return { stopReason: "stop", content: [{ type: "text", text: "1. Build this repo first. 2. Check release manifest. Do not infer deployment authorization." }] };
+    },
+  });
+  try {
+    await session.prompt("What order should this project's release checks run in?");
+    assert.deepEqual(trace, ["hermes_skill_search", "hermes_skill_view"]);
+    assert.ok(session.getLastAssistantText()?.startsWith("1. Build"));
+    await f.ledger.reused(result.saved[0]!);
+    assert.deepEqual((await f.ledger.inspect()).reused, result.saved);
+  } finally { session.dispose(); }
+});
+
+test("budget skip makes zero provider calls and reports its reason", async () => {
+  const f = await setup();
+  f.snapshot.messages.push({ role: "user", content: "x".repeat(65000), timestamp: 4 });
+  f.snapshot.digest += "large";
+  const result = await reviewSkills(f);
+  assert.equal(result.status, "skipped");
+  assert.equal(result.reason, "skipped-budget");
+  assert.equal(f.calls(), 0);
+});
+
+test("no-change and reasoning-only remain metered without retry", async () => {
+  for (const response of ["empty", "reasoning-only"] as const) {
+    const f = await setup(response);
+    const result = await reviewSkills(f);
+    assert.equal(result.status, response === "empty" ? "no-change" : "no-proposal");
+    assert.equal(result.usage?.totalTokens, 220);
+    assert.equal(f.calls(), 1);
+    assert.deepEqual(await f.store.catalog(), []);
+  }
+});
+
+test("invented evidence is rejected, metered and pauses review", async () => {
+  const f = await setup("bad-evidence");
+  const result = await reviewSkills(f);
+  assert.equal(result.status, "failed");
+  assert.ok(result.reason?.includes("Evidence not in effective snapshot"));
+  assert.equal(result.usage?.totalTokens, 220);
+  assert.equal(f.calls(), 1);
+  assert.ok((await f.ledger.inspect()).paused);
+  assert.deepEqual(await f.store.catalog(), []);
+});
+
+test("same-name create conflict preserves existing user file", async () => {
+  const f = await setup();
+  const target = join(f.project, ".pi/skills/hermes-managed/release-check");
+  await mkdir(target, { recursive: true });
+  await writeFile(join(target, "SKILL.md"), "User-owned; no manifest.");
+  const result = await reviewSkills(f);
+  assert.ok(["conflict", "failed"].includes(result.status));
+  assert.equal(await readFile(join(target, "SKILL.md"), "utf8"), "User-owned; no manifest.");
+  assert.equal(f.calls(), 1);
+});
+
+test("new task rescans external edit but stale updates conflict", async () => {
+  const f = await setup();
+  await reviewSkills(f);
+  const saved = (await f.store.catalog())[0]!;
+  await writeFile(saved.path, "---\nname: release-check\ndescription: Edited locally\n---\nUser edit.\n");
+  const read = await f.store.view(saved.id);
+  assert.notEqual(read.record.version, saved.version);
+  assert.ok(read.content.includes("User edit."));
+  await assert.rejects(f.store.save({
+    action: "update", scope: "project", name: saved.name, description: saved.description, body: "stale replacement",
+    reason: "test", baseVersion: saved.version, evidence: saved.evidence,
+  }, f.snapshot, "stale-test"), /version conflict/);
+  assert.ok((await readFile(saved.path, "utf8")).includes("User edit."));
+});
+
+test("stale result only accounts usage and never saves", async () => {
+  const f = await setup();
+  const result = await reviewSkills({ ...f, isCurrent: () => false });
+  assert.equal(result.status, "cancelled");
+  assert.equal(result.usage?.totalTokens, 220);
+  assert.deepEqual(await f.store.catalog(), []);
+});
+
+test("symlink scope escape cannot save a skill", async () => {
+  const f = await setup();
+  const outside = await mkdtemp("/var/tmp/hermes-outside-");
+  await mkdir(join(f.project, ".pi/skills"), { recursive: true });
+  await symlink(outside, join(f.project, ".pi/skills/hermes-managed"));
+  const result = await reviewSkills(f);
+  assert.equal(result.status, "failed");
+  assert.ok(result.reason?.includes("escapes selected scope"));
+  const { readdir } = await import("node:fs/promises");
+  assert.deepEqual(await readdir(outside), []);
+});

@@ -1,0 +1,12 @@
+salt = "Ca97nyIju74Coar2"
+previous_id = "803cbd666be911a3c2148dcf345c3202456e86e2ee8e74bc431d4bc3aca2c9c9"
+timestamp = "2026-10-03T15:29:43.801671735Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e33b5eb0c836d33cab104817d80ff1a9878fa0ab5dbff4eb16f0951c3153123"]
+link_id = "542bb5126912abb5560089005a398754"
+reason = "design:D2 → requirement:skill-discovery:Requirement: Respect native exclusions and project trust：用户已确认SDK完整支持及公开来源回调。下游仍需完整满足同名/排除/信任/显式加载/原生回退/版本/containment，不降低要求。"
+stop = false

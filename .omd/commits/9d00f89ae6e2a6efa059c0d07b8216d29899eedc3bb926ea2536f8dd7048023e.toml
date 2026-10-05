@@ -1,0 +1,16 @@
+salt = "TrollJt0nzFpjsPi"
+previous_id = "5ff6d7a6c466eb0dc0ea877240e9e8bcc23256ab5fe5a55e6ab0814f862f989c"
+timestamp = "2026-10-03T19:55:17.25075784Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "eb8224b25970f5efc50890add103d43b"
+
+[payload]
+mount = "file:cb366edbe4882751176b9c045d71e4f254ab1d58f4bb94fc2e9dcb0a9cfc1b83"
+path = "test/commit-gates.test.ts"
+reason = "当前公共类型检查及63项fake/SDK回归通过，已完成14/26：3.4模式/加载/刷新，5.2分开计数/settled，4.4逐成员备份/部分提交/本地恢复及取消writer退出释放锁。恢复不重放模型、保留unknown额度、手改拒绝；不是跨文件全原子/全回滚，也不是剩余12项或真实模型质量验收。"
+
+[payload.position]
+end = "6004"
+mode = "text"
+start = "0"

@@ -1,0 +1,14 @@
+salt = "5PF1pWoVVjlWinHj"
+previous_id = "cc5b343ffd9c5dab2477ed433b0f533af7539d419cbe54db07500b8f9d08cff7"
+timestamp = "2026-10-01T10:30:44.050515341Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "dc9943a683ea6eb850801126af72383e"
+reason = "规划范围：R1 — 单一收费入口与调度。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+source_version = "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+target = "range:5b483f4a6a5a586ed188ee47e6a53c75779c39af210c2646776f3fa411db9fe4"
+target_version = "cc5b343ffd9c5dab2477ed433b0f533af7539d419cbe54db07500b8f9d08cff7"

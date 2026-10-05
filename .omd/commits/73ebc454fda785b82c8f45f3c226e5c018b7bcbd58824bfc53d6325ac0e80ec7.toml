@@ -1,0 +1,14 @@
+salt = "7nKEdCU4dCk39F2F"
+previous_id = "7d34b920781f5f2e2855501c38cb4e7117990ac5aa9428a4e30c29230cbc8847"
+timestamp = "2026-10-01T10:30:43.833273366Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "0eb81033c52b11fc64e64a1e40885258"
+reason = "规划范围：Requirement: Maintenance results are durable and visible。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:0c37f9ca154e37269750030a3f9480fef2d4be63ce856bf049d4db7b00d1580e"
+source_version = "cee08a9b1e45c0f2819d0350d98ddf9edebc80cd25e4f831945edcfa9710dcd5"
+target = "range:8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120"
+target_version = "8c43f81c381a62452e44cddd7ed5cdd1dd6effa21775d89c6a0133ad09783120"

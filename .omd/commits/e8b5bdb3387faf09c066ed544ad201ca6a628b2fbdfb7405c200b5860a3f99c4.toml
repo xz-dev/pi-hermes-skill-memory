@@ -1,0 +1,16 @@
+salt = "lLeVPEMP0cZeLqol"
+previous_id = "e7335f0ea606d1de628b0dac6f5f0213a4e399ccdeb6a8fca0c89bf0de00bf06"
+timestamp = "2026-10-01T10:30:40.867445906Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "d2d46f380255d31be333d0750eafb980"
+
+[payload]
+mount = "file:47059d41063a8b7ac9513b468c6620aa9dff7ccb370136ee7e66da719da35f50"
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "规划范围：7. 联合与交付验收。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "2597"
+mode = "text"
+start = "2310"

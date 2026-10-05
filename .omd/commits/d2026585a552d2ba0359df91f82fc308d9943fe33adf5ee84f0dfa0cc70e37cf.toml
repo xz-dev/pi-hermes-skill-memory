@@ -1,0 +1,16 @@
+salt = "0dAexghyKL9uEYrT"
+previous_id = "b72660d9e126f71713ca98a2e4c33ec4a934c21b4e51d26be36599f4d1ff683e"
+timestamp = "2026-10-01T10:30:40.420717775Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "d2d46f380255d31be333d0750eafb980"
+
+[payload]
+mount = "file:47059d41063a8b7ac9513b468c6620aa9dff7ccb370136ee7e66da719da35f50"
+path = "openspec/changes/add-managed-skill-lifecycle/tasks.md"
+reason = "规划范围：1. 官方 API 与隔离验证入口。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "571"
+mode = "text"
+start = "0"

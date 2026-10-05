@@ -1,0 +1,12 @@
+salt = "pI5DdDOhWnUa6aG3"
+previous_id = "6f9ca1fb827f72d9bac5da7235fa2f463533be9cda1e83b5867025f335cefd30"
+timestamp = "2026-10-04T17:19:14.500563258Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "95f26e2bffe5b32530583ec2f7ae56ab"
+reason = "D5 relocation keeps the one-request/default budget contract. Admission requirements remain unchanged: full snapshot, explicit skip, no retry/fallback; ledger and review-limits tests exercise these gates."
+stop = false

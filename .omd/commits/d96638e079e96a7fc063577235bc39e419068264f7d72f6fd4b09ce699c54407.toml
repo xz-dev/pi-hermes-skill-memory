@@ -1,0 +1,10 @@
+salt = "t4lmNNW538HojnJg"
+previous_id = ""
+timestamp = "2026-10-04T17:04:50.042840756Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:77ccd2099add7aafb48825c3685598ac3c045810e2507e0b1f91784837878206"
+path = "src/curation.ts"

@@ -1,0 +1,12 @@
+salt = "M9n6KVT11bAv67AH"
+previous_id = "c3de50e251f5ba6a7cda544d7bf208a2710dbbf3be8323d3d7848b390d6c6df9"
+timestamp = "2026-10-04T17:19:30.355983366Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"]
+link_id = "93cfb2c9165cdffddb591e393e935155"
+reason = "Index's CLI default entry still uses official source resolution. cli-sources.test.ts executes the stock CLI and registered tools with duplicate names/noSkills under isolated HOME, rather than mocking source decisions."
+stop = false

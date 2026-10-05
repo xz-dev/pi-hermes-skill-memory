@@ -1,0 +1,12 @@
+salt = "C9szPaaupLBf5gEY"
+previous_id = "83b261a1b6fbc17194932ffd54ea8d9205aa1efacbe9f429e91cdd7cf3f12971"
+timestamp = "2026-10-04T17:25:26.095416223Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"]
+link_id = "2eccc5b8ca2c40c2bf60dab0c6b6ce70"
+reason = "Only task 7.3's completion marker changed. fee-matrix.test.ts is byte-identical to the reviewed 160-test checkpoint; its request/unknown/crash assertions do not change when delivery is marked complete."
+stop = false

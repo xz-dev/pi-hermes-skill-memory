@@ -1,0 +1,16 @@
+salt = "wyWSFrFYBi6lIorJ"
+previous_id = "682b88a67835a7a40c0bdfeaf616575088b7100439181f0f789b42a6c1ed70b2"
+timestamp = "2026-10-01T10:30:45.032671993Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "fcf9121e4715005f5ba24e578eb42b6c"
+
+[payload]
+mount = "file:7c843eed159d8db1f6e3491650fec6667e813bf45a1f109daad60b2ddb63e0cb"
+path = "openspec/changes/add-managed-skill-lifecycle/proposal.md"
+reason = "规划范围：What Changes。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "708"
+mode = "text"
+start = "140"

@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [211, 252, 177, 16, 58, 95, 24, 166, 171, 67, 232, 19, 199, 84, 112, 135]
+len = 7909
+sha256 = "d2a70f292b381fb5ec1e8868dcf4fa27b2f3a3576012ee6ef38eafbc7e57720e"
+encoding = "utf-8"
+content_file = "content/d2a70f292b381fb5ec1e8868dcf4fa27b2f3a3576012ee6ef38eafbc7e57720e"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/fee-matrix.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/fee-matrix.test.ts"

@@ -1,0 +1,9 @@
+salt = "4VB3f2AGQ0j0Z2wF"
+previous_id = ""
+timestamp = "2026-10-04T17:05:02.811211552Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "28cf452362d5c95b09f8c700d99ff701"
+
+[payload]
+path = "docs/curation.md"

@@ -1,0 +1,10 @@
+salt = "yzXOq1GEO797M6zp"
+previous_id = ""
+timestamp = "2026-10-04T17:05:02.581755242Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:4b8cd8cbaf42d0cd407db8ae1351176e9181b7d5f3c4093b766b2858ec3d6586"
+path = "test/fixtures/temporary-root-probe.ts"

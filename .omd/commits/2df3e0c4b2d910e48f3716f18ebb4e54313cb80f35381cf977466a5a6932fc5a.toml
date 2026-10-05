@@ -1,0 +1,12 @@
+salt = "6gY79MM9Sk2buSfz"
+previous_id = "836b4ff05db0319e2fa2a842b855d490fa3ecbd5781c9c7388203ce47e332d54"
+timestamp = "2026-10-04T17:19:13.199418786Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["a2a3f58dea36850303508db0cab0cb04cded763e0f7e745ef0ea183134616b80"]
+link_id = "726a0f75d4ee6044fdf13d869923609f"
+reason = "The source-snapshot requirement now covers current restore permission for missing archived paths. Task 3.1's source callback plus task 6.3's restore path supply it; restore-source matrix rejects current exclusions and identity rebinding."
+stop = false

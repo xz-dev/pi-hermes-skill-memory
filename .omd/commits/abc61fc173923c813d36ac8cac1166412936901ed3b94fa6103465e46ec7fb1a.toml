@@ -1,0 +1,9 @@
+salt = "4xjp0LgvYX5CSiyD"
+previous_id = ""
+timestamp = "2026-10-01T15:23:38.030526829Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "41f772baf2ac8b859074608e306cc832"
+
+[payload]
+path = "test/fixtures/source-resolver.ts"

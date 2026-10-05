@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [249, 80, 203, 28, 161, 94, 36, 28, 233, 198, 56, 69, 96, 218, 169, 96]
+len = 11048
+sha256 = "8c3d3608b8cd04d2d1d4feb4dfd0d1643c6eb750dfd7350e7238e421148652eb"
+encoding = "utf-8"
+content_file = "content/8c3d3608b8cd04d2d1d4feb4dfd0d1643c6eb750dfd7350e7238e421148652eb"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "src/activity.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "src/activity.ts"

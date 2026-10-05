@@ -1,0 +1,14 @@
+salt = "VrbCK6SGrFhwLRQA"
+previous_id = "44b9d109b0738e2a8a84bdd9d6d27dc8c863c94e8f3814431850136e73b6fe25"
+timestamp = "2026-10-01T10:30:42.702453078Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "7f4e7270ec7a152df09cd78faaab2cc6"
+reason = "规划范围：Requirement: Isolated lifecycle and stale-result rejection。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+source_version = "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+target = "range:61317f50f479b8cebb2a142b2a6ab3dd9264c49b81a456f02170ce33cc98cb57"
+target_version = "44b9d109b0738e2a8a84bdd9d6d27dc8c863c94e8f3814431850136e73b6fe25"

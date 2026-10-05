@@ -1,0 +1,12 @@
+salt = "SVuQIpRCDaSfeQkQ"
+previous_id = "7c843eed159d8db1f6e3491650fec6667e813bf45a1f109daad60b2ddb63e0cb"
+timestamp = "2026-10-05T02:46:45.169584787Z"
+schema = "omd.commit/3"
+kind = "rename"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/proposal.md"
+reason = ""
+source = "openspec/changes/add-managed-skill-lifecycle/proposal.md"
+target = "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/proposal.md"

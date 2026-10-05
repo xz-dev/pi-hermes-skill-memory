@@ -1,0 +1,14 @@
+salt = "7EZ9P2Jqren3VEA4"
+previous_id = "df68e0162f25a8a229758cb91b3e1bf808d91d924d7a7628e0930b813d066997"
+timestamp = "2026-10-01T12:58:00.828856191Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "c1992e2f65574862eabc2272573de95d"
+reason = "实际运行的node:test场景；当前合计27通过，覆盖所列行为和反例，不外推真实模型质量或所有平台。"
+source = "range:8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf"
+source_version = "8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf"
+target = "range:319caecb51989597ed5f89cf96cf83b011ee33a3e75695cba73981f3365cc903"
+target_version = "df68e0162f25a8a229758cb91b3e1bf808d91d924d7a7628e0930b813d066997"

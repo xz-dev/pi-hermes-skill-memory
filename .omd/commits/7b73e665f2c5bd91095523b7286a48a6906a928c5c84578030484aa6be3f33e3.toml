@@ -1,0 +1,15 @@
+salt = "yQ5pSSL4e6T97xix"
+previous_id = "3a74a267383bd0634d5afe555bb2c212fa507f101a7b3bd42c1fbc73950acb8a"
+timestamp = "2026-10-03T16:08:58.834958544Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "a093a84f768213a714de0a9c0f04b810"
+
+[payload]
+path = "docs/implementation-evidence.md"
+reason = "3.2已通过38项回归与公共类型检查：3000个临时skills初始提示词恒定，搜索零模型调用，全响应6000字符/10项、分类及分页推进。search仅规定元数据；owner/version由独立inspect核对。其他未实施任务保持未完成。"
+
+[payload.position]
+end = "1883"
+mode = "text"
+start = "173"

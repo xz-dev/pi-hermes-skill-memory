@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [235, 130, 36, 178, 89, 112, 245, 239, 197, 8, 144, 173, 209, 3, 212, 59]
+len = 6004
+sha256 = "30252ca5fd571ddecc366bc474426d337d623711aeffe3d7c05a1e9dfd17fcac"
+encoding = "utf-8"
+content_file = "content/30252ca5fd571ddecc366bc474426d337d623711aeffe3d7c05a1e9dfd17fcac"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/commit-gates.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/commit-gates.test.ts"

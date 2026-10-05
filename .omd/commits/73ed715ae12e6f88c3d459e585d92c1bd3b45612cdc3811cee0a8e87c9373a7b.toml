@@ -1,0 +1,14 @@
+salt = "kKdxuUKfTFPqadHE"
+previous_id = "c78bc3cbb9d52fc229e3763e5e4f77822d3c4fc227bfd9a6eebb5d06f0dd9c59"
+timestamp = "2026-10-01T12:58:01.519999983Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "3c290d9ee89f2cdf2d309a8fd20c8d17"
+reason = "实际测试/观察回执与明确边界，非虚构通过或全文语义证明。"
+source = "range:14d5f6d9ca57a5a51957dbb37407da1d00809c29907ada4eccb36516039fd975"
+source_version = "14d5f6d9ca57a5a51957dbb37407da1d00809c29907ada4eccb36516039fd975"
+target = "range:4e8534e7b325fef1ba44dd056942d28e78a58e2fcb8e97a57cc237fce1c4548e"
+target_version = "c78bc3cbb9d52fc229e3763e5e4f77822d3c4fc227bfd9a6eebb5d06f0dd9c59"

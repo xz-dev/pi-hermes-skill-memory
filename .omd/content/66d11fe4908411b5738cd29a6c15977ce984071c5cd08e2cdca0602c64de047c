@@ -1,0 +1,234 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { mkdir, readFile, writeFile, chmod, access } from "node:fs/promises";
+import { join, dirname } from "node:path";
+import { loadSkillsFromDir } from "@earendil-works/pi-coding-agent";
+import { createAssistantMessageEventStream } from "@earendil-works/pi-ai";
+import type { AssistantMessage } from "@earendil-works/pi-ai";
+import { captureSnapshot } from "../src/context.ts";
+import { contentHash, ManagedSkillStore } from "../src/store.ts";
+import type { SkillProposal } from "../src/store.ts";
+import { EnabledCatalog } from "../src/catalog.ts";
+import { reviewSkills } from "../src/review.ts";
+import { InstalledPermissions, PendingApproval } from "../src/permissions.ts";
+import { ReviewLedger } from "../src/ledger.ts";
+import { isolatedSession } from "./support.ts";
+
+async function fixture() {
+  let proposal!: SkillProposal; let allowSource = true;
+  const f = await isolatedSession("fixture", { projectRoot: cwd => cwd,
+    skillSources: async request => ({ version: 1, cwd: request.cwd, projectTrusted: request.projectTrusted, diagnostics: [],
+      skills: allowSource ? loadSkillsFromDir({ dir: join(request.cwd, ".pi/skills"), source: "project" }).skills : [] }),
+    streamReply: context => {
+      const last = context.messages.at(-1);
+      if (last?.role === "user" && typeof last.content === "string" && last.content.includes("Effective evidence:")) {
+        return { stopReason: "stop", content: [{ type: "text", text: JSON.stringify({ skills: [proposal] }) }] };
+      }
+      const lastUser = context.messages.findLastIndex(message => message.role === "user");
+      const results = context.messages.slice(lastUser + 1).filter(message => message.role === "toolResult");
+      if (!results.length) return { stopReason: "toolUse", content: [{ type: "toolCall", id: "search-installed", name: "hermes_skill_search", arguments: {} }] };
+      const result = JSON.parse(results.at(-1)!.content.filter(part => part.type === "text").map(part => part.text).join(""));
+      if (results.at(-1)!.toolName === "hermes_skill_search") {
+        proposal.id = result.items[0].id;
+        return { stopReason: "toolUse", content: [{ type: "toolCall", id: "read-installed", name: "hermes_skill_view", arguments: { id: proposal.id! } }] };
+      }
+      if (results.at(-1)!.toolName === "hermes_skill_view") {
+        proposal.baseVersion = result.version;
+        return { stopReason: "toolUse", content: [{ type: "toolCall", id: "submit-installed", name: "hermes_skill_manage", arguments: { proposal: JSON.parse(JSON.stringify(proposal)) } }] };
+      }
+      return { stopReason: "stop", content: [{ type: "text", text: JSON.stringify(result) }] };
+    },
+  });
+  const path = join(f.cwd, ".pi/skills/manual-rule/SKILL.md"); await mkdir(dirname(path), { recursive: true });
+  const before = "---\nname: manual-rule\ndescription: Release ordering\n---\n\nBuild first.\n";
+  await writeFile(path, before);
+  const entryId = f.session.sessionManager.appendMessage({ role: "user", content: "Build before manifest check", timestamp: 1 });
+  proposal = { action: "update", scope: "project", name: "manual-rule", description: "Release ordering", body: "Build before manifest check",
+    reason: "Explicit user correction", evidence: [{ entryId, quote: "Build before manifest check" }] };
+  return { ...f, path, before, proposal, permissions: new InstalledPermissions(f.agentDir), store: new ManagedSkillStore(f.agentDir, f.cwd),
+    exclude: () => { allowSource = false; } };
+}
+
+async function bind(f: Awaited<ReturnType<typeof fixture>>, confirm: (title: string, text: string) => Promise<boolean>, mode: "tui" | "rpc" = "tui", onPreview?: (text: string) => void) {
+  const ui = f.session.extensionRunner.createCommandContext().ui;
+  await f.session.bindExtensions({ mode, uiContext: { ...ui, confirm, editor: async (_title, text) => { onPreview?.(text ?? ""); return text; }, notify: () => {}, setStatus: () => {}, setWidget: () => {} } });
+}
+
+test("SDK TUI approval contract preserves denied bytes and never transfers user ownership", async () => {
+  const f = await fixture(); const diffs: string[] = [];
+  try {
+    await bind(f, async () => false, "tui", text => diffs.push(text));
+    await f.session.prompt("Apply the release correction");
+    assert.equal(await readFile(f.path, "utf8"), f.before);
+    assert.ok(diffs[0]?.includes("BEFORE") && diffs[0]?.includes("Build first.") && diffs[0]?.includes("Build before manifest check"));
+    assert.ok(diffs[0]?.includes(f.proposal.id!) && diffs[0]?.includes(f.proposal.baseVersion!));
+    let approvals = 0;
+    await bind(f, async () => { approvals++; return true; });
+    await f.session.prompt("Apply the release correction with approval");
+    assert.match(await readFile(f.path, "utf8"), /Build before manifest check/); assert.equal(approvals, 1);
+    assert.equal(await f.store.ownership(f.path, "project"), undefined); assert.deepEqual(await f.store.catalog(), []);
+    assert.equal(await f.store.localModified(f.proposal.id!, f.path), true);
+    await f.session.prompt("Update again; ownership still requires approval"); assert.equal(approvals, 2);
+    assert.deepEqual((await new ReviewLedger(f.agentDir).inspect()).records, []);
+  } finally { f.session.dispose(); }
+});
+
+test("print and RPC hasUI persist pending; local TUI approval does not call a model", async () => {
+  const f = await fixture(); let confirmations = 0;
+  try {
+    await writeFile(join(f.cwd, ".pi/settings.json"), JSON.stringify({ allowAutoModifyInstalledSkills: true }));
+    await f.session.prompt("Apply release correction without TUI");
+    assert.equal(JSON.parse(f.session.getLastAssistantText()!).status, "pending");
+    const pending = (await f.permissions.status()).pending; assert.equal(pending.length, 1);
+    assert.equal(await readFile(f.path, "utf8"), f.before);
+    await bind(f, async () => { confirmations++; return true; }, "rpc");
+    await f.session.prompt("Attempt installed update in RPC");
+    assert.equal(JSON.parse(f.session.getLastAssistantText()!).status, "pending"); assert.equal(confirmations, 0);
+    await f.session.prompt(`/hermes-skills approve ${pending[0]!.id}`);
+    assert.equal(await readFile(f.path, "utf8"), f.before); assert.equal(confirmations, 0);
+    const calls = f.calls.length;
+    await bind(f, async () => { confirmations++; return true; });
+    await f.session.prompt(`/hermes-skills approve ${pending[0]!.id}`);
+    assert.match(await readFile(f.path, "utf8"), /Build before manifest check/); assert.equal(confirmations, 1);
+    assert.equal(f.calls.length, calls); assert.equal((await f.permissions.status()).pending.length, 0);
+    assert.equal(await f.store.ownership(f.path, "project"), undefined);
+  } finally { f.session.dispose(); }
+});
+
+test("concurrent edits after confirmation or before pending approval invalidate approval", async () => {
+  const f = await fixture();
+  try {
+    await bind(f, async () => { await writeFile(f.path, f.before + "Manual edit after preview\n"); return true; });
+    await f.session.prompt("Apply correction but race the confirmation");
+    assert.ok(["conflict", "failed"].includes(JSON.parse(f.session.getLastAssistantText()!).status));
+    assert.match(await readFile(f.path, "utf8"), /Manual edit after preview/);
+    await f.session.bindExtensions({ mode: "print" });
+    await f.session.prompt("Prepare pending correction");
+    const row = (await f.permissions.status()).pending[0]!; assert.ok(row);
+    await writeFile(f.path, f.before + "New upstream version\n"); let confirmations = 0;
+    await bind(f, async () => { confirmations++; return true; });
+    await f.session.prompt(`/hermes-skills approve ${row.id}`);
+    assert.match(await readFile(f.path, "utf8"), /New upstream version/); assert.equal(confirmations, 0);
+  } finally { f.session.dispose(); }
+});
+
+test("registered background review in TUI queues installed changes without prompting and accounts once", { timeout: 10000 }, async () => {
+  const f = await fixture(); let confirmations = 0, editors = 0;
+  try {
+    await bind(f, async () => false); await f.session.prompt("Build before manifest check");
+    let finished!: () => void;
+    const done = new Promise<void>(resolve => { finished = resolve; });
+    const ui = f.session.extensionRunner.createCommandContext().ui;
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui,
+      confirm: async () => { confirmations++; return false; }, editor: async () => { editors++; return undefined; },
+      notify: () => {}, setStatus: () => {}, setWidget: (key, widget) => {
+        if (key === "hermes-review" && Array.isArray(widget) && widget.join(" ").includes("pending:")) finished();
+      },
+    } });
+    const calls = f.calls.length;
+    await f.session.prompt("/hermes-review run"); await done;
+    const records = (await new ReviewLedger(f.agentDir).inspect()).records;
+    assert.equal(records.length, 1); assert.equal(records[0]!.status, "pending"); assert.equal(records[0]!.usage?.totalTokens, 128);
+    assert.equal(f.calls.length, calls + 1); assert.equal(confirmations, 0); assert.equal(editors, 0);
+    assert.equal((await f.permissions.status()).pending.length, 1); assert.equal(await readFile(f.path, "utf8"), f.before);
+  } finally { f.session.dispose(); }
+});
+
+test("installed reference updates require their own read version and interrupted members recover locally", async () => {
+  const f = await fixture();
+  try {
+    const reference = join(dirname(f.path), "references/check.md"); await mkdir(dirname(reference), { recursive: true });
+    await writeFile(reference, "Original reference");
+    const marker = join(f.root, "script-executed");
+    const catalog = new EnabledCatalog(f.agentDir);
+    await catalog.capture(loadSkillsFromDir({ dir: dirname(f.path), source: "project" }).skills, true, [], f.cwd);
+    const id = (await catalog.search()).items[0]!.id, target = await catalog.inspect(id);
+    const primary = await catalog.view(id), asset = await catalog.view(id, "references/check.md");
+    const snapshot = captureSnapshot({ cwd: f.cwd, sessionManager: f.session.sessionManager, model: f.runtime.getModel("hermes-test", "fake"), getSystemPrompt: () => "Fixture" });
+    const proposal = { ...f.proposal, id, baseVersion: primary.version, files: [
+      { file: "references/check.md", content: "Updated reference", baseVersion: asset.version },
+      { file: "scripts/check.sh", content: `#!/bin/sh\nprintf ran > '${marker}'\n` },
+    ] };
+    const readSnapshot = { ...snapshot, skillReads: [{ id, file: primary.file, version: primary.version }] };
+    await assert.rejects(f.store.save(proposal, readSnapshot, "unread-reference", { installed: target, approveInstalled: async () => true }), /version conflict|not read/);
+    assert.equal(await readFile(reference, "utf8"), "Original reference");
+    readSnapshot.skillReads.push({ id, file: asset.file, version: asset.version });
+    let checks = 0;
+    await assert.rejects(f.store.save(proposal, readSnapshot, "interrupted-installed", { installed: target, approveInstalled: async preview => {
+      assert.equal(preview.diff.length, 3); assert.equal(preview.diff[1]!.before, "Original reference"); return true;
+    }, authorize: async () => { if (++checks === 4) throw new Error("fixture interruption before reference replacement"); } }), /fixture interruption/);
+    const recovery = (await f.store.inspectRecovery())[0]!;
+    assert.deepEqual(recovery.members!.map(member => member.state), ["committed", "prepared", "prepared"]);
+    await assert.rejects(f.store.recover(recovery.key, "abort"), /already committed/);
+    await assert.rejects(f.store.recover(recovery.key, "commit"), /Installed recovery requires current approval/);
+    await new InstalledPermissions(f.agentDir).setGlobalGrant(true);
+    const recovered = await f.store.recover(recovery.key, "commit"); assert.equal(recovered.state, "saved");
+    assert.equal(await readFile(reference, "utf8"), "Updated reference"); await assert.rejects(access(marker), /ENOENT/);
+    assert.equal(await f.store.ownership(f.path, "project"), undefined); assert.deepEqual(await f.store.catalog(), []);
+    assert.deepEqual(await f.store.inspectRecovery(), []); assert.equal(f.calls.length, 0);
+    assert.equal(await f.store.localModified(id, f.path), true);
+  } finally { f.session.dispose(); }
+});
+
+test("pending capacity is bounded and stale proposal eligibility cannot enqueue", async () => {
+  const f = await fixture();
+  try {
+    await f.session.prompt("Build before manifest check");
+    const row = await f.permissions.get((await f.permissions.status()).pending[0]!.id);
+    assert.ok("proposal" in row.preview);
+    const snapshot = { ...captureSnapshot({ cwd: f.cwd, sessionManager: f.session.sessionManager, model: f.runtime.getModel("hermes-test", "fake"), getSystemPrompt: () => "Fixture" }),
+      evidence: row.snapshot.evidence, skillReads: row.snapshot.skillReads };
+    for (let n = 1; n < 32; n++) await f.permissions.enqueue({ ...row.preview, proposal: { ...row.preview.proposal, reason: `Specific proposal ${n}` } }, snapshot, `bounded-${n}`);
+    assert.equal((await f.permissions.status()).pending.length, 32);
+    await assert.rejects(f.permissions.enqueue({ ...row.preview, proposal: { ...row.preview.proposal, reason: "Overflow" } }, snapshot, "overflow"), /capacity exhausted/);
+    await f.permissions.remove(row.id);
+    await assert.rejects(f.permissions.enqueue(row.preview, snapshot, "stale", () => false), /Stale pending/);
+    assert.equal((await f.permissions.status()).pending.length, 31); assert.equal(await readFile(f.path, "utf8"), f.before);
+  } finally { f.session.dispose(); }
+});
+
+test("source revocation after TUI confirmation preserves bytes and does not request paid repair", async () => {
+  const f = await fixture();
+  try {
+    await bind(f, async () => { f.exclude(); return true; });
+    await f.session.prompt("Build before manifest check");
+    assert.notEqual(JSON.parse(f.session.getLastAssistantText()!).status, "saved");
+    assert.equal(await readFile(f.path, "utf8"), f.before);
+    assert.deepEqual((await new ReviewLedger(f.agentDir).inspect()).records, []);
+    assert.deepEqual(await f.store.inspectRecovery(), []);
+  } finally { f.session.dispose(); }
+});
+
+test("a global installed-write grant cannot certify unverified model prose", async () => {
+  const f = await fixture(); let dialogs = 0;
+  try {
+    await f.permissions.setGlobalGrant(true); f.proposal.body = "All tests passed.";
+    await bind(f, async () => { dialogs++; return true; });
+    await f.session.prompt("Apply the proposed unverified result");
+    const result = JSON.parse(f.session.getLastAssistantText()!);
+    assert.equal(result.status, "pending"); assert.match(result.reason, /content-proof-required/);
+    assert.equal(dialogs, 0); assert.equal(await readFile(f.path, "utf8"), f.before);
+    assert.equal((await f.permissions.status()).pending[0]!.contentReview, true);
+    assert.deepEqual((await new ReviewLedger(f.agentDir).inspect()).records, []);
+  } finally { f.session.dispose(); }
+});
+
+test("explicit global user grant is durable but never overrides read-only or excluded sources", async () => {
+  const f = await fixture();
+  try {
+    await f.session.prompt("Prepare proposal; no global grant");
+    assert.equal((await f.permissions.status()).allowAutoModifyInstalledSkills, false);
+    await f.session.prompt("/hermes-skills installed allow");
+    assert.equal((await f.permissions.status()).allowAutoModifyInstalledSkills, false);
+    await f.session.prompt("/hermes-skills installed allow --acknowledge");
+    assert.equal((await new InstalledPermissions(f.agentDir).status()).allowAutoModifyInstalledSkills, true);
+    await f.session.prompt("Apply with explicit user grant, no popup");
+    assert.match(await readFile(f.path, "utf8"), /Build before manifest check/);
+    assert.equal(await f.store.ownership(f.path, "project"), undefined);
+    const saved = await readFile(f.path, "utf8"); await chmod(f.path, 0o444);
+    await f.session.prompt("Attempt to bypass readonly with the grant"); assert.equal(await readFile(f.path, "utf8"), saved);
+    const calls = f.calls.length; f.exclude(); await f.session.prompt("/hermes-skills refresh");
+    assert.equal(f.calls.length, calls, "refresh and local permission commands cannot start model work");
+    await f.session.prompt("/hermes-skills installed deny"); assert.equal(await f.permissions.allowed(), false);
+  } finally { f.session.dispose(); }
+});

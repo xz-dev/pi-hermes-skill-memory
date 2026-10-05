@@ -1,0 +1,12 @@
+salt = "PBxGc3jkx5XIJLMt"
+previous_id = "a53f41d1a24d798da0f30108d1ccab92138e8a5014fe040c90f78b9725508bc2"
+timestamp = "2026-10-05T02:52:23.355393565Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["8ac57c2820834796c0f7b10fe427e8988d297cec8f3744b2b879814565fffb76"]
+link_id = "b4954633e1f3d5ee60f53f4b85d98b6b"
+reason = "归档路径传播核对 design:D5 → requirement:skill-reflection:Requirement: One explicit scheduling path：设计全文与验收版本比较，唯一字节内容差异是D5的review-contract相对链接增加../，归一后SHA一致；D6/D7范围正文逐字符一致。目标 openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/specs/skill-reflection/spec.md SHA与已验收版本一致，既有契约/实现响应不需变更。此Adapt只确认列明的归档链接/位置变化，不声称新增业务测试或memory兼容。"
+stop = false

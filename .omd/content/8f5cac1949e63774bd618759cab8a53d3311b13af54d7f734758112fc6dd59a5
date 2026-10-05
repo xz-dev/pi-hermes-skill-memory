@@ -1,0 +1,249 @@
+import { captureSnapshot } from "./context.ts";
+import { resolveProjectRoot, selectProjectRoot } from "./scope.ts";
+import { ReviewLedger, REVIEW_LIMITS } from "./ledger.ts";
+import type { ExtensionAPI, ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { ReviewState } from "./ledger.ts";
+import { ManagedSkillStore } from "./store.ts";
+import { reviewSkills } from "./review.ts";
+
+export function reviewStatus(state: ReviewState, sessionId: string) {
+  const day = [state.lastDay, new Date().toISOString().slice(0, 10)].sort().at(-1)!;
+  const charged = state.records.filter(r => r.status !== "skipped" && (r.day === day || r.usageUnknown));
+  const latest = state.records.at(-1);
+  const errors = state.records.filter(r => (r.status === "failed" || r.usageUnknown) && !(state.acknowledged ?? []).includes(r.id));
+  const sum = (field: "input" | "output" | "cacheRead" | "cacheWrite") => charged.reduce((n, r) => n + (r.usage?.[field] ?? 0), 0);
+  return {
+    auto: state.autoEnabled ? "on" : "off", paused: state.paused, latest: latest?.status ?? "idle", latestReason: latest?.reason,
+    errors: errors.length, jobs: charged.length, jobLimit: REVIEW_LIMITS.dailyJobs,
+    input: sum("input"), output: sum("output"), cacheRead: sum("cacheRead"), cacheWrite: sum("cacheWrite"),
+    unresolvedInput: charged.filter(r => r.usageUnknown).reduce((n, r) => n + r.reservation.input, 0),
+    unresolvedOutput: charged.filter(r => r.usageUnknown).reduce((n, r) => n + r.reservation.output, 0),
+    auxSessionTokens: state.records.filter(r => r.sessionId === sessionId).reduce((n, r) => n + (r.usage?.totalTokens ?? 0), 0),
+    pricesUnknown: charged.filter(r => r.costUnknown).length,
+  };
+}
+
+/** UI is a subscriber to durable state, never the budget authority. */
+export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
+  onSaved?: (ctx: ExtensionContext) => Promise<void>;
+  sourceReady?: (ctx: ExtensionContext) => Promise<boolean>;
+  authorizeCommit?: (ctx: ExtensionContext, target?: { path: string; version: string }) => Promise<void>;
+} = {}): () => "on" | "off" {
+  const ledger = new ReviewLedger(agentDir);
+  let ctx: ExtensionContext | undefined;
+  let state: ReviewState | undefined;
+  let unsubscribe: (() => void) | undefined;
+  let unsubscribeEvents: (() => void) | undefined;
+  let controller: AbortController | undefined;
+  let running: Promise<unknown> | undefined;
+  let timer: ReturnType<typeof setInterval> | undefined;
+  let generation = 0;
+  let lastPrinted = "";
+  const toolTurns = new Set<string>();
+  let consumedTurns = 0;
+  let scheduled: Promise<unknown> | undefined;
+  const counts = (context: ExtensionContext) => ({
+    userTurns: context.sessionManager.buildSessionProjection().entries.filter(e => e.sourceEntry.type === "message" && e.sourceEntry.message.role === "user").length,
+    toolTurns: toolTurns.size,
+  });
+
+  const render = () => {
+    if (!ctx || !state) return;
+    try {
+    const status = { ...reviewStatus(state, ctx.sessionManager.getSessionId()), ...counts(ctx) };
+    const active = state.records.find(r => r.status === "running" || r.status === "admitted");
+    const elapsed = active ? ` ${active.model} ${Math.max(0, Math.floor((Date.now() - active.started) / 1000))}s` : "";
+    const reserved = status.unresolvedInput || status.unresolvedOutput ? ` | usage UNKNOWN reserved ${status.unresolvedInput}/${status.unresolvedOutput}` : "";
+    const latest = status.latestReason ? `${status.latest}: ${status.latestReason}` : status.latest;
+    const title = `Hermes auto ${state.autoEnabled ? "ON" : "OFF"} | ${status.paused ? "PAUSED " + status.paused : latest}${elapsed} | errors ${status.errors}`;
+    const detail = `jobs ${status.jobs}/${status.jobLimit} | input ${status.input}/${REVIEW_LIMITS.dailyInput} output ${status.output}/${REVIEW_LIMITS.dailyOutput} cache ${status.cacheRead}/${status.cacheWrite}${reserved} | price ${status.pricesUnknown ? "UNKNOWN" : "reported"}`;
+    if (ctx.mode === "tui") {
+      ctx.ui.setStatus("hermes-review", title);
+      ctx.ui.setWidget("hermes-review", [title, detail, "/hermes-review status | usage | errors | cancel | retry | pause | resume"]);
+    } else {
+      const text = JSON.stringify({ type: "hermes.review.status", ...status });
+      if (text !== lastPrinted) { lastPrinted = text; console.error(text); }
+    }
+    } catch (error) {
+      ctx = undefined;
+      console.error(JSON.stringify({ type: "hermes.review.ui-unavailable", error: String(error).slice(0, 400), accountingRetained: true }));
+    }
+  };
+  const fault = (error: unknown) => {
+    const message = `Hermes ledger unavailable: ${String(error).slice(0, 400)}; model calls blocked`;
+    try {
+      if (ctx?.mode === "tui") {
+        ctx.ui.setStatus("hermes-review", "Hermes PAUSED: ledger error");
+        ctx.ui.setWidget("hermes-review", [message]);
+        return;
+      }
+    } catch { ctx = undefined; }
+    console.error(JSON.stringify({ type: "hermes.review.fault", message }));
+  };
+  const refresh = async () => { try { state = await ledger.inspect(); render(); } catch (error) { fault(error); throw error; } };
+  const cancel = () => { generation++; controller?.abort(new Error("user-or-session-cancelled")); };
+  const detail = (value: unknown) => {
+    const text = JSON.stringify(value, null, 2);
+    if (ctx?.mode === "tui" || ctx?.mode === "rpc") ctx.ui.notify(text, "info");
+    else console.error(JSON.stringify({ type: "hermes.review.detail", data: value }));
+  };
+
+  const launch = (context: ExtensionContext, root: string, ownGeneration: number, retryOf?: string) => {
+    if (running || generation !== ownGeneration) throw new Error("Review preparation superseded or another review is active");
+    const snapshot = captureSnapshot(context);
+    const ownController = new AbortController(); controller = ownController;
+    const current = () => {
+      try {
+        return generation === ownGeneration && !ownController.signal.aborted && context.isProjectTrusted() &&
+          context.sessionManager.getSessionId() === snapshot.sessionId && context.sessionManager.getLeafId() === snapshot.leafId &&
+          context.cwd === snapshot.cwd && context.model?.provider === snapshot.model?.provider && context.model?.id === snapshot.model?.id;
+      } catch { return false; }
+    };
+    const task = reviewSkills({ snapshot, registry: context.modelRegistry, ledger,
+      store: new ManagedSkillStore(agentDir, root), signal: ownController.signal,
+      retryOf, isCurrent: current,
+      authorizeCommit: async target => { await options.authorizeCommit?.(context, target); },
+      onSaved: async () => { if (current()) await options.onSaved?.(context); } });
+    running = task;
+    timer = setInterval(render, 1000);
+    void task.then(() => refresh(), async error => { fault(error); await refresh().catch(() => {}); })
+      .catch(error => { fault(error); })
+      .finally(() => { if (running === task) { running = undefined; controller = undefined; clearInterval(timer); timer = undefined; } });
+    return task;
+  };
+  const projectRoot = (command: ExtensionCommandContext) => selectProjectRoot(command, state?.projectRoots?.[command.cwd]);
+  const run = async (command: ExtensionCommandContext, retryOf?: string) => {
+    if (running) throw new Error("A review is already active");
+    if (!command.model) throw new Error("No selected model");
+    if (!command.isIdle()) throw new Error("Finish the foreground run before requesting review");
+    const ownGeneration = generation;
+    await refresh();
+    if (state?.paused && !retryOf) throw new Error(`Review paused: ${state.paused}; inspect errors and explicitly resume`);
+    const snapshot = captureSnapshot(command);
+    if (retryOf) {
+      const prior = state?.records.find(r => r.id === retryOf);
+      if (!prior || prior.digest !== snapshot.digest || prior.sessionId !== snapshot.sessionId || prior.model !== command.model.id || prior.provider !== command.model.provider) {
+        throw new Error("Retry requires the original snapshot and selected model; use run for new work");
+      }
+      if (!command.hasUI) throw new Error("Retry requires an explicit interactive budget confirmation");
+      if (!await command.ui.confirm("Retry one metered request?", JSON.stringify({ old: prior, limits: REVIEW_LIMITS, remaining: reviewStatus(state!, snapshot.sessionId) }))) return;
+    }
+    if (options.sourceReady && !await options.sourceReady(command)) throw new Error("Source unavailable; review blocked without a model call");
+    const root = await projectRoot(command);
+    launch(command, root, ownGeneration, retryOf);
+  };
+
+  pi.registerCommand("hermes-review", {
+    description: "Metered review: enable/disable/run/status/usage/errors/cancel/retry/pause/resume; local recovery/recover",
+    handler: async (args, command) => {
+      ctx = command;
+      const [action = "status", value, operation] = args.trim() ? args.trim().split(/\s+/) : [];
+      try {
+        await refresh();
+        switch (action) {
+          case "recovery": {
+            const root = await projectRoot(command);
+            detail({ pending: await new ManagedSkillStore(agentDir, root).inspectRecovery(), modelCalled: false,
+              help: "recover <key> commit|abort; no request replay. After resolving storage, inspect fees and explicitly resume." });
+            break;
+          }
+          case "recover": {
+            if (!value || (operation !== "commit" && operation !== "abort")) throw new Error("Use recover <key> commit|abort");
+            cancel();
+            const root = await projectRoot(command);
+            if (operation === "commit" && options.sourceReady && !await options.sourceReady(command)) throw new Error("Source unavailable; recovery commit blocked");
+            const result = await new ManagedSkillStore(agentDir, root).recover(value, operation, {
+              authorize: operation === "commit" ? target => options.authorizeCommit?.(command, target) ?? Promise.resolve() : undefined,
+            });
+            await options.onSaved?.(command);
+            detail({ recovery: result, modelCalled: false, usageReservationsUnchanged: true });
+            break;
+          }
+          case "enable": {
+            cancel();
+            const root = await projectRoot(command);
+            if (options.sourceReady && !await options.sourceReady(command)) throw new Error("Source unavailable; automatic review stays disabled");
+            await ledger.configureAutomatic(true, { cwd: command.cwd, root });
+            break;
+          }
+          case "disable": cancel(); await ledger.configureAutomatic(false); break;
+          case "run": await run(command); break;
+          case "status": detail({ ...reviewStatus(state!, command.sessionManager.getSessionId()), ...counts(command) }); break;
+          case "usage": {
+            const primary = command.sessionManager.getEntries().reduce((n, e) => e.type === "message" && "usage" in e.message ? n + (e.message.usage?.totalTokens ?? 0) : n, 0);
+            const summary = reviewStatus(state!, command.sessionManager.getSessionId());
+            detail({ primaryRecordedTokens: primary, auxiliarySessionTokens: summary.auxSessionTokens,
+              recordedSessionTotal: primary + summary.auxSessionTokens, unknownAuxiliaryExcluded: state!.records.some(r => r.usageUnknown),
+              scope: "recorded session, not a verified bill; daily auxiliary quota is separate", daily: summary, records: state!.records });
+            break;
+          }
+          case "errors": detail(state!.records.filter(r => r.status === "failed" || r.usageUnknown)); break;
+          case "cancel": cancel(); break;
+          case "pause": cancel(); await ledger.pause(); break;
+          case "resume":
+            if (command.hasUI) {
+              if (!await command.ui.confirm("Acknowledge review failures and clear pause?", JSON.stringify({ state, notice: "Unknown reservations remain charged. This does not enable automatic review." }))) break;
+            } else if (value !== "--acknowledge") throw new Error("Inspect errors, then use resume --acknowledge; unknown reservations are retained");
+            await ledger.resume(); break;
+          case "retry": {
+            const id = value ?? state!.records.filter(r => r.status !== "skipped").at(-1)?.id;
+            if (!id) throw new Error("No completed request to retry");
+            await run(command, id); break;
+          }
+          default: throw new Error("Use enable/disable/run/status/usage/errors/cancel/retry/pause/resume");
+        }
+        if (action !== "run" && action !== "retry") await refresh();
+      } catch (error) {
+        detail({ failed: String(error), modelCalled: false, automaticReview: state?.autoEnabled ? "on" : "off" });
+        if (!state) fault(error);
+      }
+    },
+  });
+  pi.on("session_start", async (_event, context) => {
+    toolTurns.clear(); consumedTurns = 0;
+    ctx = context; unsubscribe?.(); unsubscribe = ledger.subscribe(value => { state = value; render(); });
+    unsubscribeEvents?.();
+    unsubscribeEvents = pi.events.on("hermes.review.v1", event => {
+      if (event && typeof event === "object" && "type" in event && event.type === "status-changed") {
+        void refresh().catch(() => {});
+      }
+    });
+    await refresh().catch(() => {});
+  });
+  pi.on("turn_end", event => {
+    if (event.message.role === "assistant" && event.message.content.some(c => c.type === "toolCall")) toolTurns.add(event.messageEntryId);
+  });
+  pi.on("agent_settled", (_event, context) => {
+    ctx = context;
+    if (running || scheduled || toolTurns.size - consumedTurns < 10) return;
+    const ownGeneration = generation;
+    const task = (async () => {
+      await refresh();
+      if (generation !== ownGeneration || !state?.autoEnabled || state.paused || !context.isIdle() || context.hasPendingMessages()) return;
+      const snapshot = captureSnapshot(context);
+      if (state.records.some(r => r.digest === snapshot.digest && r.sessionId === snapshot.sessionId)) return;
+      if (!context.model) { await ledger.skip(snapshot, undefined, "skipped-unsupported-model"); return; }
+      if (options.sourceReady && !await options.sourceReady(context)) {
+        await ledger.skip(snapshot, snapshot.model, "skipped-source-unavailable");
+        await ledger.pause("source-unavailable"); return;
+      }
+      const root = await resolveProjectRoot(context, state.projectRoots?.[context.cwd]);
+      if (generation !== ownGeneration || !context.isIdle() || context.hasPendingMessages()) return;
+      consumedTurns = toolTurns.size;
+      await launch(context, root, ownGeneration);
+    })().catch(async error => {
+      if (generation !== ownGeneration) return;
+      await ledger.pause(String(error).slice(0, 500)).catch(fault);
+      fault(error);
+    }).finally(() => { if (scheduled === task) scheduled = undefined; });
+    scheduled = task;
+  });
+  pi.on("input", () => { cancel(); });
+  pi.on("session_tree", () => { cancel(); toolTurns.clear(); consumedTurns = 0; });
+  pi.on("model_select", () => { cancel(); });
+  pi.on("session_before_compact", () => { cancel(); });
+  pi.on("session_before_switch", () => { cancel(); });
+  pi.on("session_before_fork", () => { cancel(); });
+  pi.on("session_shutdown", () => { cancel(); unsubscribe?.(); unsubscribeEvents?.(); clearInterval(timer); timer = undefined; ctx = undefined; });
+  return () => state?.autoEnabled ? "on" : "off";
+}

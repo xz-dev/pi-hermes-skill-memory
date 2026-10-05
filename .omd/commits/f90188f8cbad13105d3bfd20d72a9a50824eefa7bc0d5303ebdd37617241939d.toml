@@ -1,0 +1,9 @@
+salt = "uaLaEEwuHEZmUVRu"
+previous_id = ""
+timestamp = "2026-10-04T17:04:51.357078682Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "fb55d9a5c7e7cd002c8a7e5c4a74c218"
+
+[payload]
+path = "src/temporary-package-root.ts"

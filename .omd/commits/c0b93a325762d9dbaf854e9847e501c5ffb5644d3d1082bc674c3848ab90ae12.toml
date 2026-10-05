@@ -1,0 +1,10 @@
+salt = "yZ3NPYTi86Z4lARV"
+previous_id = ""
+timestamp = "2026-10-01T15:23:31.21319725Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:75bc6818ca5846cf376b78e0bea970967c04282313f1395a9c48e7b6d68e8d1e"
+path = "src/source-worker.mjs"

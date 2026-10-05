@@ -1,0 +1,9 @@
+salt = "mJjhfFkbfzIMpI5O"
+previous_id = "bc11a6302b43d3e07aec2983d8577a3a8cd236e43333e641ab01565d484ad9e4"
+timestamp = "2026-10-01T10:30:42.633526162Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md"

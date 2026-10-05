@@ -1,0 +1,12 @@
+salt = "jZ9oGNkT3FkFKbcy"
+previous_id = "470737de097ba52d3f2b9d4e3cd5529f9803c051273f86c4280095d717e4b6b0"
+timestamp = "2026-10-04T17:25:26.939786649Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"]
+link_id = "d5df8597dd44352dc56541faf87dafac"
+reason = "The completion marker does not amend the protocol. cooperation.ts is byte-identical to its independently reviewed implementation; optional participation and incompatible-peer pause do not acquire real-memory compatibility from task completion."
+stop = false

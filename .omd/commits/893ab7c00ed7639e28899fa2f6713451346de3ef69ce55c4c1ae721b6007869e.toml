@@ -1,0 +1,9 @@
+salt = "whJrpr3DLo4qczkv"
+previous_id = ""
+timestamp = "2026-10-04T17:05:00.210086394Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "1952b31ef53cb8423a1a20dc7ba78659"
+
+[payload]
+path = "test/fixtures/tui-delivery.ts"

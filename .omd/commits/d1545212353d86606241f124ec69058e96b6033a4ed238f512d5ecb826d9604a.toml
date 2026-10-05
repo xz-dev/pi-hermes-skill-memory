@@ -1,0 +1,12 @@
+salt = "NhF8w6Y8CSG5OK6p"
+previous_id = "a7b32ccf6279938741694ee1dd53b8092d92892f2f250a338170ae5dd8d30e97"
+timestamp = "2026-10-04T17:19:15.164662794Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["22f36253f58705027ffd23963f3b20e5e00a6351a39f03c316954e4e9d21fad5", "2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"]
+link_id = "ab4c6f48d372a36607d25b6e8395d401"
+reason = "Installed-mutation requirement now states that global write permission cannot bypass content checks. Task 4.3 tests TUI exact diffs, RPC pending and grant revocation; task 5.3 provides the independent content gate."
+stop = false

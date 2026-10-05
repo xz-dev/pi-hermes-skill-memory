@@ -1,0 +1,14 @@
+salt = "0DzqRXnedtc4Nu1X"
+previous_id = "86e1e44bb21fbc37ca1a59b5047d47c32a34f050d3e41c391bb43cba4ef311a9"
+timestamp = "2026-10-01T15:23:31.490916093Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "c34741a62084e7d454dee116ac315dd0"
+reason = "源码、SDK/CLI实际执行测试或来源决定的精确范围；说明来源与验收责任，不冒充真实模型质量或剩余任务已完成。"
+source = "range:9d4539a328708495f27a9a783c03782dad505600d3031254b1654dfb6dd96f5f"
+source_version = "9d4539a328708495f27a9a783c03782dad505600d3031254b1654dfb6dd96f5f"
+target = "range:c0b93a325762d9dbaf854e9847e501c5ffb5644d3d1082bc674c3848ab90ae12"
+target_version = "86e1e44bb21fbc37ca1a59b5047d47c32a34f050d3e41c391bb43cba4ef311a9"

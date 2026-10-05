@@ -1,0 +1,12 @@
+salt = "qxBlkG9H9gp0gjgy"
+previous_id = "7ac1b47afe13c64545a470843c008eb3db29c99f88f4b7cb8bd346614a21c202"
+timestamp = "2026-10-04T17:19:06.651603617Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["f7be13f13e72ad6b185bcf6d898eba465bd90fd794994a0e611e43470fcb9152"]
+link_id = "9f4b2fb90fac5f65dc6913a04134be7b"
+reason = "D7 changed position only. The independent/shared-charging requirement still means compatible participants share one request and own their writes; cooperation tests prove the protocol-double contract, not current memory runtime compatibility."
+stop = false

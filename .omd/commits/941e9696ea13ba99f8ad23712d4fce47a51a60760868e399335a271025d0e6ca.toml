@@ -1,0 +1,14 @@
+salt = "OO0FUsNDabc867B6"
+previous_id = "b57ac6392860b29a677078e6d212fcfe92695f3a34eb891e24bdebeb50113283"
+timestamp = "2026-10-01T10:30:41.74751567Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "0a640b7203075fb4de42e98ee188b930"
+reason = "规划范围：Requirement: Managed ownership requires evidence。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:665172b0cd26c490247ee891f1600ea8cfc4dba341a616aa52c42e7efb5f891a"
+source_version = "c7f0e494294e20e302faed08535cb4514fb3ef00bf252f67da6b80ffd92bdde5"
+target = "range:bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"
+target_version = "bb1bb62394d4bd7cb7a06eee929876d353a12985f19a8f928dc034d8172ede73"

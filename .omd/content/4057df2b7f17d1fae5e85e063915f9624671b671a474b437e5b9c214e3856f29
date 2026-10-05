@@ -1,0 +1,31 @@
+import { mkdir, open, readFile, rename, unlink } from "node:fs/promises";
+import { dirname } from "node:path";
+import { randomUUID } from "node:crypto";
+
+export async function atomicJson(path: string, value: unknown): Promise<void> {
+  await mkdir(dirname(path), { recursive: true });
+  const tmp = `${path}.${randomUUID()}.new`;
+  const file = await open(tmp, "wx", 0o600);
+  try {
+    await file.writeFile(JSON.stringify(value, null, 2) + "\n");
+    await file.sync();
+  } finally { await file.close(); }
+  await rename(tmp, path);
+}
+
+export async function readJson<T>(path: string): Promise<T> {
+  return JSON.parse(await readFile(path, "utf8")) as T;
+}
+
+/** Fail closed on contention or a crash-left lock; recovery is never a budget reset. */
+export async function withLock<T>(path: string, action: () => Promise<T>): Promise<T> {
+  await mkdir(dirname(path), { recursive: true });
+  const lock = await open(path, "wx", 0o600);
+  try {
+    await lock.writeFile(JSON.stringify({ pid: process.pid, created: Date.now() }));
+    return await action();
+  } finally {
+    await lock.close();
+    await unlink(path);
+  }
+}

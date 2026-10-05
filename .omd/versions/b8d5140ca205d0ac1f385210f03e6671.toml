@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [184, 213, 20, 12, 162, 5, 208, 172, 31, 56, 82, 16, 240, 62, 102, 113]
+len = 682
+sha256 = "5730f0cd72a417700d870e71cb4bd5261c1a99a8b1ea5f4edd3bd17c8f5777a4"
+encoding = "utf-8"
+content_file = "content/5730f0cd72a417700d870e71cb4bd5261c1a99a8b1ea5f4edd3bd17c8f5777a4"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "src/async.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "src/async.ts"

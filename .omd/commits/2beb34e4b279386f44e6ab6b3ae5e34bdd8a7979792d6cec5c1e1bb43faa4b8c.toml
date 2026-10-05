@@ -1,0 +1,16 @@
+salt = "CocwyAZnP16HZ5ZN"
+previous_id = "e798a95d827af30b7a1c3a8b76230e1a8117c6e0f69e10d40ac4b82a147fb4ee"
+timestamp = "2026-10-01T10:30:44.243502035Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "b6bdd9fc806dcc23135250c3b651dfe7"
+
+[payload]
+mount = "file:412517a16e4872485223121945dfa56f5097759889d54eed311353714bc97874"
+path = "docs/review-contract.md"
+reason = "规划范围：R3 — 快照与独立请求。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "2563"
+mode = "text"
+start = "1717"

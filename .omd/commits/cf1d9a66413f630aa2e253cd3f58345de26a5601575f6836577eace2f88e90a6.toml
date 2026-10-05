@@ -1,0 +1,9 @@
+salt = "ZQcMCzwvBYutBfFG"
+previous_id = ""
+timestamp = "2026-10-04T17:05:00.833893236Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "601619cf9cb97f71b636b68cb9833cea"
+
+[payload]
+path = "test/fixtures/tui-maintenance.ts"

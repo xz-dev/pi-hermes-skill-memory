@@ -1,0 +1,16 @@
+salt = "eubjxYIx1hLAMEZZ"
+previous_id = "23d41aa03bf1f582a3f17a10e657d93ee5b17ad2bcb5432b5230a67c4429f328"
+timestamp = "2026-10-01T15:23:38.975421755Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "ff5c62ad0dfa1cb9de84f19a260ec236"
+
+[payload]
+mount = "file:fb0f87cbf737a4049062a1b2856e787faa757b1623743ed22e6f077d176061ca"
+path = "test/fixtures/cli-sources.ts"
+reason = "源码、SDK/CLI实际执行测试或来源决定的精确范围；说明来源与验收责任，不冒充真实模型质量或剩余任务已完成。"
+
+[payload.position]
+end = "2497"
+mode = "text"
+start = "0"

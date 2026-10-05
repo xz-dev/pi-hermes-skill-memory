@@ -1,0 +1,16 @@
+salt = "Yi5wsS2zCx0iNyNa"
+previous_id = "4e8534e7b325fef1ba44dd056942d28e78a58e2fcb8e97a57cc237fce1c4548e"
+timestamp = "2026-10-01T12:58:01.502912206Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "5381a35084e4fe8434ddb8c61dd80c4b"
+
+[payload]
+mount = "file:af4779f5a83380da117fe754a9386d3c73eb0419ade55c6a225d50b7341b5ca9"
+path = "docs/implementation-evidence.md"
+reason = "实际测试/观察回执与明确边界，非虚构通过或全文语义证明。"
+
+[payload.position]
+end = "1549"
+mode = "text"
+start = "173"

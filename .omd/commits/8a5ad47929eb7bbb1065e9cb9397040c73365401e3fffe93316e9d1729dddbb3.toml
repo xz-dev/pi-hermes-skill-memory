@@ -1,0 +1,14 @@
+salt = "1fpzMPMxuiKQ5RIo"
+previous_id = "cf7f0d6905aa7df73f3b676f40e701d7c258eb5afa944655d9d1852b2a602938"
+timestamp = "2026-10-01T10:32:41.895202008Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "8f33d0b18111c746d61daa80b8fe6db2"
+reason = "U1 支撑或约束 D2；是规划依据关系，不声称上游已经实现本插件新增行为。"
+source = "range:0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+source_version = "0e2a2b21f4dfc43ee7129841fddbacb19acb2a36c4ad9c2210a48742d57295c4"
+target = "range:11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"
+target_version = "11225202f72743c8bc1f5afc361e7631392f71bf7fabaefff233a60cb24fb517"

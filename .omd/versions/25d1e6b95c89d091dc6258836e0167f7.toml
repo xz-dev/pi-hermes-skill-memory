@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [37, 209, 230, 185, 92, 137, 208, 145, 220, 98, 88, 131, 110, 1, 103, 247]
+len = 5927
+sha256 = "2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4"
+encoding = "utf-8"
+content_file = "content/2d65208d037969bf29d41e259c6c7dcc7dc2d258e5d74c02f2e203e3d650ccb4"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md"

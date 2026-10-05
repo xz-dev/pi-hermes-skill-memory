@@ -1,0 +1,12 @@
+salt = "iipsjwOAfgU2gj6y"
+previous_id = "cef2961a5845acf2ded52a26ffa97f48442fe710872cc641a26310ae5c2482c3"
+timestamp = "2026-10-04T17:19:12.315377888Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "537aeb48820e9a5a9441cc4a65ca0b03"
+reason = "D5's one-request review is unchanged by relocation. The expanded validated-proposals requirement adds host templates/attributed source content and local exact pending approval; none adds a verification request."
+stop = false

@@ -1,0 +1,12 @@
+salt = "9sEmAAUQ9yVfQSBt"
+previous_id = "3497f085295c6ea34ab3e65ed970dfa6468c3fa30b48b79e4e21afbca44fc416"
+timestamp = "2026-10-04T17:19:12.906214151Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58", "fda5b27f6f3f6e1eb3e52cb7dc19117131ab4f99f7fceed6c4cb728f20bda589"]
+link_id = "711113c94c78b3ad8cacd15252dea181"
+reason = "Scoped-knowledge wording is relocated under D6. Task 6.2's repeated-lesson update and same-scope curation checks preserve existing applicability; no mtime threshold or diary append policy was added."
+stop = false

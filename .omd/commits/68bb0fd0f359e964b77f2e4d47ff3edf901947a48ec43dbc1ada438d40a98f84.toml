@@ -1,0 +1,9 @@
+salt = "FRC4UdFEBp7kG5BW"
+previous_id = "cb0345d2fa0d25b513d4cf6022edea9e3da585ecbc50f67935b9556a39f48035"
+timestamp = "2026-10-04T17:05:01.987667668Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/fixtures/restore-source-matrix.ts"

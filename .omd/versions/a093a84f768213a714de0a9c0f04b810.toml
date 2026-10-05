@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [160, 147, 168, 79, 118, 130, 19, 167, 20, 222, 10, 156, 15, 4, 184, 16]
+len = 3367
+sha256 = "c973049e7ba2b49dc862fe06b087660ddce1415247dae6c7aefff9f3efb01dd9"
+encoding = "utf-8"
+content_file = "content/c973049e7ba2b49dc862fe06b087660ddce1415247dae6c7aefff9f3efb01dd9"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "docs/implementation-evidence.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "docs/implementation-evidence.md"

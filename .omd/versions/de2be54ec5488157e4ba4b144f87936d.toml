@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [222, 43, 229, 78, 197, 72, 129, 87, 228, 186, 75, 20, 79, 135, 147, 109]
+len = 3844
+sha256 = "f7c53ba72b5406b44110dd2ecb6740259443554cce0832aa6c759a7f39bafc3c"
+encoding = "utf-8"
+content_file = "content/f7c53ba72b5406b44110dd2ecb6740259443554cce0832aa6c759a7f39bafc3c"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/restore-sources.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/restore-sources.test.ts"

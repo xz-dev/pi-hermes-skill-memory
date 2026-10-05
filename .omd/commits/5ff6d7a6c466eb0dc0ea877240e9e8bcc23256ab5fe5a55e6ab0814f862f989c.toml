@@ -1,0 +1,10 @@
+salt = "Hu5fpPJPPFggduRl"
+previous_id = ""
+timestamp = "2026-10-03T19:55:17.233928748Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:cb366edbe4882751176b9c045d71e4f254ab1d58f4bb94fc2e9dcb0a9cfc1b83"
+path = "test/commit-gates.test.ts"

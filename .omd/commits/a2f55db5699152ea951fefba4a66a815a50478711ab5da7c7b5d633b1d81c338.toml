@@ -1,0 +1,9 @@
+salt = "XjDWIZZJqbDjVQWd"
+previous_id = "2290b16d9c96c19971841e6381a6cd99311fc49973403c8518a866f3f0d87765"
+timestamp = "2026-10-04T17:04:57.486066977Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/resource-boundary.test.ts"

@@ -1,0 +1,12 @@
+salt = "L5cQNH9wUGvvdIWK"
+previous_id = ""
+timestamp = "2026-10-01T12:58:00.009650668Z"
+schema = "omd.commit/3"
+kind = "import"
+content_ref = "empty"
+
+[payload]
+exclude = []
+include = []
+path = "test/learning.test.ts"
+scope = []

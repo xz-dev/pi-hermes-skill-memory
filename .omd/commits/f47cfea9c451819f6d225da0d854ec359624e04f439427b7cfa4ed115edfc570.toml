@@ -1,0 +1,12 @@
+salt = "jxo5SeO0l8vooUKy"
+previous_id = "4df8c356d07ff112745bae3e31d62e4514e142f18b598cbbe5384881a70f57ac"
+timestamp = "2026-10-04T17:19:35.004941284Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["203e94bea1298d70b3a409c93cdf9aa4c2311e0432bffe6362ee1e5d815d86e6", "8126a53daf4465cd23f20d173288249da1c431861bfd93499ecd38b169082e8a"]
+link_id = "664ed20c789ad88b43122848cb7e96ce"
+reason = "Store now revalidates installed recovery grants and approved bytes. recovery.test.ts retains actual member/provenance/hand-edit interruption checks; installed-approval and rollback tests supply the new installed authority negatives rather than overclaiming the old test's scope."
+stop = false

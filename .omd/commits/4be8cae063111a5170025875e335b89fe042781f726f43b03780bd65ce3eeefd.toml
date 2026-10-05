@@ -1,0 +1,12 @@
+salt = "RTv0O5nsRcylroEz"
+previous_id = "17b8ab064eb0e25c7ab7d305ff1111b811cb57649d848d76254915a2666c9471"
+timestamp = "2026-10-03T15:38:38.145372439Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["f2d1d50dc7c0bc9a086edcfed5fdc231186e9b8a5ba97287b744e2bce23a869b"]
+link_id = "eb6ff82b35a32da4b6d57d4e58f5f738"
+reason = "tasks:2 → implementation:atomic：已核对阶段代码/测试及实际回执；已完成1.1–2.4和3.1，费用边界与fake/真实质量分开，无新增真实模型请求。"
+stop = false

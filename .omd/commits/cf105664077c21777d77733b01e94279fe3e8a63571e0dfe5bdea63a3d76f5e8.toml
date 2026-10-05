@@ -1,0 +1,12 @@
+salt = "xk2BXTK629L76Gxu"
+previous_id = "04689f5289f936fadb456a1fe4448b43b00ac9fc86beb0c88a0c6f42d375b98a"
+timestamp = "2026-10-04T17:25:27.817473836Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8ef28c3898cb12e0cd30bca413a2c8acacf2fd8852969e9e43d97ce7dbfeed4"]
+link_id = "ace63ca32357d97e36a7c495cc231b8b"
+reason = "The cooperative tests are unchanged and still prove a protocol double, not the current memory runtime. Completing delivery does not widen that assertion or require an additional model call."
+stop = false

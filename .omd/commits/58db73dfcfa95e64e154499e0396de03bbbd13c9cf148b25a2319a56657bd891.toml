@@ -1,0 +1,10 @@
+salt = "ub1lEWLEQy3pGD2Z"
+previous_id = ""
+timestamp = "2026-10-01T12:57:55.667413542Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:e7758862da9421f791465dadcad0f67ba809aa5c63ed499a1be0e2527bd825d8"
+path = "src/catalog.ts"

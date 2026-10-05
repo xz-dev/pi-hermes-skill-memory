@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [90, 160, 36, 179, 216, 76, 212, 13, 152, 120, 200, 106, 199, 160, 131, 33]
+len = 7768
+sha256 = "c1bf8fcc66a22782f08e9791539c109f546c7bffbd08378632deeff128f2671f"
+encoding = "utf-8"
+content_file = "content/c1bf8fcc66a22782f08e9791539c109f546c7bffbd08378632deeff128f2671f"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/lifecycle.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/lifecycle.test.ts"

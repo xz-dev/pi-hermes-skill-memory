@@ -1,0 +1,9 @@
+salt = "QP4AwkRsZar0JFK0"
+previous_id = "e08983b1732a5b2dd881fe95a47c1ffb96e5ea9510dcf727ae43a39a2846e160"
+timestamp = "2026-10-01T10:30:40.254442469Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/add-managed-skill-lifecycle/design.md"

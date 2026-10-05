@@ -1,0 +1,12 @@
+salt = "v494ZoKklTTmjsDu"
+previous_id = "54247b03366b66eefe0f4165c42e3ff7e22599380287ebb9c03a97bd2037b7b7"
+timestamp = "2026-10-04T17:19:08.692962558Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["a93b952967b27d39dd1d753547cdc3783fb0f176237915f38956432208ac4323"]
+link_id = "e8d583065d3b75d9be2ebf991cd8de38"
+reason = "Proposal scope now includes SDK final-source callbacks and unverified-content pending. D1 still routes these through public Pi extension APIs and narrow local modules; no fork, companion import or core modification was introduced."
+stop = false

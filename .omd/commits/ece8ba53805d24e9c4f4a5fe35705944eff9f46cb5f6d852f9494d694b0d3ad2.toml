@@ -1,0 +1,16 @@
+salt = "xcmktj886mQyU9ow"
+previous_id = "6081c4befe1aec617ee7d06de823f200d48e3e384733375f5adf769b0e6e992c"
+timestamp = "2026-10-04T17:05:04.114523478Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "1f50f639c52e6a3a148b9a7e0bb07919"
+
+[payload]
+mount = "file:34710e8a73ef32018708e59adc5cf030408935633adce07dbead5e8a4a0ba662"
+path = "docs/maintenance-evidence.md"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "2659"
+mode = "text"
+start = "0"

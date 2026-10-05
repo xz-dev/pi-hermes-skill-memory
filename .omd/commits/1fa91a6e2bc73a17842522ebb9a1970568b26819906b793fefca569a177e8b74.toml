@@ -1,0 +1,15 @@
+salt = "rQZPnNCSsEpB6PXZ"
+previous_id = "ed64096c30e108e3e2886a08cb14bc83a72a5d0bc7d9602451c8295ed97a2f80"
+timestamp = "2026-10-03T19:55:14.457832842Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "97ad2e74a29f5b6683a61fcbbafef7d5"
+
+[payload]
+path = "src/ledger.ts"
+reason = "当前公共类型检查及63项fake/SDK回归通过，已完成14/26：3.4模式/加载/刷新，5.2分开计数/settled，4.4逐成员备份/部分提交/本地恢复及取消writer退出释放锁。恢复不重放模型、保留unknown额度、手改拒绝；不是跨文件全原子/全回滚，也不是剩余12项或真实模型质量验收。"
+
+[payload.position]
+end = "11196"
+mode = "text"
+start = "3121"

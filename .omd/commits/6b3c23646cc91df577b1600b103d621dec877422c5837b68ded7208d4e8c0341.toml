@@ -1,0 +1,9 @@
+salt = "oToTnV1B7XkAL08E"
+previous_id = "78ce45c7f6c5a74fa49468f4e357ec38f3996a8f43623e7be09c9ae946faf948"
+timestamp = "2026-10-04T17:05:01.337803974Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/fixtures/tui-maintenance.ts"

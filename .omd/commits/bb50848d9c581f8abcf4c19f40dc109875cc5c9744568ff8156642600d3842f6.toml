@@ -1,0 +1,12 @@
+salt = "64YAsq4qucM7znKL"
+previous_id = "918df791799934e9e368149497844a100b515303fbb141176b5c02013e33365e"
+timestamp = "2026-10-04T17:19:21.148240551Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["d396b4631a6b18bdb3d68468314ce9b8c6d0840288b7c03542c208fc68084961"]
+link_id = "63812e2ac180ca720322a324b075d124"
+reason = "Admission requirement received only D5 relocation. Tasks 2.1/2.2 retain atomic reservation, limits and no fallback; joint boundary metadata adds dedup attribution, not new budget or retries."
+stop = false

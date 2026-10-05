@@ -1,0 +1,12 @@
+salt = "dXxUuGYEtfcxgDEB"
+previous_id = "9acf09d1f0696553197dd871e55f33b5ce9b7faab9d254754878e1310b3ec74b"
+timestamp = "2026-10-03T15:38:37.522388535Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["f2d1d50dc7c0bc9a086edcfed5fdc231186e9b8a5ba97287b744e2bce23a869b"]
+link_id = "25b63db81fb4e4bc005bf8a16c95bc33"
+reason = "tasks:2 → implementation:lock：已核对阶段代码/测试及实际回执；已完成1.1–2.4和3.1，费用边界与fake/真实质量分开，无新增真实模型请求。"
+stop = false

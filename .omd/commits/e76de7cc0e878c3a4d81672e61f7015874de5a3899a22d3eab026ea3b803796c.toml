@@ -1,0 +1,16 @@
+salt = "Okg7xoCZHXWOC2Qc"
+previous_id = "51d34d6a5745073a841aa97982bb502d4e9d028829ee35ea9be56f82ef323762"
+timestamp = "2026-10-01T12:58:00.326788525Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "57ff418f47c5f7be35aef0059ccef52e"
+
+[payload]
+mount = "file:8af61bbece2866e40961c46b3ac8907e967d98e9216d0affbf87f987a25c2033"
+path = "test/ledger.test.ts"
+reason = "实际运行的node:test场景；当前合计27通过，覆盖所列行为和反例，不外推真实模型质量或所有平台。"
+
+[payload.position]
+end = "4753"
+mode = "text"
+start = "1823"

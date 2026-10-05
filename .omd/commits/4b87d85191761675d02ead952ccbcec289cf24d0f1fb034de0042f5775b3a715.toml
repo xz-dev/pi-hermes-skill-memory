@@ -1,0 +1,12 @@
+salt = "DbEZ2ihNxP2GffRp"
+previous_id = "22f36253f58705027ffd23963f3b20e5e00a6351a39f03c316954e4e9d21fad5"
+timestamp = "2026-10-04T17:19:06.048755364Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58"]
+link_id = "93c39e62f8c1eef683ac7d624f728ad5"
+reason = "D4's installed authority and content checks remain separate in this requirement. Its global-grant scenario now explicitly says unverified content stays pending; RPC cannot supply the specified TUI authorization."
+stop = false

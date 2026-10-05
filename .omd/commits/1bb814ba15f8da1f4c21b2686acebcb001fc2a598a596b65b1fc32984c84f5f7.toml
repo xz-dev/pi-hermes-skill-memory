@@ -1,0 +1,12 @@
+salt = "O3Qc94D8gp5s4wEN"
+previous_id = "fda5b27f6f3f6e1eb3e52cb7dc19117131ab4f99f7fceed6c4cb728f20bda589"
+timestamp = "2026-10-04T17:19:09.404017601Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["10bfe0a60ab359e0556afc45246716f792861527b62116613bff6a62e0848c58"]
+link_id = "f38a7b59a1308c276114b5f4f2720775"
+reason = "D6's merge/archive rules preserve scope and evidence. Scoped-knowledge wording is only relocated; repeated lessons update the existing ID instead of date-named references, as curation tests demonstrate."
+stop = false

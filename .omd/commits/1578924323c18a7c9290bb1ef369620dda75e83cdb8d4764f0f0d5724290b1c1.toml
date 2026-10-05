@@ -1,0 +1,15 @@
+salt = "ZsCv4I3GijHscL7u"
+previous_id = "f7be13f13e72ad6b185bcf6d898eba465bd90fd794994a0e611e43470fcb9152"
+timestamp = "2026-10-05T02:49:37.453269672Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "98d0495d972bf8f0d288632433bc703e"
+
+[payload]
+path = "openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md"
+reason = "归档仅修正D5的相对链接（../../../docs/ → ../../../../docs/）；D6/D7正文完全不变，仅随前三字符插入移动。未改变审查费用、维护或协作契约。"
+
+[payload.position]
+end = "5963"
+mode = "text"
+start = "5705"

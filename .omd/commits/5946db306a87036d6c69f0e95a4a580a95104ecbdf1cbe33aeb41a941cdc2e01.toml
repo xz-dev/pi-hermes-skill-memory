@@ -1,0 +1,12 @@
+salt = "0tVtuTQoouB9aVdS"
+previous_id = "c4eecb91f161353a432e9cb6ea322fdbccdc52df2a03d173a312108c14374ff9"
+timestamp = "2026-10-04T17:19:33.655618174Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["19558388a4071c0e5760bb421862c434f7b8c5c0512ee4cc981825e6293e192a"]
+link_id = "3c290d9ee89f2cdf2d309a8fd20c8d17"
+reason = "Bootstrap's entry behavior remains tested. implementation-evidence.md now reports the 160-test checkpoint, lists separate content/lifecycle/maintenance/cooperation evidence and clearly leaves final traceability pending; it does not infer model quality from bootstrap."
+stop = false

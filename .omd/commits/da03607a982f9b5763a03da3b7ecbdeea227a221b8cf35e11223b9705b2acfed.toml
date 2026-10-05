@@ -1,0 +1,16 @@
+salt = "qaUqwT2bjTqeVKJY"
+previous_id = "31ab6955cc1edcf98869572d77876807814edbe83bcf22ccef57ba0c89b8c3d6"
+timestamp = "2026-10-03T16:47:35.991550139Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "7818972546ae6f35ff4274e2519592fc"
+
+[payload]
+mount = "file:1a19f46b0765e06d621fb12ef93a8c3b29e4bcf45524af0fcb0fcb2842d10d32"
+path = "test/read.test.ts"
+reason = "实际执行的正文、单个引用/脚本无执行、穿越/链接/来源重绑定拒绝、长文本Unicode分页与版本检查；不冒充自动学习或完整3.4验收。"
+
+[payload.position]
+end = "5326"
+mode = "text"
+start = "0"

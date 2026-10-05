@@ -1,0 +1,16 @@
+salt = "GlQzmd8iQAfxrSLd"
+previous_id = "243a83bbcbacb92983f833fb521df22c6307d370844dcefefbb52402ff4746a1"
+timestamp = "2026-10-01T10:30:42.889626203Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "3d3690a0cb182601c99d906a7e344e3c"
+
+[payload]
+mount = "file:fe971ee48b20a108208de249b27981bbfa320dd7ef9ff6ea695fba8705213298"
+path = "openspec/changes/add-managed-skill-lifecycle/specs/skill-reflection/spec.md"
+reason = "规划范围：Requirement: Independent operation and shared charging。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "2397"
+mode = "text"
+start = "2106"

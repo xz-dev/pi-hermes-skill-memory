@@ -1,0 +1,16 @@
+salt = "DYSX4GBG92enEG3T"
+previous_id = "ac144e50edc36f4996427fc8988697e9379a4eba25981ab9dbeb31b74ec44f06"
+timestamp = "2026-10-04T17:04:59.342018824Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "fe0cd855e2876ce3099123947870fef3"
+
+[payload]
+mount = "file:d890b20523b7368704553f3a4b2bc2fced565c8325ebedd60a440e29d74a3b5a"
+path = "test/scope-migration.test.ts"
+reason = "本仓25/26检查点：160项fake/SDK测试、类型与strict通过；真实隔离CLI索引/启用/暂停/禁用/卸载及文件访问核对通过。7.1只证明协议替身，不宣称当前memory兼容；R2/R5未同步。范围续改不是关系Adapt；7.3尚待本次追溯完成。"
+
+[payload.position]
+end = "9865"
+mode = "text"
+start = "0"

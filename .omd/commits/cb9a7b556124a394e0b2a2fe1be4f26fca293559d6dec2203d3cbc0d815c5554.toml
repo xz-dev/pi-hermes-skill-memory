@@ -1,0 +1,12 @@
+salt = "9r2xo3TIVrUVdxV2"
+previous_id = "a5678e5c9863a71b98749b49e00e3b33d45d39f76aeff6fa1cc54bdf4cfda011"
+timestamp = "2026-10-03T15:38:37.681130576Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["f2d1d50dc7c0bc9a086edcfed5fdc231186e9b8a5ba97287b744e2bce23a869b"]
+link_id = "467c8e4a8376df1ac384469091c35552"
+reason = "tasks:2 → implementation:ui：已核对阶段代码/测试及实际回执；已完成1.1–2.4和3.1，费用边界与fake/真实质量分开，无新增真实模型请求。"
+stop = false

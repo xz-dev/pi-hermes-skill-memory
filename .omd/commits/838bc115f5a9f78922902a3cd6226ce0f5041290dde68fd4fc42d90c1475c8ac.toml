@@ -1,0 +1,16 @@
+salt = "VeJ0tLQ7KT26D1fY"
+previous_id = "8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf"
+timestamp = "2026-10-01T12:57:58.93186794Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "5eee16c580e8a89ac972dcb1bc70d582"
+
+[payload]
+mount = "file:886d1f195e205904649535c1f768518d7c98cd0da04f66e0238524a6d682db54"
+path = "src/ui.ts"
+reason = "已复核的早期实施范围，满足对应已勾选任务的具体行为；并非完整能力或剩余任务完成证明。"
+
+[payload.position]
+end = "10351"
+mode = "text"
+start = "1835"

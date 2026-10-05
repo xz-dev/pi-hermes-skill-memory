@@ -1,0 +1,12 @@
+salt = "x8OkgotJZpze1ivg"
+previous_id = "a145eebc8f41a79c43d2c798cca64614bb63c13ecfe7cbcd300409da964b7807"
+timestamp = "2026-10-04T17:19:10.106635935Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2a03680615f0927cd3c3dbd998c0442f64604013e87c24d2bf7be04c61535f58", "8b2983bbf549f136c4dee2e3911ba87c2f8bf49cf8860363e03d916af320bf7e"]
+link_id = "0a640b7203075fb4de42e98ee188b930"
+reason = "Expanded ownership/content requirements are discharged by tasks 4.2 and 4.3 together with 5.3. Ownership provenance never certifies arbitrary prose, and the installed grant cannot bypass content pending."
+stop = false

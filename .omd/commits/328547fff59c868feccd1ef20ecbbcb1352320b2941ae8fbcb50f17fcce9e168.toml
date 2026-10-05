@@ -1,0 +1,16 @@
+salt = "gcmCs5vNlhkOmBVr"
+previous_id = "061e57515ae611bf124779f4d35e9ca9a6ce5d81b9a2d426486978af110a64c1"
+timestamp = "2026-10-01T10:30:40.22443842Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "efc78faf427f2986c0fdae69045736d8"
+
+[payload]
+mount = "file:ea29693cb8ca7ff19a80607692ebcd027ca1eba40d613262ea37da6122fc67c1"
+path = "openspec/changes/add-managed-skill-lifecycle/design.md"
+reason = "规划范围：D6 — 维护不以 mtime 自动删除知识。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+
+[payload.position]
+end = "4484"
+mode = "text"
+start = "4140"

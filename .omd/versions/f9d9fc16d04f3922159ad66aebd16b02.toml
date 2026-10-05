@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [249, 217, 252, 22, 208, 79, 57, 34, 21, 154, 214, 106, 235, 209, 107, 2]
+len = 2711
+sha256 = "40c4108cfed969eff02be8b7a7ed18fb8639e06f32bc939b5dc268b3602d0e4c"
+encoding = "utf-8"
+content_file = "content/40c4108cfed969eff02be8b7a7ed18fb8639e06f32bc939b5dc268b3602d0e4c"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "docs/fee-matrix.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "docs/fee-matrix.md"

@@ -1,0 +1,9 @@
+salt = "7yFIpxYqaEVqHnA4"
+previous_id = ""
+timestamp = "2026-10-04T17:05:04.33217704Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "a633949b7dc0d4fcf9538c42620263f3"
+
+[payload]
+path = "docs/review-cooperation.md"

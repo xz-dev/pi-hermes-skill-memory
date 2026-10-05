@@ -1,0 +1,14 @@
+salt = "cZuzR4SnDi0FYJaK"
+previous_id = "c9ea2c1ec18418b511a59c1f130f26242ecc127b60fa0e83491652fd97f5be65"
+timestamp = "2026-10-01T10:30:44.831575823Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "5ba9a0010182ab11b269f8fcf25091aa"
+reason = "规划范围：R7 — 先验证学习闭环，再扩展协调。关联表示来源、设计或验收责任，不证明实现完成或语义等价。"
+source = "range:d11123a4923ecef24fa82d1ee4c79d5256017f94c908de14e6d128cd8c32016a"
+source_version = "f133a926b6634b2944abd99b1e2478efd450b1c9a942c052126ed0dcab950fdc"
+target = "range:7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"
+target_version = "7375295eab8930be55d605fcef0383d3e8233fcaa9245be523a5ac9917c6ffc4"

@@ -1,0 +1,9 @@
+salt = "bjccUHrpP1xTfREj"
+previous_id = ""
+timestamp = "2026-10-04T17:07:48.560734234Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "43bbcf1270a1cf1374c2499a9a65601f"
+
+[payload]
+path = "docs/delivery-evidence.md"

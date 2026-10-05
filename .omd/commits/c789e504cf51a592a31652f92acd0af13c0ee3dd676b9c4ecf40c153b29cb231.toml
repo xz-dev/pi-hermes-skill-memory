@@ -1,0 +1,12 @@
+salt = "SZB1ZsUIRaI0LblQ"
+previous_id = "be7ccd0df5726105958bcb9ca605e3eac93f8241b73ff0bee3986ace6824c19f"
+timestamp = "2026-10-04T17:19:35.321940699Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["203e94bea1298d70b3a409c93cdf9aa4c2311e0432bffe6362ee1e5d815d86e6", "8126a53daf4465cd23f20d173288249da1c431861bfd93499ecd38b169082e8a"]
+link_id = "f7d832cb0aec1f230184372225210983"
+reason = "Store's curation/rollback additions reuse existing member receipts and backups. member-transactions.test.ts still verifies real partial commit state, retained before bytes and assets without script execution; archive/rollback tests cover the new higher-level operations."
+stop = false

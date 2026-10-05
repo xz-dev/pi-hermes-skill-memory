@@ -1,0 +1,9 @@
+salt = "Zm8aCd9Mb8TpcGop"
+previous_id = "080e3e4e5a78059b147e8ef8fab0748f574999af97a915879988c623695a53dd"
+timestamp = "2026-10-01T15:23:35.013042725Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/stock-sources.test.ts"

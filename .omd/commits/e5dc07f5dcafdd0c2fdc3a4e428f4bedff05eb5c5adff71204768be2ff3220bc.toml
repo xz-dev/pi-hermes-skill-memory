@@ -1,0 +1,10 @@
+salt = "BuI499d7y35tF8As"
+previous_id = ""
+timestamp = "2026-10-04T17:04:53.932833336Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:83e9d6d533462c3a21e7b42d559e635dd3bb9c6f97e7de1869835ad3af30f2d5"
+path = "test/cooperation.test.ts"

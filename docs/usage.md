@@ -1,0 +1,57 @@
+# 使用与恢复
+
+## 状态与兼容边界
+
+这是面向官方 Pi **0.99.2** 验证的 repo-local 插件。单独使用不需要 memory 插件、xz fork 或 pi-subagents。尚未向个人环境安装或发布。
+
+**当前 memory 仓不是已验证兼容的协作方。**两仓费用规则和账本实现不同；不要把协议替身通过理解为可直接同时开启两仓自动学习。详见[可选协作](review-cooperation.md)。
+
+## 从只读开始
+
+加载本扩展后，自动审查默认OFF。搜索/读取不调用辅助模型；只有替代入口和当前允许来源均可用时，才撤下原生全量skills目录。
+
+```text
+/hermes-skills status
+/hermes-skills refresh
+/hermes-skills mode native
+/hermes-skills mode search
+```
+
+模型工具是 `hermes_skill_search`、`hermes_skill_view`、`hermes_skill_manage`。正文与引用按需分页，返回稳定SkillId和版本。显式加载：`/hermes-skills load <SkillId> [nextOffset]`。不执行读取到的脚本。
+
+## 启用、暂停和关闭
+
+```text
+/hermes-review enable
+/hermes-review status
+/hermes-review usage
+/hermes-review pause
+/hermes-review disable
+```
+
+非Git项目首次写入/启用时，TUI要求明确选择项目根。SDK宿主可提供已核验的projectRoot，Git worktree身份不能被父目录覆盖。
+
+启用后，每10个含工具的模型轮次到期，但只在前台稳定结束后捕获当前有效上下文。默认同模型、一次请求、64k输入/4096输出/90秒；UTC日4任务/256k输入/16384输出。UTF-8字节预算是保守估算，不是实际token数或账单保证。超预算明确跳过，不截取增量、不自动换模型或补发。
+
+`pause`阻止新审查并撤销当前任务的提交资格；`disable`还持久关闭自动化。新输入/切换/reload/shutdown同样撤销旧资格。只读查询和合法本地恢复仍可用。取消不是远端免费保证；迟到usage只归原request。
+
+遇到失败先看 `errors`、`usage`。`resume`只确认错误、解除暂停，不清零未知预留、不开启自动化；`retry`是一次新的计量请求，须看到旧费用并明确确认。不要通过编辑/删除账本恢复额度。
+
+## 修改与维护
+
+- 自动正文限来源绑定引用或有限宿主模板；自由正文/资产进入有界pending。
+- `pending` → `approve <id>` / `reject <id>`。批准在实际TUI核对精确差异，批准字节不代表事实认证；RPC不能冒充TUI。
+- 手装来源默认user-owned。一次批准不升级所有权；`installed allow --acknowledge`是用户全局写权限，仍不能绕过内容验证、pin、当前来源与版本检查。用 `installed deny` 撤销。
+- `inspect <id>`、`pin/unpin <id>`、`use <id> <reason>`、`outcome <id> success|failure <reason>`。模型reported与用户confirmed分栏，不以查看次数证明成功。
+- `curate list`免费；`curate propose <keep-id> <absorb-id>`明确计量；`curate apply <pending-id>`本地精确批准，保留被吸收内容。见[语义合并](curation.md)。
+- `history <id>`、`rollback <id> <change-key>`、`archive <id> <reason>`、`archives`、`restore <archive-id>`。无永久purge，不覆盖后续手改；共享引用不随手装主文件移走。
+
+未决store事务使用 `/hermes-review recovery` 和 `recover <key> commit|abort`；已提交成员不能假abort。归档中断用 `archive-resume <archive-id>`；合并先处理列出的store子事务，再重复本地apply。原请求不重放，未知费用不释放。详见[维护恢复](maintenance-evidence.md)。
+
+## SDK与禁用扩展
+
+从本项目 `src/index.ts` 使用 `createSkillsExtension({agentDir, skillSources, projectRoot?, restorePolicy?})`。`skillSources`必须返回宿主去重前的最终允许来源及身份/信任/诊断，不能用配置推测隐藏的运行时排除。`restorePolicy`只控制已归档缺失路径的当前恢复许可，未提供只阻恢复，不影响普通读取。宿主应正确退役旧项目session。
+
+CLI默认入口只在确认官方CLI后使用公共解析器；不安装缺包。临时缓存路径恢复布局只核验0.99.2，未知版本fail closed。
+
+要完全禁用插件，从扩展加载列表移除本入口并重启/reload。标准SKILL.md仍可由官方Pi发现；不会留下强制禁用原生扫描的设置。保留账本、pending和备份，不自动迁移旧个人资料。
