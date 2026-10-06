@@ -1,0 +1,10 @@
+salt = "CBpfrwlmFUZ0FHEy"
+previous_id = ""
+timestamp = "2026-10-05T15:01:20.263807455Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:52ed408b1b41a52a996f883a7baff9d98d4018e2b25e84f5cf8a27705e6540dc"
+path = "test/permission-policy.test.ts"

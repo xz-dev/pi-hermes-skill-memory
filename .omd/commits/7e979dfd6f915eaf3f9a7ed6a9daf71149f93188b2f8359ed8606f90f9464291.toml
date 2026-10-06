@@ -1,0 +1,12 @@
+salt = "65Lki1ImDnKV2kro"
+previous_id = "23b47202a42f951049b1972d8e0aec4de47c6d7f187e892f5e64bba067b9e251"
+timestamp = "2026-10-05T17:49:09.231034024Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["8bcc33d5d9ad754fc73b48ea2a5286963900fb1551b31ee691362530ade39cdc"]
+link_id = "fb0491427188244d97e020de9e9ee6d8"
+reason = "implementation:permissions -> notebook:test/permission-policy.test.ts: Direct permission tests now prove queued cancellation and actual staged publication rejection preserve bytes/fresh readable state; cleanup only own temp/new sentinel. Existing 3x2 stable-ID, legacy migration, 256 capacity and four-choice/settings assertions preserved."
+stop = false

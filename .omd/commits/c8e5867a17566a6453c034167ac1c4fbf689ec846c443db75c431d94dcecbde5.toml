@@ -1,0 +1,14 @@
+salt = "XSdAvGwLzaiyy90D"
+previous_id = "83c1bb29c048d20ff8975edf7f49ba34098cf8c9cb24da2b5c4c9daee23a2bef"
+timestamp = "2026-10-05T15:01:20.294060361Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "fb0491427188244d97e020de9e9ee6d8"
+reason = "v1 migration, policy/identity matrix, frozen decisions/settings and allowlist-capacity byte safety; SDK callback UI is not native terminal evidence."
+source = "range:a876e1cc720881a08c2c40a16f69f2abc4aa1964d4016d393cc67bbd5edcdce0"
+source_version = "c8b5cdeccdb091d6f6601b74bb3c6bbddb932dc8c8d2ca478c8c25e5d5ade9e8"
+target = "range:37ab373696c1e11408ab54b716840b56c8c8e358e00665614cf41e21efcc7e2a"
+target_version = "83c1bb29c048d20ff8975edf7f49ba34098cf8c9cb24da2b5c4c9daee23a2bef"

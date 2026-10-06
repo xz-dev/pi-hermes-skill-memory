@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [152, 33, 249, 213, 40, 232, 92, 58, 188, 139, 178, 36, 76, 17, 133, 153]
+len = 14142
+sha256 = "e63c36861ec0beebe036d33f5d3c59bb1becab9dade97c64a7d6d0b19d53aea1"
+encoding = "utf-8"
+content_file = "content/e63c36861ec0beebe036d33f5d3c59bb1becab9dade97c64a7d6d0b19d53aea1"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/review-destinations.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/review-destinations.test.ts"

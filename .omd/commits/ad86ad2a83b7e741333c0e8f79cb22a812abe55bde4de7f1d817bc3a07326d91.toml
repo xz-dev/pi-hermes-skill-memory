@@ -1,0 +1,14 @@
+salt = "YUpGRimOTw8GXnuj"
+previous_id = "86e32f19cd26a8d7e7f8d0e614dff6cd651518b4109a8976d4960f6049259815"
+timestamp = "2026-10-05T15:01:22.170609836Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "ed096e7f19337aaed9251b30a7f89328"
+reason = "10,000-entry bounded proactive disclosure; references never authority; SDK callback UI is not native terminal evidence."
+source = "range:0da25f5f73d04c33c6d2d63518ba03d27d42bf4b1866ecfc8705652a3686f9b5"
+source_version = "409adc1421182c3bd17dc8c809907a21d8e08a100e1813dc3fdda2d16d7af6b1"
+target = "range:5bc85d813c5b011f2bb73403676074ab773edc987e22b32972a07cbf2c91b948"
+target_version = "86e32f19cd26a8d7e7f8d0e614dff6cd651518b4109a8976d4960f6049259815"

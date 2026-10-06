@@ -1,0 +1,10 @@
+salt = "ty47Tkg4FSATBe4z"
+previous_id = ""
+timestamp = "2026-10-05T15:01:22.836424693Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:32342f98c850b0f1271f27e451d150162ea0cc45068f243d5045666428f18323"
+path = "test/notebook-acceptance.test.ts"

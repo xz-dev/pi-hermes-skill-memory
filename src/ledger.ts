@@ -23,6 +23,11 @@ export interface ReviewState { version: 1; lastDay: string; paused?: string; rec
   autoEnabled?: boolean; projectRoots?: Record<string, string>;
 }
 
+/** Effective automatic switch: absent means enabled after a valid read; missing or unreadable state is not unset. */
+export function automaticEnabled(state?: ReviewState): boolean {
+  return state !== undefined && (state.autoEnabled ?? true);
+}
+
 const statuses = new Set<ReviewStatus>(["admitted", "running", "skipped", "no-proposal", "no-change", "pending", "conflict", "saved", "failed", "cancelled"]);
 function validUsage(usage: Usage | undefined): usage is Usage {
   return !!usage && [usage.input, usage.output, usage.cacheRead, usage.cacheWrite, usage.totalTokens]

@@ -87,7 +87,7 @@ test("explicit local commit reuses approved staging, then registered tools reuse
     const snapshot = captureSnapshot({ cwd: f.cwd, sessionManager: f.session.sessionManager, model: f.snapshot.model, getSystemPrompt: () => "Fixture project rules" });
     const next = await reviewSkills({ snapshot, ledger: f.ledger, store: f.store, registry: f.registry });
     assert.equal(next.status, "saved"); assert.equal(f.analysisCalls(), 2);
-    assert.match((await f.store.view(saved.id)).content, /release manifest against the built output/);
+    assert.match((await f.store.view(saved.id)).content, /Validate the built manifest/);
   } finally { f.session.dispose(); }
 });
 

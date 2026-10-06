@@ -1,0 +1,15 @@
+salt = "O1ZmzLDMQueWG34F"
+previous_id = "d934bc136c7fd88e3d162531a771828b198467aebfe82e642a31c5cd4bcb79e4"
+timestamp = "2026-10-05T14:54:01.189205402Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "b371ba405d2f4dae8f5da6ed40d6965f"
+
+[payload]
+path = "src/store.ts"
+reason = "Design §2/6 recovery rechecks current exact-ID policy per member; notes-only defeats old exact approvals, allowlist priority respected. Partial/history/version/read/path protections remain."
+
+[payload.position]
+end = "65739"
+mode = "text"
+start = "0"

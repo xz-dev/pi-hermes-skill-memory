@@ -1,0 +1,16 @@
+salt = "SGxeHXU6qPkI2hvv"
+previous_id = "dbc47c944d996793488c1a213df7f34d9ca094fc8ae224cdeea40536d6d6a0c3"
+timestamp = "2026-10-05T15:01:20.894517734Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "5256b54db900a44d0fe6b8ef791c5546"
+
+[payload]
+mount = "file:8f064941964d502f87d1ea731275c24dd35d52c7d89c1cf32e4276c1919dec7e"
+path = "test/policy-decisions.test.ts"
+reason = "registered foreground redirects/decisions, ownership, no auxiliary calls, latest policy race and lifecycle block; SDK callback UI is not native terminal evidence."
+
+[payload.position]
+end = "9846"
+mode = "text"
+start = "4825"

@@ -1,0 +1,9 @@
+salt = "4HSbIA2ooUMBtqjI"
+previous_id = "b18196ff5815c6e3f744393ac2fed41a02853db6dd6ee7697ff7ab5a487f9fe5"
+timestamp = "2026-10-05T15:01:25.12037988Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "docs/notebook-evidence.md"

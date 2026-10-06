@@ -1,0 +1,12 @@
+salt = "fgMOJTHCDY1VxJOZ"
+previous_id = "30a955805e8f5c9c671635acb38145d2e3ab06c6d083c92bd30c9a6d3affe12e"
+timestamp = "2026-10-05T17:49:06.956574356Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["455a6793129878c9504ae5e9bc219bce882e1df2b0c7cceebcedeaf2db57465f"]
+link_id = "9274b18f8422845e470e9cb901811381"
+reason = "implementation:lock -> test:store-concurrency: withLock body exactly unchanged from HEAD; range moved after atomic helper added optional publication assertion. Store process exclusivity and crash-left lock tests remain current passing; no retry/removal or reservation weakening."
+stop = false

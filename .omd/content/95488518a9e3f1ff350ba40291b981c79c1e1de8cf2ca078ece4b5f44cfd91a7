@@ -1,0 +1,356 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { chmod, mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { loadSkillsFromDir } from "@earendil-works/pi-coding-agent";
+import { captureSnapshot } from "../src/context.ts";
+import { InstalledPermissions } from "../src/permissions.ts";
+import type { InstalledPolicy } from "../src/permissions.ts";
+import { ReviewLedger } from "../src/ledger.ts";
+import { ManagedSkillStore } from "../src/store.ts";
+import type { SkillProposal } from "../src/store.ts";
+import { isolatedSession } from "./support.ts";
+
+async function fixture(globalOriginal = false) {
+  let original!: SkillProposal, alternative!: SkillProposal, exclude = false;
+  let response: unknown, reviews = 0, seenBrief = ""; let sourceHook: (() => Promise<void>) | undefined;
+  const f = await isolatedSession("fake", { projectRoot: cwd => cwd,
+    skillSources: async request => (await sourceHook?.(), { version: 1, cwd: request.cwd, projectTrusted: request.projectTrusted, diagnostics: [],
+      skills: exclude ? [] : loadSkillsFromDir({ dir: join(request.cwd, ".pi/skills"), source: globalOriginal ? "user" : "project" }).skills }),
+    streamReply: context => {
+      const last = context.messages.at(-1);
+      if (last?.role === "user" && typeof last.content === "string" && last.content.includes("Effective evidence:")) {
+        reviews++; seenBrief = last.content;
+        return { stopReason: "stop", content: [{ type: "text", text: JSON.stringify(response ?? { skills: [{ proposal: original, managedAlternative: alternative }] }) }] };
+      }
+      const i = context.messages.findLastIndex(m => m.role === "user");
+      const results = context.messages.slice(i + 1).filter(m => m.role === "toolResult");
+      if (!results.length) return { stopReason: "toolUse", content: [{ type: "toolCall", id: "s", name: "hermes_skill_search", arguments: { query: "manual-rule", sourceKind: "user-installed" } }] };
+      const data = JSON.parse(results.at(-1)!.content.filter(p => p.type === "text").map(p => p.text).join(""));
+      if (results.at(-1)!.toolName === "hermes_skill_search") {
+        original.id = data.items[0].id;
+        return { stopReason: "toolUse", content: [{ type: "toolCall", id: "v", name: "hermes_skill_view", arguments: { id: original.id! } }] };
+      }
+      original.baseVersion = data.version;
+      return { stopReason: "stop", content: [{ type: "text", text: "Original inspected; no modification yet." }] };
+    } });
+  const path = join(f.cwd, ".pi/skills/manual-rule/SKILL.md"), before = "---\nname: manual-rule\ndescription: Installed release rule\n---\n\nOld original.\n";
+  await mkdir(dirname(path), { recursive: true }); await writeFile(path, before);
+  const entryId = f.session.sessionManager.appendMessage({ role: "user", content: "Correction: review CI and code together.", timestamp: 1 });
+  original = { action: "update", scope: globalOriginal ? "global" : "project", ...(globalOriginal ? { crossProject: "Existing global skill remains global; alternative lesson is project-specific." } : {}), name: "manual-rule", description: "Installed release rule", body: "Corrected original.", reason: "Reusable correction", evidence: [{ entryId, quote: "review CI and code together" }] };
+  alternative = { action: "create", scope: "project", name: "manual-rule-note", description: "manual-rule project CI review", body: "Independent lesson: review CI and code together.", reason: "Preserve original", evidence: original.evidence };
+  await f.session.prompt("Inspect installed rule");
+  const permissions = new InstalledPermissions(f.agentDir), store = new ManagedSkillStore(f.agentDir, f.cwd), ledger = new ReviewLedger(f.agentDir);
+  const bind = async (choice?: string, onChoice?: () => Promise<void>) => {
+    const ui = f.session.extensionRunner.createCommandContext().ui;
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, editor: async (_t, text) => text,
+      select: async (_t, options) => { if (options.includes("Review pending changes now")) return "Review pending changes now"; await onChoice?.(); return choice; },
+      notify: () => {}, setStatus: () => {}, setWidget: () => {} } });
+  };
+  const run = async () => {
+    let resolve!: () => void; const done = new Promise<void>(r => { resolve = r; });
+    const stop = f.onReviewState(state => { if (state.records.some(r => !["admitted", "running"].includes(r.status))) resolve(); });
+    const snapshot = captureSnapshot(f.session.extensionRunner.createCommandContext());
+    await f.session.prompt("/hermes-review run");
+    await Promise.race([done, new Promise<never>((_, reject) => { const t = setTimeout(() => reject(new Error("review did not finish")), 3000); t.unref(); })]); stop();
+    const record = (await ledger.inspect()).records[0]!;
+    const call = f.calls.find(c => c.messages.at(-1)?.role === "user" && JSON.stringify(c.messages.at(-1)).includes("Effective evidence:"))!;
+    assert.deepEqual(call.messages.slice(0, -1), snapshot.messages, "policy/candidate space never trims the effective snapshot");
+    assert.equal(reviews, 1); assert.equal(record.usage?.totalTokens, 128);
+    assert.equal(record.reservation.input, Buffer.byteLength(JSON.stringify(call.messages)), "all policy/candidate bytes charged in original admission");
+    return record;
+  };
+  return { ...f, path, before, permissions, store, ledger, bind, run, original, alternative,
+    setSourceHook: (hook: () => Promise<void>) => { sourceHook = hook; },
+    setResponse: (value: unknown) => { response = value; }, exclude: () => { exclude = true; }, briefing: () => seenBrief,
+    readNote: async (id: string) => {
+      await f.session.prompt("/hermes-skills refresh");
+      const tool = f.session.agent.state.tools.find(t => t.name === "hermes_skill_view")!;
+      const result = await tool.execute("note-version", { id });
+      f.session.sessionManager.appendMessage({ role: "toolResult", toolCallId: "note-version", toolName: "hermes_skill_view", content: result.content, details: result.details, isError: false, timestamp: Date.now() });
+      return result.details;
+    } };
+}
+
+for (const policy of ["ask", "allow", "notes-only"] as InstalledPolicy[]) for (const whitelist of [false, true]) {
+  test(`one review envelope selects one destination: ${policy}, allowlist=${whitelist}`, async () => {
+    const f = await fixture();
+    try {
+      await f.permissions.setPolicy(policy); if (whitelist) await f.permissions.addAllowlist(f.original.id!);
+      const record = await f.run();
+      const direct = whitelist || policy === "allow";
+      assert.equal(record.status, policy === "ask" && !whitelist ? "pending" : "saved");
+      assert.equal((await readFile(f.path, "utf8")) !== f.before, direct);
+      assert.equal((await f.store.catalog()).length, !whitelist && policy === "notes-only" ? 1 : 0);
+      assert.equal(record.saved.length, record.status === "saved" ? 1 : 0);
+      assert.ok(f.briefing().includes("Current installed-write policy"));
+      assert.equal(await f.store.ownership(f.path, "project"), undefined);
+    } finally { f.session.dispose(); }
+  });
+}
+
+for (const [choice, direct, note] of [["Allow this change once", true, false], ["Always allow changes to this skill", true, false],
+  ["Do not modify this time", false, false], ["Keep original; save as Hermes note", false, true], [undefined, false, false]] as const) {
+  test(`safe real-TUI-mode pending decision selects only one path: ${choice ?? "cancel"} (UI callback contract, not native terminal)`, async () => {
+    const f = await fixture();
+    try {
+      const record = await f.run(); assert.equal(record.status, "pending");
+      const accounting = JSON.stringify((await f.ledger.inspect()).records), calls = f.calls.length;
+      await f.bind(choice);
+      assert.equal((await readFile(f.path, "utf8")) !== f.before, direct);
+      assert.equal((await f.store.catalog()).length, note ? 1 : 0);
+      assert.equal(f.calls.length, calls, "safe pickup needs no review or foreground call");
+      assert.equal(JSON.stringify((await f.ledger.inspect()).records), accounting, "local choice never rewrites original accounting/terminal");
+      assert.equal((await f.permissions.read()).allowlist.length, choice?.startsWith("Always") ? 1 : 0);
+      assert.equal((await f.permissions.status()).pending.length, choice === undefined ? 1 : 0);
+    } finally { f.session.dispose(); }
+  });
+}
+
+for (const choice of ["Always allow changes to this skill", "Do not modify this time", "Keep original; save as Hermes note"] as const) {
+  for (const lifecycle of ["input", "model"] as const) test(`pending ${choice} cancelled during preparation by ${lifecycle} has no grant/removal/message`, async () => {
+    const f = await fixture();
+    try {
+      if (!choice.startsWith("Always")) f.setResponse({ skills: [f.original] });
+      await f.run(); const calls = f.calls.length;
+      const statePath = join(f.agentDir, "hermes-skills/provenance/permissions/state.json"), before = await readFile(statePath, "utf8");
+      let fired = false;
+      await f.bind(choice, async () => f.setSourceHook(async () => {
+        if (fired) return; fired = true;
+        if (lifecycle === "input") await f.session.extensionRunner.emitInput("New foreground task", undefined, "interactive");
+        else await f.session.extensionRunner.emit({ type: "model_select", model: f.runtime.getModel("hermes-test", "fake")!, previousModel: undefined, source: "set" });
+      }));
+      assert.equal(fired, true); assert.equal(await readFile(statePath, "utf8"), before);
+      assert.equal(await readFile(f.path, "utf8"), f.before); assert.deepEqual(await f.store.catalog(), []);
+      assert.ok(!JSON.stringify(f.session.sessionManager.getEntries()).includes('"customType":"hermes.skill.redirect"'));
+      assert.equal(f.calls.length, calls); assert.equal((await f.permissions.status()).pending.length, 1);
+    } finally { f.session.dispose(); }
+  });
+}
+
+for (const defer of ["Later", "editor cancel", "transient failure"] as const) test(`${defer} pending pickup is reconsidered in next safe round without another analysis`, async () => {
+  const f = await fixture();
+  try {
+    await f.run(); const calls = f.calls.length; let gates = 0, first = true;
+    const ui = f.session.extensionRunner.createCommandContext().ui;
+    if (defer === "transient failure") f.setSourceHook(async () => { if (first) { first = false; throw new Error("fixture transient source failure"); } });
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui,
+      select: async (_t, options) => options.includes("Review pending changes now") ? (++gates === 1 && defer === "Later" ? "Later" : "Review pending changes now") : "Allow this change once",
+      editor: async (_t, text) => { if (first && defer === "editor cancel") { first = false; return undefined; } return text; },
+      notify: () => {}, setStatus: () => {}, setWidget: () => {},
+    } });
+    assert.equal(gates, 1); assert.equal(await readFile(f.path, "utf8"), f.before);
+    await f.session.extensionRunner.emitInput("Next safe task", undefined, "interactive");
+    assert.equal(gates, 2); assert.equal((await f.permissions.status()).pending.length, 0);
+    assert.notEqual(await readFile(f.path, "utf8"), f.before); assert.equal(f.calls.length, calls);
+    assert.equal((await f.ledger.inspect()).records.length, 1);
+  } finally { f.session.dispose(); }
+});
+
+for (const refusal of ["reject", "editor cancel"] as const) test(`same-target batch ${refusal} prompts once per round and keeps unvisited rows`, async () => {
+  const f = await fixture();
+  try {
+    f.setResponse({ skills: [f.original, { ...f.original, body: "Second correction.", reason: "Separate same-target decision" }] });
+    await f.run(); const calls = f.calls.length, accounting = JSON.stringify((await f.ledger.inspect()).records);
+    const secondId = (await f.permissions.read()).pending[1]!.id;
+    let gates = 0, editors = 0, decisions = 0;
+    const ui = f.session.extensionRunner.createCommandContext().ui;
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui,
+      select: async (_t, options) => options.includes("Review pending changes now") ? (++gates, "Review pending changes now") :
+        (++decisions === 1 ? "Do not modify this time" : "Allow this change once"),
+      editor: async (_t, text) => (++editors === 1 && refusal === "editor cancel" ? undefined : text),
+      notify: () => {}, setStatus: () => {}, setWidget: () => {},
+    } });
+    assert.equal(gates, 1); assert.equal(editors, 1); assert.equal(decisions, refusal === "reject" ? 1 : 0);
+    assert.equal(await readFile(f.path, "utf8"), f.before);
+    assert.equal((await f.permissions.read()).pending.length, refusal === "reject" ? 1 : 2);
+    assert.ok((await f.permissions.read()).pending.some(row => row.id === secondId), "unvisited row must not be deleted");
+    await f.session.extensionRunner.emitInput("Reconsider in next safe round", undefined, "interactive");
+    assert.equal(gates, 2); assert.equal(editors, 2);
+    if (refusal === "editor cancel") {
+      assert.equal(decisions, 1); assert.equal((await f.permissions.read()).pending.length, 1);
+      assert.equal((await f.permissions.read()).pending[0]!.id, secondId);
+      await f.session.extensionRunner.emitInput("Now accept remaining correction", undefined, "interactive");
+      assert.equal(gates, 3); assert.equal(editors, 3);
+    }
+    assert.match(await readFile(f.path, "utf8"), /Second correction/);
+    assert.equal((await f.permissions.read()).pending.length, 0); assert.deepEqual((await f.permissions.read()).allowlist, []);
+    assert.equal(f.calls.length, calls); assert.equal(JSON.stringify((await f.ledger.inspect()).records), accounting);
+  } finally { f.session.dispose(); }
+});
+
+test("rejecting one batch target still processes a different target sharing its evidence", async () => {
+  const f = await fixture();
+  try {
+    const path = join(f.cwd, ".pi/skills/second-rule/SKILL.md"), before = "---\nname: second-rule\ndescription: Second installed rule\n---\n\nOld second rule.\n";
+    await mkdir(dirname(path), { recursive: true }); await writeFile(path, before);
+    await f.session.prompt("/hermes-skills refresh");
+    const search = f.session.agent.state.tools.find(tool => tool.name === "hermes_skill_search")!;
+    const hit = (await search.execute("second-search", { query: "second-rule", sourceKind: "user-installed" })).details.items[0]!;
+    const read = await f.readNote(hit.id);
+    f.setResponse({ skills: [f.original, { ...f.original, id: hit.id, name: "second-rule", baseVersion: read.version,
+      description: "Second installed rule", body: "Corrected second rule.", reason: "Different target, same evidence" }] });
+    const record = await f.run(); assert.equal(record.status, "pending");
+    const calls = f.calls.length; let editors = 0, decisions = 0;
+    const ui = f.session.extensionRunner.createCommandContext().ui;
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui,
+      select: async (_t, options) => options.includes("Review pending changes now") ? "Review pending changes now" :
+        (++decisions === 1 ? "Do not modify this time" : "Allow this change once"),
+      editor: async (_t, text) => { editors++; return text; }, notify: () => {}, setStatus: () => {}, setWidget: () => {},
+    } });
+    assert.equal(editors, 2); assert.equal(decisions, 2); assert.equal(await readFile(f.path, "utf8"), f.before);
+    assert.match(await readFile(path, "utf8"), /Corrected second rule/); assert.equal((await f.permissions.read()).pending.length, 0);
+    assert.deepEqual((await f.permissions.read()).allowlist, []); assert.equal(f.calls.length, calls);
+    assert.equal((await f.ledger.inspect()).records.length, 1);
+  } finally { f.session.dispose(); }
+});
+
+test("interrupted multirow pickup does not reenter UI and unvisited rows return next safe round", async () => {
+  const f = await fixture(); let releaseEditor!: () => void;
+  try {
+    f.setResponse({ skills: [f.original, { ...f.original, body: "Second correction.", reason: "Separate pending decision" }] });
+    await f.run(); const calls = f.calls.length; let gates = 0, editors = 0, active = 0, maxActive = 0;
+    let started!: () => void; const opened = new Promise<void>(resolve => { started = resolve; });
+    const ignoredAbort = new Promise<void>(resolve => { releaseEditor = resolve; });
+    const ui = f.session.extensionRunner.createCommandContext().ui;
+    const binding = f.session.bindExtensions({ mode: "tui", uiContext: { ...ui,
+      select: async (_t, options) => options.includes("Review pending changes now") ? (++gates, "Review pending changes now") : "Allow this change once",
+      editor: async () => {
+        active++; maxActive = Math.max(maxActive, active); editors++;
+        try { if (editors === 1) { started(); await ignoredAbort; } return undefined; }
+        finally { active--; }
+      }, notify: () => {}, setStatus: () => {}, setWidget: () => {},
+    } });
+    await opened;
+    await f.session.extensionRunner.emitInput("Interrupt this batch", undefined, "interactive");
+    await f.session.extensionRunner.emitInput("Another input while old editor still owns UI", undefined, "interactive");
+    assert.equal(editors, 1); assert.equal(gates, 1); assert.equal(active, 1);
+    releaseEditor(); await binding;
+    assert.equal((await f.permissions.status()).pending.length, 2);
+    await f.session.extensionRunner.emitInput("Later safe round", undefined, "interactive");
+    assert.equal(gates, 2); assert.equal(editors, 2); assert.equal(maxActive, 1);
+    assert.equal((await f.permissions.status()).pending.length, 2, "same-target cancelled and unvisited rows remain pending");
+    assert.equal(await readFile(f.path, "utf8"), f.before); assert.equal(f.calls.length, calls);
+  } finally { releaseEditor?.(); f.session.dispose(); }
+});
+
+test("valid Always grant survives subsequent version conflict; committed write cleanup survives later input", async () => {
+  for (const after of ["grant", "write"] as const) {
+    const f = await fixture();
+    try {
+      await f.run(); const calls = f.calls.length; let fired = false;
+      f.setSourceHook(async () => {
+        if (fired) return;
+        if (after === "grant" && (await f.permissions.read()).allowlist.length) { fired = true; await writeFile(f.path, f.before + "Concurrent version edit\n"); }
+        if (after === "write" && await readFile(f.path, "utf8") !== f.before) { fired = true; await f.session.extensionRunner.emitInput("New task after commit", undefined, "interactive"); }
+      });
+      await f.bind(after === "grant" ? "Always allow changes to this skill" : "Allow this change once");
+      assert.equal(fired, true); assert.equal((await f.permissions.read()).allowlist.length, after === "grant" ? 1 : 0);
+      assert.equal((await f.permissions.status()).pending.length, after === "grant" ? 1 : 0);
+      assert.match(await readFile(f.path, "utf8"), after === "grant" ? /Concurrent version edit/ : /Corrected original/);
+      assert.equal(f.calls.length, calls);
+    } finally { f.session.dispose(); }
+  }
+});
+
+test("notes-only can save a note from a readable pinned/read-only original; excluded original cannot be laundered", async () => {
+  for (const protection of ["read-only", "pin", "excluded"] as const) {
+    const f = await fixture();
+    try {
+      await f.permissions.setPolicy("notes-only");
+      if (protection === "read-only") await chmod(f.path, 0o444);
+      if (protection === "pin") await f.session.prompt(`/hermes-skills pin ${f.original.id}`);
+      if (protection === "excluded") f.exclude();
+      await f.run();
+      assert.equal(await readFile(f.path, "utf8"), f.before);
+      assert.equal((await f.store.catalog()).length, protection === "excluded" ? 0 : 1);
+    } finally { f.session.dispose(); }
+  }
+});
+
+test("missing alternative returns unsaved continuation; invalid alternative rejects before either destination writes", async () => {
+  for (const invalid of [false, true]) {
+    const f = await fixture();
+    try {
+      await f.permissions.setPolicy("notes-only");
+      f.setResponse({ skills: invalid ? [{ proposal: f.original, managedAlternative: { ...f.alternative, evidence: [] } }] : [f.original] });
+      const record = await f.run(); assert.equal(record.status, invalid ? "failed" : "pending");
+      assert.deepEqual(record.saved, []); assert.equal(await readFile(f.path, "utf8"), f.before); assert.deepEqual(await f.store.catalog(), []);
+      if (!invalid) assert.match(record.reason!, /redirect/);
+    } finally { f.session.dispose(); }
+  }
+});
+
+test("an invalid original candidate rejects the whole envelope batch before any earlier note writes", async () => {
+  const f = await fixture();
+  try {
+    f.setResponse({ skills: [f.alternative, { proposal: { ...f.original, baseVersion: "0".repeat(64) }, managedAlternative: { ...f.alternative, name: "alternative-two" } }] });
+    const record = await f.run(); assert.equal(record.status, "failed");
+    assert.deepEqual(await f.store.catalog(), []); assert.equal(await readFile(f.path, "utf8"), f.before);
+    assert.deepEqual(record.saved, []);
+  } finally { f.session.dispose(); }
+});
+
+test("global installed original does not promote its project-specific lesson or copy its identity", async () => {
+  const f = await fixture(true);
+  try {
+    assert.ok(f.original.id!.startsWith("global:"));
+    await f.permissions.setPolicy("notes-only");
+    const record = await f.run(); assert.equal(record.status, "saved");
+    const note = (await f.store.catalog())[0]!; assert.equal(note.scope, "project");
+    assert.ok(note.id.startsWith("project:")); assert.notEqual(note.id, f.original.id);
+    assert.equal(await readFile(f.path, "utf8"), f.before);
+  } finally { f.session.dispose(); }
+});
+
+test("background pending waits for idle user input, then commits reviewed diff without a second analysis", async () => {
+  const f = await fixture();
+  try {
+    await f.bind("Allow this change once");
+    const record = await f.run(); assert.equal(record.status, "pending");
+    assert.equal(await readFile(f.path, "utf8"), f.before, "review cannot interrupt foreground with a decision");
+    await f.session.prompt("Next ordinary task: inspect the rule");
+    assert.notEqual(await readFile(f.path, "utf8"), f.before);
+    assert.equal((await f.permissions.status()).pending.length, 0);
+    assert.equal((await f.ledger.inspect()).records.length, 1);
+  } finally { f.session.dispose(); }
+});
+
+test("unrelated flat lessons sharing evidence remain independent; no grouping heuristic", async () => {
+  const f = await fixture();
+  try {
+    f.setResponse({ skills: [f.alternative, { ...f.alternative, name: "review-checklist", body: "Second independent lesson: identify flaky CI separately." }] });
+    const record = await f.run(); assert.equal(record.status, "saved"); assert.equal(record.saved.length, 2);
+    assert.equal((await f.store.catalog()).length, 2); assert.equal(await readFile(f.path, "utf8"), f.before);
+  } finally { f.session.dispose(); }
+});
+
+test("candidate metadata alone never authorizes overwrite; an actual note read enables same-ID correction", async () => {
+  for (const read of [false, true]) {
+    const f = await fixture();
+    try {
+      const snapshot = captureSnapshot(f.session.extensionRunner.createCommandContext());
+      const first = await f.store.submitModel(f.alternative, snapshot, "seed-note");
+      await f.permissions.setPolicy("notes-only");
+      if (read) await f.readNote(first.id);
+      f.setResponse({ skills: [{ proposal: f.original, managedAlternative: { ...f.alternative, action: "update", id: first.id,
+        baseVersion: first.version, body: "Correction: require code review in addition to CI." } }] });
+      const record = await f.run(); assert.equal(record.status, read ? "saved" : "failed");
+      const notes = await f.store.catalog(); assert.equal(notes.length, 1); assert.equal(notes[0]!.id, first.id);
+      assert.equal(notes[0]!.version !== first.version, read);
+      assert.equal(await readFile(f.path, "utf8"), f.before);
+      if (read) assert.ok(f.briefing().includes(first.id), "local metadata candidate is provided in the single review");
+    } finally { f.session.dispose(); }
+  }
+});test("pending version/source invalidation saves neither path, including fourth choice", async () => {
+  for (const invalid of ["version", "excluded"] as const) {
+    const f = await fixture();
+    try {
+      await f.run();
+      if (invalid === "version") await writeFile(f.path, f.before + "Manual new version\n"); else f.exclude();
+      const bytes = await readFile(f.path, "utf8"); await f.bind("Keep original; save as Hermes note");
+      assert.equal(await readFile(f.path, "utf8"), bytes); assert.deepEqual(await f.store.catalog(), []);
+      assert.equal((await f.permissions.status()).pending.length, 1);
+    } finally { f.session.dispose(); }
+  }
+});

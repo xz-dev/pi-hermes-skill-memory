@@ -20,11 +20,12 @@ function correction(text: string) {
     reason: "Reusable project release ordering", evidence: [{ entryId: source.entryId, quote: "build before checking the release manifest" }] }] });
 }
 
-test("enabled learning after ten tool-bearing turns saves once, then a new task searches, reads and follows the correction", async () => {
+test("default-on learning after ten tool-bearing turns saves once, then a new task searches, reads and follows the correction", async () => {
   let reviewCalls = 0, resolveSaved!: () => void;
   const saved = new Promise<void>(resolve => { resolveSaved = resolve; });
   const trace: string[] = [];
   const f = await isolatedSession("fake", {
+    projectRoot: cwd => cwd,
     setup: pi => pi.registerTool({ name: "project_check", label: "Check project", description: "Synthetic project check; no disk execution",
       parameters: Type.Object({}), annotations: { readOnlyHint: true },
       execute: async () => ({ content: [{ type: "text", text: "Synthetic observation" }], details: undefined }) }),
@@ -54,9 +55,9 @@ test("enabled learning after ten tool-bearing turns saves once, then a new task 
   });
   try {
     const ui = f.session.extensionRunner.createCommandContext().ui;
-    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, input: async () => f.cwd,
-      setStatus: (key, text) => { if (key === "hermes-review" && text?.includes("| saved")) resolveSaved(); } } });
-    await f.session.prompt("/hermes-review enable");
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, input: async () => f.cwd } });
+    f.onReviewState(state => { if (state.records.at(-1)?.status === "saved") resolveSaved(); });
+    assert.equal((await new ReviewLedger(f.agentDir).inspect()).autoEnabled, undefined, "fresh state has no saved choice");
     await f.session.prompt("For this repo, build before checking the release manifest. Perform ten synthetic checks.");
     assert.equal(trace.filter(t => t === "project_check").length, 10);
     await Promise.race([saved, new Promise<never>((_, reject) => {
@@ -85,6 +86,7 @@ async function negativeScenario(kind: "budget" | "source" | "cancel") {
   const late = new Promise<void>(resolve => { reconciled = resolve; });
   let cancelled = false;
   const f = await isolatedSession("fake", {
+    projectRoot: cwd => cwd,
     setup: pi => pi.registerTool({ name: "project_check", label: "Check project", description: "Synthetic check",
       parameters: Type.Object({}), annotations: { readOnlyHint: true },
       execute: async () => ({ content: [{ type: "text", text: "Observed" }], details: undefined }) }),
@@ -109,18 +111,16 @@ async function negativeScenario(kind: "budget" | "source" | "cancel") {
     },
   });
   const ui = f.session.extensionRunner.createCommandContext().ui;
-  await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, input: async () => f.cwd,
-    setStatus: (key, value) => {
-      if (key === "hermes-review" && (value?.includes("skipped-budget") || value?.includes("PAUSED source-unavailable") || value?.includes("cancelled"))) {
-        if (value.includes("cancelled")) cancelled = true;
-        settled();
-      }
-    },
-    setWidget: (key, value) => {
-      if (key === "hermes-review" && cancelled && Array.isArray(value) && !value.join().includes("usage UNKNOWN")) reconciled();
-    },
-  } });
-  await f.session.prompt("/hermes-review enable");
+  await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, input: async () => f.cwd } });
+  f.onReviewState(state => {
+    const record = state.records.at(-1);
+    if (record?.reason === "skipped-budget" || state.paused === "source-unavailable" || record?.status === "cancelled") {
+      if (record?.status === "cancelled") cancelled = true;
+      settled();
+    }
+    if (cancelled && record?.status === "cancelled" && !record.usageUnknown) reconciled();
+  });
+  assert.equal((await new ReviewLedger(f.agentDir).inspect()).autoEnabled, undefined);
   return { ...f, reviewStarted, release, terminal, late, reviewCalls: () => reviews };
 }
 

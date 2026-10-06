@@ -1,0 +1,12 @@
+salt = "uHYQYwmBaWhdnYuu"
+previous_id = "611a41c83cdc7281e429c730a3d88183646872c020be11b04067dd7746476eae"
+timestamp = "2026-10-05T17:49:07.65253404Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["24d7282192d34f7874951e1f58a4d05457bb3696058223b696e1206bcceacfde"]
+link_id = "ab521dc598d96ef0b14c17c39c6b5333"
+reason = "notebook:test/review-destinations.test.ts -> notebook:evidence:Policy and review acceptance: Destination tests gained six source-preparation cancellation cases, exact permission-byte preservation, guarded reject/redirect, safe next-round pickup/ignored-abort serialization and valid Always/version-conflict/committed-cleanup distinctions. Existing evidence text remains original matrix checkpoint; current repair receipts specify additional cases."
+stop = false

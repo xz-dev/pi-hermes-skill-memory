@@ -1,0 +1,16 @@
+salt = "bcTn2xG9YNlQANBa"
+previous_id = "bc70502e99984d8216b596887e03a93c006e08abbe8d24a7f017c780d6a68f76"
+timestamp = "2026-10-05T15:01:21.512977162Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "083e4f11c4af1b674787b45c7e642f06"
+
+[payload]
+mount = "file:9278674da92deac403344774124d51aa4e5c3059c0832da347fd09596a48b645"
+path = "test/status-display.test.ts"
+reason = "valid-unset vs absent state; command-only TUI across faults/reload; SDK callback UI is not native terminal evidence."
+
+[payload.position]
+end = "3043"
+mode = "text"
+start = "257"

@@ -1,0 +1,12 @@
+salt = "R2u9oq6cyGJFlevC"
+previous_id = "d6e99217a097e6f68717531f0174faeb6af60529294920f9a4b58e2ffbc4b4a3"
+timestamp = "2026-10-05T15:10:31.799602908Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e1b89b73b5fe9643b4e72e7b70c28e1e6f7932bbdb1bbf178e266cd06fafb6a"]
+link_id = "6b2cbec6f9b444db4686467da5175284"
+reason = "implementation:entry → notebook:native-fixture: original-candidate read/version/source preflight added only before envelope batch side effects. Existing direct/redirect/public-source and SDK contracts stay unchanged; target current tests/native/evidence still describe guarded production path. Fresh 208-test gate retains legacy assertions."
+stop = false

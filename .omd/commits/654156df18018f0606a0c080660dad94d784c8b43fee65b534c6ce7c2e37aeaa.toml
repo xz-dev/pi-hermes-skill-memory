@@ -1,0 +1,15 @@
+salt = "OGuRBOE9DdXBxTuU"
+previous_id = "ee4475739987ea3b94354b577f50ca20615f99fb9d6c1ff6ac52ad97b3460de7"
+timestamp = "2026-10-05T14:54:01.587264933Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "45bde8c0a6be114b68269f3263d9121d"
+
+[payload]
+path = "src/ledger.ts"
+reason = "Design §5 changes only valid unset switch default; absent/unreadable state blocks. Request/daily/concurrency/unknown/late accounting invariants unchanged and fee suite verifies them."
+
+[payload.position]
+end = "12506"
+mode = "text"
+start = "0"

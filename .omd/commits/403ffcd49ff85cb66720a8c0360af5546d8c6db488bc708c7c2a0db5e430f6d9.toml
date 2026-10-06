@@ -1,0 +1,12 @@
+salt = "Ek1PnaoPStGExRgX"
+previous_id = "0759f1c65def7877288f09d94246d4d1cdb51ec5f0ce4da1349252c921efbfc6"
+timestamp = "2026-10-06T04:22:45.976177032Z"
+schema = "omd.commit/3"
+kind = "rename"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/enable-autonomous-skill-notebook/specs/skill-reflection/spec.md"
+reason = ""
+source = "openspec/changes/enable-autonomous-skill-notebook/specs/skill-reflection/spec.md"
+target = "openspec/changes/archive/2026-10-06-enable-autonomous-skill-notebook/specs/skill-reflection/spec.md"

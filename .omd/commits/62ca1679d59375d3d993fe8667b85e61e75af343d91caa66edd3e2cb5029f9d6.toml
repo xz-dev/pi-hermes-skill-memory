@@ -1,0 +1,9 @@
+salt = "3ElnC8wIAuN5039A"
+previous_id = "070564ce2ded876ad45b8bc1cec426751816f7745ec59ef2deb221e2973d4606"
+timestamp = "2026-10-05T15:01:15.689739665Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "openspec/changes/enable-autonomous-skill-notebook/specs/skill-discovery/spec.md"

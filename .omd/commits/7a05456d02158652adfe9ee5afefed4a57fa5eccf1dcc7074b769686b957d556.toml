@@ -1,0 +1,12 @@
+salt = "AOVpCOcv6M5Fvfto"
+previous_id = "71dd5d771b945eccacffe35f7e1a03b5e8a5e1d186b1fad9b9bc7e68572136e8"
+timestamp = "2026-10-05T14:58:27.215626362Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["3843ded6924099ef6b7343b54518a41f6fd6322ef77e2d1e9cf6b86a7a5fda01"]
+link_id = "6af1748b928c09e5a5354b9d53a15518"
+reason = "test:archive → evidence:maintenance: Archive/member/neighbor/hand-edit/partial recovery guarantees stay unchanged; current permission policy adds blocking on notes-only and per-ID grant precedence, not fictional redirected lifecycle success. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

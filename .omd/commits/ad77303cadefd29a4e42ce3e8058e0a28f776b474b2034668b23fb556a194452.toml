@@ -1,0 +1,15 @@
+salt = "Po0Xg4uAvuF3BJC0"
+previous_id = "6f7bc6bad34994edf63b0136392f01d57099ffd3be8099f83470727493b06bb7"
+timestamp = "2026-10-05T17:46:13.969822099Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "68db51016045d0f50d041eef50f73d93"
+
+[payload]
+path = "test/rollback.test.ts"
+reason = "Managed maintenance now explicitly verifies declined exact-diff confirmation leaves body, support and introduced assets unchanged, no recovery writes; existing accepted/member-removal/reapplication/partial recovery/hand-edit and installed matrix preserved. Native editor cancel/confirm decline/accept also independently passed."
+
+[payload.position]
+end = "13797"
+mode = "text"
+start = "0"

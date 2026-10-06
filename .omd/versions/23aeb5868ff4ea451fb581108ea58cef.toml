@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [35, 174, 181, 134, 143, 244, 234, 69, 31, 181, 129, 16, 142, 165, 140, 239]
+len = 67858
+sha256 = "fede9c1c9a91c413aa85912b3f1512051f934c3948f087d587bde387fce5b11e"
+encoding = "utf-8"
+content_file = "content/fede9c1c9a91c413aa85912b3f1512051f934c3948f087d587bde387fce5b11e"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "src/index.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "src/index.ts"

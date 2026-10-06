@@ -64,14 +64,12 @@ async function fixture() {
   }; } });
   const notices: string[] = [], ui = f.session.extensionRunner.createCommandContext().ui;
   const tui: typeof ui = { ...ui, editor: async (_title, value) => { diffs.push(value ?? ""); return value?.trim(); }, confirm: async () => true, notify: text => notices.push(text),
-    setStatus: (key, value) => {
-      statuses.set(key, value);
-      if (key === "hermes-review" && settled) void new ReviewLedger(f.agentDir).inspect().then(state => {
-        const record = state.records.at(-1);
-        const matched = wanted === "usage-known" ? !!record?.usage && !record.usageUnknown : !wanted || record?.reason?.includes(wanted) || record?.status === wanted;
-        if (record && !["running", "admitted"].includes(record.status) && matched) settled?.();
-      });
-    }, setWidget: () => {} };
+    setStatus: (key, value) => { statuses.set(key, value); }, setWidget: () => {} };
+  f.onReviewState(state => {
+    const record = state.records.at(-1);
+    const matched = wanted === "usage-known" ? !!record?.usage && !record.usageUnknown : !wanted || record?.reason?.includes(wanted) || record?.status === wanted;
+    if (record && !["running", "admitted"].includes(record.status) && matched) settled?.();
+  });
   await f.session.bindExtensions({ mode: "tui", uiContext: tui });
   const command = async (text: string) => { notices.length = 0; await f.session.prompt(`/hermes-skills ${text}`); return JSON.parse(notices.at(-1)!); };
   const entryId = f.session.sessionManager.appendMessage({ role: "user", content: "Build before manifest check", timestamp: 1 });
@@ -181,7 +179,7 @@ for (const stage of ["keep-member", "archive-member"]) test(`curation resumes re
       assert.equal(child, undefined); await assert.rejects(stat(absorbedReference), /ENOENT/);
       assert.equal((await new SkillArchives(f.agentDir, f.cwd).list())[0]!.state, "archiving");
     }
-    await f.session.reload(); assert.match(f.statuses.get("hermes-maintenance") ?? "", /unresolved/);
+    await f.session.reload(); assert.ok((await f.command("status")).maintenance.length > 0);
     await assert.rejects(f.store.assertReady(), /store-recovery-required/);
     f.onSources(); f.exclude();
     if (child) await f.session.prompt(`/hermes-review recover ${child.key} commit`);
@@ -190,7 +188,7 @@ for (const stage of ["keep-member", "archive-member"]) test(`curation resumes re
     if (stage === "keep-member") assert.equal(await readFile(reference, "utf8"), "Changed keep reference");
     assert.equal(f.calls.length, 1); assert.deepEqual((await ledger.inspect()).records, prior);
     assert.equal((await f.store.history(f.keep.id)).items.filter(row => row.requestId === resumed.requestId).length, 1);
-    assert.equal(f.statuses.get("hermes-maintenance"), undefined);
+    assert.deepEqual((await f.command("status")).maintenance, []);
   } finally { f.session.dispose(); }
 });
 

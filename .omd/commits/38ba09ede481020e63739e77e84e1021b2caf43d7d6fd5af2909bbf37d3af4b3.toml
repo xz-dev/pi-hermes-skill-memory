@@ -1,0 +1,12 @@
+salt = "B573oQuurttq8N1L"
+previous_id = "747181a13edb4474359a8c60a2d7f25d92ad7059972a1fabb32d88830fa2537c"
+timestamp = "2026-10-05T14:58:28.494530841Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["ac4d3bc724c5ac506f6abfef6b293e13a59f2edbe4e89485ec0f1fc8018bd7f5"]
+link_id = "ac8fb17190feacb1fa158ab0e3dc8c7a"
+reason = "implementation:ui → evidence:tui: Historical failure-panel receipt is explicitly historical in its page; current command-only TUI, four choices/settings/usage proven by notebook-evidence and native captures, not relabeled old screenshots. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

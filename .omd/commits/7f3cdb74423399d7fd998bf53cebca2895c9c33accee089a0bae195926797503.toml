@@ -1,0 +1,15 @@
+salt = "PPAwvoLBue7xWS9y"
+previous_id = "f6283ea1e4d431e578740f9986d27f67bd71a3345f00208719820a84ad043194"
+timestamp = "2026-10-05T14:54:02.71995695Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "f287746001502b5bbedc7030078e6a37"
+
+[payload]
+path = "test/support.ts"
+reason = "Quiet baseline uses durable ledger publication rather than statusbar as completion oracle; isolated official SDK and fake provider remain no-network, all state under /var/tmp."
+
+[payload.position]
+end = "5872"
+mode = "text"
+start = "0"

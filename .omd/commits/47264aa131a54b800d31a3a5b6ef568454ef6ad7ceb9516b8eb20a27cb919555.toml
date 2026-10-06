@@ -1,0 +1,12 @@
+salt = "UU6OtGFvecbKSAWN"
+previous_id = "343fbddd0b1193b2086a794b06758b69f3c9f218d81a4c40a0f88cc92f8383e1"
+timestamp = "2026-10-05T15:10:31.353252153Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e1b89b73b5fe9643b4e72e7b70c28e1e6f7932bbdb1bbf178e266cd06fafb6a"]
+link_id = "3c290d9ee89f2cdf2d309a8fd20c8d17"
+reason = "test:bootstrap → evidence:api: propagated entry preflight changes do not alter official public API/source-provider fixture boundaries. Actual imports/CLI fixtures unchanged; tests still exercise trust/exclusion, not personal installation."
+stop = false

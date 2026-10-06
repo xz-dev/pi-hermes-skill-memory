@@ -1,0 +1,12 @@
+salt = "HSVyRC312FAlrSDl"
+previous_id = "8e96a724caed778fa0489ed491889e65fd6ee765d03d5b39adb981d66ae5d81a"
+timestamp = "2026-10-05T17:49:05.720769084Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2e17000370d166561054d75cd2f9316673555eb0f1df9ea02bd9b74c251cf8e3"]
+link_id = "6b2cbec6f9b444db4686467da5175284"
+reason = "implementation:entry -> notebook:native-fixture: Same deterministic native fixture loads corrected entry. Actual targeted PTY passed pending Later/cancel/Always and managed historical rollback decline/accept. No fixture code or model/network behavior change; fixture seed is local setup, not claimed background generation."
+stop = false

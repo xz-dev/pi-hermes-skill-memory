@@ -1,0 +1,15 @@
+salt = "n2ZRvM8wFUI9c6iK"
+previous_id = "c8b5cdeccdb091d6f6601b74bb3c6bbddb932dc8c8d2ca478c8c25e5d5ade9e8"
+timestamp = "2026-10-05T17:46:13.645134762Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "2eab5cb330fc027352fefe6b6611d232"
+
+[payload]
+path = "src/permissions.ts"
+reason = "Optional eligibility predicate checked before preparation, inside state lock after read, and immediately before atomic publication. Applies to allowlist grant and guarded pending enqueue/removal. Cancelled first mutation removes only its own uncommitted initialization sentinel; existing/corrupt state and foreign locks never removed/rebuilt. Unguarded explicit setters/default compatibility retained; capacity, legacy, queued cancellation and publication-byte regressions pass."
+
+[payload.position]
+end = "17962"
+mode = "text"
+start = "0"

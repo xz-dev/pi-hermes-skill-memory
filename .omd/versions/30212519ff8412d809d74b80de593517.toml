@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [48, 33, 37, 25, 255, 132, 18, 216, 9, 215, 75, 128, 222, 89, 53, 23]
+len = 7268
+sha256 = "31223aae26ba65130569c7b232d8940394a7375b8310a24529f695b948fbef5e"
+encoding = "utf-8"
+content_file = "content/31223aae26ba65130569c7b232d8940394a7375b8310a24529f695b948fbef5e"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "openspec/changes/archive/2026-10-06-enable-autonomous-skill-notebook/specs/scoped-skill-management/spec.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "openspec/changes/archive/2026-10-06-enable-autonomous-skill-notebook/specs/scoped-skill-management/spec.md"

@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [104, 219, 81, 1, 96, 69, 208, 245, 13, 4, 30, 239, 80, 247, 61, 147]
+len = 13797
+sha256 = "ceb2d8457d6d2c3554a892e1fe884bb165e86232bc22ddcfe91817db82e84175"
+encoding = "utf-8"
+content_file = "content/ceb2d8457d6d2c3554a892e1fe884bb165e86232bc22ddcfe91817db82e84175"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/rollback.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/rollback.test.ts"

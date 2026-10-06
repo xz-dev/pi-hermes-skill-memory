@@ -1,0 +1,15 @@
+salt = "Rsfx4HqtFKndtFRq"
+previous_id = "0a6c3a4a9db24ed327d0562bee3759f62cbf1193728e19997ae76025799c65f6"
+timestamp = "2026-10-05T15:09:23.544483409Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "9821f9d528e85c3abc8bb2244c118599"
+
+[payload]
+path = "test/review-destinations.test.ts"
+reason = "Approved operation-envelope correction: all original source/read/version candidates now preflight before feedback or any earlier batch write. New regression proves invalid original prevents earlier note save; no batch rollback/fallback added."
+
+[payload.position]
+end = "14142"
+mode = "text"
+start = "6047"

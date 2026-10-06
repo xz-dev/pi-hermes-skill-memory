@@ -1,0 +1,12 @@
+salt = "Ma2CBnLwv8jQitWb"
+previous_id = "f6316bdd4b32ca5b848fde61898d118e0bc9a7c1396f15fdc6bada271d875bf0"
+timestamp = "2026-10-05T14:58:32.927135047Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["94d0394d3bdaf34660f8fd614ba8b665fe8b7a2b3c62306fc2293ddf6b98e53a"]
+link_id = "fdec9f9a079350184009fbc18fe37950"
+reason = "test:cli-sources → fixture:cli-sources: CLI fixture still exercises host source/trust/exclusion restoration; no hidden discovery scan or personal installed-state write. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

@@ -1,0 +1,12 @@
+salt = "rscorMHSh2lfh0M6"
+previous_id = "7a179264ba5619462d86e486412c2d3eda4ae2c9c4745ae91a17e80eba91f562"
+timestamp = "2026-10-05T14:58:24.434306959Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["4a09f50142db8a2565a4330dc2668e2fc79e124431c1598ccb39081810ec3489"]
+link_id = "2c91354a85055a0658422314be835840"
+reason = "implementation:review → implementation:async: awaitWithAbort remains the common cancellation seam: ignored provider/UI/authorization abort cannot keep a writer lock or restore eligibility; alternative path uses same guarded submit, not exception fallback. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

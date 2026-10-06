@@ -1,0 +1,12 @@
+salt = "VShM770F6KJu4C24"
+previous_id = "a647c00cdff4927157eedcd5fcd9efd846654942bec7bef029bb61998637e6d1"
+timestamp = "2026-10-05T14:58:29.378051049Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["ac4d3bc724c5ac506f6abfef6b293e13a59f2edbe4e89485ec0f1fc8018bd7f5"]
+link_id = "b959fab370c83ca8537e5b5573e0a556"
+reason = "implementation:ui → test:lifecycle: session/input/branch/reload retirement still cancels old write eligibility; late completion only settles original accounting. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

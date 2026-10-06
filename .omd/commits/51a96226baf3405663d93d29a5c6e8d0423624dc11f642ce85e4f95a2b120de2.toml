@@ -1,0 +1,16 @@
+salt = "jPqLR5IzfrdYhg92"
+previous_id = "94b0923235520cd0233ab08230daeb9edfbc11dbbb9541153b1ce857aa3310cb"
+timestamp = "2026-10-05T15:01:25.429968754Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "22578fcfd266ef75672d0a3e6d5a750e"
+
+[payload]
+mount = "file:0bcca51da3f7a3c976b289734f89f2bc86e5338c038dd364f016487a625274de"
+path = "docs/notebook-evidence.md"
+reason = "Named actual acceptance receipts and validation boundaries; deterministic/native evidence is not model-quality/billing/memory certification."
+
+[payload.position]
+end = "4463"
+mode = "text"
+start = "2156"

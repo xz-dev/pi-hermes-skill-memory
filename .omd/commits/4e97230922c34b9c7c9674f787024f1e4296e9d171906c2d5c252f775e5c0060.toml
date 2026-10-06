@@ -1,0 +1,12 @@
+salt = "AEF4vMHQRUB8nOXp"
+previous_id = "e321ad7ee7db27f36b5e1ed7912341847d3201167100f5a0bfa54445bf86ee0f"
+timestamp = "2026-10-05T15:10:32.556513119Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e1b89b73b5fe9643b4e72e7b70c28e1e6f7932bbdb1bbf178e266cd06fafb6a"]
+link_id = "920dd4973f12abc0725c4879b7dc549f"
+reason = "implementation:entry → notebook:test/notebook-acceptance.test.ts: original-candidate read/version/source preflight added only before envelope batch side effects. Existing direct/redirect/public-source and SDK contracts stay unchanged; target current tests/native/evidence still describe guarded production path. Fresh 208-test gate retains legacy assertions."
+stop = false

@@ -1,0 +1,15 @@
+salt = "0tjFMGHzhI5N8Pkt"
+previous_id = "12f0e9b90fcda3c9e4f63197ada78d8d4014030be4cc7eb8dff1566af565f39f"
+timestamp = "2026-10-05T14:54:00.634179682Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "656ed7696751f444d6454a8b0afb688a"
+
+[payload]
+path = "src/index.ts"
+reason = "Active design §2–4 integrates stable-ID policy, four outcomes, guarded pending pickup and one-destination alternatives; source/read/version/member protections retained. Public positive and native evidence verify observable commits."
+
+[payload.position]
+end = "65208"
+mode = "text"
+start = "0"

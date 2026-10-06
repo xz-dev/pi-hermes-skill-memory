@@ -1,0 +1,10 @@
+salt = "DQ7ehMiqt4zhEJeV"
+previous_id = ""
+timestamp = "2026-10-05T15:01:20.882621519Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:8f064941964d502f87d1ea731275c24dd35d52c7d89c1cf32e4276c1919dec7e"
+path = "test/policy-decisions.test.ts"

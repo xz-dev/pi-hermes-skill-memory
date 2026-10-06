@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [34, 87, 143, 207, 210, 102, 239, 117, 103, 45, 10, 62, 109, 90, 117, 14]
+len = 6267
+sha256 = "0e3c62ced69baa8c52bea69cf811bc72eba9c554b0f2bccb9af9ca2ee871f13f"
+encoding = "utf-8"
+content_file = "content/0e3c62ced69baa8c52bea69cf811bc72eba9c554b0f2bccb9af9ca2ee871f13f"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "docs/notebook-evidence.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "docs/notebook-evidence.md"

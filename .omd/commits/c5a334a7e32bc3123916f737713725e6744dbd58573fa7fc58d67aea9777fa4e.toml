@@ -1,0 +1,12 @@
+salt = "trb8r3X6L5GgMVqm"
+previous_id = "f4c9dc162b616e6244e8b0042fd988437b62cc89827d7376ccbec070d2cba64e"
+timestamp = "2026-10-05T14:58:28.766836682Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["4a09f50142db8a2565a4330dc2668e2fc79e124431c1598ccb39081810ec3489"]
+link_id = "b1578e7d0dfdaf3041f29ea0da9c06b6"
+reason = "implementation:review → test:limits: original admission accounts policy/candidate bytes; no snapshot clipping, extra tools, retry or fallback; structural/evidence failure records usage. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

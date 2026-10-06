@@ -1,0 +1,15 @@
+salt = "43yqDm04u3hpKPSw"
+previous_id = "d71705a684b5d1cfb871bd378228b6996f12f67fd1b67b105979142043019161"
+timestamp = "2026-10-05T14:54:04.698778178Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "5dfb0fd231749ec45f5b628feb22d3e3"
+
+[payload]
+path = "src/content.ts"
+reason = "Approved correction removes implicit template/source classification and description sanitization; default agent-notes preserves authored metadata/body/assets. Explicit historical kinds remain non-certification."
+
+[payload.position]
+end = "4348"
+mode = "text"
+start = "0"

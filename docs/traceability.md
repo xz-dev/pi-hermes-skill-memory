@@ -1,6 +1,12 @@
 # 实现与验收追溯
 
-## 当前交付
+## 自主笔记 change（已归档）
+
+`enable-autonomous-skill-notebook` **19/19** 已完成并通过独立复核。父级最终复跑 **225/225** 测试、类型检查、严格 OpenSpec 与 diff 检查，1858个文件与获批候选一致；最终回执保留在 `/var/tmp/hermes-notebook-apply-YQDvYf/pickup-final-ut7BD7/`。实现阶段的分层验证见[笔记证据](notebook-evidence.md)，其中207项及活动 change 命令是当时的历史检查点，不是归档后的最新结果。
+
+2026-10-06 经用户确认，将四份 delta 的6条修改、5条新增要求同步到[主规格](../openspec/specs/)，保留原有 Purpose 和未涉及场景；变更归档至[自主笔记归档](../openspec/changes/archive/2026-10-06-enable-autonomous-skill-notebook/)。源代码和测试保持获批版本不变。OMD仅迁移四个已跟踪 delta 文件的位置，保留链身份、范围及201条关系，不新增关系或把元数据健康视为业务证明。当前归档路径与检查回执见[笔记追溯回执](notebook-traceability.json)。
+
+## 生命周期交付（历史检查点）
 
 本仓 `add-managed-skill-lifecycle` **26/26** 指定任务已实现验收。官方Pi/pi-ai基线0.99.2，类型检查、160项fake/SDK回归及OpenSpec strict通过；[原生隔离操作链](delivery-evidence.md)另验索引→启用→暂停→禁用/reload→卸载后标准skill仍可发现，并核对列明的旧个人路径未被访问。
 
@@ -8,7 +14,7 @@
 
 ## 证据入口
 
-- [主规格](../openspec/specs/)：4项能力、28条要求。
+- [主规格](../openspec/specs/)：4项能力、33条要求；其中28条来自生命周期交付，5条由自主笔记变更新增。
 - [已归档proposal](../openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/proposal.md)、[design](../openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/design.md)、[tasks](../openspec/changes/archive/2026-10-05-add-managed-skill-lifecycle/tasks.md)
 - [来源事实与决定](planning-evidence.md)、[本仓费用契约](review-contract.md)
 - [实现和测试索引](implementation-evidence.md)、[使用与恢复](usage.md)
@@ -28,7 +34,7 @@
 
 范围/语义审阅的详细回执保留在 `/var/tmp/hermes-delivery-PfAReH/omd/`；永久派生入口是本页的map和review文件，`.omd/`才是历史权威。最终verify/check/links结果写入map的implementationSummary；不再沿用旧139条healthy结果。此后编辑受管内容必须重新核对，而不能继续引用本检查点的绿色状态。
 
-## 归档
+## 生命周期归档（历史检查点）
 
 2026-10-05 经用户确认，先同步4份主规格，再归档此change；Purpose、28条要求及全部场景与delta保持一致。OMD保留原归档文件的链身份和实现证据，只更新移动路径及设计文档中的相对链接，不借归档新增业务实现或扩建追溯图。
 

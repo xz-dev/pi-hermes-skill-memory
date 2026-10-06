@@ -1,0 +1,14 @@
+salt = "MIqu5J87RtKmZ8i2"
+previous_id = "dfa24af83aca90979997764e349d160d128b9568c3780aabd0603f882942546b"
+timestamp = "2026-10-05T15:01:23.590206029Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "02a770e6f3f125493eaa8e32f8d720c3"
+reason = "single charged request, intact snapshot/input estimate, one selected path, policy/allowlist/four local choices, source/version/protected-original and actual candidate-read checks; SDK callback UI is not native terminal evidence."
+source = "range:aeb2b4e1b2982b92e03b50384b564a26047d433d0086765e9e3827ef1b96ce80"
+source_version = "4a09f50142db8a2565a4330dc2668e2fc79e124431c1598ccb39081810ec3489"
+target = "range:8cf87c31693c49b106ba89403cf5209efbc398e44d075f2bc84c4906e7bfd31d"
+target_version = "dfa24af83aca90979997764e349d160d128b9568c3780aabd0603f882942546b"

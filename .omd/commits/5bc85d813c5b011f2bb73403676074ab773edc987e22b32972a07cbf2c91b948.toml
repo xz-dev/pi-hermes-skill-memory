@@ -1,0 +1,10 @@
+salt = "YEnlvwsVcosTyIaR"
+previous_id = ""
+timestamp = "2026-10-05T15:01:22.147371107Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:b68cb64514c47f63ad867f57cfa8452f55e1d4ccf91906960b3c9872353db4dc"
+path = "test/notebook-guidance.test.ts"

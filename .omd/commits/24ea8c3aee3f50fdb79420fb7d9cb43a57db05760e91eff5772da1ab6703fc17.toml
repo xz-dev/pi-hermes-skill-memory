@@ -1,0 +1,12 @@
+salt = "BnzQuvYAVALo58XC"
+previous_id = "7ccb652dcc735688564a9964b03f8c35c383ef6b016a5f47d6dca1227cba5d0e"
+timestamp = "2026-10-05T17:49:08.779709006Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["8bcc33d5d9ad754fc73b48ea2a5286963900fb1551b31ee691362530ade39cdc"]
+link_id = "f559d38b411d6cbe57a9a69b6f1ba4ec"
+reason = "implementation:permissions -> test:installed: Permissions now guard locked mutation/publication but installed fixtures retain original stale-pending error contract, capacity, actual-source/per-member-read/recovery/policy checks. Current installed tests pass; no default permission or lock reset."
+stop = false

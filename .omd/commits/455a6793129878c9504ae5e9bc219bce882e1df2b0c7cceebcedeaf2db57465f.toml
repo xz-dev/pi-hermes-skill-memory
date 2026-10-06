@@ -1,0 +1,15 @@
+salt = "joMcxVi6a5yXOLbh"
+previous_id = "46a7d272d0512879da86aadcc57b7147d6120ad5801adb9bf70c54d8126f5dce"
+timestamp = "2026-10-05T17:46:13.261053624Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "67c5c9b1bc8934d3ccd50ee9914ced2f"
+
+[payload]
+path = "src/files.ts"
+reason = "Position-only continuation after atomic helper grew. withLock function text is unchanged from pre-findings checkpoint; local serialization and fail-closed foreign locking/crash behavior unchanged. No retry/unlock. Accepted ledger positive and negative regressions remain passing."
+
+[payload.position]
+end = "2603"
+mode = "text"
+start = "1915"

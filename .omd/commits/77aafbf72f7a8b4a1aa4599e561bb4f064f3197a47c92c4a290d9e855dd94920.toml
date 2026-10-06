@@ -1,0 +1,16 @@
+salt = "OnJx7WFUhMhTuDwT"
+previous_id = "0da83c1b001b042f7dc48c0f7e8d0bd96e66691ecee6b2920d08a4369e247ee8"
+timestamp = "2026-10-05T15:01:22.847440263Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "6b057317639bda4e7e9816a81aa5da15"
+
+[payload]
+mount = "file:32342f98c850b0f1271f27e451d150162ea0cc45068f243d5045666428f18323"
+path = "test/notebook-acceptance.test.ts"
+reason = "public real save→metadata search→read→same-ID revise, exact original description/body/assets/provenance/history, no hidden call; SDK callback UI is not native terminal evidence."
+
+[payload.position]
+end = "6083"
+mode = "text"
+start = "612"

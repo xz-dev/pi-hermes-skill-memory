@@ -1,0 +1,14 @@
+salt = "mD2ac8w544gHVNf6"
+previous_id = "85e4c09cf24d5c20c00756e16493739748c28c3d3762eda080f7dbc41c2af487"
+timestamp = "2026-10-05T15:01:24.356556716Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "6b2cbec6f9b444db4686467da5175284"
+reason = "Actual official isolated CLI/PTY fixture exercises production public tools/editor/select/settings; deterministic provider cannot issue network request."
+source = "range:19b8b8c945b190ed4a56c1d85e92528dc229f55023f8377165b96f6ed05bb486"
+source_version = "94d0394d3bdaf34660f8fd614ba8b665fe8b7a2b3c62306fc2293ddf6b98e53a"
+target = "range:3aa5fad9acf315992a8cd5e2fedb7868e44ec551a64746417b68145f073215f4"
+target_version = "85e4c09cf24d5c20c00756e16493739748c28c3d3762eda080f7dbc41c2af487"

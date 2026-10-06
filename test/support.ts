@@ -1,4 +1,6 @@
-import { mkdtemp, mkdir } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile } from "node:fs/promises";
+import { watch } from "node:fs";
+import type { ReviewState } from "../src/ledger.ts";
 import { join } from "node:path";
 import assert from "node:assert/strict";
 import { createAssistantMessageEventStream } from "@earendil-works/pi-ai";
@@ -80,5 +82,17 @@ export async function isolatedSession(reply = "fake provider: no network", optio
     tools: options.noReplacementTools ? ["read"] : options.nativeRead ? ["read", "hermes_skill_search", "hermes_skill_view"] : undefined,
   });
   await session.bindExtensions({ mode: "print" });
-  return { root, cwd, agentDir, calls, session, runtime, resources };
+  const monitors: ReturnType<typeof watch>[] = [];
+  const onReviewState = (listener: (state: ReviewState) => void) => {
+    // Observe durable publication instead of coupling completion to status-bar rendering.
+    const directory = join(agentDir, "hermes-review");
+    const check = async () => listener(JSON.parse(await readFile(join(directory, "ledger.json"), "utf8")) as ReviewState);
+    const monitor = watch(directory, (_event, file) => { if (file?.toString() === "ledger.json") void check(); });
+    monitors.push(monitor);
+    void check();
+    return () => monitor.close();
+  };
+  const dispose = session.dispose.bind(session);
+  session.dispose = () => { for (const monitor of monitors) monitor.close(); dispose(); };
+  return { root, cwd, agentDir, calls, session, runtime, resources, onReviewState };
 }

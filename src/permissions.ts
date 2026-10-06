@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { awaitWithAbort } from "./async.ts";
-import { open, readdir } from "node:fs/promises";
+import { open, readdir, unlink } from "node:fs/promises";
 import { join } from "node:path";
 import { atomicJson, readJson, scopedDirectory, withLock } from "./files.ts";
 import { contentHash } from "./store.ts";
@@ -10,7 +10,7 @@ import type { Snapshot } from "./context.ts";
 
 export interface InstalledDiff { file: string; before: string | null; after: string | null }
 export interface CurationSelection { absorb: ArchivePlan; keepFiles: Record<string, string>; keepDiff: InstalledDiff[] }
-export interface InstalledPreview { target: InstalledTarget; proposal: SkillProposal; diff: InstalledDiff[]; contentReview?: boolean; rollbackOf?: string; curation?: CurationSelection }
+export interface InstalledPreview { target: InstalledTarget; proposal: SkillProposal; managedAlternative?: SkillProposal; diff: InstalledDiff[]; contentReview?: boolean; rollbackOf?: string; curation?: CurationSelection }
 export interface LifecyclePreview { target: InstalledTarget; lifecycle: { action: "archive" | "restore"; plan: ArchivePlan }; diff: InstalledDiff[]; contentReview?: false }
 export type PermissionPreview = InstalledPreview | LifecyclePreview;
 export interface PendingSkill {
@@ -23,9 +23,21 @@ export class PendingApproval extends Error {
   constructor(id: string, reason?: string) { super(`Skill approval pending: ${id}${reason ? `; ${reason}` : ""}`); this.id = id; }
 }
 
-export async function confirmInstalledDiff(ctx: ExtensionContext, preview: PermissionPreview, signal?: AbortSignal): Promise<boolean> {
-  if (ctx.mode !== "tui") throw new Error("confirmation-required: actual TUI is required");
-  const text = [
+/** ask: review each write; allow: submit without a prompt; notes-only: never write the installed original. */
+export type InstalledPolicy = "ask" | "allow" | "notes-only";
+/** Exact-diff approval outcomes; "redirect" hands the change to the managed notebook flow, "reject" drops it. */
+export type InstalledDecision = "once" | "always" | "reject" | "redirect";
+export interface InstalledDecisionResult { decision: InstalledDecision; cancelled?: boolean; /** Frozen hash of the exact preview shown. */ hash: string }
+
+/** Pure policy resolution: whitelist beats global policy, nothing else grants or widens rights. */
+export function resolveInstalledDecision(state: { policy: InstalledPolicy; allowlist: string[] }, target: InstalledTarget): "allow" | "ask" | "notes-only" {
+  if (state.allowlist.includes(target.id)) return "allow";
+  return state.policy;
+}
+
+/** Render the exact frozen diff text every installed approval binds to. Edits abort approval. */
+export function installedDiffText(preview: PermissionPreview): string {
+  return [
     `Target: ${preview.target.id}`, `Scope: ${preview.target.scope}`, `Path: ${preview.target.filePath}`,
     `Base version: ${preview.target.version}`, `Owner: ${preview.target.owner} (unchanged after saving)`, `Reason: ${"proposal" in preview ? preview.proposal.reason : preview.lifecycle.plan.reason}`,
     ...("lifecycle" in preview ? [`Operation: ${preview.lifecycle.action}; location changes, not replacement prose.`,
@@ -36,6 +48,11 @@ export async function confirmInstalledDiff(ctx: ExtensionContext, preview: Permi
     // Stock TUI trims outer whitespace on submit. Keep file-ending whitespace inside the reviewed envelope.
     "\nEnd of exact diff. Content above must remain unchanged for approval.",
   ].join("\n");
+}
+
+export async function confirmInstalledDiff(ctx: ExtensionContext, preview: PermissionPreview, signal?: AbortSignal): Promise<boolean> {
+  if (ctx.mode !== "tui") throw new Error("confirmation-required: actual TUI is required");
+  const text = installedDiffText(preview);
   const inspected = await awaitWithAbort(ctx.ui.editor("Review exact skill diff — scroll to inspect; edits abort approval", text), signal);
   if (inspected !== text) return false;
   return await awaitWithAbort(ctx.ui.confirm(preview.contentReview ? "Accept this unverified content change? Not a factual certification." : `Apply this exact ${preview.target.owner} skill diff?`, JSON.stringify({ target: preview.target.id,
@@ -43,54 +60,165 @@ export async function confirmInstalledDiff(ctx: ExtensionContext, preview: Permi
     files: preview.diff.map(file => file.file), diffHash: contentHash(text), ownership: `remains ${preview.target.owner}` }, null, 2), { signal }), signal);
 }
 
+/**
+ * Four-decision approval over the frozen exact diff. Only "always" may widen persistent permission
+ * (callers add the target id to the allowlist via a user-facing path); cancellation grants nothing.
+ */
+export async function decideInstalledDiff(ctx: ExtensionContext, preview: PermissionPreview, signal?: AbortSignal): Promise<InstalledDecisionResult> {
+  if (ctx.mode !== "tui") throw new Error("confirmation-required: actual TUI is required");
+  const text = installedDiffText(preview), hash = contentHash(text);
+  const inspected = await awaitWithAbort(ctx.ui.editor("Review exact skill diff — scroll to inspect; edits abort approval", text), signal);
+  if (inspected !== text) return { decision: "reject", cancelled: true, hash };
+  const title = preview.contentReview ? "Apply this unverified content change? Not a factual certification." : `Apply this exact ${preview.target.owner} skill diff?`;
+  const choice = await awaitWithAbort(ctx.ui.select(title, [
+    "Allow this change once",
+    "Always allow changes to this skill",
+    "Do not modify this time",
+    "Keep original; save as Hermes note",
+  ], { signal }), signal);
+  const decision: InstalledDecision = choice === "Always allow changes to this skill" ? "always" :
+    choice === "Keep original; save as Hermes note" ? "redirect" : choice === "Allow this change once" ? "once" : "reject";
+  return { decision, hash, ...(choice === undefined ? { cancelled: true } : {}) };
+}
+
+/**
+ * On-demand policy settings. User-only entry; model tools and project config cannot call it.
+ * Labels resolve allowlist ids to name/scope via the caller's catalog; an unavailable or
+ * excluded entry shows an honest fallback, never a name-based authorization.
+ * Returns the persisted state; no resident panel or status is created.
+ */
+export async function permissionSettings(ctx: ExtensionContext, permissions: InstalledPermissions,
+  describe?: (id: string) => Promise<{ name?: string; scope?: string } | undefined>, signal?: AbortSignal): Promise<void> {
+  if (ctx.mode !== "tui") throw new Error("confirmation-required: actual TUI is required");
+  const label = async (id: string) => {
+    const meta = await describe?.(id).catch(() => undefined);
+    return meta?.name ? `${meta.name} (${meta.scope ?? "unknown scope"}) [${id}]` : `Unavailable or excluded skill [${id}]`;
+  };
+  for (;;) {
+    const state = await permissions.read();
+    const entries = await Promise.all(state.allowlist.map(async id => ({ id, label: await label(id) })));
+    const rows = [
+      `Global policy: ${state.policy}`,
+      ...entries.map(entry => `Remove allowlist entry: ${entry.label}`),
+      "Done",
+    ];
+    const choice = await awaitWithAbort(ctx.ui.select("Installed skill permissions", rows, { signal }), signal);
+    if (!choice || choice === "Done") return;
+    if (choice === rows[0]) {
+      const policy = await awaitWithAbort(ctx.ui.select("Default policy for user-installed skills", [
+        "Ask before modifying",
+        "Always allow modifications (YOLO)",
+        "Keep originals; write managed notes only",
+      ], { signal }), signal);
+      const next: InstalledPolicy | undefined = policy === "Always allow modifications (YOLO)" ? "allow" :
+        policy === "Keep originals; write managed notes only" ? "notes-only" : policy === "Ask before modifying" ? "ask" : undefined;
+      if (next) await permissions.setPolicy(next);
+    } else if (choice.startsWith("Remove allowlist entry: ")) {
+      const entry = entries.find(entry => `Remove allowlist entry: ${entry.label}` === choice);
+      if (entry) await permissions.removeAllowlist(entry.id);
+    }
+  }
+}
+
+interface PermissionState { version: 2; policy: InstalledPolicy; allowlist: string[]; pending: PendingSkill[] }
+
 /** User-owned agentDir state only. No project/skill/model setting is ever consulted. */
 export class InstalledPermissions {
   readonly agentDir: string;
   constructor(agentDir: string) { this.agentDir = agentDir; }
   private directory() { return join(this.agentDir, "hermes-skills", "provenance", "permissions"); }
-  private async read(): Promise<{ version: 1; allowAutoModifyInstalledSkills: boolean; pending: PendingSkill[] }> {
+  /** Version 1 rows upgrade to a compatible view: true→allow, false→ask, empty allowlist. Pending untouched. */
+  async read(): Promise<PermissionState> {
     const dir = this.directory();
-    if (!await scopedDirectory(this.agentDir, dir)) return { version: 1, allowAutoModifyInstalledSkills: false, pending: [] };
+    if (!await scopedDirectory(this.agentDir, dir)) return { version: 2, policy: "ask", allowlist: [], pending: [] };
     try {
-      const value = await readJson<{ version: 1; allowAutoModifyInstalledSkills: boolean; pending: PendingSkill[] }>(join(dir, "state.json"));
-      if (value.version !== 1 || typeof value.allowAutoModifyInstalledSkills !== "boolean" || !Array.isArray(value.pending) || value.pending.length > 32 ||
-        value.pending.some(row => row.id !== contentHash(JSON.stringify(row.preview)) || !row.snapshot || !row.requestId)) throw new Error("Invalid installed permission state");
-      return value;
+      const value = await readJson<Record<string, unknown>>(join(dir, "state.json"));
+      const pending = value.pending;
+      if (!Array.isArray(pending) || pending.length > 32 ||
+        pending.some((row: PendingSkill) => row.id !== contentHash(JSON.stringify(row.preview)) || !row.snapshot || !row.requestId)) throw new Error("Invalid installed permission state");
+      if (value.version === 2) {
+        if (!["ask", "allow", "notes-only"].includes(value.policy as string) ||
+          !Array.isArray(value.allowlist) || value.allowlist.length > 256 || value.allowlist.some(id => typeof id !== "string" || !id)) throw new Error("Invalid installed permission state");
+        return { version: 2, policy: value.policy as InstalledPolicy, allowlist: value.allowlist as string[], pending };
+      }
+      if (value.version === 1 && typeof value.allowAutoModifyInstalledSkills === "boolean")
+        return { version: 2, policy: value.allowAutoModifyInstalledSkills ? "allow" : "ask", allowlist: [], pending };
+      throw new Error("Invalid installed permission state");
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
       if ((await readdir(dir)).some(file => file !== "state.lock")) throw new Error("Installed permission state missing; do not reset approvals");
-      return { version: 1, allowAutoModifyInstalledSkills: false, pending: [] };
+      return { version: 2, policy: "ask", allowlist: [], pending: [] };
     }
   }
-  private async change<T>(action: (value: Awaited<ReturnType<InstalledPermissions["read"]>>) => T): Promise<T> {
+  private async change<T>(action: (value: PermissionState) => T, isCurrent?: () => boolean): Promise<T> {
+    let invalidated = false;
+    const assertCurrent = () => {
+      try { if (isCurrent?.() === false) throw new Error("Stale permission decision; no write eligibility"); }
+      catch (error) { invalidated = true; throw error; }
+    };
+    assertCurrent();
     const dir = this.directory(); await scopedDirectory(this.agentDir, dir, true);
     return withLock(join(dir, "state.lock"), async () => {
-      const value = await this.read(), result = action(value);
-      await open(join(dir, "initialized"), "a", 0o600).then(file => file.close());
-      await atomicJson(join(dir, "state.json"), value); return result;
+      const value = await this.read(); assertCurrent();
+      const result = action(value);
+      const initialized = join(dir, "initialized"); let created = false;
+      try { await open(initialized, "wx", 0o600).then(file => file.close()); created = true; }
+      catch (error) { if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error; }
+      try { await atomicJson(join(dir, "state.json"), value, assertCurrent); }
+      catch (error) {
+        // A cancelled first mutation never published state; remove only our new sentinel.
+        if (created && invalidated) await unlink(initialized);
+        throw error;
+      }
+      return result;
     });
   }
   async status() {
     const value = await this.read();
-    return { allowAutoModifyInstalledSkills: value.allowAutoModifyInstalledSkills, pending: value.pending.map(row => ({
+    return { policy: value.policy, allowlist: [...value.allowlist],
+      allowAutoModifyInstalledSkills: value.policy === "allow", pending: value.pending.map(row => ({
       id: row.id, target: row.preview.target.id, scope: row.preview.target.scope, version: row.preview.target.version,
       project: row.snapshot.cwd, applying: row.applying ?? false, failure: row.failure, contentReview: row.preview.contentReview ?? false, files: row.preview.diff.map(file => file.file),
     })) };
   }
-  async allowed(): Promise<boolean> { return (await this.read()).allowAutoModifyInstalledSkills; }
+  /** Effective write resolution for one installed target; re-read on every check so revocation wins. */
+  async decide(target: InstalledTarget): Promise<"allow" | "ask" | "notes-only"> {
+    return resolveInstalledDecision(await this.read(), target);
+  }
+  /** Legacy call sites: only policy === "allow" counts; allowlist entries are per-target and resolved via decide(). */
+  async allowed(): Promise<boolean> { return (await this.read()).policy === "allow"; }
   /** Only invoked by an explicit user command, not a model tool or project configuration. */
   async setGlobalGrant(allow: boolean): Promise<void> {
     if (typeof allow !== "boolean") throw new Error("Invalid user grant");
-    await this.change(value => { value.allowAutoModifyInstalledSkills = allow; });
+    await this.change(value => { value.policy = allow ? "allow" : "ask"; });
+  }
+  /** Only invoked by an explicit user command or settings UI, not a model tool or project configuration. */
+  async setPolicy(policy: InstalledPolicy): Promise<void> {
+    if (!["ask", "allow", "notes-only"].includes(policy)) throw new Error("Invalid installed policy");
+    await this.change(value => { value.policy = policy; });
+  }
+  /** User-facing "always allow this skill" path; identity-keyed, never name-keyed. Rejects beyond the readable bound before mutating. */
+  async addAllowlist(id: string, isCurrent?: () => boolean): Promise<void> {
+    if (typeof id !== "string" || !id) throw new Error("Invalid allowlist SkillId");
+    await this.change(value => {
+      if (value.allowlist.includes(id)) return;
+      if (value.allowlist.length >= 256) throw new Error("Allowlist capacity exhausted; remove entries before adding new ones");
+      value.allowlist.push(id);
+    }, isCurrent);
+  }
+  /** Only invoked by an explicit user command or settings UI. Removal restores global policy for that id. */
+  async removeAllowlist(id: string): Promise<void> {
+    await this.change(value => { value.allowlist = value.allowlist.filter(entry => entry !== id); });
   }
   async enqueue(preview: PermissionPreview, snapshot: Snapshot, requestId: string, isCurrent?: () => boolean): Promise<string> {
-    const evidence = "proposal" in preview ? preview.proposal.evidence : [];
+    const evidence = "proposal" in preview ? [...preview.proposal.evidence, ...preview.managedAlternative?.evidence ?? []] : [];
     const citedEvidence = snapshot.evidence.filter(entry => evidence.some(item => item.entryId === entry.entryId)).map(entry => ({
       entryId: entry.entryId, text: evidence.filter(item => item.entryId === entry.entryId).map(item => item.quote).join("\n"),
     }));
     const row: PendingSkill = { id: contentHash(JSON.stringify(preview)), preview: structuredClone(preview), requestId,
       snapshot: structuredClone({ sessionId: snapshot.sessionId, leafId: snapshot.leafId, cwd: snapshot.cwd, digest: snapshot.digest,
-        evidence: citedEvidence, skillReads: snapshot.skillReads?.filter(read => read.id === preview.target.id) }) };
+        evidence: citedEvidence, skillReads: snapshot.skillReads?.filter(read => read.id === preview.target.id ||
+          "proposal" in preview && read.id === preview.managedAlternative?.id) }) };
     if (JSON.stringify(row).length > 384000) throw new Error("Installed proposal exceeds pending capacity");
     const id = row.id;
     await this.change(value => {
@@ -98,6 +226,9 @@ export class InstalledPermissions {
       if (value.pending.some(row => row.id === id)) return;
       if (value.pending.length >= 32 || JSON.stringify(value.pending).length + JSON.stringify(row).length > 1_000_000) throw new Error("Pending capacity exhausted; inspect/reject existing proposals");
       value.pending.push(row);
+    }, () => {
+      if (isCurrent?.() === false) throw new Error("Stale pending proposal; no write eligibility");
+      return true;
     }); return id;
   }
   async get(id: string): Promise<PendingSkill> {
@@ -116,10 +247,23 @@ export class InstalledPermissions {
       if (failure) row.failure = failure.slice(0, 1000); else delete row.failure;
     });
   }
-  async remove(id: string, completedCuration = false): Promise<void> {
+  async remove(id: string, completedCuration = false, isCurrent?: () => boolean): Promise<void> {
     await this.change(value => {
       if (!completedCuration && value.pending.some(row => row.id === id && row.applying)) throw new Error("Applying curation cannot be discarded; finish local recovery without replaying the model");
       value.pending = value.pending.filter(row => row.id !== id);
-    });
+    }, isCurrent);
   }
+}
+
+/**
+ * Per-interaction-round rejection memory. Not persisted; not a denylist.
+ * Callers check before prompting so a reworded same-target proposal does not ask twice.
+ */
+export class RejectedTargets {
+  private readonly ids = new Set<string>();
+  rejected(target: InstalledTarget): boolean { return this.ids.has(target.id); }
+  reject(target: InstalledTarget): void { this.ids.add(target.id); }
+  clear(target: InstalledTarget): void { this.ids.delete(target.id); }
+  /** New user input opens a new interaction round; nothing persists across it. */
+  clearAll(): void { this.ids.clear(); }
 }

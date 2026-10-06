@@ -1,0 +1,12 @@
+salt = "O82dWTHqbpVvhu2S"
+previous_id = "f1071ea726e1fa7d5b82187228d57266f6a38440208ae032770b0c5b65348bcf"
+timestamp = "2026-10-05T17:49:04.175581769Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2e17000370d166561054d75cd2f9316673555eb0f1df9ea02bd9b74c251cf8e3"]
+link_id = "21f15b9337ee55988f98955bb485a669"
+reason = "notebook:native-fixture -> notebook:evidence:Actual isolated terminal: Native fixture source remains unchanged; affected entry behavior independently driven on final tree: seeded pending Later/editor cancel reoffer, exact-ID Always, managed rollback editor/confirm decline and accept with members. Prior broad native receipt remains historical; new receipt affected-native.json gives 9 foreground and 0 auxiliary calls, no live model."
+stop = false

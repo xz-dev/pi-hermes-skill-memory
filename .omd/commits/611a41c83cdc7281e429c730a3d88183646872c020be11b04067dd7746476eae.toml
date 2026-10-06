@@ -1,0 +1,12 @@
+salt = "m8IoU2lNjDXCgNQY"
+previous_id = "4bb5c896b6c4ff0cb2d8be36d86e0cee076f8365744c4a8fa9a409db4bf3174b"
+timestamp = "2026-10-05T15:10:33.449525223Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["968d5083bc3c2b914054eab42c90388ae91f062f0dbfe0057e56772440d16a68"]
+link_id = "ab521dc598d96ef0b14c17c39c6b5333"
+reason = "notebook:test/review-destinations.test.ts → notebook:evidence:Policy and review acceptance: added invalid-original multi-item regression verifies no earlier note writes. Existing one-request, candidate-read, policy and source matrix retained; evidence remains deterministic host behavior, not live learning quality."
+stop = false

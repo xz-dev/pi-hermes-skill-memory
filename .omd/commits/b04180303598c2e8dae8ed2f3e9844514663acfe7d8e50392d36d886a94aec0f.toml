@@ -1,0 +1,12 @@
+salt = "1mtVU6gJvdgv1996"
+previous_id = "7e166c7fa123d7f191a046e6b41d444ca18f6ad62485f1671264c12aead62dd7"
+timestamp = "2026-10-05T17:49:07.978950899Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2e17000370d166561054d75cd2f9316673555eb0f1df9ea02bd9b74c251cf8e3"]
+link_id = "e69c0164c9b93e4349e01d66e450022f"
+reason = "notebook:test/notebook-acceptance.test.ts -> notebook:evidence:Public tool positive flow: Public-flow test bytes and expectations unchanged; current full222 run still executes real public positive including same-ID correction/support history. Historical standalone receipt remains historical; no claim of independent factual certification or new billing evidence."
+stop = false

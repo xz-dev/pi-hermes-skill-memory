@@ -1,0 +1,12 @@
+salt = "XYnliBjbhGx2kY6Z"
+previous_id = "47264aa131a54b800d31a3a5b6ef568454ef6ad7ceb9516b8eb20a27cb919555"
+timestamp = "2026-10-05T17:49:05.346420964Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2e17000370d166561054d75cd2f9316673555eb0f1df9ea02bd9b74c251cf8e3"]
+link_id = "3c290d9ee89f2cdf2d309a8fd20c8d17"
+reason = "test:bootstrap -> evidence:api: Bootstrap public API fixtures still load current module through official exports with optional permission predicate internal only. Historical API evidence remains scoped; current check/bootstrap tests and official0.99.2 affected PTY validate integration without private product imports."
+stop = false

@@ -1,0 +1,12 @@
+salt = "RU98K76ekh3DNLvI"
+previous_id = "7a05456d02158652adfe9ee5afefed4a57fa5eccf1dcc7074b769686b957d556"
+timestamp = "2026-10-05T17:49:04.578481346Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["ad77303cadefd29a4e42ce3e8058e0a28f776b474b2034668b23fb556a194452"]
+link_id = "2c9e33d2760ba4042d7c04b385a2eb43"
+reason = "test:rollback -> evidence:maintenance: Rollback tests now assert restored managed TUI diff/cancel as well as existing acceptance/removed-member/history/recovery guards. Historical maintenance receipt stays historical; new native member/decline assertions and full222 tests close current repair, not inferred from old receipt."
+stop = false

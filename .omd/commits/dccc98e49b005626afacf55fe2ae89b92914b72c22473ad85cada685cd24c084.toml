@@ -1,0 +1,16 @@
+salt = "Ddn4f6orVuxFqeee"
+previous_id = "341fe1958dbccdf7060c38aa0b11607b9bf52246acf1dd0eebcddaaa9120a6aa"
+timestamp = "2026-10-05T15:01:18.967890883Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "c9b4d74498eef07b7f72df0da2e1a940"
+
+[payload]
+mount = "file:3a2ee5f7502ac7f93ca1f866bc1e0da348c9bc835c8b684fff598477ad65aa1c"
+path = "openspec/changes/enable-autonomous-skill-notebook/specs/scoped-skill-management/spec.md"
+reason = "Active approved delta requirement and its scenarios constrain this implementation seam. Historical lifecycle requirements remain recorded; this delta supersedes notebook/default/installed-policy behavior without rewriting archived specs."
+
+[payload.position]
+end = "2216"
+mode = "text"
+start = "618"

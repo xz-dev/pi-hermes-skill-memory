@@ -36,6 +36,11 @@ async function fixture() {
         proposal.baseVersion = result.version;
         return { stopReason: "toolUse", content: [{ type: "toolCall", id: "submit-installed", name: "hermes_skill_manage", arguments: { proposal: JSON.parse(JSON.stringify(proposal)) } }] };
       }
+      if (results.at(-1)!.toolName === "hermes_skill_manage" && JSON.stringify(context.messages[lastUser]).includes("twice") &&
+        !results.some(item => item.toolName === "hermes_skill_manage" && item !== results.at(-1))) {
+        // Same-turn second proposal to the same target; the round rejection must suppress another prompt.
+        return { stopReason: "toolUse", content: [{ type: "toolCall", id: "submit-installed-2", name: "hermes_skill_manage", arguments: { proposal: JSON.parse(JSON.stringify(proposal)) } }] };
+      }
       return { stopReason: "stop", content: [{ type: "text", text: JSON.stringify(result) }] };
     },
   });
@@ -49,27 +54,46 @@ async function fixture() {
     exclude: () => { allowSource = false; } };
 }
 
-async function bind(f: Awaited<ReturnType<typeof fixture>>, confirm: (title: string, text: string) => Promise<boolean>, mode: "tui" | "rpc" = "tui", onPreview?: (text: string) => void) {
+async function bind(f: Awaited<ReturnType<typeof fixture>>, choose: (title: string, options: string[]) => Promise<string | undefined> | string | undefined, mode: "tui" | "rpc" = "tui", onPreview?: (text: string) => void) {
   const ui = f.session.extensionRunner.createCommandContext().ui;
-  await f.session.bindExtensions({ mode, uiContext: { ...ui, confirm, editor: async (_title, text) => { onPreview?.(text ?? ""); return text; }, notify: () => {}, setStatus: () => {}, setWidget: () => {} } });
+  await f.session.bindExtensions({ mode, uiContext: { ...ui,
+    select: async (title: string, options: string[]) => choose(title, options),
+    editor: async (_title, text) => { onPreview?.(text ?? ""); return text; }, notify: () => {}, setStatus: () => {}, setWidget: () => {} } });
 }
+const allowOnce = () => "Allow this change once";
+const reject = () => "Do not modify this time";
+// Counts only the four-option decision prompt, not the pending-pickup gate select.
+const decisionSelect = (count: () => void, pick: () => string | undefined) =>
+  async (title: string, options: string[]) => options.includes("Allow this change once") ? (count(), pick()) : undefined;
 
 test("SDK TUI approval contract preserves denied bytes and never transfers user ownership", async () => {
   const f = await fixture(); const diffs: string[] = [];
   try {
-    await bind(f, async () => false, "tui", text => diffs.push(text));
+    await bind(f, reject, "tui", text => diffs.push(text));
     await f.session.prompt("Apply the release correction");
     assert.equal(await readFile(f.path, "utf8"), f.before);
     assert.ok(diffs[0]?.includes("BEFORE") && diffs[0]?.includes("Build first.") && diffs[0]?.includes("Build before manifest check"));
     assert.ok(diffs[0]?.includes(f.proposal.id!) && diffs[0]?.includes(f.proposal.baseVersion!));
-    let approvals = 0;
-    await bind(f, async () => { approvals++; return true; });
+    let selects = 0;
+    await bind(f, async () => { selects++; return allowOnce(); });
     await f.session.prompt("Apply the release correction with approval");
-    assert.match(await readFile(f.path, "utf8"), /Build before manifest check/); assert.equal(approvals, 1);
+    assert.match(await readFile(f.path, "utf8"), /Build before manifest check/); assert.equal(selects, 1);
     assert.equal(await f.store.ownership(f.path, "project"), undefined); assert.deepEqual(await f.store.catalog(), []);
     assert.equal(await f.store.localModified(f.proposal.id!, f.path), true);
-    await f.session.prompt("Update again; ownership still requires approval"); assert.equal(approvals, 2);
+    await f.session.prompt("Update again; ownership still requires approval"); assert.equal(selects, 2);
     assert.deepEqual((await new ReviewLedger(f.agentDir).inspect()).records, []);
+  } finally { f.session.dispose(); }
+});
+
+test("same-turn repeated refusal is suppressed; a new explicit user request opens a new round", async () => {
+  const f = await fixture(); let prompts = 0;
+  try {
+    await bind(f, () => { prompts++; return "Do not modify this time"; });
+    await f.session.prompt("Apply the release correction twice");
+    assert.equal(prompts, 1); assert.equal(await readFile(f.path, "utf8"), f.before);
+    assert.equal((await f.permissions.status()).pending.length, 0);
+    await f.session.prompt("Explicitly reconsider this correction");
+    assert.equal(prompts, 2); assert.equal(await readFile(f.path, "utf8"), f.before);
   } finally { f.session.dispose(); }
 });
 
@@ -81,13 +105,18 @@ test("print and RPC hasUI persist pending; local TUI approval does not call a mo
     assert.equal(JSON.parse(f.session.getLastAssistantText()!).status, "pending");
     const pending = (await f.permissions.status()).pending; assert.equal(pending.length, 1);
     assert.equal(await readFile(f.path, "utf8"), f.before);
-    await bind(f, async () => { confirmations++; return true; }, "rpc");
+    await bind(f, async () => { confirmations++; return allowOnce(); }, "rpc");
     await f.session.prompt("Attempt installed update in RPC");
     assert.equal(JSON.parse(f.session.getLastAssistantText()!).status, "pending"); assert.equal(confirmations, 0);
     await f.session.prompt(`/hermes-skills approve ${pending[0]!.id}`);
     assert.equal(await readFile(f.path, "utf8"), f.before); assert.equal(confirmations, 0);
     const calls = f.calls.length;
-    await bind(f, async () => { confirmations++; return true; });
+    // Pending approve keeps the legacy exact-diff confirm path; the session-start gate select declines pickup.
+    const ui = f.session.extensionRunner.createCommandContext().ui;
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui,
+      select: async (_t, options) => options.includes("Allow this change once") ? undefined : undefined,
+      editor: async (_t, text) => text, confirm: async () => { confirmations++; return true; },
+      notify: () => {}, setStatus: () => {}, setWidget: () => {} } });
     await f.session.prompt(`/hermes-skills approve ${pending[0]!.id}`);
     assert.match(await readFile(f.path, "utf8"), /Build before manifest check/); assert.equal(confirmations, 1);
     assert.equal(f.calls.length, calls); assert.equal((await f.permissions.status()).pending.length, 0);
@@ -98,7 +127,7 @@ test("print and RPC hasUI persist pending; local TUI approval does not call a mo
 test("concurrent edits after confirmation or before pending approval invalidate approval", async () => {
   const f = await fixture();
   try {
-    await bind(f, async () => { await writeFile(f.path, f.before + "Manual edit after preview\n"); return true; });
+    await bind(f, async () => { await writeFile(f.path, f.before + "Manual edit after preview\n"); return allowOnce(); });
     await f.session.prompt("Apply correction but race the confirmation");
     assert.ok(["conflict", "failed"].includes(JSON.parse(f.session.getLastAssistantText()!).status));
     assert.match(await readFile(f.path, "utf8"), /Manual edit after preview/);
@@ -106,7 +135,8 @@ test("concurrent edits after confirmation or before pending approval invalidate 
     await f.session.prompt("Prepare pending correction");
     const row = (await f.permissions.status()).pending[0]!; assert.ok(row);
     await writeFile(f.path, f.before + "New upstream version\n"); let confirmations = 0;
-    await bind(f, async () => { confirmations++; return true; });
+    await bind(f, decisionSelect(() => { confirmations++; }, () => "Allow this change once"));
+    // The pending approve path uses the exact-diff confirm, not select; nothing prompts for a stale version.
     await f.session.prompt(`/hermes-skills approve ${row.id}`);
     assert.match(await readFile(f.path, "utf8"), /New upstream version/); assert.equal(confirmations, 0);
   } finally { f.session.dispose(); }
@@ -115,16 +145,15 @@ test("concurrent edits after confirmation or before pending approval invalidate 
 test("registered background review in TUI queues installed changes without prompting and accounts once", { timeout: 10000 }, async () => {
   const f = await fixture(); let confirmations = 0, editors = 0;
   try {
-    await bind(f, async () => false); await f.session.prompt("Build before manifest check");
+    await bind(f, async () => reject()); await f.session.prompt("Build before manifest check");
     let finished!: () => void;
     const done = new Promise<void>(resolve => { finished = resolve; });
     const ui = f.session.extensionRunner.createCommandContext().ui;
     await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui,
-      confirm: async () => { confirmations++; return false; }, editor: async () => { editors++; return undefined; },
-      notify: () => {}, setStatus: () => {}, setWidget: (key, widget) => {
-        if (key === "hermes-review" && Array.isArray(widget) && widget.join(" ").includes("pending:")) finished();
-      },
+      select: async () => { confirmations++; return undefined; }, editor: async () => { editors++; return undefined; },
+      notify: () => {}, setStatus: () => {}, setWidget: () => {},
     } });
+    f.onReviewState(state => { if (state.records.at(-1)?.status === "pending") finished(); });
     const calls = f.calls.length;
     await f.session.prompt("/hermes-review run"); await done;
     const records = (await new ReviewLedger(f.agentDir).inspect()).records;
@@ -161,7 +190,10 @@ test("installed reference updates require their own read version and interrupted
     assert.deepEqual(recovery.members!.map(member => member.state), ["committed", "prepared", "prepared"]);
     await assert.rejects(f.store.recover(recovery.key, "abort"), /already committed/);
     await assert.rejects(f.store.recover(recovery.key, "commit"), /Installed recovery requires current approval/);
-    await new InstalledPermissions(f.agentDir).setGlobalGrant(true);
+    await new InstalledPermissions(f.agentDir).setPolicy("notes-only");
+    await assert.rejects(f.store.recover(recovery.key, "commit", { approveInstalled: async () => true }), /notes-only/);
+    assert.equal(await readFile(reference, "utf8"), "Original reference", "older exact approvals cannot resume through notes-only");
+    await new InstalledPermissions(f.agentDir).addAllowlist(id);
     const recovered = await f.store.recover(recovery.key, "commit"); assert.equal(recovered.state, "saved");
     assert.equal(await readFile(reference, "utf8"), "Updated reference"); await assert.rejects(access(marker), /ENOENT/);
     assert.equal(await f.store.ownership(f.path, "project"), undefined); assert.deepEqual(await f.store.catalog(), []);
@@ -190,7 +222,7 @@ test("pending capacity is bounded and stale proposal eligibility cannot enqueue"
 test("source revocation after TUI confirmation preserves bytes and does not request paid repair", async () => {
   const f = await fixture();
   try {
-    await bind(f, async () => { f.exclude(); return true; });
+    await bind(f, async () => { f.exclude(); return allowOnce(); });
     await f.session.prompt("Build before manifest check");
     assert.notEqual(JSON.parse(f.session.getLastAssistantText()!).status, "saved");
     assert.equal(await readFile(f.path, "utf8"), f.before);
@@ -203,12 +235,12 @@ test("a global installed-write grant cannot certify unverified model prose", asy
   const f = await fixture(); let dialogs = 0;
   try {
     await f.permissions.setGlobalGrant(true); f.proposal.body = "All tests passed.";
-    await bind(f, async () => { dialogs++; return true; });
+    await bind(f, async () => { dialogs++; return allowOnce(); });
     await f.session.prompt("Apply the proposed unverified result");
     const result = JSON.parse(f.session.getLastAssistantText()!);
-    assert.equal(result.status, "pending"); assert.match(result.reason, /content-proof-required/);
-    assert.equal(dialogs, 0); assert.equal(await readFile(f.path, "utf8"), f.before);
-    assert.equal((await f.permissions.status()).pending[0]!.contentReview, true);
+    // The grant authorizes the installed write only; content still saves as a synthesized note, never certified.
+    assert.equal(result.status, "saved");
+    assert.equal(dialogs, 0); assert.match(await readFile(f.path, "utf8"), /All tests passed/);
     assert.deepEqual((await new ReviewLedger(f.agentDir).inspect()).records, []);
   } finally { f.session.dispose(); }
 });

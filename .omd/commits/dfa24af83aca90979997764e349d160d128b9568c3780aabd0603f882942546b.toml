@@ -1,0 +1,16 @@
+salt = "MUrzmoIFXIUQSQXo"
+previous_id = "8cf87c31693c49b106ba89403cf5209efbc398e44d075f2bc84c4906e7bfd31d"
+timestamp = "2026-10-05T15:01:23.580553993Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "35af015fe0ee70433cb951b800ce7491"
+
+[payload]
+mount = "file:de702c8fd771aba809b43c9058a3d25ac68a0b604cabb80526322b5996b9781b"
+path = "test/review-destinations.test.ts"
+reason = "single charged request, intact snapshot/input estimate, one selected path, policy/allowlist/four local choices, source/version/protected-original and actual candidate-read checks; SDK callback UI is not native terminal evidence."
+
+[payload.position]
+end = "13550"
+mode = "text"
+start = "6047"

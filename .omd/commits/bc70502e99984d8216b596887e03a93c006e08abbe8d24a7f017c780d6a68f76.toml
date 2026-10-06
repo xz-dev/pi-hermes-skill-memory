@@ -1,0 +1,10 @@
+salt = "zjHGzhAzVedSnI77"
+previous_id = ""
+timestamp = "2026-10-05T15:01:21.493535862Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:9278674da92deac403344774124d51aa4e5c3059c0832da347fd09596a48b645"
+path = "test/status-display.test.ts"

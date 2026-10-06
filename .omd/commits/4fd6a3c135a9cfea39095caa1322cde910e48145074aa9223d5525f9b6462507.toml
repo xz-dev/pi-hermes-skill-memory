@@ -1,0 +1,12 @@
+salt = "lqEnZfAV6cshq2aJ"
+previous_id = "5eecb03dca72cd60384809d4b063e0e28ec8105f0fa89ccf776b6bbe542eaef3"
+timestamp = "2026-10-05T17:49:05.025215283Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2e17000370d166561054d75cd2f9316673555eb0f1df9ea02bd9b74c251cf8e3"]
+link_id = "31f94df8c906194b788d28f9efdd7fb2"
+reason = "implementation:entry -> test:modes: Entry changes are user authorization/pending/maintenance only. Search/native mode behavior, noSkills filtering and source identity boundaries unchanged; current mode tests pass. No resident UI reintroduced."
+stop = false

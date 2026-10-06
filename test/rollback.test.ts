@@ -21,8 +21,10 @@ for (const installed of [false, true]) {
     try {
       const statuses = new Map<string, string | undefined>();
       const notices: string[] = [], diffs: string[] = [], ui = f.session.extensionRunner.createCommandContext().ui;
+      const confirmations: boolean[] = []; let acceptRollback = true;
       const tui = { ...ui, notify: (text: string) => notices.push(text), editor: async (_title: string, value?: string) => { diffs.push(value ?? ""); return value; },
-        confirm: async () => true, setStatus: (key: string, value: string | undefined) => { statuses.set(key, value); }, setWidget: () => {} };
+        select: async () => "Allow this change once",
+        confirm: async () => { confirmations.push(acceptRollback); return acceptRollback; }, setStatus: (key: string, value: string | undefined) => { statuses.set(key, value); }, setWidget: () => {} };
       await f.session.bindExtensions({ mode: "tui", uiContext: tui });
       const command = async (text: string) => { notices.length = 0; await f.session.prompt(`/hermes-skills ${text}`); return JSON.parse(notices.at(-1)!); };
       const entryId = f.session.sessionManager.appendMessage({ role: "user", content: "Preserve the procedure", timestamp: 1 });
@@ -63,6 +65,15 @@ for (const installed of [false, true]) {
       await command(`pin ${hit.id}`);
       assert.equal((await command(`rollback ${hit.id} ${change.key}`)).status, "conflict"); assert.equal(await readFile(path, "utf8"), after);
       await command(`unpin ${hit.id}`);
+      if (!installed) {
+        acceptRollback = false;
+        const cancelled = await command(`rollback ${hit.id} ${change.key}`);
+        assert.equal(cancelled.status, "no-change"); assert.equal(confirmations.length, 1);
+        assert.ok(diffs.at(-1)?.includes("introduced.txt") && diffs.at(-1)?.includes("removed"));
+        assert.equal(await readFile(path, "utf8"), after); assert.equal(await readFile(reference, "utf8"), "Changed reference");
+        assert.equal(await readFile(added, "utf8"), "Retain this version in history");
+        assert.deepEqual(await store.inspectRecovery(), []); acceptRollback = true;
+      }
       if (installed) await f.session.bindExtensions({ mode: "rpc", uiContext: tui });
       let reverted = await command(`rollback ${hit.id} ${change.key}`);
       if (installed) {
@@ -123,11 +134,11 @@ for (const installed of [false, true]) {
         await assert.rejects(stat(added), /ENOENT/);
         const pending = (await store.inspectRecovery())[0]!; assert.equal(pending.state, "content-committed");
         await assert.rejects(store.recover(pending.key, "abort"), /already committed/); await assert.rejects(store.assertReady(), /store-recovery-required/);
-        await f.session.reload(); assert.match(statuses.get("hermes-maintenance") ?? "", /1 unresolved/);
+        await f.session.reload(); assert.equal((await command("status")).maintenance.length, 1);
         sourceAllowed = async () => true;
         await f.session.prompt(`/hermes-review recover ${pending.key} commit`);
         assert.deepEqual(await store.inspectRecovery(), []); assert.equal(await readFile(added, "utf8"), "Retain this version in history");
-        assert.equal(statuses.get("hermes-maintenance"), undefined);
+        assert.deepEqual((await command("status")).maintenance, []);
         assert.equal((await command(`rollback ${hit.id} ${change.key}`)).status, "changed");
         assert.equal(f.calls.length, 0); assert.deepEqual((await new ReviewLedger(f.agentDir).inspect()).records, []);
         const original = history.items.find((row: { requestId: string }) => row.requestId === "original-version");

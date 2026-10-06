@@ -1,0 +1,12 @@
+salt = "HoRkuNRyruS3LDgw"
+previous_id = "62570d5a78111d72268c7771d8ba0e208cea10871cbfc117c88f0fced866f53c"
+timestamp = "2026-10-05T14:58:31.691081949Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["4a09f50142db8a2565a4330dc2668e2fc79e124431c1598ccb39081810ec3489"]
+link_id = "f4cab785ec53319aea8be27b8eb61793"
+reason = "implementation:review → evidence:swe2: Historical authorized live-model receipt is not rerun or counted as current learning quality/billing evidence. Current deterministic one-request matrix only establishes host behavior. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

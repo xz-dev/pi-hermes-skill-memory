@@ -752,13 +752,19 @@ export class ManagedSkillStore {
       const grantRequired = action === "commit" && !!plan.installed && !guard?.approveInstalled;
       if (action === "commit" && plan.installed && guard?.approveInstalled &&
         !await awaitWithAbort(guard.approveInstalled((await this.previewRecovery(key))!), guard.signal)) throw new Error("Installed recovery approval rejected");
+      const assertPolicy = async () => {
+        if (action !== "commit" || !plan.installed) return;
+        const decision = await permission.decide(plan.installed);
+        if (decision === "notes-only") throw new Error("notes-only policy blocks installed recovery; exact approval cannot bypass it");
+        if (grantRequired && decision !== "allow") throw new Error("Installed recovery requires current approval; grant revoked or absent");
+      };
       const authorize = async () => {
         current();
-        if (grantRequired && !await permission.allowed()) throw new Error("Installed recovery requires current approval; global grant revoked or absent");
+        await assertPolicy();
         const primary = await this.currentContent(plan.record.path);
         await awaitWithAbort(Promise.resolve().then(() => guard?.authorize?.(plan.before === null ? undefined : {
           path: plan.record.path, version: contentHash(primary!), installedId: plan.installed?.id })), guard?.signal);
-        if (grantRequired && !await permission.allowed()) throw new Error("Installed recovery global grant revoked during source authorization");
+        await assertPolicy();
         if (await new SkillActivityStore(this.agentDir).pinned(plan.record.id, plan.record.pinned)) throw new Error("Recovery target pinned");
         current();
       };

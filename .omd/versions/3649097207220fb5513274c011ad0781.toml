@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [54, 73, 9, 114, 7, 34, 15, 181, 81, 50, 116, 192, 17, 173, 7, 129]
+len = 6489
+sha256 = "263e48d6664fcd2f90ee53bf72b6c41781c7d2f3b262d9ed81f1040ac219909a"
+encoding = "utf-8"
+content_file = "content/263e48d6664fcd2f90ee53bf72b6c41781c7d2f3b262d9ed81f1040ac219909a"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/scheduling.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/scheduling.test.ts"

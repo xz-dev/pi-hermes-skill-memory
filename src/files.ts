@@ -2,7 +2,7 @@ import { mkdir, open, readFile, realpath, rename, unlink } from "node:fs/promise
 import { dirname, resolve, relative, join, sep, isAbsolute } from "node:path";
 import { randomUUID } from "node:crypto";
 
-export async function atomicJson(path: string, value: unknown): Promise<void> {
+export async function atomicJson(path: string, value: unknown, assertCurrent?: () => void): Promise<void> {
   await mkdir(dirname(path), { recursive: true });
   const tmp = `${path}.${randomUUID()}.new`;
   const file = await open(tmp, "wx", 0o600);
@@ -10,6 +10,8 @@ export async function atomicJson(path: string, value: unknown): Promise<void> {
     await file.writeFile(JSON.stringify(value, null, 2) + "\n");
     await file.sync();
   } finally { await file.close(); }
+  try { assertCurrent?.(); }
+  catch (error) { await unlink(tmp); throw error; } // Only our unpublished temporary file is removed.
   await rename(tmp, path);
 }
 

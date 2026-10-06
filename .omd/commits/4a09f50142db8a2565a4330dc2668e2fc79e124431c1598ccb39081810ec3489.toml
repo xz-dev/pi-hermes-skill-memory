@@ -1,0 +1,15 @@
+salt = "CUiw2APwvWZ5SqDE"
+previous_id = "c12e0e249778673bec2c5a28f34fe6b52379e0a5013de1788de50d11e9253cbb"
+timestamp = "2026-10-05T14:54:01.98351906Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "b36de2f93ce24f721918789cea82ee67"
+
+[payload]
+path = "src/review.ts"
+reason = "Design §1/4 same request/full snapshot carries policy/candidates; agent-notes and transient alternatives select one path. No verifier/retrieval/fallback; accounting-only late results retained."
+
+[payload.position]
+end = "13850"
+mode = "text"
+start = "0"

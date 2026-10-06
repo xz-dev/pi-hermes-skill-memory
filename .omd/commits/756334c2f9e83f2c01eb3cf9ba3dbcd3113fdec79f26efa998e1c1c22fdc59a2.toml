@@ -1,0 +1,12 @@
+salt = "BXs4w4n70enWEBEN"
+previous_id = "9bfad955b8ba13db2435718544477890a116b6cd95f5ee2b1ec10bd36ce860da"
+timestamp = "2026-10-05T17:49:09.64951302Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2e17000370d166561054d75cd2f9316673555eb0f1df9ea02bd9b74c251cf8e3"]
+link_id = "fdec9f9a079350184009fbc18fe37950"
+reason = "test:cli-sources -> fixture:cli-sources: CLI fixture programs are unchanged: official provider/source flags and public tools still used. Entry authorization changes do not broaden discovery/noSkills. Current CLI tests and targeted native offline fixture pass; no personal installation touched."
+stop = false

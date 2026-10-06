@@ -1,0 +1,12 @@
+salt = "w4XAwNC6ei1PaPX5"
+previous_id = "613222bc76880580bee3169107d86a887af402055611196ae87980b5c20a5260"
+timestamp = "2026-10-05T14:58:30.380386622Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["ac4d3bc724c5ac506f6abfef6b293e13a59f2edbe4e89485ec0f1fc8018bd7f5"]
+link_id = "c1992e2f65574862eabc2272573de95d"
+reason = "implementation:ui → test:ui: status/usage/errors remain on-demand and durable; missing/broken UI cannot lose accounting or grant installed permission. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

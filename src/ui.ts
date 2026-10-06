@@ -1,6 +1,6 @@
 import { captureSnapshot } from "./context.ts";
 import { resolveProjectRoot, selectProjectRoot } from "./scope.ts";
-import { ReviewLedger, REVIEW_LIMITS } from "./ledger.ts";
+import { ReviewLedger, REVIEW_LIMITS, automaticEnabled } from "./ledger.ts";
 import type { ExtensionAPI, ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import type { ReviewState } from "./ledger.ts";
 import { ManagedSkillStore, contentHash } from "./store.ts";
@@ -20,8 +20,9 @@ export function reviewStatus(state: ReviewState, sessionId: string) {
   const errors = state.records.filter(r => (r.status === "failed" || r.usageUnknown) && !(state.acknowledged ?? []).includes(r.id));
   const sum = (field: "input" | "output" | "cacheRead" | "cacheWrite") => charged.reduce((n, r) => n + (r.usage?.[field] ?? 0), 0);
   return {
-    auto: state.autoEnabled ? "on" : "off", paused: state.paused, latest: latest?.status ?? "idle", latestReason: latest?.reason,
+    auto: automaticEnabled(state) ? "on" : "off", paused: state.paused, latest: latest?.status ?? "idle", latestReason: latest?.reason,
     errors: errors.length, jobs: charged.length, jobLimit: REVIEW_LIMITS.dailyJobs,
+    targets: latest?.targets ?? ["skills"], limits: REVIEW_LIMITS,
     input: sum("input"), output: sum("output"), cacheRead: sum("cacheRead"), cacheWrite: sum("cacheWrite"),
     unresolvedInput: charged.filter(r => r.usageUnknown).reduce((n, r) => n + r.reservation.input, 0),
     unresolvedOutput: charged.filter(r => r.usageUnknown).reduce((n, r) => n + r.reservation.output, 0),
@@ -36,9 +37,12 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
   onSaved?: (ctx: ExtensionContext) => Promise<void>;
   sourceReady?: (ctx: ExtensionContext) => Promise<boolean>;
   submit?: (ctx: ExtensionContext, store: ManagedSkillStore, proposal: SkillProposal, snapshot: Snapshot, requestId: string,
-    guard: { signal?: AbortSignal; isCurrent?: () => boolean }) => Promise<{ id: string }>;
+    guard: { signal?: AbortSignal; isCurrent?: () => boolean }, managedAlternative?: SkillProposal) => Promise<{ id: string } | { status: "redirect"; saved: false }>;
   reportFeedback?: (ctx: ExtensionContext, feedback: SkillFeedback, snapshot: Snapshot, guard: { signal: AbortSignal; isCurrent: () => boolean; requestId: string }) => Promise<void>;
+  preflight?: (ctx: ExtensionContext, proposal: SkillProposal, alternative: SkillProposal | undefined, snapshot: Snapshot) => Promise<void>;
   authorizeCommit?: (ctx: ExtensionContext, target?: { path: string; version: string; installedId?: string }) => Promise<void>;
+  /** Bounded per-request briefing (current policy + local note candidates); no extra model calls. */
+  briefing?: (ctx: ExtensionContext, snapshot: Snapshot) => Promise<string>;
 } = {}) {
   const ledger = new ReviewLedger(agentDir);
   let ctx: ExtensionContext | undefined;
@@ -47,7 +51,6 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
   let unsubscribeEvents: (() => void) | undefined;
   let controller: AbortController | undefined;
   let running: Promise<unknown> | undefined;
-  let timer: ReturnType<typeof setInterval> | undefined;
   let generation = 0;
   let lastPrinted = "";
   const toolTurns = new Set<string>();
@@ -61,20 +64,10 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
   const render = () => {
     if (!ctx || !state) return;
     try {
-    const status = { ...reviewStatus(state, ctx.sessionManager.getSessionId()), ...counts(ctx) };
-    const active = state.records.find(r => r.status === "running" || r.status === "admitted");
-    const elapsed = active ? ` ${active.model} ${Math.max(0, Math.floor((Date.now() - active.started) / 1000))}s` : "";
-    const reserved = status.unresolvedInput || status.unresolvedOutput ? ` | usage UNKNOWN reserved ${status.unresolvedInput}/${status.unresolvedOutput}` : "";
-    const latest = status.latestReason ? `${status.latest}: ${status.latestReason}` : status.latest;
-    const title = `Hermes auto ${state.autoEnabled ? "ON" : "OFF"} | ${status.paused ? "PAUSED " + status.paused : latest}${elapsed} | errors ${status.errors}`;
-    const detail = `targets ${state.records.at(-1)?.targets?.join("+") ?? "skills"} | jobs ${status.jobs}/${status.jobLimit} | input ${status.input}/${REVIEW_LIMITS.dailyInput} output ${status.output}/${REVIEW_LIMITS.dailyOutput} cache ${status.cacheRead}/${status.cacheWrite}${reserved} | price ${status.pricesUnknown ? "UNKNOWN" : "reported"}`;
-    if (ctx.mode === "tui") {
-      ctx.ui.setStatus("hermes-review", title);
-      ctx.ui.setWidget("hermes-review", [title, detail, "/hermes-review status | usage | errors | cancel | retry | pause | resume"]);
-    } else {
+      if (ctx.mode === "tui") return;
+      const status = { ...reviewStatus(state, ctx.sessionManager.getSessionId()), ...counts(ctx) };
       const text = JSON.stringify({ type: "hermes.review.status", ...status });
       if (text !== lastPrinted) { lastPrinted = text; console.error(text); }
-    }
     } catch (error) {
       ctx = undefined;
       console.error(JSON.stringify({ type: "hermes.review.ui-unavailable", error: String(error).slice(0, 400), accountingRetained: true }));
@@ -82,13 +75,7 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
   };
   const fault = (error: unknown) => {
     const message = `Hermes ledger unavailable: ${String(error).slice(0, 400)}; model calls blocked`;
-    try {
-      if (ctx?.mode === "tui") {
-        ctx.ui.setStatus("hermes-review", "Hermes PAUSED: ledger error");
-        ctx.ui.setWidget("hermes-review", [message]);
-        return;
-      }
-    } catch { ctx = undefined; }
+    try { if (ctx?.mode === "tui") return; } catch { ctx = undefined; }
     console.error(JSON.stringify({ type: "hermes.review.fault", message }));
   };
   const refresh = async () => { try { state = await ledger.inspect(); render(); } catch (error) { fault(error); throw error; } };
@@ -122,9 +109,11 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
       return reviewSkills({ snapshot, curation: curation?.curation, registry: context.modelRegistry, ledger,
       cooperation: { boundary: key, owner: "skills", targets: offers.map(offer => offer.target), memory: offers.find(offer => offer.target === "memory")?.memory },
       store: new ManagedSkillStore(agentDir, root), signal: ownController.signal,
-      submit: curation?.submit ?? (options.submit ? (proposal, snapshot, requestId, guard) => options.submit!(context, new ManagedSkillStore(agentDir, root), proposal, snapshot, requestId, guard) : undefined),
+      submit: curation?.submit ?? (options.submit ? (proposal, snapshot, requestId, guard, alternative) => options.submit!(context, new ManagedSkillStore(agentDir, root), proposal, snapshot, requestId, guard, alternative) : undefined),
       retryOf, isCurrent: current,
       reportFeedback: options.reportFeedback ? (feedback, snapshot, guard) => options.reportFeedback!(context, feedback, snapshot, guard) : undefined,
+      briefing: options.briefing ? snapshot => options.briefing!(context, snapshot) : undefined,
+      preflight: options.preflight ? (proposal, alternative, snapshot) => options.preflight!(context, proposal, alternative, snapshot) : undefined,
       authorizeCommit: async target => { await options.authorizeCommit?.(context, target); },
       onSaved: async () => { if (current()) await options.onSaved?.(context); } });
     };
@@ -134,17 +123,16 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
         throw error;
       });
     running = task;
-    clearInterval(timer); timer = setInterval(render, 1000);
     void task.then(() => refresh(), async error => { fault(error); await refresh().catch(() => {}); })
       .catch(error => { fault(error); })
-      .finally(() => { if (running === task) { running = undefined; controller = undefined; clearInterval(timer); timer = undefined; } });
+      .finally(() => { if (running === task) { running = undefined; controller = undefined; } });
     return task;
   };
   let cooperation: ReviewCooperation;
   const connectCooperation = () => new ReviewCooperation(pi.events, boundary => {
     const context = ctx;
     if (!context || boundaryKey(reviewBoundary(captureSnapshot(context))) !== boundaryKey(boundary)) return undefined;
-    const active = !!running || !!state?.autoEnabled && !state.paused && toolTurns.size - consumedTurns >= 10;
+    const active = !!running || !!state && automaticEnabled(state) && !state.paused && toolTurns.size - consumedTurns >= 10;
     const ownGeneration = generation;
     return { target: "skills", version: 1, compatibility: REVIEW_COMPATIBILITY, ledgerRoot: ledger.root, boundary, active,
       run: async offers => {
@@ -160,7 +148,7 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
   const selectedRoot = (cwd: string) => options.projectRoot ?? state?.projectRoots?.[cwd];
   const projectRoot = async (command: ExtensionCommandContext) => {
     const root = await selectProjectRoot(command, selectedRoot(command.cwd));
-    await ledger.configureAutomatic(state?.autoEnabled ?? false, { cwd: command.cwd, root });
+    await ledger.configureAutomatic(automaticEnabled(state), { cwd: command.cwd, root });
     return root;
   };
   const run = async (command: ExtensionCommandContext, retryOf?: string) => {
@@ -207,7 +195,8 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
             const abort = new AbortController(); controller = abort;
             const preview = operation === "commit" ? await store.previewRecovery(value) : undefined;
             let approved: string | undefined;
-            if (preview && !await new InstalledPermissions(agentDir).allowed()) {
+            if (preview && await new InstalledPermissions(agentDir).decide(preview.target) !== "allow") {
+              if (await new InstalledPermissions(agentDir).decide(preview.target) === "notes-only") throw new Error("notes-only policy blocks installed recovery");
               if (command.mode !== "tui") throw new Error("confirmation-required: installed recovery requires a current global grant or exact TUI diff approval");
               if (!await awaitWithAbort(confirmInstalledDiff(command, preview, abort.signal), abort.signal)) {
                 detail({ status: "no-change", modelCalled: false }); break;
@@ -258,7 +247,7 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
         }
         if (action !== "run" && action !== "retry") await refresh();
       } catch (error) {
-        detail({ failed: String(error), modelCalled: false, automaticReview: state?.autoEnabled ? "on" : "off" });
+        detail({ failed: String(error), modelCalled: false, automaticReview: automaticEnabled(state) ? "on" : "off" });
         if (!state) fault(error);
       }
     },
@@ -284,7 +273,7 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
     const ownGeneration = generation;
     const task = (async () => {
       await refresh();
-      if (generation !== ownGeneration || !state?.autoEnabled || state.paused || !context.isIdle() || context.hasPendingMessages()) return;
+      if (generation !== ownGeneration || !state || !automaticEnabled(state) || state.paused || !context.isIdle() || context.hasPendingMessages()) return;
       const snapshot = captureSnapshot(context);
       if (state.records.some(r => r.digest === snapshot.digest && r.sessionId === snapshot.sessionId)) return;
       if (!context.model) { await ledger.skip(snapshot, undefined, "skipped-unsupported-model"); return; }
@@ -309,8 +298,8 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
   pi.on("session_before_compact", () => { cancel(); });
   pi.on("session_before_switch", () => { cancel(); });
   pi.on("session_before_fork", () => { cancel(); });
-  pi.on("session_shutdown", () => { cancel(); cooperation.close(); unsubscribe?.(); unsubscribeEvents?.(); clearInterval(timer); timer = undefined; ctx = undefined; });
-  return { automatic: (): "on" | "off" => state?.autoEnabled ? "on" : "off", selectedRoot, projectRoot, cancel, revision: () => generation,
+  pi.on("session_shutdown", () => { cancel(); cooperation.close(); unsubscribe?.(); unsubscribeEvents?.(); ctx = undefined; });
+  return { automatic: (): "on" | "off" => automaticEnabled(state) ? "on" : "off", selectedRoot, projectRoot, cancel, revision: () => generation,
     curate: (context: ExtensionContext, root: string, prepared: CurationReview) => {
       if (!context.model || !context.isIdle()) throw new Error("Curation requires a selected model and idle foreground");
       ctx = context; return launch(context, root, generation, undefined, prepared);

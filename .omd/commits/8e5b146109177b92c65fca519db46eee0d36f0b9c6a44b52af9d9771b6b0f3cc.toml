@@ -1,0 +1,12 @@
+salt = "umihV2A3Iy2nD9yt"
+previous_id = "756334c2f9e83f2c01eb3cf9ba3dbcd3113fdec79f26efa998e1c1c22fdc59a2"
+timestamp = "2026-10-05T18:29:15.718510777Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["a6abd4ae08e6211a937d637db491c268b249abb78425c9faf6900778412984cc"]
+link_id = "fdec9f9a079350184009fbc18fe37950"
+reason = "test:cli-sources -> fixture:cli-sources: Inherited entry change does not alter target public SDK/source/fixture bytes or single-row/native rollback contract. Original authority/rollback/CLI/public acceptance assertions pass current full225 gate and prior four repros. Broader native evidence reused only for unchanged helper/UI/single-row semantics, not claimed new batch timing proof."
+stop = false

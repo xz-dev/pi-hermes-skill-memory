@@ -1,0 +1,12 @@
+salt = "KIdbJk5Bv0xGLh1y"
+previous_id = "c789e504cf51a592a31652f92acd0af13c0ee3dd676b9c4ecf40c153b29cb231"
+timestamp = "2026-10-05T14:58:32.334185799Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["e84c4c3f0a2d01552125e9d658db1bfcc6a56fde20ac03a384451104f6f983b6"]
+link_id = "f7d832cb0aec1f230184372225210983"
+reason = "implementation:store → test:member-transactions: body/support staged members use same controlled writer; interruption remains inspectable per-member, never atomic multi-file claim. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

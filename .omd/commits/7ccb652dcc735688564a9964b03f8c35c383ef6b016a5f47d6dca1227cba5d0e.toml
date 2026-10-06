@@ -1,0 +1,12 @@
+salt = "QzGDJvd4r8BT1idg"
+previous_id = "ba24438a11822c0495223e53987e41c6b89bb33feeeb710569b1819192d0ca77"
+timestamp = "2026-10-05T14:58:32.069037224Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8b5cdeccdb091d6f6601b74bb3c6bbddb932dc8c8d2ca478c8c25e5d5ade9e8"]
+link_id = "f559d38b411d6cbe57a9a69b6f1ba4ec"
+reason = "implementation:permissions → test:installed: four-choice update approval, exact-ID grant precedence, source/version/pin boundaries and notes-only recovery checks preserve user-owned identity. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

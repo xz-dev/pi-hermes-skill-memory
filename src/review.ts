@@ -16,16 +16,24 @@ export const REVIEW_INSTRUCTION = `Review current effective conversation once. R
   "description":"brief use condition","body":"reusable steps, not task diary",
   "reason":"why reusable","evidence":[{"entryId":"supplied ID","quote":"exact evidence substring"}]}]}.
   Use project for project-specific rules. Global requires crossProject explanation.
+  Search the supplied managed-note candidates first: revise an existing note for a repeated lesson before creating a new one.
   For updates use action:update with the exact read SkillId in id and baseVersion; preserve scope/name.
   Repeated lessons revise the same read rule and link new evidence; never create duplicate skills or date-named references for the same lesson.
   Supporting files need file/content and their own read baseVersion when replacing existing bytes.
+  When the current policy marks an installed target notes-only, keep that original unchanged and submit an ordinary managed note
+  carrying the lesson instead; include the original skill's name in the note name or description so it stays searchable.
+  If no managed note candidate was actually read, do not claim one was updated; create a new note or report none.
   Use procedureTemplate:"build-before-manifest" only for an evidenced build-before-manifest instruction: the host renders instructions, not claims that work ran.
   contentKind:"source-report" quotes attributed source material, not independently certified execution results.
-  Other unverified prose/assets become bounded pending for local TUI approval; do not try a second request to correct them.
   Optional feedback:[{id:"exact read SkillId",version:"read hash",use:true,outcome:"success|failure|unknown",evidence:[{entryId:"ID",quote:"exact substring"}]}]
   reports foreground use/outcomes, not independently confirmed success. Do not report review's own reads as use. No request solely for feedback.
   No secrets, invented success claims, temporary instructions, tool calls or other operations.
-  If nothing useful, return empty skills. Do not claim an unrun test passed.`;
+  If nothing useful, return empty skills. Do not claim an unrun test passed.
+  An installed improvement may instead be one item {"proposal":{...},"managedAlternative":{...}}:
+  the host selects one destination only by current policy/decision. The alternative is an ordinary
+  managed note, never another installed target; a flat proposal remains supported. Never split one
+  improvement into separate original/alternative items. Alternatives need the same valid evidence,
+  scope safeguards and actual prior read/version for updates. No alternative means redirect needs continuation.`;
 
 /** One-request service. No automatic scheduling or model fallback. */
 export async function reviewSkills(options: {
@@ -38,7 +46,11 @@ export async function reviewSkills(options: {
   isCurrent?: () => boolean;
   onSaved?: () => Promise<void>;
   reportFeedback?: (feedback: SkillFeedback, snapshot: Snapshot, guard: { signal: AbortSignal; isCurrent: () => boolean; requestId: string }) => Promise<void>;
-  submit?: (proposal: SkillProposal, snapshot: Snapshot, requestId: string, guard: { signal?: AbortSignal; isCurrent?: () => boolean }) => Promise<{ id: string }>;
+  /** Caller-supplied bounded policy/candidate context for THIS request only; charged inside the original input estimate. */
+  briefing?: (snapshot: Snapshot) => Promise<string>;
+  submit?: (proposal: SkillProposal, snapshot: Snapshot, requestId: string, guard: { signal?: AbortSignal; isCurrent?: () => boolean }, managedAlternative?: SkillProposal) =>
+    Promise<{ id: string } | { status: "redirect"; saved: false; [key: string]: unknown }>;
+  preflight?: (proposal: SkillProposal, alternative: SkillProposal | undefined, snapshot: Snapshot) => Promise<void>;
   authorizeCommit?: (target?: { path: string; version: string }) => Promise<void>;
 }): Promise<ReviewRecord> {
   const { snapshot, registry, ledger, store } = options;
@@ -56,7 +68,10 @@ export async function reviewSkills(options: {
     return skipped;
   }
   const messages = structuredClone(snapshot.messages);
-  messages.push({ role: "user", content: `${REVIEW_INSTRUCTION}${options.curation ? `\nExplicit semantic curation ONLY: return zero or one update to ${options.curation.keepId}. The other skill ${options.curation.absorbId} is NOT directly edited/deleted. No feedback; background reading is not use.` : ""}\nEffective evidence: ${JSON.stringify(snapshot.evidence)}` +
+  const briefing = options.briefing ? (await options.briefing(snapshot)).slice(0, 8000) : "";
+  messages.push({ role: "user", content: `${REVIEW_INSTRUCTION}${options.curation ? `\nExplicit semantic curation ONLY: return zero or one update to ${options.curation.keepId}. The other skill ${options.curation.absorbId} is NOT directly edited/deleted. No feedback; background reading is not use.` : ""}` +
+    (briefing ? `\nCurrent installed-write policy and managed-note candidates (metadata only, not authorization):\n${briefing}` : "") +
+    `\nEffective evidence: ${JSON.stringify(snapshot.evidence)}` +
     (options.cooperation?.memory ? `\nAlso classify the memory target in the same JSON object's memory field. Memory participant instruction/evidence:\n${options.cooperation.memory.instruction}` : ""), timestamp: Date.now() });
   // ponytail: Conservative UTF-8 byte estimate, not a measured token count.
   const input = Buffer.byteLength(JSON.stringify(messages));
@@ -103,25 +118,39 @@ export async function reviewSkills(options: {
     const parsed: unknown = JSON.parse(text);
     if (!parsed || typeof parsed !== "object" || !("skills" in parsed) || !Array.isArray(parsed.skills) || parsed.skills.length > 4) throw new Error("Invalid skill response");
     if (options.cooperation?.memory && !("memory" in parsed)) throw new Error("Missing classified memory result");
-    const proposals = parsed.skills.map(value => validateProposal(value, snapshot));
+    const proposals = parsed.skills.map(value => {
+      if (value && typeof value === "object" && "proposal" in value) {
+        if (Object.keys(value).some(key => !["proposal", "managedAlternative"].includes(key))) throw new Error("Invalid improvement envelope");
+        return { proposal: validateProposal(value.proposal, snapshot), managedAlternative: value.managedAlternative === undefined ? undefined : validateProposal(value.managedAlternative, snapshot) };
+      }
+      return { proposal: validateProposal(value, snapshot), managedAlternative: undefined };
+    });
     const reports = "feedback" in parsed ? parsed.feedback : [];
     if (!Array.isArray(reports) || reports.length > 16) throw new Error("Invalid or excessive skill feedback");
-    if (options.curation && (proposals.length > 1 || proposals.some(proposal => proposal.action !== "update" || proposal.id !== options.curation!.keepId) || reports.length)) throw new Error("Curation response must contain at most one keep update and no feedback");
+    if (options.curation && (proposals.length > 1 || proposals.some(({ proposal, managedAlternative }) => managedAlternative || proposal.action !== "update" || proposal.id !== options.curation!.keepId) || reports.length)) throw new Error("Curation response must contain at most one keep update and no feedback");
     const feedback = reports.map(value => validateFeedback(value, snapshot));
     if (!proposals.length && !feedback.length && !options.cooperation?.memory) return await finish("no-change");
+    // Validate candidate destinations for the entire response before feedback or any write.
+    for (const { proposal, managedAlternative } of proposals) await options.preflight?.(proposal, managedAlternative, snapshot);
     for (const report of feedback) {
       signal.throwIfAborted();
       const guard = { signal, isCurrent, requestId: record.id };
       if (options.reportFeedback) await options.reportFeedback(report, snapshot, guard);
       else await new SkillActivityStore(store.agentDir).report(report, snapshot, guard.isCurrent, record.id);
     }
-    for (const proposal of proposals) {
+    for (const { proposal, managedAlternative } of proposals) {
       signal.throwIfAborted();
       if (!isCurrent()) return await finish("cancelled", "stale-result");
       try {
         // Do not declare a terminal storage outcome until the controlled writer has exited.
         const guard = { signal, isCurrent, authorize: options.authorizeCommit };
-        saved.push((await (options.submit ? options.submit(proposal, snapshot, record.id, guard) : store.submitModel(proposal, snapshot, record.id, guard))).id);
+        const outcome = await (options.submit ? options.submit(proposal, snapshot, record.id, guard, managedAlternative) : managedAlternative ? Promise.reject(new Error("Managed alternative requires host destination policy")) : store.submitModel(proposal, snapshot, record.id, guard));
+        if (outcome && typeof outcome === "object" && "status" in outcome && outcome.status === "redirect") {
+          // A policy/directive redirect is a transcription intent, never a saved id; keep this request's accounting honest.
+          pending.push(`redirect: ${(outcome as { targetId?: string }).targetId ?? proposal.id ?? proposal.name}`);
+          continue;
+        }
+        saved.push((outcome as { id: string }).id);
         if (options.onSaved) await awaitWithAbort(options.onSaved(), signal);
       }
       catch (error) {

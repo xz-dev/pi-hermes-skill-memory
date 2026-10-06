@@ -1,0 +1,9 @@
+salt = "7y752asklx4XlEM4"
+previous_id = ""
+timestamp = "2026-10-05T15:01:20.566879557Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "5256b54db900a44d0fe6b8ef791c5546"
+
+[payload]
+path = "test/policy-decisions.test.ts"

@@ -1,0 +1,12 @@
+salt = "cHNAangUPyisVIrj"
+previous_id = "bfdf0ef3557f5c2dcc3b77a01fbba2ac21802af731d9ddbaa51574ee5633058d"
+timestamp = "2026-10-05T14:58:27.471066135Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["4a09f50142db8a2565a4330dc2668e2fc79e124431c1598ccb39081810ec3489"]
+link_id = "843689b4f173c7ce70cf3496ff95a1fd"
+reason = "implementation:review → test:learning: same snapshot evidence still validates ordinary agent-notes under one request; no hidden verifier and actual saved IDs only. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

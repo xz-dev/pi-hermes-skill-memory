@@ -1,0 +1,16 @@
+salt = "d7gqsWAHiryi6Upw"
+previous_id = "3aa5fad9acf315992a8cd5e2fedb7868e44ec551a64746417b68145f073215f4"
+timestamp = "2026-10-05T15:01:24.345693933Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "49f4b6225a6e9d44bb2fd7483e275da5"
+
+[payload]
+mount = "file:aa3e4c65870c0a75ffc6a27cb6c7d38178a8b8685628916fa67a2669e2def0b8"
+path = "test/fixtures/tui-notebook.ts"
+reason = "Actual official isolated CLI/PTY fixture exercises production public tools/editor/select/settings; deterministic provider cannot issue network request."
+
+[payload.position]
+end = "5612"
+mode = "text"
+start = "555"

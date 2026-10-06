@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [90, 0, 128, 207, 48, 136, 45, 210, 19, 230, 216, 188, 209, 162, 242, 53]
+len = 16434
+sha256 = "ee22df53c603912cf75c78e8445fc83abde41fa64b51e6f3bdc99331ab120777"
+encoding = "utf-8"
+content_file = "content/ee22df53c603912cf75c78e8445fc83abde41fa64b51e6f3bdc99331ab120777"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/permission-policy.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/permission-policy.test.ts"

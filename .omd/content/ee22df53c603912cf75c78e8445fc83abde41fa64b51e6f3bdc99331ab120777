@@ -1,0 +1,285 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { mkdir, mkdtemp, readdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import type { ExtensionContext, ExtensionUIContext } from "@earendil-works/pi-coding-agent";
+import { atomicJson, withLock } from "../src/files.ts";
+import { readdirSync } from "node:fs";
+import { contentHash } from "../src/store.ts";
+import type { InstalledTarget } from "../src/store.ts";
+import type { InstalledPreview, PendingSkill } from "../src/permissions.ts";
+import { InstalledPermissions, RejectedTargets, confirmInstalledDiff, decideInstalledDiff, installedDiffText, permissionSettings, resolveInstalledDecision } from "../src/permissions.ts";
+
+const target = (over: Partial<InstalledTarget> = {}): InstalledTarget => ({
+  id: "project:stable-identity-1", name: "manual-rule", scope: "project",
+  filePath: "/repo/.pi/skills/manual-rule/SKILL.md", baseDir: "/repo/.pi/skills/manual-rule",
+  version: "v1", owner: "user-owned", source: "project", namespace: "project", readOnly: false, pinned: false, ...over,
+});
+
+const preview = (over: Partial<InstalledPreview> = {}): InstalledPreview => ({
+  target: target(),
+  proposal: { action: "update", id: target().id, scope: "project", name: "manual-rule", description: "Release ordering",
+    body: "Build before manifest check", reason: "Explicit user correction",
+    evidence: [{ entryId: "e1", quote: "Build before manifest check" }] },
+  diff: [{ file: "SKILL.md", before: "Build first.\n", after: "Build before manifest check\n" }],
+  ...over,
+});
+
+const pendingRow = (): PendingSkill => {
+  const p = preview();
+  return { id: contentHash(JSON.stringify(p)), preview: p, requestId: "req-1",
+    snapshot: { sessionId: "s", leafId: "l", cwd: "/repo", digest: "d", evidence: [], skillReads: [] } as PendingSkill["snapshot"] };
+};
+
+async function agentDir() {
+  const root = await mkdtemp("/var/tmp/hermes-permissions-test-");
+  const dir = join(root, "agent"); await mkdir(join(dir, "hermes-skills", "provenance", "permissions"), { recursive: true });
+  return { root, dir, stateDir: join(dir, "hermes-skills", "provenance", "permissions") };
+}
+
+async function seed(stateDir: string, state: unknown, extras: string[] = []) {
+  if (state !== undefined) await writeFile(join(stateDir, "state.json"), typeof state === "string" ? state : JSON.stringify(state));
+  for (const file of extras) await writeFile(join(stateDir, file), "");
+}
+
+function fakeCtx(ui: Partial<ExtensionUIContext>, mode = "tui"): ExtensionContext {
+  return { mode, ui, cwd: "/repo" } as unknown as ExtensionContext;
+}
+
+test("blank state resolves ask with empty allowlist; missing-after-initialized and corruption fail closed", async () => {
+  const blank = await mkdtemp("/var/tmp/hermes-permissions-test-");
+  const fresh = new InstalledPermissions(blank);
+  assert.equal((await fresh.read()).policy, "ask");
+  assert.equal(await fresh.allowed(), false);
+
+  const { dir, stateDir } = await agentDir();
+  const permissions = new InstalledPermissions(dir);
+  await seed(stateDir, undefined, ["initialized"]);
+  await assert.rejects(permissions.read(), /do not reset approvals|missing/);
+  await assert.rejects(permissions.allowed(), /do not reset approvals|missing/);
+
+  await writeFile(join(stateDir, "state.json"), "{not json");
+  await assert.rejects(permissions.read(), Error);
+
+  await writeFile(join(stateDir, "state.json"), JSON.stringify({ version: 2, policy: "yolo", allowlist: [], pending: [] }));
+  await assert.rejects(permissions.read(), /Invalid installed permission state/);
+
+  await writeFile(join(stateDir, "state.json"), JSON.stringify({ version: 9, policy: "ask", allowlist: [], pending: [] }));
+  await assert.rejects(permissions.read(), /Invalid installed permission state/);
+});
+
+test("legacy v1 migration maps true→allow and false→ask; pending, applying and failure survive a v2 write", async () => {
+  const { dir, stateDir } = await agentDir();
+  const permissions = new InstalledPermissions(dir);
+  const row = { ...pendingRow(), applying: true, failure: "partial apply" };
+
+  await seed(stateDir, { version: 1, allowAutoModifyInstalledSkills: true, pending: [row] });
+  let value = await permissions.read();
+  assert.equal(value.policy, "allow"); assert.equal(value.allowlist.length, 0);
+  assert.equal(await permissions.allowed(), true);
+  assert.deepEqual((await permissions.get(row.id)).applying, true);
+
+  // First v2 write persists migrated policy without executing or dropping pending recovery records.
+  await permissions.setPolicy("ask");
+  const persisted = JSON.parse(await readFile(join(stateDir, "state.json"), "utf8"));
+  assert.equal(persisted.version, 2); assert.equal(persisted.policy, "ask");
+  assert.equal(persisted.pending.length, 1); assert.equal(persisted.pending[0].applying, true);
+  assert.equal(persisted.pending[0].failure, "partial apply");
+  assert.equal((await permissions.get(row.id)).requestId, "req-1");
+
+  await seed(stateDir, { version: 1, allowAutoModifyInstalledSkills: false, pending: [] });
+  assert.equal((await permissions.read()).policy, "ask");
+  assert.equal(await permissions.allowed(), false);
+});
+
+test("policy × allowlist matrix: whitelist wins global policy by stable identity only", async () => {
+  const { dir, stateDir } = await agentDir();
+  const permissions = new InstalledPermissions(dir);
+  await seed(stateDir, { version: 2, policy: "notes-only", allowlist: [target().id], pending: [] });
+
+  for (const policy of ["ask", "allow", "notes-only"] as const) {
+    for (const hit of [true, false]) {
+      const expected = hit ? "allow" : policy;
+      assert.equal(resolveInstalledDecision({ policy, allowlist: hit ? [target().id] : [] }, target()), expected);
+      await permissions.setPolicy(policy);
+      if (hit) await permissions.addAllowlist(target().id); else await permissions.removeAllowlist(target().id);
+      assert.equal(await permissions.decide(target()), expected, `${policy}/${hit}`);
+    }
+  }
+
+  // Same display name, different identity (other scope/project/source) never inherits the grant.
+  await permissions.setPolicy("ask");
+  await permissions.addAllowlist(target().id);
+  assert.equal(await permissions.decide(target({ id: "global:stable-identity-9", scope: "global" })), "ask");
+  assert.equal(await permissions.decide(target({ id: "project:other-source", name: "manual-rule" })), "ask");
+  assert.equal(await permissions.decide(target({ id: "project:stable-identity-1", name: "renamed" })), "allow");
+});
+
+test("grant setters, alias-compatible status and allowlist removal restore global policy", async () => {
+  const { dir } = await agentDir();
+  const permissions = new InstalledPermissions(dir);
+  await permissions.setGlobalGrant(true);
+  assert.equal((await permissions.status()).policy, "allow");
+  assert.equal((await permissions.status()).allowAutoModifyInstalledSkills, true);
+  await permissions.setGlobalGrant(false);
+  assert.equal((await permissions.status()).policy, "ask");
+
+  await permissions.setPolicy("notes-only");
+  await permissions.addAllowlist(target().id);
+  assert.deepEqual((await permissions.status()).allowlist, [target().id]);
+  assert.equal(await permissions.decide(target()), "allow");
+  await permissions.removeAllowlist(target().id);
+  assert.equal(await permissions.decide(target()), "notes-only");
+  await assert.rejects(permissions.setPolicy("yolo" as never), /Invalid installed policy/);
+  await assert.rejects(permissions.addAllowlist(""), /Invalid allowlist/);
+});
+
+test("queued cancelled grant and pending removal preserve persisted permission bytes", async () => {
+  const { dir, stateDir } = await agentDir(), permissions = new InstalledPermissions(dir), row = pendingRow();
+  await seed(stateDir, { version: 2, policy: "ask", allowlist: [], pending: [row] }, ["initialized"]);
+  const before = await readFile(join(stateDir, "state.json"), "utf8");
+  for (const mutation of ["grant", "remove"] as const) {
+    let release!: () => void, started!: () => void, current = true;
+    const held = new Promise<void>(resolve => { started = resolve; });
+    const wait = new Promise<void>(resolve => { release = resolve; });
+    const lock = withLock(join(stateDir, "state.lock"), async () => { started(); await wait; });
+    await held;
+    const action = mutation === "grant" ? permissions.addAllowlist(target().id, () => current) : permissions.remove(row.id, false, () => current);
+    const rejected = assert.rejects(action, /Stale permission/);
+    current = false; release(); await lock; await rejected;
+    assert.equal(await readFile(join(stateDir, "state.json"), "utf8"), before);
+  }
+});
+
+test("cancellation at atomic publication preserves state and cleans only unpublished initialization", async () => {
+  for (const existing of [false, true]) {
+    const { dir, stateDir } = await agentDir(), permissions = new InstalledPermissions(dir);
+    if (existing) await seed(stateDir, { version: 2, policy: "ask", allowlist: [], pending: [] }, ["initialized"]);
+    const before = existing ? await readFile(join(stateDir, "state.json"), "utf8") : undefined;
+    let staged = false;
+    await assert.rejects(permissions.addAllowlist(target().id, () => {
+      staged = readdirSync(stateDir).some(name => name.endsWith(".new")); return !staged;
+    }), /Stale permission/);
+    assert.equal(staged, true, "eligibility must be checked after staging, immediately before publication");
+    if (existing) assert.equal(await readFile(join(stateDir, "state.json"), "utf8"), before);
+    else assert.deepEqual(await readdir(stateDir), []);
+    assert.deepEqual((await permissions.read()).allowlist, []);
+    await permissions.addAllowlist(target().id); assert.deepEqual((await permissions.read()).allowlist, [target().id]);
+  }
+  const root = await mkdtemp("/var/tmp/hermes-atomic-cancel-");
+  await writeFile(join(root, "state.json"), "Original bytes");
+  await assert.rejects(atomicJson(join(root, "state.json"), { changed: true }, () => { throw new Error("cancel before publish"); }), /cancel before publish/);
+  assert.equal(await readFile(join(root, "state.json"), "utf8"), "Original bytes"); assert.deepEqual(await readdir(root), ["state.json"]);
+});
+
+test("four decisions bind the frozen diff; cancel, edit and dismissal grant nothing", async () => {
+  const p = preview();
+  const hash = contentHash(installedDiffText(p));
+
+  for (const [choice, decision] of [
+    ["Allow this change once", "once"],
+    ["Always allow changes to this skill", "always"],
+    ["Do not modify this time", "reject"],
+    ["Keep original; save as Hermes note", "redirect"],
+  ] as const) {
+    const result = await decideInstalledDiff(fakeCtx({
+      editor: async (_t, text) => text,
+      select: async () => choice,
+    }), p);
+    assert.equal(result.decision, decision); assert.equal(result.hash, hash);
+  }
+
+  // Cancelled select grants nothing.
+  const cancelled = await decideInstalledDiff(fakeCtx({ editor: async (_t, text) => text, select: async () => undefined }), p);
+  assert.equal(cancelled.decision, "reject");
+
+  // Edited review payload never reaches the decision prompt and grants nothing.
+  let selects = 0;
+  const edited = await decideInstalledDiff(fakeCtx({
+    editor: async (_t, text) => `${text}\nTampered`,
+    select: async () => { selects++; return "Allow this change once"; },
+  }), p);
+  assert.equal(edited.decision, "reject"); assert.equal(selects, 0);
+
+  // Dismissed editor grants nothing.
+  const dismissed = await decideInstalledDiff(fakeCtx({ editor: async () => undefined, select: async () => "Allow this change once" }), p);
+  assert.equal(dismissed.decision, "reject");
+
+  // Non-TUI modes cannot decide.
+  await assert.rejects(decideInstalledDiff(fakeCtx({}, "rpc" as never), p), /confirmation-required/);
+
+  // Legacy boolean confirm still works for callers that keep it.
+  assert.equal(await confirmInstalledDiff(fakeCtx({ editor: async (_t, text) => text, confirm: async () => true }), p), true);
+  assert.equal(await confirmInstalledDiff(fakeCtx({ editor: async (_t, text) => text, confirm: async () => false }), p), false);
+  await assert.rejects(confirmInstalledDiff(fakeCtx({}, "rpc" as never), p), /confirmation-required/);
+});
+
+test("on-demand settings selects policy and removes allowlist entries; non-TUI rejected", async () => {
+  const { dir, stateDir } = await agentDir();
+  const permissions = new InstalledPermissions(dir);
+  await seed(stateDir, { version: 2, policy: "ask", allowlist: [target().id], pending: [] });
+
+  await assert.rejects(permissionSettings(fakeCtx({}, "rpc" as never), permissions), /confirmation-required/);
+
+  // Drive the dialog: first set policy to notes-only, then remove the allowlist row, then Done.
+  const labels: string[][] = [];
+  const script = ["Global policy: ask", "Keep originals; write managed notes only", `Remove allowlist entry: manual-rule (project) [${target().id}]`, "Done"];
+  await permissionSettings(fakeCtx({
+    select: async (_title, options) => { labels.push([...options]); return script.find(item => options.includes(item)); },
+  }), permissions, async id => id === target().id ? { name: "manual-rule", scope: "project" } : undefined);
+  const value = await permissions.read();
+  assert.equal(value.policy, "notes-only"); assert.deepEqual(value.allowlist, []);
+  assert.ok(labels[0]!.some(row => row.includes("manual-rule")), "settings rows identify the skill by name/scope, not just an opaque id");
+
+  // Reload durability: a fresh instance reads the persisted v2 state.
+  assert.equal((await new InstalledPermissions(dir).read()).policy, "notes-only");
+
+  // Dismissed dialog changes nothing.
+  await permissionSettings(fakeCtx({ select: async () => undefined }), permissions);
+  assert.equal((await permissions.read()).policy, "notes-only");
+});
+
+test("settings labels fall back honestly for unavailable or excluded allowlist entries", async () => {
+  const { dir, stateDir } = await agentDir();
+  const permissions = new InstalledPermissions(dir);
+  await seed(stateDir, { version: 2, policy: "ask", allowlist: ["project:gone"], pending: [] });
+  const labels: string[][] = [];
+  await permissionSettings(fakeCtx({
+    select: async (_title, options) => { labels.push([...options]); return "Done"; },
+  }), permissions, async () => undefined);
+  assert.ok(labels[0]!.some(row => row.includes("Unavailable or excluded skill") && row.includes("project:gone")));
+});
+
+test("allowlist capacity rejects the 257th entry before persistence and keeps prior state readable", async () => {
+  const { dir, stateDir } = await agentDir();
+  const permissions = new InstalledPermissions(dir);
+  await seed(stateDir, { version: 2, policy: "ask", allowlist: Array.from({ length: 256 }, (_v, i) => `project:entry-${i}`), pending: [] });
+
+  // A new id at the readable boundary is refused before any mutation.
+    const before = await readFile(join(stateDir, "state.json"), "utf8");
+    await assert.rejects(permissions.addAllowlist("project:entry-256"), /capacity exhausted/);
+    assert.equal(await readFile(join(stateDir, "state.json"), "utf8"), before, "failed addition cannot mutate persisted bytes");
+  const persisted = JSON.parse(await readFile(join(stateDir, "state.json"), "utf8"));
+  assert.equal(persisted.allowlist.length, 256); assert.ok(!persisted.allowlist.includes("project:entry-256"));
+  assert.equal((await permissions.read()).allowlist.length, 256, "prior state still readable after the rejected write");
+  assert.equal(await permissions.decide(target({ id: "project:entry-256" })), "ask");
+
+  // Duplicate add is idempotent and does not trip the bound.
+  await permissions.addAllowlist("project:entry-0");
+  assert.equal((await permissions.read()).allowlist.length, 256);
+
+  // Removal frees capacity; a different id can then be added.
+  await permissions.removeAllowlist("project:entry-0");
+  await permissions.addAllowlist("project:entry-256");
+  assert.equal(await permissions.decide(target({ id: "project:entry-256" })), "allow");
+});
+
+test("rejection memory dedupes within a round without becoming a persisted denylist", async () => {
+  const rejected = new RejectedTargets();
+  assert.equal(rejected.rejected(target()), false);
+  rejected.reject(target());
+  assert.equal(rejected.rejected(target()), true);
+  assert.equal(rejected.rejected(target({ id: "other" })), false);
+  rejected.clear(target());
+  assert.equal(rejected.rejected(target()), false);
+});

@@ -1,0 +1,15 @@
+salt = "CV94EHkg0LhfNIZe"
+previous_id = "8680f1e0f47ffcce8bcf601d8a81d520807162ddb2f1ccdfce867cf2e8ab639d"
+timestamp = "2026-10-05T17:46:12.933930818Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "67c5c9b1bc8934d3ccd50ee9914ced2f"
+
+[payload]
+path = "src/files.ts"
+reason = "Optional synchronous assertion immediately before rename, after write/sync/close. Failed assertion removes only own unique unpublished .new file. No default-call behavior or locking/retry change; permissions uses publication gate. Full ledger foreign-lock negative, fees/history/recovery and native maintenance tests pass."
+
+[payload.position]
+end = "747"
+mode = "text"
+start = "206"

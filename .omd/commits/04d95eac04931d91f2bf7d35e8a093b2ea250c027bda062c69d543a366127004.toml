@@ -1,0 +1,15 @@
+salt = "HhgJV5x5Iblloplm"
+previous_id = "2f37962eb15a01e558f63d63fea225c0eb8af5f5065fd608c136e7728d53b571"
+timestamp = "2026-10-05T14:54:07.330327129Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "f3cbb48b152ed2ae1183558774d4fb64"
+
+[payload]
+path = "test/fee-matrix.test.ts"
+reason = "Reviewed test/fee-matrix.test.ts regression: fixture expectations align with agent-notes/default-on/four choices while retaining source, permission, evidence, fee and recovery assertions. Fresh 207-test gate verifies behavior, not semantic certification."
+
+[payload.position]
+end = "8025"
+mode = "text"
+start = "0"

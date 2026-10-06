@@ -1,0 +1,14 @@
+salt = "xuAnquzgVIJXNHGY"
+previous_id = "0f7b72d9fc0e95f593be34f0a2bd0ed714a032813c2103e7bef7d704d47c5922"
+timestamp = "2026-10-05T15:01:25.773785367Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "21f15b9337ee55988f98955bb485a669"
+reason = "Named actual acceptance receipts and validation boundaries; deterministic/native evidence is not model-quality/billing/memory certification."
+source = "range:3aa5fad9acf315992a8cd5e2fedb7868e44ec551a64746417b68145f073215f4"
+source_version = "d6e99217a097e6f68717531f0174faeb6af60529294920f9a4b58e2ffbc4b4a3"
+target = "range:b6e20d72e36c13f5cbe0df559a5167b0aaa684c8dd8b9c39fdb25e28ceb25f19"
+target_version = "0f7b72d9fc0e95f593be34f0a2bd0ed714a032813c2103e7bef7d704d47c5922"

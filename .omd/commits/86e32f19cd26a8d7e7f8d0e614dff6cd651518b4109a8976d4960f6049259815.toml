@@ -1,0 +1,16 @@
+salt = "td9HeNlw1DMUPJiG"
+previous_id = "5bc85d813c5b011f2bb73403676074ab773edc987e22b32972a07cbf2c91b948"
+timestamp = "2026-10-05T15:01:22.161200727Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "bbbe0521ac96dbb19933d8291226efdb"
+
+[payload]
+mount = "file:b68cb64514c47f63ad867f57cfa8452f55e1d4ccf91906960b3c9872353db4dc"
+path = "test/notebook-guidance.test.ts"
+reason = "10,000-entry bounded proactive disclosure; references never authority; SDK callback UI is not native terminal evidence."
+
+[payload.position]
+end = "1514"
+mode = "text"
+start = "282"

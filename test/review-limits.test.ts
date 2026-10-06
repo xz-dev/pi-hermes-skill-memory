@@ -1,11 +1,15 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { spawn } from "node:child_process";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { createAssistantMessageEventStream } from "@earendil-works/pi-ai";
 import type { AssistantMessage, Usage } from "@earendil-works/pi-ai";
 import { captureSnapshot } from "../src/context.ts";
 import { ReviewLedger } from "../src/ledger.ts";
 import { ManagedSkillStore } from "../src/store.ts";
 import { reviewSkills } from "../src/review.ts";
+import { reviewStatus } from "../src/ui.ts";
 import { isolatedSession } from "./support.ts";
 
 const usage: Usage = { input: 100, output: 10, cacheRead: 20, cacheWrite: 5, reasoning: 3, totalTokens: 135,
@@ -22,6 +26,60 @@ async function fixture() {
     content: [{ type: "text", text: '{"skills":[]}' }], stopReason: "stop", timestamp: 2, usage };
   return { ...f, snapshot, store, ledger, message };
 }
+
+test("foreign contention after real review admission blocks the provider, preserves reservation and later recovers unknown", async t => {
+  const f = await fixture(); let calls = 0;
+  let holder: ReturnType<typeof spawn> | undefined;
+  const lockPath = join(f.ledger.root, "ledger.lock");
+  class ContendedLedger extends ReviewLedger {
+    override async admit(...args: Parameters<ReviewLedger["admit"]>) {
+      const record = await super.admit(...args);
+      const path = new URL("../src/files.ts", import.meta.url).href;
+      // Hold a real foreign transaction between admission and running, not a synthetic thrown error.
+      holder = spawn(process.execPath, ["--input-type=module", "-e", `import {withLock} from ${JSON.stringify(path)};
+        await withLock(${JSON.stringify(lockPath)},async()=>{
+          process.send('held'); await new Promise(resolve=>process.once('message',resolve)); process.disconnect();
+        });`], { stdio: ["ignore", "ignore", "pipe", "ipc"] });
+      await new Promise<void>((resolve, reject) => {
+        holder!.once("message", () => resolve()); holder!.once("error", reject);
+        holder!.once("exit", code => reject(new Error(`Foreign holder exited before release: ${code}`)));
+      });
+      return record;
+    }
+  }
+  const release = async () => {
+    const child = holder; holder = undefined;
+    if (!child) return;
+    const exited = new Promise<number | null>((resolve, reject) => { child.once("close", resolve); child.once("error", reject); });
+    child.send("release"); assert.equal(await exited, 0);
+  };
+  const registry = { streamSimple: () => { calls++; throw new Error("Provider must remain blocked"); } };
+  try {
+    await assert.rejects(reviewSkills({ ...f, ledger: new ContendedLedger(f.agentDir), registry }), /EEXIST.*ledger\.lock/);
+    assert.equal(calls, 0); assert.equal(f.calls.length, 0);
+    assert.equal(JSON.parse(await readFile(lockPath, "utf8")).pid, holder!.pid, "Failed running cannot remove foreign lock");
+    const reserved = JSON.parse(await readFile(join(f.ledger.root, "ledger.json"), "utf8")) as Awaited<ReturnType<ReviewLedger["inspect"]>>;
+    assert.equal(reserved.records.length, 1); const record = reserved.records[0]!;
+    assert.equal(record.status, "admitted"); assert.equal(record.usageUnknown, true);
+    assert.ok(record.reservation.input > 0); assert.equal(record.reservation.output, 4096);
+    assert.equal(record.usage, undefined); assert.deepEqual(record.saved, []);
+    const status = reviewStatus(reserved, f.snapshot.sessionId);
+    assert.equal(status.errors, 1); assert.equal(status.jobs, 1);
+    assert.equal(status.unresolvedInput, record.reservation.input); assert.equal(status.unresolvedOutput, 4096);
+    await release();
+    await assert.rejects(reviewSkills({ ...f, registry }), /already running or unresolved/);
+    assert.equal(calls, 0); assert.deepEqual(await f.store.catalog(), []);
+    t.mock.timers.enable({ apis: ["Date"], now: record.started + 100001 });
+    const recovered = await new ReviewLedger(f.agentDir).inspect();
+    assert.equal(recovered.records.length, 1); assert.equal(recovered.records[0]!.id, record.id);
+    assert.equal(recovered.records[0]!.status, "failed"); assert.equal(recovered.records[0]!.reason, "interrupted-usage-unknown");
+    assert.equal(recovered.records[0]!.usageUnknown, true); assert.deepEqual(recovered.records[0]!.reservation, record.reservation);
+    assert.equal(recovered.paused, "interrupted-usage-unknown");
+    await assert.rejects(reviewSkills({ ...f, registry }), /already handled/);
+    await assert.rejects(f.ledger.admit({ ...f.snapshot, digest: "later" }, f.snapshot.model!, 100), /paused/);
+    assert.equal(calls, 0); assert.equal((await f.ledger.inspect()).records.length, 1);
+  } finally { t.mock.timers.reset(); await release(); f.session.dispose(); }
+});
 
 test("empty, reasoning-only, malformed, incomplete and failed outputs never add a request", async () => {
   for (const kind of ["empty", "thinking", "json", "length", "error", "tool", "recursive", "evidence"] as const) {

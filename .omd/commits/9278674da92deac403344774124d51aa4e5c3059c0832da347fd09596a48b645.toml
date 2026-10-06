@@ -1,0 +1,9 @@
+salt = "Y76BQVEZq35c0g4W"
+previous_id = ""
+timestamp = "2026-10-05T15:01:21.207583355Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "083e4f11c4af1b674787b45c7e642f06"
+
+[payload]
+path = "test/status-display.test.ts"

@@ -1,0 +1,15 @@
+salt = "BGhlsy0aH3s9p9Jw"
+previous_id = "968d5083bc3c2b914054eab42c90388ae91f062f0dbfe0057e56772440d16a68"
+timestamp = "2026-10-05T17:46:14.613297021Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "80dff7995d3cd73c52999a0d5322f77b"
+
+[payload]
+path = "test/review-destinations.test.ts"
+reason = "Six pending cancellation cases cover input/model versus Always/reject/unsaved redirect, exact bytes/no grant/no removal/no message/no call. Later/editor cancel/transient failure reoffer next safe round; interrupted two-row batch with ignored editor abort does not reenter and unvisited rows return. Valid grant survives later version conflict; committed cleanup survives new input. Existing one-request destination/source/full-snapshot assertions retained."
+
+[payload.position]
+end = "20480"
+mode = "text"
+start = "6194"

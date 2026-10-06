@@ -1,0 +1,12 @@
+salt = "ZqhVbu3MF7FvdVOJ"
+previous_id = "4fd6a3c135a9cfea39095caa1322cde910e48145074aa9223d5525f9b6462507"
+timestamp = "2026-10-05T18:29:12.437699019Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["a6abd4ae08e6211a937d637db491c268b249abb78425c9faf6900778412984cc"]
+link_id = "31f94df8c906194b788d28f9efdd7fb2"
+reason = "implementation:entry -> test:modes: One per-row exact-ID rejection check only. Target current source/API/mode/public/native/decision contract unchanged; full225 current suite passed. No UI protocol, permission publication/rollback or billing behavior changed beyond suppressing refused same-target repeat. Previously verified single-row native remains scoped evidence; new multirow behavior verified at SDK seam."
+stop = false

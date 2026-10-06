@@ -1,0 +1,12 @@
+salt = "OXSfY4LDLw9X53PC"
+previous_id = "c26591d32b278a71ef3a08410943a6ae6c8012f4311099ecb48ec3e477289be0"
+timestamp = "2026-10-05T14:58:24.182221613Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["ac4d3bc724c5ac506f6abfef6b293e13a59f2edbe4e89485ec0f1fc8018bd7f5"]
+link_id = "2ba82f8cefc505fcc86378554a72b20e"
+reason = "implementation:ui → test:automatic-learning: default-on now exercises the same ten-tool-turn settled lifecycle without enable, real save/reuse, zero-call budget skip and cancellation/late accounting. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

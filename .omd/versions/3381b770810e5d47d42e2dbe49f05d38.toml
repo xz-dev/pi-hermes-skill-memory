@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [51, 129, 183, 112, 129, 14, 93, 71, 212, 46, 45, 190, 73, 240, 93, 56]
+len = 12314
+sha256 = "f63f75d72d8d652ff292a5a76a3b31068fc7cd935343010a972fc8e5408998d3"
+encoding = "utf-8"
+content_file = "content/f63f75d72d8d652ff292a5a76a3b31068fc7cd935343010a972fc8e5408998d3"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/automatic-learning.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/automatic-learning.test.ts"

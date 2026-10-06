@@ -1,0 +1,12 @@
+salt = "EQrll7QnW87a3sTY"
+previous_id = "0139f6601ec6819a156b329dd593f4017b569456526ab5cdd133b225b8e73469"
+timestamp = "2026-10-05T18:29:14.740686094Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["bf76e7e24c3ffb4e4ad5c6b74685b5d4002eca7dd92402ea311e6890ddc27d6d"]
+link_id = "ab521dc598d96ef0b14c17c39c6b5333"
+reason = "notebook:test/review-destinations.test.ts -> notebook:evidence:Policy and review acceptance: Added same-target Reject/cancel one-editor regressions with retained next-round rows, plus different-target/shared-evidence positive. Ignored-abort ownership and pending/reoffer assertions retained; second-round editor count corrected to two, not erroneous repeated same-target dialog. New225 gate and six repros are current evidence; older222 remains historical."
+stop = false

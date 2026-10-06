@@ -1,0 +1,12 @@
+salt = "AJlwdzCuH0qACJuZ"
+previous_id = "03ab89b72628c8d7d48e0a43914aea7058840c880ba406f641bbc82549d5633d"
+timestamp = "2026-10-05T14:58:26.589774447Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["e84c4c3f0a2d01552125e9d658db1bfcc6a56fde20ac03a384451104f6f983b6"]
+link_id = "590c6f625dfc3fbe284002c7ea6da3e6"
+reason = "implementation:store → test:rollback: exact historical prior bytes and support inventory restored only with current policy and source/version protections; never a false atomic rollback. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

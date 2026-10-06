@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [0, 178, 110, 123, 93, 78, 136, 34, 118, 11, 183, 101, 230, 252, 165, 229]
+len = 6883
+sha256 = "49dffad161faf5a03d5d2595afeb00069d28b4bfac380f1866659f6326f4191a"
+encoding = "utf-8"
+content_file = "content/49dffad161faf5a03d5d2595afeb00069d28b4bfac380f1866659f6326f4191a"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "docs/usage.md"
+
+[recovery]
+type = "file"
+project = "root"
+path = "docs/usage.md"

@@ -1,0 +1,12 @@
+salt = "185RS5BYWXVpas15"
+previous_id = "ccd0f824a8b93d3e302a4ec5e203ac902d9e4a1068165bba3acdf1518526cf4c"
+timestamp = "2026-10-05T17:49:08.314931928Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2e17000370d166561054d75cd2f9316673555eb0f1df9ea02bd9b74c251cf8e3"]
+link_id = "f2446ce8fa1c10b620f6f1c1eb535f8b"
+reason = "implementation:entry -> notebook:test/policy-decisions.test.ts: Four foreground decisions preserve existing output/diff/ownership behavior. Shared lifecycle grant publication protects all Always callers; policy-decisions tests retain valid Always after file-version conflict and cancellation. Full222 suite passed."
+stop = false

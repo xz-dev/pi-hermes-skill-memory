@@ -28,9 +28,9 @@ for (const scenario of ["no-change", "empty", "disconnect", "unknown-usage", "un
     } });
   try {
     f.session.sessionManager.appendMessage({ role: "user", content: "Temporary isolated billing case", timestamp: 1 });
-    const statuses = new Map<string, string | undefined>(), widgets = new Map<string, unknown>();
+    const statuses = new Map<string, string | undefined>(), widgets = new Map<string, unknown>(), notices: string[] = [];
     const ui = f.session.extensionRunner.createContext().ui;
-    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, setStatus: (key, value) => { statuses.set(key, value); },
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, notify: text => notices.push(text), setStatus: (key, value) => { statuses.set(key, value); },
       setWidget: (key, value) => { widgets.set(key, value); } } });
     await f.session.prompt("/hermes-review run");
     if (scenario === "cancel") {
@@ -51,9 +51,11 @@ for (const scenario of ["no-change", "empty", "disconnect", "unknown-usage", "un
     }
     if (scenario === "unknown-price") assert.equal(record.costUnknown, true);
     await f.session.reload(); await f.session.prompt("/hermes-review status");
-    assert.match(statuses.get("hermes-review") ?? "", new RegExp(before.paused ? "PAUSED" : expected));
-    if (unknown) assert.match(JSON.stringify(widgets.get("hermes-review")), /usage UNKNOWN reserved/);
-    if (scenario === "unknown-price") assert.match(JSON.stringify(widgets.get("hermes-review")), /price UNKNOWN/);
+    const shown = JSON.parse(notices.at(-1)!);
+    assert.equal(shown.latest, expected); assert.equal(shown.paused, before.paused);
+    if (unknown) { assert.ok(shown.unresolvedInput > 0); assert.equal(shown.unresolvedOutput, 4096); }
+    if (scenario === "unknown-price") assert.ok(shown.pricesUnknown > 0);
+    assert.ok([...statuses.values(), ...widgets.values()].every(value => value === undefined));
     assert.deepEqual((await new ReviewLedger(f.agentDir).inspect()).records, before.records);
     if (scenario === "cancel") {
       release(); const late = await observed(f.agentDir, state => state.records[0]?.usageUnknown === false);
@@ -94,10 +96,10 @@ test("submitted request process killed before final usage remains reserved and v
     const ledger = new ReviewLedger(f.agentDir), state = await ledger.inspect(), record = state.records[0]!;
     assert.equal(record.status, "failed"); assert.equal(record.reason, "interrupted-usage-unknown"); assert.equal(record.reservation.input, 300);
     assert.equal(record.usageUnknown, true); assert.ok(state.paused);
-    const statuses = new Map<string, string | undefined>(), ui = f.session.extensionRunner.createContext().ui;
-    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, setStatus: (key, value) => { statuses.set(key, value); }, setWidget: () => {} } });
+    const notices: string[] = [], ui = f.session.extensionRunner.createContext().ui;
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, notify: text => notices.push(text), setStatus: () => {}, setWidget: () => {} } });
     await f.session.reload(); await f.session.prompt("/hermes-review run");
-    assert.match(statuses.get("hermes-review") ?? "", /PAUSED/); assert.equal(f.calls.length, 0);
+    assert.match(JSON.parse(notices.at(-1)!).failed, /paused/i); assert.equal(f.calls.length, 0);
     assert.equal(JSON.parse(await readFile(sent, "utf8")).simulatedRequests, 1); assert.deepEqual((await ledger.inspect()).records, state.records);
   } finally { f.session.dispose(); }
 });

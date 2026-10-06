@@ -1,0 +1,15 @@
+salt = "IcApKeDGvfUVyRka"
+previous_id = "e3572dab80b3c0f4e7d847a32503a9ab533de6346fe5868a36970e6700f604e3"
+timestamp = "2026-10-05T16:18:23.99205754Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "e55761449275db6cb3e095ef10fd8b10"
+
+[payload]
+path = "test/ledger.test.ts"
+reason = "Bounded test-only repair: two child processes race admission, then IPC barrier waits for both admissions to settle before winner runs/finishes. Foreign contention remains fail-closed; separate production transactions never promised guaranteed concurrent completion. Exactly one reservation, one call, known charged no-change usage, finished-snapshot and joint-boundary replay denial still asserted. Crash/unknown/quota cases retain original helper path. No product retry or lock change. Node focused suite passed 60 repeats and full suite 208/208."
+
+[payload.position]
+end = "8553"
+mode = "text"
+start = "0"

@@ -1,0 +1,15 @@
+salt = "DeBepbqfbTfJpmkS"
+previous_id = "f47cfea9c451819f6d225da0d854ec359624e04f439427b7cfa4ed115edfc570"
+timestamp = "2026-10-05T14:54:04.34845353Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "537969afe273efb6c575d83a3d8a4dd2"
+
+[payload]
+path = "test/recovery.test.ts"
+reason = "Reviewed test/recovery.test.ts regression: fixture expectations align with agent-notes/default-on/four choices while retaining source, permission, evidence, fee and recovery assertions. Fresh 207-test gate verifies behavior, not semantic certification."
+
+[payload.position]
+end = "12595"
+mode = "text"
+start = "0"

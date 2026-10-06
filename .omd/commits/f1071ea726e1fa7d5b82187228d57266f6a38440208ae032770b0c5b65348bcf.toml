@@ -1,0 +1,12 @@
+salt = "Iyd8dcnIsPvIcdoE"
+previous_id = "89c94a3fb7906dfbedef052a6a956fdeae9d8a4823afa87afb0d19df1dc95146"
+timestamp = "2026-10-05T15:10:30.551612571Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e1b89b73b5fe9643b4e72e7b70c28e1e6f7932bbdb1bbf178e266cd06fafb6a"]
+link_id = "21f15b9337ee55988f98955bb485a669"
+reason = "notebook:native-fixture → notebook:evidence:Actual isolated terminal: inherited entry preflight now checks original before batch side effects. Foreground/editor/four-choice APIs and isolated fixture stay unchanged; acceptance evidence is current deterministic/native observation, not certification. Native driver is rerun on final tree separately."
+stop = false

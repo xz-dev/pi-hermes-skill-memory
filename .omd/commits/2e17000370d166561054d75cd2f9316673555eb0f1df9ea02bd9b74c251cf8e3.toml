@@ -1,0 +1,15 @@
+salt = "ZPlFXFLg5GYf3DE3"
+previous_id = "1e1b89b73b5fe9643b4e72e7b70c28e1e6f7932bbdb1bbf178e266cd06fafb6a"
+timestamp = "2026-10-05T17:46:12.597878274Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "23aeb5868ff4ea451fb581108ea58cef"
+
+[payload]
+path = "src/index.ts"
+reason = "Three accepted review findings: every Always caller supplies lifecycle predicate to locked permission publication; pending reject/unsaved redirect are guarded before removal/message, postcommit cleanup remains valid. Explicit managed TUI rollback restores exact-diff/cancel only for maintenance. Pending suppression resets per round/lifecycle, serialized pickup waits for actual modal completion after ignored abort, cancelled target suppressed in same round. No additional model call, source/version/policy or autonomy widening. Native Later/cancel/Always and managed rollback accept/decline passed; full 222 tests passed."
+
+[payload.position]
+end = "67856"
+mode = "text"
+start = "0"

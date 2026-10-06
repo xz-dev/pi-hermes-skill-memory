@@ -1,0 +1,16 @@
+salt = "Bq7OSM9xtXfw5WrP"
+previous_id = "37ab373696c1e11408ab54b716840b56c8c8e358e00665614cf41e21efcc7e2a"
+timestamp = "2026-10-05T15:01:20.285154157Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "b509d39b1f83308efe0cdcc5c7b80270"
+
+[payload]
+mount = "file:52ed408b1b41a52a996f883a7baff9d98d4018e2b25e84f5cf8a27705e6540dc"
+path = "test/permission-policy.test.ts"
+reason = "v1 migration, policy/identity matrix, frozen decisions/settings and allowlist-capacity byte safety; SDK callback UI is not native terminal evidence."
+
+[payload.position]
+end = "13653"
+mode = "text"
+start = "2544"

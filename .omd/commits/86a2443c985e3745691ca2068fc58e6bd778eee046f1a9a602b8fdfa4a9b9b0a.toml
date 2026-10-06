@@ -1,0 +1,12 @@
+salt = "TXdprpk362xhTj5k"
+previous_id = "9e9d50a0e4c0ccc822e0f1f7cb0ddf5cb9d8c478da7baacf58a30aff9bc02a78"
+timestamp = "2026-10-05T14:58:26.26539198Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["e84c4c3f0a2d01552125e9d658db1bfcc6a56fde20ac03a384451104f6f983b6"]
+link_id = "46b2f854ee0d382c6253362777d2b4fb"
+reason = "implementation:store → test:commit-gates: pin/read-only/source/version/read guards still protect actual selected writer, with notes-only selecting a different managed destination first. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

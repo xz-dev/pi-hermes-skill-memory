@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [229, 87, 97, 68, 146, 117, 219, 108, 179, 224, 149, 239, 16, 253, 139, 16]
+len = 8553
+sha256 = "1da3744822d29e664fa85549f4d86b0db465c2f6c41c36a2bad44182e79bda11"
+encoding = "utf-8"
+content_file = "content/1da3744822d29e664fa85549f4d86b0db465c2f6c41c36a2bad44182e79bda11"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/ledger.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/ledger.test.ts"

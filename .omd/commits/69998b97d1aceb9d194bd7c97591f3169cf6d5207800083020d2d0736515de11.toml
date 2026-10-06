@@ -1,0 +1,12 @@
+salt = "AY6ORPU0oKAlWHxG"
+previous_id = "76a2a524ce313e2620ce9e48fddfe0358dc4add7c1e5cd4fe14a21f2da3ba146"
+timestamp = "2026-10-05T14:58:23.93020187Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["c8b5cdeccdb091d6f6601b74bb3c6bbddb932dc8c8d2ca478c8c25e5d5ade9e8"]
+link_id = "1a19d514f74e88c2c745d314222ddbf7"
+reason = "implementation:permissions → test:content: ordinary free notes preserve original metadata and assets; explicit historical kinds remain evidence-checked. Legacy pending does not auto-execute. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

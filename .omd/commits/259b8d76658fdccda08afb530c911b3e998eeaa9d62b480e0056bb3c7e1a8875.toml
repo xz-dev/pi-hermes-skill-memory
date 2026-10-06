@@ -1,0 +1,12 @@
+salt = "LapK6Hiey9UfXUQw"
+previous_id = "a81709faf167c8894649c433930934fc774582f4eedf9729414caa936310622a"
+timestamp = "2026-10-05T14:58:29.107131635Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1ab1b414958832a8b82c7d992edf1bd8cbf72bc843c1ec448f1ded21e9bde142"]
+link_id = "b4f6723deeb20899ad66a371a0de1a1e"
+reason = "test:curation → evidence:curation: Explicit curation still one metered request plus exact local approval; merged keep precedes absorption; assets/shared references/manual conflicts and partial recovery unchanged. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

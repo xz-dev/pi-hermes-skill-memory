@@ -1,0 +1,12 @@
+salt = "PmNBkqEDg09eNtDe"
+previous_id = "df5d59d83d4fb691854156c4657b3488b2d173d93d9e0714da853e520aa69973"
+timestamp = "2026-10-05T14:58:26.855820279Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["e84c4c3f0a2d01552125e9d658db1bfcc6a56fde20ac03a384451104f6f983b6"]
+link_id = "664ed20c789ad88b43122848cb7e96ce"
+reason = "implementation:store → test:recovery: current policy/grant checked per member; unknown quota unchanged, partial committed members cannot be aborted as untouched. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

@@ -1,0 +1,9 @@
+salt = "dNg9vqc7hly1883f"
+previous_id = ""
+timestamp = "2026-10-05T15:01:15.939335952Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "64b195f7739e1284bf698245f5b96971"
+
+[payload]
+path = "openspec/changes/enable-autonomous-skill-notebook/specs/skill-reflection/spec.md"

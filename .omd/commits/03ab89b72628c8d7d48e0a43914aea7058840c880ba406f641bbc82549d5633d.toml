@@ -1,0 +1,15 @@
+salt = "mAkKw43toaNljEIa"
+previous_id = "40912a784d9aba421bdae35557f57b1a49962ca599c1fa5c77527fb408d18b7c"
+timestamp = "2026-10-05T14:54:08.325156651Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "dd1769d05527001f859c769ebd2415dc"
+
+[payload]
+path = "test/rollback.test.ts"
+reason = "Reviewed test/rollback.test.ts regression: fixture expectations align with agent-notes/default-on/four choices while retaining source, permission, evidence, fee and recovery assertions. Fresh 207-test gate verifies behavior, not semantic certification."
+
+[payload.position]
+end = "13038"
+mode = "text"
+start = "0"

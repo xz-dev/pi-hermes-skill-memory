@@ -1,0 +1,15 @@
+salt = "OcDfAjzbBm0vwVcH"
+previous_id = "570f61e86168247ebdf98f420e4f1c4e5d87b8b91b973b542dd5b30405ac4dad"
+timestamp = "2026-10-05T17:46:14.292388278Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "5a0080cf30882dd213e6d8bcd1a2f235"
+
+[payload]
+path = "test/permission-policy.test.ts"
+reason = "Queued cancelled grant/removal preserve exact old state bytes. Actual staging-based publication cancellation preserves existing bytes and leaves fresh state readable; only own unpublished temp/first sentinel cleaned. Capacity/legacy/identity/settings/4-choice assertions retained."
+
+[payload.position]
+end = "16429"
+mode = "text"
+start = "2639"

@@ -1,0 +1,9 @@
+salt = "rCpV8UeHy2fDAOfO"
+previous_id = "6bec23dfb930f3613bbf0b6ae0e049fe0b13b2945aeef478684e85b31f3e0dda"
+timestamp = "2026-10-05T15:01:23.599920623Z"
+schema = "omd.commit/3"
+kind = "atomic_end"
+content_ref = "empty"
+
+[payload]
+path = "test/review-destinations.test.ts"

@@ -4,7 +4,7 @@ Search-first skill discovery, scoped learning, and reversible maintenance for [P
 
 Find skills without putting the entire catalog into the model's context. Read their contents on demand, turn reusable lessons into project or global skills, and keep changes reviewable and recoverable.
 
-**Automatic review is off by default.** Searching, reading, and local recovery do not call a model. Enabling review or explicitly requesting a semantic merge can consume tokens.
+**Automatic learning defaults on when no switch choice has been saved.** Existing `false`, safety pauses and unknown-usage reservations remain unchanged. Loading alone sends no request; the existing settled-work threshold and budgets still apply. Search, reads and local recovery make no auxiliary request; the main agent's normal conversation/tool turns still cost tokens.
 
 ## Install
 
@@ -17,6 +17,8 @@ Restart Pi or run `/reload` after installation.
 Requires Node.js **22.19+**. Tested against official Pi and pi-ai **0.99.2**, using public APIs only; no Pi fork or subagent extension is required. Cached-package restoration supports the verified 0.99.2 layout and fails closed for unverified layouts.
 
 ## Usage
+
+The extension does not keep a status bar or widget on screen. Use `/hermes-skills status` for sources, permissions, pending approvals, and unfinished maintenance; use `/hermes-review status`, `usage`, or `errors` for review accounting. Errors and safety pauses are retained even when no panel is visible.
 
 Start with discovery:
 
@@ -48,7 +50,7 @@ Use `/hermes-skills load <SkillId>` for explicit loading. Switch the prompt's ca
 /hermes-review disable
 ```
 
-Non-Git projects require an explicit project root before enabling writes. Automatic review becomes due after ten tool-bearing assistant turns and runs only after the foreground task settles. It uses the current effective context, including compaction, and the current model—not a hidden incremental summary or a second model.
+Non-Git projects require an explicit project root before writes or automatic dispatch; SDK hosts can supply it. Use `enable` to resume a previously disabled switch, not as a new-install prerequisite. Automatic review becomes due after ten tool-bearing assistant turns and runs only after the foreground task settles. It uses the current effective context, including compaction, and the current model—not a hidden incremental summary or a second model.
 
 | Default limit | Budget |
 | --- | --- |
@@ -67,7 +69,15 @@ Input admission uses a conservative UTF-8 byte estimate, not measured token usag
 
 Only skills with matching creation records are managed. Existing, installed, and externally supplied skills remain user-owned. Changes check current source permission, scope, pin, and read versions.
 
-Evidence-bound quotations and supported host templates can be saved automatically. Unverified prose or assets become bounded pending proposals. Local TUI approval shows the exact diff; approving bytes does not certify factual claims. A global installed-skill permission does not bypass content approval, and RPC cannot impersonate that TUI approval.
+Ordinary evidence-bound AI notes—including free synthesis, Chinese troubleshooting and bounded supporting files—save without per-note approval. Names, descriptions and content stay authored; provenance records `agent-notes`, not factual or execution certification. Explicit source reports, host templates and historical approved/restored records remain readable.
+
+User-installed writes use one user-controlled policy: **ask** (default), **allow/YOLO**, or **notes-only**. A concrete stable-ID allowlist wins over global policy, without changing ownership or bypassing source, scope, pin, read-only, path or version checks. `/hermes-skills settings` opens on demand to select policy and view/remove grants. Legacy `installed allow --acknowledge` / `installed deny` map to allow/ask; models and project configuration cannot grant access.
+
+Real TUI asks for exact per-member diff, then **once**, **always this skill**, **reject without redirect**, or **keep original and write a Hermes note**. Cancel/edit grants nothing. Background pending waits for safe idle TUI input, never interrupts foreground work or sends another analysis. Print/RPC cannot impersonate TUI. Notes-only blocks installed archive/restore/rollback/recovery rather than falsely reporting a saved replacement.
+
+A redirect without a prepared note is unsaved continuation, not success: the agent searches managed metadata, reads any matching version, then creates or revises a note. Mention the original skill/task in note name or description; search is case-insensitive whitespace-term matching of **name/description only**, not semantic/body search. No relationship fields/index or forced concatenation. A global original does not promote project-specific experience.
+
+One review item may carry `{proposal, managedAlternative?}` (legacy flat proposals still work). This bounded operation-local envelope selects one destination by current policy/decision; alternative updates require actual prior reads. It is not a skill relationship, hidden retrieval or fallback after a failed write.
 
 ```text
 /hermes-skills pending
@@ -113,7 +123,7 @@ npm run check
 npm test
 ```
 
-Tests use isolated agent directories and fake providers. The 160-test checkpoint covers accounting, sources, approval, cancellation, recovery, and protocol cooperation; native TUI acceptance is recorded separately. Historical limited model tests are not part of `npm test` and require separate authorization. These checks do not establish long-term model quality or actual billing.
+Current notebook acceptance and native terminal evidence are recorded in [notebook evidence](docs/notebook-evidence.md). Tests use isolated agent directories and deterministic providers, not live models. Historical limited model tests are not part of `npm test` and require separate authorization. These checks do not establish long-term model quality, cache hits, actual billing or real companion-memory interoperability.
 
 - [Fee regression matrix](docs/fee-matrix.md)
 - [Native isolated acceptance](docs/delivery-evidence.md)

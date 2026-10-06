@@ -1,0 +1,12 @@
+salt = "pAjDlipOJxPCBdjH"
+previous_id = "c4883e8034bb412e36b3740070e1cf764725c62a522d96a863a2cead8078c682"
+timestamp = "2026-10-05T15:10:32.210500781Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e1b89b73b5fe9643b4e72e7b70c28e1e6f7932bbdb1bbf178e266cd06fafb6a"]
+link_id = "8b4e567e24d3407592395faed5cf3054"
+reason = "implementation:entry → test:bootstrap: original-candidate read/version/source preflight added only before envelope batch side effects. Existing direct/redirect/public-source and SDK contracts stay unchanged; target current tests/native/evidence still describe guarded production path. Fresh 208-test gate retains legacy assertions."
+stop = false

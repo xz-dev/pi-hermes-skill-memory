@@ -1,0 +1,12 @@
+salt = "uAA5ANC3vReLaZ3w"
+previous_id = "49f08ac5c3e828025ffd4dddbfa880016bfaf50e8b913d420f2746fb9066ebeb"
+timestamp = "2026-10-05T15:10:33.00779242Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e1b89b73b5fe9643b4e72e7b70c28e1e6f7932bbdb1bbf178e266cd06fafb6a"]
+link_id = "93cfb2c9165cdffddb591e393e935155"
+reason = "implementation:entry → test:cli-sources: original-candidate read/version/source preflight added only before envelope batch side effects. Existing direct/redirect/public-source and SDK contracts stay unchanged; target current tests/native/evidence still describe guarded production path. Fresh 208-test gate retains legacy assertions."
+stop = false

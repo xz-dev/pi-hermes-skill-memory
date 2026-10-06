@@ -1,0 +1,15 @@
+salt = "N1K3QaO8HpAKog4Y"
+previous_id = "e93bea60b5127e2c523e0d526530097f54147e3c52d88fe9c96f2b092a1ba77a"
+timestamp = "2026-10-05T14:53:59.946814089Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "44eff2ee673901e284ca24c034dc32b3"
+
+[payload]
+path = "src/context.ts"
+reason = "Active notebook design §1/§4 adds proactive search/revise/save guidance only; full SDK projection and evidence/read receipts remain intact."
+
+[payload.position]
+end = "4641"
+mode = "text"
+start = "0"

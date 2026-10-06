@@ -1,0 +1,9 @@
+salt = "O51MrSElUJkf0Q4v"
+previous_id = ""
+timestamp = "2026-10-05T15:01:19.979008046Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "b509d39b1f83308efe0cdcc5c7b80270"
+
+[payload]
+path = "test/permission-policy.test.ts"

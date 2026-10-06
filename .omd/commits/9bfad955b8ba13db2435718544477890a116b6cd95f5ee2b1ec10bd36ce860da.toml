@@ -1,0 +1,12 @@
+salt = "YCwFLZq2T7BefqZy"
+previous_id = "78277eb9f29cced0b567604d4ef153a804b755cfc7391ab2ea99c7304ac488ef"
+timestamp = "2026-10-05T15:10:34.404374351Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e1b89b73b5fe9643b4e72e7b70c28e1e6f7932bbdb1bbf178e266cd06fafb6a"]
+link_id = "fdec9f9a079350184009fbc18fe37950"
+reason = "test:cli-sources → fixture:cli-sources: propagated entry preflight changes do not alter official public API/source-provider fixture boundaries. Actual imports/CLI fixtures unchanged; tests still exercise trust/exclusion, not personal installation."
+stop = false

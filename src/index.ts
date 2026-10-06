@@ -6,7 +6,7 @@ import { authorizeSkillRestore, createSkillRestorePolicy } from "./restore-sourc
 import type { SkillRestorePolicy } from "./restore-sources.ts";
 import { getAgentDir, getPackageDir, parseArgs } from "@earendil-works/pi-coding-agent";
 import type { ExtensionAPI, ExtensionContext, Skill } from "@earendil-works/pi-coding-agent";
-import { join } from "node:path";
+import { join, relative, sep } from "node:path";
 import { Type } from "typebox";
 import { resolveProjectRoot } from "./scope.ts";
 import { realpath } from "node:fs/promises";
@@ -16,8 +16,9 @@ import { randomUUID } from "node:crypto";
 import { EnabledCatalog } from "./catalog.ts";
 import { SkillActivityStore } from "./activity.ts";
 import { assessContent } from "./content.ts";
-import { confirmInstalledDiff, InstalledPermissions, PendingApproval } from "./permissions.ts";
-import type { SkillProposal } from "./store.ts";
+import { confirmInstalledDiff, decideInstalledDiff, installedDiffText, InstalledPermissions, PendingApproval, permissionSettings, RejectedTargets } from "./permissions.ts";
+import type { InstalledTarget } from "./store.ts";
+import type { SkillProposal, ManagedSkill } from "./store.ts";
 import type { Snapshot } from "./context.ts";
 import { awaitWithAbort } from "./async.ts";
 import { registerReviewUI } from "./ui.ts";
@@ -41,7 +42,41 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
     projectRoot: options.projectRoot,
     sourceReady: async ctx => { await permissions.status(); await activity.assertReady(); return refresh(ctx, lastNativeSkills); },
     authorizeCommit,
-    submit: (ctx, store, proposal, snapshot, requestId, guard) => submit(ctx, store, proposal, snapshot, requestId, guard, true),
+    preflight: async (ctx, proposal, alternative, snapshot) => {
+      if (!alternative) return;
+      if (!await refresh(ctx, lastNativeSkills)) throw new Error("Source unavailable; candidate validation blocked");
+      const original = proposal.action === "update" ? await catalog.inspect(proposal.id!) : undefined;
+      if (!original || original.owner !== "user-owned" || alternative.scope === "external" || alternative.scope === "global" && original.scope !== "global") throw new Error("Invalid managed alternative scope/target");
+      const primary = relative(original.baseDir, original.filePath).split(sep).join("/");
+      if (proposal.name !== original.name || proposal.scope !== original.scope || proposal.baseVersion !== original.version ||
+        !snapshot.skillReads?.some(read => read.id === original.id && read.file === primary && read.version === original.version)) throw new Error("Installed candidate identity/version conflict or not read");
+      await new ManagedSkillStore(options.agentDir, await resolveProjectRoot(ctx, reviewUI.selectedRoot(ctx.cwd))).previewManaged(alternative, snapshot);
+    },
+    briefing: async (_ctx, snapshot) => {
+      // Bounded per-request context: current installed-write policy plus local managed-note candidates.
+      // Metadata only — it never authorizes a write and never reads note bodies.
+      const status = await permissions.status();
+      const involved = new Map<string, { name: string; scope: string; decision: string }>();
+      for (const read of snapshot.skillReads ?? []) {
+        try {
+          const meta = await catalog.inspect(read.id);
+          if (meta.owner === "user-owned") involved.set(read.id, { name: meta.name, scope: meta.scope,
+            decision: await permissions.decide(meta as InstalledTarget) });
+        } catch { /* Excluded/unavailable reads contribute nothing. */ }
+      }
+      const candidates: { id: string; name: string; description: string; scope: string }[] = [];
+      for (const name of [...new Set([...involved.values()].map(value => value.name))].slice(0, 4)) {
+        try {
+          for (const item of (await catalog.search(name, 0, { sourceKind: "managed" })).items.slice(0, 4)) {
+            if (!candidates.some(candidate => candidate.id === item.id)) candidates.push({ id: item.id, name: item.name, description: item.description.slice(0, 200), scope: item.scope });
+          }
+        } catch { /* Candidate search failure degrades to none, never to a bypass. */ }
+      }
+      return JSON.stringify({ policy: status.policy, allowlistSize: status.allowlist.length,
+        installedTargets: [...involved.entries()].map(([id, meta]) => ({ id, ...meta })),
+        managedNoteCandidates: candidates.slice(0, 8) });
+    },
+    submit: (ctx, store, proposal, snapshot, requestId, guard, alternative) => submit(ctx, store, proposal, snapshot, requestId, guard, true, undefined, alternative),
     onSaved: async ctx => { await refresh(ctx, lastNativeSkills); await showArchiveStatus(ctx, await resolveProjectRoot(ctx, reviewUI.selectedRoot(ctx.cwd))); },
     reportFeedback: async (ctx, feedback, snapshot, guard) => {
       guard.signal.throwIfAborted();
@@ -58,18 +93,23 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
   const viewTool = "hermes_skill_view";
   let count = 0;
   let sourceError: string | undefined;
+  let activityWarning: string | undefined;
   let sourceGeneration = 0;
   let lifecycleAbort: AbortController | undefined;
+  const offeredPending = new Set<string>();
+  let interactionRound = 0, pickupActive = false;
   function cancelLifecycle() { lifecycleAbort?.abort(new Error("lifecycle-superseded")); lifecycleAbort = undefined; }
-  pi.on("input", cancelLifecycle);
-  pi.on("session_tree", cancelLifecycle);
-  pi.on("model_select", cancelLifecycle);
-  pi.on("session_before_compact", cancelLifecycle);
-  pi.on("session_before_switch", cancelLifecycle);
-  pi.on("session_before_fork", cancelLifecycle);
-  pi.on("session_shutdown", cancelLifecycle);
+  function newInteractionRound() { cancelLifecycle(); interactionRound++; offeredPending.clear(); rejectedTargets.clearAll(); }
+  pi.on("input", newInteractionRound);
+  pi.on("session_tree", newInteractionRound);
+  pi.on("model_select", newInteractionRound);
+  pi.on("session_before_compact", newInteractionRound);
+  pi.on("session_before_switch", newInteractionRound);
+  pi.on("session_before_fork", newInteractionRound);
+  pi.on("session_shutdown", newInteractionRound);
   let mode: "search" | "native" = "search";
   let lastNativeSkills: Skill[] = [];
+  const rejectedTargets = new RejectedTargets();
   async function refresh(ctx: ExtensionContext, nativeSkills: readonly Skill[]) {
     const generation = ++sourceGeneration;
     lastNativeSkills = structuredClone([...nativeSkills]);
@@ -89,15 +129,13 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
       if (!captured || generation !== sourceGeneration) return false;
       count = snapshot.skills.length;
       sourceError = undefined;
-      if (ctx.mode === "tui") ctx.ui.setStatus("hermes-skills", `Hermes skills: ${mode}`);
       return true;
     } catch (error) {
       if (generation !== sourceGeneration) return false;
       count = 0;
       sourceError = String(error).slice(0, 500);
       await catalog.capture([], false, [`Source unavailable: ${sourceError}`]);
-      if (ctx.mode === "tui") ctx.ui.setStatus("hermes-skills", "Hermes skills: source ERROR");
-      else process.stderr.write(JSON.stringify({ plugin: "hermes-skills", state: "source-error", error: sourceError }) + "\n");
+      if (ctx.mode !== "tui") process.stderr.write(JSON.stringify({ plugin: "hermes-skills", state: "source-error", error: sourceError }) + "\n");
       return false;
     }
   }
@@ -106,11 +144,46 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
     if (target?.installedId) await catalog.assertInstalledWritable(target.installedId, target.path, target.version);
     else if (target) await catalog.assertManagedWritable(target.path, target.version);
   }
+  /** Transcription handoff shape; never a saved SkillId. The foreground agent searches/updates managed notes next. */
+  const redirectOutcome = (proposal: SkillProposal, installed: InstalledTarget | undefined, basis: "policy" | "choice") => ({
+    status: "redirect" as const, saved: false as const, basis,
+    targetId: installed?.id,
+    original: installed ? { id: installed.id, name: installed.name, scope: installed.scope, unchanged: true as const } : undefined,
+    proposal: { action: proposal.action, scope: proposal.scope, name: proposal.name, description: proposal.description, reason: proposal.reason },
+    guidance: "Original retained unchanged. Search managed notes for this skill's name/task terms with hermes_skill_search, read any hit, then submit an ordinary managed note through this tool; lack of a candidate is not a saved result.",
+    auxiliaryModelCalled: false,
+  });
   async function submit(ctx: ExtensionContext, store: ManagedSkillStore, proposal: SkillProposal, snapshot: Snapshot, requestId: string,
-    guard: { signal?: AbortSignal; isCurrent?: () => boolean }, background: boolean, approvedHash?: string) {
+    guard: { signal?: AbortSignal; isCurrent?: () => boolean; sourceCheck?: () => Promise<void> }, background: boolean, approvedHash?: string, managedAlternative?: SkillProposal): Promise<ManagedSkill | ReturnType<typeof redirectOutcome>> {
     if (!await refresh(ctx, lastNativeSkills)) throw new Error("Source unavailable; proposal rejected");
     const target = proposal.action === "update" ? await catalog.inspect(proposal.id!) : undefined;
     const installed = target?.owner === "user-owned" ? target : undefined;
+    if (managedAlternative) {
+      managedAlternative = validateProposal(managedAlternative, snapshot);
+      if (!installed || managedAlternative.scope === "external" || managedAlternative.scope === "global" && installed.scope !== "global") throw new Error("Invalid managed alternative scope/target");
+      // Preview validation happens before either path writes. It proves managed ownership,
+      // actual reads/versions and destination protections without creating anything.
+      await store.previewManaged(managedAlternative, snapshot);
+    }
+    const redirect = async (basis: "policy" | "choice"): Promise<ManagedSkill | ReturnType<typeof redirectOutcome>> => {
+      if (!managedAlternative) return redirectOutcome(proposal, installed, basis);
+      const checkOriginal = async () => {
+        if (!await refresh(ctx, lastNativeSkills)) throw new Error("Source unavailable; redirect blocked");
+        const original = await catalog.inspect(installed!.id);
+        if (original.version !== installed!.version || original.filePath !== installed!.filePath) throw new Error("Redirect original version conflict");
+      };
+      await checkOriginal();
+      return submit(ctx, store, managedAlternative, snapshot, requestId, { ...guard, sourceCheck: checkOriginal }, background);
+    };
+    // Resolve the destination before applying original-file write protections. Reading an
+    // allowed pinned/read-only original can still yield an independent managed note.
+    if (installed) {
+      const primary = relative(installed.baseDir, installed.filePath).split(sep).join("/");
+      if (proposal.name !== installed.name || proposal.scope !== installed.scope || proposal.baseVersion !== installed.version ||
+        !snapshot.skillReads?.some(read => read.id === installed.id && read.file === primary && read.version === installed.version))
+        throw new Error("Installed target identity/version conflict or not read");
+      if (await permissions.decide(installed) === "notes-only") return redirect("policy");
+    }
     const assessment = approvedHash === undefined ? assessContent(proposal, snapshot) : undefined;
     const proof = assessment?.proof ?? (approvedHash !== undefined ? { kind: "user-approved" as const, sources: proposal.evidence.map(item => ({ ...item, role: "approval-source" })) } : undefined);
     if (assessment?.proof) proposal = assessment.proposal;
@@ -130,33 +203,62 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
         showPermissions(ctx, await permissions.status()); throw new PendingApproval(id, assessment?.reason);
       }
     }
-    let approved: string | undefined, globalGrant = false;
+    let approved: string | undefined, once = false;
     const current = () => { guard.signal?.throwIfAborted(); if (guard.isCurrent?.() === false) throw new Error("Stale proposal eligibility"); };
     if (installed) {
-      const preview = await store.previewInstalled(proposal, snapshot, installed);
+      const preview = { ...await store.previewInstalled(proposal, snapshot, installed), ...(managedAlternative ? { managedAlternative } : {}) };
       approved = contentHash(JSON.stringify(preview)); current();
       if (approvedHash !== undefined) {
         if (approved !== approvedHash && contentHash(JSON.stringify({ ...preview, contentReview: true })) !== approvedHash) throw new Error("Approved diff identity/version conflict");
-      } else if (await permissions.allowed()) globalGrant = true;
-      else if (!background && ctx.mode === "tui") {
-        if (!await confirmInstalledDiff(ctx, preview, guard.signal)) throw new Error("Installed approval rejected; no change");
+        once = true; // Pending-row approval binds this exact proposal/preview only.
       } else {
-        const id = await permissions.enqueue(preview, snapshot, requestId, () => !guard.signal?.aborted && guard.isCurrent?.() !== false);
-        current(); showPermissions(ctx, await permissions.status()); throw new PendingApproval(id);
+        const policy = await permissions.decide(installed);
+        if (policy === "notes-only") return redirect("policy");
+        if (policy === "ask") {
+          if (!background && ctx.mode === "tui") {
+            if (rejectedTargets.rejected(installed)) throw new Error("Installed change already rejected this round; explicit re-presentation required");
+            const outcome = await decideInstalledDiff(ctx, preview, guard.signal);
+            // The decision hash binds the exact rendered diff the user was shown, not the preview object.
+            const shown = contentHash(installedDiffText(preview)) === outcome.hash;
+            current();
+            if (outcome.decision === "always") {
+              if (!shown) throw new Error("Approved diff identity/version conflict");
+              await permissions.addAllowlist(installed.id, () => { current(); return true; });
+            } else if (outcome.decision === "once") {
+              if (!shown) throw new Error("Approved diff identity/version conflict");
+              once = true;
+            } else if (outcome.decision === "redirect") { rejectedTargets.reject(installed); return redirect("choice"); }
+            else { rejectedTargets.reject(installed); throw new Error("Installed approval rejected; no change"); }
+          } else {
+            const id = await permissions.enqueue(preview, snapshot, requestId, () => !guard.signal?.aborted && guard.isCurrent?.() !== false);
+            current(); showPermissions(ctx, await permissions.status()); throw new PendingApproval(id);
+          }
+        }
       }
       current();
     }
+    // Revocation re-check inside the writer: an older once-approval or grant cannot outlive a newer notes-only/ask policy.
+    const recheck = async () => {
+      if (!installed) return;
+      if (once) {
+        if (await permissions.decide(installed) === "notes-only") throw new Error("Installed policy changed to notes-only; one-time approval cannot bypass it");
+      } else if (await permissions.decide(installed) !== "allow") throw new Error("Installed grant revoked or allowlist entry removed; commit rejected");
+    };
     return store.save(proposal, snapshot, requestId, { ...guard, installed, contentProof: proof,
       approveContent: approvedHash !== undefined && !installed ? async preview => {
         if (contentHash(JSON.stringify(preview)) !== approvedHash) throw new Error("Content approval changed before commit");
       } : undefined,
       authorize: async value => {
-        if (globalGrant && !await permissions.allowed()) throw new Error("Installed global grant revoked; commit rejected");
+        await guard.sourceCheck?.();
+        await recheck();
         await authorizeCommit(ctx, value && installed ? { ...value, installedId: installed.id } : value);
-        if (globalGrant && !await permissions.allowed()) throw new Error("Installed global grant revoked during source authorization");
+        await guard.sourceCheck?.();
+        await recheck();
       },
       approveInstalled: async preview => {
-        if (contentHash(JSON.stringify(preview)) !== approved) throw new Error("Approved diff identity/version conflict");
+        const actual = { ...preview, ...(managedAlternative ? { managedAlternative } : {}) };
+        if (contentHash(JSON.stringify(actual)) !== approved) throw new Error("Approved diff identity/version conflict");
+        await recheck();
         return true;
       } });
   }
@@ -171,23 +273,44 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
     guard: { signal?: AbortSignal; isCurrent: () => boolean; authorize: () => Promise<void> }, approvedHash?: string): Promise<Parameters<SkillArchives["archive"]>[1]> {
     if (plan.target.owner !== "user-owned") return guard;
     const preview = await archives.permissionPreview(plan, action), expected = contentHash(JSON.stringify(preview));
-    const granted = approvedHash === undefined && await permissions.allowed();
     if (approvedHash !== undefined) { if (expected !== approvedHash) throw new Error("Lifecycle approved diff/version conflict"); }
-    else if (!granted) {
+    const decision = await permissions.decide(plan.target);
+    // A location operation cannot transcribe into a note; notes-only blocks it without faking completion.
+    if (decision === "notes-only") throw new Error(`notes-only policy blocks installed ${action}; keep the original or allow this skill explicitly`);
+    let granted = false, once = approvedHash !== undefined;
+    if (decision === "allow") granted = true;
+    else if (approvedHash === undefined) {
       if (ctx.mode === "tui") {
-        if (!await confirmInstalledDiff(ctx, preview, guard.signal)) throw new Error("Installed lifecycle approval rejected; no change");
+        if (rejectedTargets.rejected(plan.target)) throw new Error(`Installed ${action} already rejected this round; explicit re-presentation required`);
+        const outcome = await decideInstalledDiff(ctx, preview, guard.signal);
+        const shown = contentHash(installedDiffText(preview)) === outcome.hash;
+        guard.signal?.throwIfAborted();
+        if (!guard.isCurrent()) throw new Error("Stale lifecycle approval");
+        if (outcome.decision === "always") {
+          if (!shown) throw new Error("Lifecycle approved diff/version conflict");
+          await permissions.addAllowlist(plan.target.id, () => !guard.signal?.aborted && guard.isCurrent());
+          granted = true;
+        } else if (outcome.decision === "once") {
+          if (!shown) throw new Error("Lifecycle approved diff/version conflict");
+          once = true;
+        } else { rejectedTargets.reject(plan.target); throw new Error(`Installed ${action} ${outcome.decision === "redirect" ? "cannot be transcribed to a note" : "rejected"}; no change`); }
       } else {
         const id = await permissions.enqueue(preview, snapshot, `lifecycle-${plan.id}`, guard.isCurrent);
         showPermissions(ctx, await permissions.status()); throw new PendingApproval(id);
       }
     }
+    const recheck = async () => {
+      if (once) {
+        if (await permissions.decide(plan.target) === "notes-only") throw new Error("Installed policy changed to notes-only; one-time approval cannot bypass it");
+      } else if (await permissions.decide(plan.target) !== "allow") throw new Error(`Installed grant revoked or allowlist entry removed; ${action} blocked`);
+    };
     return { ...guard, authorize: async () => {
-      if (granted && !await permissions.allowed()) throw new Error("Installed global grant revoked; lifecycle blocked");
+      await recheck();
       await guard.authorize();
-      if (granted && !await permissions.allowed()) throw new Error("Installed global grant revoked during source authorization");
+      await recheck();
     }, approveInstalled: async actual => {
       if (contentHash(JSON.stringify(actual)) !== expected) throw new Error("Installed lifecycle diff changed before commit");
-      if (granted && !await permissions.allowed()) throw new Error("Installed global grant revoked before commit");
+      await recheck();
       return granted ? "global-grant" : "user-diff";
     } };
   }
@@ -206,26 +329,140 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
     }
     const { preview } = prepared, expected = contentHash(JSON.stringify(preview)), requestId = `rollback-${randomUUID()}`;
     const installed = target.owner === "user-owned" ? target : undefined;
-    const granted = !!installed && approvedHash === undefined && await permissions.allowed();
     if (approvedHash !== undefined) { if (expected !== approvedHash) throw new Error("Rollback approved diff/version conflict"); }
-    else if (ctx.mode === "tui" && !granted) {
-      if (!await confirmInstalledDiff(ctx, preview, guard.signal)) return { status: "no-change", scope: target.scope, modelCalled: false };
-    } else if (installed && !granted) {
-      const pendingId = await permissions.enqueue(preview, prepared.snapshot, requestId, guard.isCurrent);
-      showPermissions(ctx, await permissions.status()); throw new PendingApproval(pendingId);
+    const decision = installed ? await permissions.decide(installed) : "allow";
+    if (installed && decision === "notes-only") throw new Error("notes-only policy blocks installed rollback; keep the current bytes or allow this skill explicitly");
+    let granted = decision === "allow" && !!installed && approvedHash === undefined, once = approvedHash !== undefined;
+    if (!installed && approvedHash === undefined && ctx.mode === "tui" && !await confirmInstalledDiff(ctx, preview, guard.signal))
+      return { status: "no-change", scope: target.scope, modelCalled: false };
+    if (installed && decision === "ask" && approvedHash === undefined) {
+      granted = false;
+      if (ctx.mode === "tui") {
+        if (rejectedTargets.rejected(installed)) throw new Error("Installed rollback already rejected this round; explicit re-presentation required");
+        const outcome = await decideInstalledDiff(ctx, preview, guard.signal);
+        const shown = contentHash(installedDiffText(preview)) === outcome.hash;
+        guard.signal.throwIfAborted();
+        if (!guard.isCurrent()) throw new Error("Stale rollback approval");
+        if (outcome.decision === "always") {
+          if (!shown) throw new Error("Rollback approved diff/version conflict");
+          await permissions.addAllowlist(installed.id, () => !guard.signal.aborted && guard.isCurrent());
+          granted = true;
+        } else if (outcome.decision === "once") {
+          if (!shown) throw new Error("Rollback approved diff/version conflict");
+          once = true;
+        } else { rejectedTargets.reject(installed); return { status: "no-change", scope: target.scope, modelCalled: false }; }
+      } else {
+        const pendingId = await permissions.enqueue(preview, prepared.snapshot, requestId, guard.isCurrent);
+        showPermissions(ctx, await permissions.status()); throw new PendingApproval(pendingId);
+      }
     }
+    const recheck = async () => {
+      if (!installed) return;
+      if (once) {
+        // Once-approvals (foreground or pending-row) only ever exist under ask; a newer notes-only policy wins.
+        if (await permissions.decide(installed) === "notes-only") throw new Error("Installed policy changed to notes-only; one-time approval cannot bypass it");
+      } else if (await permissions.decide(installed) !== "allow") throw new Error("Installed grant revoked or allowlist entry removed before rollback");
+    };
     const saved = await store.save(preview.proposal, prepared.snapshot, requestId, { ...guard, rollbackOf: key, installed,
       authorize: async value => {
-        if (granted && !await permissions.allowed()) throw new Error("Installed global grant revoked before rollback");
+        await recheck();
         await authorizeCommit(ctx, value && installed ? { ...value, installedId: installed.id } : value);
-        if (granted && !await permissions.allowed()) throw new Error("Installed global grant revoked during source authorization");
+        await recheck();
       }, approveInstalled: async actual => {
         if (contentHash(JSON.stringify({ ...actual, diff: actual.diff.sort((a, b) => a.file.localeCompare(b.file)), rollbackOf: key })) !== expected) throw new Error("Rollback diff changed under writer lock");
+        await recheck();
         return true;
       } });
     return { status: "changed", id: saved.id, scope: saved.scope, owner: target.owner, rollbackOf: key,
       version: saved.version, contentProof: saved.contentProof, recovery: `/hermes-skills history ${saved.id}`, modelCalled: false };
   }
+  async function applyPendingNote(ctx: ExtensionContext, row: Awaited<ReturnType<InstalledPermissions["get"]>>, decision: "once" | "always" | "redirect" | "reject",
+    signal?: AbortSignal) {
+    if (!("proposal" in row.preview) || row.preview.curation || row.preview.rollbackOf) throw new Error("Use the explicit maintenance approval command");
+    const snapshot = captureSnapshot(ctx), revision = reviewUI.revision();
+    const current = () => !signal?.aborted && reviewUI.revision() === revision && ctx.isProjectTrusted() && ctx.cwd === row.snapshot.cwd &&
+      ctx.sessionManager.getSessionId() === snapshot.sessionId && ctx.sessionManager.getLeafId() === snapshot.leafId;
+    if (!current()) throw new Error("Pending project/lifecycle identity conflict");
+    if (!await refresh(ctx, lastNativeSkills)) throw new Error("Source unavailable; pending decision blocked");
+    const original = await catalog.inspect(row.preview.target.id);
+    if (original.filePath !== row.preview.target.filePath || original.version !== row.preview.target.version) throw new Error("Pending original version conflict");
+    if (row.preview.managedAlternative) await new ManagedSkillStore(options.agentDir, await resolveProjectRoot(ctx, reviewUI.selectedRoot(ctx.cwd))).previewManaged(row.preview.managedAlternative,
+      { ...snapshot, evidence: row.snapshot.evidence, skillReads: row.snapshot.skillReads });
+    if (!current()) throw new Error("Stale pending decision; no write eligibility");
+    if (decision === "reject") {
+      await permissions.remove(row.id, false, current);
+      if (current()) rejectedTargets.reject(row.preview.target);
+      return { status: "no-change", saved: false };
+    }
+    if (decision === "redirect" && !row.preview.managedAlternative) {
+      await permissions.remove(row.id, false, current);
+      if (!current()) throw new Error("Stale pending redirect; no continuation message");
+      rejectedTargets.reject(row.preview.target);
+      const outcome = redirectOutcome(row.preview.proposal, row.preview.target, "choice");
+      pi.sendMessage({ customType: "hermes.skill.redirect", content: JSON.stringify({ ...outcome, improvement: row.preview.proposal,
+        evidence: row.snapshot.evidence }), display: true }, { triggerTurn: false, deliverAs: "nextTurn" });
+      return outcome;
+    }
+    if (decision === "always") await permissions.addAllowlist(row.preview.target.id, current);
+    const root = await resolveProjectRoot(ctx, reviewUI.selectedRoot(ctx.cwd));
+    const redirectSource = async () => {
+      if (!await refresh(ctx, lastNativeSkills)) throw new Error("Source unavailable; pending redirect blocked");
+      const fresh = await catalog.inspect(original.id);
+      if (fresh.version !== original.version || fresh.filePath !== original.filePath) throw new Error("Pending redirect original version conflict");
+    };
+    const outcome = decision === "redirect" ? await submit(ctx, new ManagedSkillStore(options.agentDir, root), row.preview.managedAlternative!,
+      { ...snapshot, evidence: row.snapshot.evidence, skillReads: row.snapshot.skillReads }, row.requestId, { signal, isCurrent: current, sourceCheck: redirectSource }, false) : await submit(ctx, new ManagedSkillStore(options.agentDir, root), row.preview.proposal,
+      { ...snapshot, evidence: row.snapshot.evidence, skillReads: row.snapshot.skillReads }, row.requestId, { signal, isCurrent: current }, false, row.id, row.preview.managedAlternative);
+    if (!("id" in outcome)) return outcome;
+    await permissions.remove(row.id); await refresh(ctx, lastNativeSkills);
+    return { status: "saved", id: outcome.id, version: outcome.version, owner: row.preview.target.owner, modelCalled: false };
+  }
+  async function offerPending(ctx: ExtensionContext) {
+    const safe = () => ctx.mode === "tui" && ctx.isIdle() && !ctx.hasPendingMessages();
+    if (pickupActive || !safe()) return;
+    pickupActive = true;
+    const round = interactionRound, dialogs = new Set<Promise<unknown>>();
+    let controller: AbortController | undefined;
+    const track = async <T>(pending: Promise<T>): Promise<T> => {
+      dialogs.add(pending); try { return await pending; } finally { dialogs.delete(pending); }
+    };
+    const dialogContext: ExtensionContext = { ...ctx, ui: { ...ctx.ui,
+      select: (...args) => track(ctx.ui.select(...args)), editor: (...args) => track(ctx.ui.editor(...args)),
+    } };
+    try {
+      const rows = (await permissions.read()).pending.filter(row => row.snapshot.cwd === ctx.cwd && !row.applying && !row.failure &&
+        "proposal" in row.preview && !row.preview.curation && !row.preview.rollbackOf && row.preview.target.owner === "user-owned" &&
+        !offeredPending.has(row.id) && !rejectedTargets.rejected(row.preview.target)).slice(0, 8);
+      if (!rows.length || round !== interactionRound || !safe()) return;
+      rows.forEach(row => offeredPending.add(row.id)); // Suppression lasts only this interaction round.
+      controller = new AbortController(); cancelLifecycle(); lifecycleAbort = controller;
+      if (await awaitWithAbort(dialogContext.ui.select(`${rows.length} skill change(s) await a decision`, ["Review pending changes now", "Later"], { signal: controller.signal }), controller.signal) !== "Review pending changes now") return;
+      for (const row of rows) {
+        controller.signal.throwIfAborted();
+        if (round !== interactionRound || !safe()) return;
+        if (rejectedTargets.rejected(row.preview.target)) continue; // Earlier rows can reject this target after batch selection.
+        try {
+          const outcome = await decideInstalledDiff(dialogContext, row.preview, controller.signal);
+          controller.signal.throwIfAborted();
+          if (outcome.cancelled) { rejectedTargets.reject(row.preview.target); continue; }
+          if (outcome.hash !== contentHash(installedDiffText(row.preview))) throw new Error("Pending diff changed");
+          const result = await applyPendingNote(ctx, row, outcome.decision, controller.signal);
+          if (!controller.signal.aborted) ctx.ui.notify(JSON.stringify(result), "info");
+        } catch (error) {
+          if (controller.signal.aborted || round !== interactionRound) return;
+          ctx.ui.notify(JSON.stringify({ status: "failed", saved: false, reason: String(error), modelCalled: false }), "error");
+        }
+      }
+    } catch (error) {
+      if (!controller?.signal.aborted && round === interactionRound) ctx.ui.notify(JSON.stringify({ status: "failed", saved: false, reason: String(error), modelCalled: false }), "error");
+    } finally {
+      // An ignored abort must finish its actual editor/select before another pickup can open UI.
+      await Promise.allSettled([...dialogs]);
+      if (lifecycleAbort === controller) lifecycleAbort = undefined;
+      pickupActive = false;
+    }
+  }
+  pi.on("input", async (_event, ctx) => { await offerPending(ctx); });
   async function showArchiveStatus(ctx: ExtensionContext, root: string) {
     const rows = await new SkillArchives(options.agentDir, root).list();
     const archives = rows.filter(row => row.error || row.state === "archiving" || row.state === "restoring");
@@ -233,22 +470,15 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
     const applying = (await permissions.status()).pending.filter(row => row.applying || row.failure).map(row => ({ id: row.id, state: row.applying ? "curation-incomplete" : "curation-failed",
       error: row.failure ?? "Keep may already be committed; finish any child recovery, then complete absorption locally", recovery: `/hermes-skills curate apply ${row.id}` }));
     const attention = [...archives, ...applying, ...recovery.map(row => ({ ...row, id: row.key, error: row.diagnostic, recovery: "/hermes-review recovery" }))];
-    if (ctx.mode === "tui") {
-      ctx.ui.setStatus("hermes-maintenance", attention.length ? `Hermes maintenance: ${attention.length} unresolved; /hermes-skills archives | /hermes-review recovery` : undefined);
-      ctx.ui.setWidget("hermes-maintenance", attention.length ? attention.slice(0, 3).map(row => `${row.id} ${row.state}: ${row.error ?? "interrupted"} | ${row.recovery}`) : undefined);
-    } else if (attention.length) process.stderr.write(JSON.stringify({ type: "hermes.skills.maintenance", attention }) + "\n");
+    if (ctx.mode !== "tui" && attention.length) process.stderr.write(JSON.stringify({ type: "hermes.skills.maintenance", attention }) + "\n");
+    return attention;
   }
   function activityError(ctx: ExtensionContext, error: unknown) {
-    const diagnostic = `Skill read/load succeeded; activity not recorded: ${String(error).slice(0, 400)}`;
-    if (ctx.mode === "tui") { ctx.ui.notify(diagnostic, "warning"); ctx.ui.setStatus("hermes-activity", diagnostic); }
-    else process.stderr.write(JSON.stringify({ type: "hermes.skills.activity-error", foregroundReadSucceeded: true, error: diagnostic }) + "\n");
+    activityWarning = `Skill read/load succeeded; activity not recorded: ${String(error).slice(0, 400)}`;
+    if (ctx.mode !== "tui") process.stderr.write(JSON.stringify({ type: "hermes.skills.activity-error", foregroundReadSucceeded: true, error: activityWarning }) + "\n");
   }
   function showPermissions(ctx: ExtensionContext, status: Awaited<ReturnType<InstalledPermissions["status"]>>) {
-    if (ctx.mode === "tui") ctx.ui.setWidget("hermes-installed", [
-      `Installed skills: auto modify ${status.allowAutoModifyInstalledSkills ? "ALLOWED by user" : "OFF"} | pending ${status.pending.length}`,
-      "/hermes-skills pending | approve <id> | reject <id> | installed allow/deny",
-    ]);
-    else process.stderr.write(JSON.stringify({ type: "hermes.skills.permissions", ...status }) + "\n");
+    if (ctx.mode !== "tui") process.stderr.write(JSON.stringify({ type: "hermes.skills.permissions", ...status }) + "\n");
   }
   pi.registerTool({
     name: searchTool, label: "Search skills",
@@ -276,7 +506,7 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
   });
   pi.registerTool({
     name: "hermes_skill_manage", label: "Submit skill proposal",
-    description: "Submit an evidence-bound create/update proposal through the same host commit gates as review. Updating requires the exact previously read SkillId and each file's version. globally allowed installed changes still require content evidence or exact local approval. No semantic verifier is called.",
+    description: "Submit an evidence-bound create/update proposal through the same host commit gates as review. Updating requires the exact previously read SkillId and each file's version. An installed target may return a redirect outcome when policy or the user's fourth choice sends the improvement to a managed note; that is not a saved id. Allowed installed changes still require content evidence or exact local approval. No semantic verifier is called.",
     parameters: Type.Object({ proposal: Type.Object({
       action: Type.Union([Type.Literal("create"), Type.Literal("update")]),
       id: Type.Optional(Type.String({ maxLength: 2000 })),
@@ -300,9 +530,13 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
         const root = await resolveProjectRoot(ctx, reviewUI.selectedRoot(ctx.cwd));
         const store = new ManagedSkillStore(options.agentDir, root);
         await store.assertReady();
-        const saved = await submit(ctx, store, proposal, snapshot, `foreground-${randomUUID()}`, { signal, isCurrent: current }, false);
-        await refresh(ctx, lastNativeSkills);
-        result = { status: "saved", id: saved.id, version: saved.version, scope: saved.scope, auxiliaryModelCalled: false };
+        const outcome = await submit(ctx, store, proposal, snapshot, `foreground-${randomUUID()}`, { signal, isCurrent: current }, false);
+        if (outcome && typeof outcome === "object" && "status" in outcome && outcome.status === "redirect") { result = outcome; }
+        else {
+          const saved = outcome as Awaited<ReturnType<ManagedSkillStore["save"]>>;
+          await refresh(ctx, lastNativeSkills);
+          result = { status: "saved", id: saved.id, version: saved.version, scope: saved.scope, auxiliaryModelCalled: false };
+        }
       } catch (error) {
         result = error instanceof PendingApproval ? { status: "pending", pendingId: error.id, reason: error.message, auxiliaryModelCalled: false } :
           { status: /conflict|not read|Unowned|pinned|Read-only|identity/i.test(String(error)) ? "conflict" : "failed",
@@ -318,7 +552,7 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
     if (ready && mode === "search" && active.includes(searchTool) && active.includes(viewTool)) searchFirst(event);
   });
   pi.registerCommand("hermes-skills", {
-    description: "Skills: history <id> [offset] | rollback <id> <change-key> | archive <id> <reason> | archives | archive-resume/restore <archive-id> | curate list [offset] | curate propose <keep-id> <absorb-id> (one metered request) | curate apply <pending-id> (local approval) | status | refresh | mode search/native | load <SkillId> [nextOffset] | pending | approve/reject <id> | installed allow/deny | inspect/pin/unpin <SkillId> | use <SkillId> <reason> | outcome <SkillId> success/failure <reason> | migrate <SkillId> project/global <reason>.",
+    description: "Skills: history <id> [offset] | rollback <id> <change-key> | archive <id> <reason> | archives | archive-resume/restore <archive-id> | curate list [offset] | curate propose <keep-id> <absorb-id> (one metered request) | curate apply <pending-id> (local approval) | status | refresh | mode search/native | load <SkillId> [nextOffset] | pending | approve/reject <id> | settings | installed allow/deny | inspect/pin/unpin <SkillId> | use <SkillId> <reason> | outcome <SkillId> success/failure <reason> | migrate <SkillId> project/global <reason>.",
     handler: async (args, ctx) => {
       const report = (data: unknown, error = false) => {
         if (ctx.mode === "tui" || ctx.mode === "rpc") ctx.ui.notify(JSON.stringify(data), error ? "error" : "info");
@@ -423,8 +657,18 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
           }
           report({ skill: await catalog.inspect(value), activity: await activity.inspect(value), modelCalled: false }); return;
         }
-        if (["pending", "approve", "reject", "installed"].includes(action)) {
+        if (["pending", "approve", "reject", "installed", "settings"].includes(action)) {
           if (extra.length) throw new Error("Unexpected permission arguments");
+          if (action === "settings") {
+            if (value || cursor) throw new Error("Use settings without arguments");
+            if (ctx.mode !== "tui") throw new Error("confirmation-required: permission settings require actual TUI");
+            if (!await refresh(ctx, lastNativeSkills)) throw new Error("Source unavailable; settings labels cannot be resolved");
+            await permissionSettings(ctx, permissions, async id => {
+              try { const meta = await catalog.inspect(id); return { name: meta.name, scope: meta.scope }; }
+              catch { return undefined; }
+            });
+            const status = await permissions.status(); showPermissions(ctx, status); report({ ...status, modelCalled: false }); return;
+          }
           if (action === "installed") {
             if (!["allow", "deny"].includes(value ?? "")) throw new Error("Use installed allow/deny; only a user command can change the global grant");
             if (value === "allow") {
@@ -481,7 +725,8 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
             else if (row.preview.proposal.action === "update") await catalog.assertManagedWritable(row.preview.target.filePath, row.preview.target.version);
             if (!await confirmInstalledDiff(ctx, row.preview)) return;
             const snapshot = { ...currentSnapshot, evidence: row.snapshot.evidence, skillReads: row.snapshot.skillReads };
-            const saved = await submit(ctx, new ManagedSkillStore(options.agentDir, root), row.preview.proposal, snapshot, row.requestId, { isCurrent: current }, false, value);
+            const saved = await submit(ctx, new ManagedSkillStore(options.agentDir, root), row.preview.proposal, snapshot, row.requestId, { isCurrent: current }, false, value, row.preview.managedAlternative);
+            if (!("id" in saved)) { report(saved); return; } // A newer notes-only policy turns the stale approval into a redirect outcome.
             await permissions.remove(value); await refresh(ctx, lastNativeSkills);
             report({ status: "saved", id: saved.id, owner: row.preview.target.owner, localModified: saved.localModified ?? false,
               contentProof: saved.contentProof, modelCalled: false });
@@ -524,7 +769,8 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
         } else if (!["status", "refresh", "load"].includes(action)) throw new Error("Use status, refresh, mode search/native or load <SkillId> [nextOffset]");
         else if (action !== "load" && (value || cursor)) throw new Error("Unexpected command arguments");
         const ready = await refresh(ctx, ctx.getSystemPromptOptions().skills ?? []);
-        const status = { mode, installed: await permissions.status(), allowedSources: count, sourceError, automaticReview: reviewUI.automatic(),
+        const status = { mode, installed: await permissions.status(), allowedSources: count, sourceError, activityWarning, automaticReview: reviewUI.automatic(),
+          maintenance: await showArchiveStatus(ctx, await resolveProjectRoot(ctx, reviewUI.selectedRoot(ctx.cwd)).catch(() => ctx.cwd)),
           nativeMenus: "Plugin refresh is immediate; native /skill: completion requires official /reload. Mode resets to search on reload; Pi settings are unchanged." };
         if (action !== "load") { report(status, !ready); return; }
         if (!ready) throw new Error(sourceError ?? "Source refresh superseded; load cancelled");
@@ -551,6 +797,11 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
     },
   });
   pi.on("session_start", async (_event, ctx) => {
+    newInteractionRound();
+    // Clear panels left by an older loaded version; status is now command-only.
+    if (ctx.mode === "tui") for (const key of ["hermes-review", "hermes-skills", "hermes-installed", "hermes-maintenance", "hermes-activity"]) {
+      ctx.ui.setStatus(key, undefined); ctx.ui.setWidget(key, undefined);
+    }
     ++sourceGeneration;
     count = 0;
     lastNativeSkills = [];
@@ -560,10 +811,9 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
       const root = await resolveProjectRoot(ctx, reviewUI.selectedRoot(ctx.cwd)).catch(() => ctx.cwd);
       await showArchiveStatus(ctx, root);
     } catch (error) {
-      if (ctx.mode === "tui") ctx.ui.setStatus("hermes-maintenance", `Hermes maintenance ERROR: ${String(error).slice(0, 300)}`);
-      else process.stderr.write(JSON.stringify({ type: "hermes.skills.maintenance-error", error: String(error) }) + "\n");
+      if (ctx.mode !== "tui") process.stderr.write(JSON.stringify({ type: "hermes.skills.maintenance-error", error: String(error) }) + "\n");
     }
-    if (ctx.mode === "tui") ctx.ui.setStatus("hermes-skills", `Hermes skills: ${mode}`);
+    await offerPending(ctx);
   });
   pi.on("session_before_switch", async () => {
     ++sourceGeneration;

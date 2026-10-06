@@ -1,0 +1,12 @@
+salt = "upKi58fdeZa96ZJB"
+previous_id = "684a793ad6ed0502afbbf9ab4408684783c4585382138fc33f36a841312f69f1"
+timestamp = "2026-10-05T18:29:12.89823369Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["a6abd4ae08e6211a937d637db491c268b249abb78425c9faf6900778412984cc"]
+link_id = "3c290d9ee89f2cdf2d309a8fd20c8d17"
+reason = "test:bootstrap -> evidence:api: Inherited entry change does not alter target public SDK/source/fixture bytes or single-row/native rollback contract. Original authority/rollback/CLI/public acceptance assertions pass current full225 gate and prior four repros. Broader native evidence reused only for unchanged helper/UI/single-row semantics, not claimed new batch timing proof."
+stop = false

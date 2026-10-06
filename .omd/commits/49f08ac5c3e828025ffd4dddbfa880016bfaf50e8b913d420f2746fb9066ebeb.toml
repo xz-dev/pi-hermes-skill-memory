@@ -1,0 +1,12 @@
+salt = "20WnEx3ADAGOsNtn"
+previous_id = "c05fae15c13f7c88375c832909a82f94f4354230ee872b981a071e2114f89819"
+timestamp = "2026-10-05T14:58:28.150219068Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["94d0394d3bdaf34660f8fd614ba8b665fe8b7a2b3c62306fc2293ddf6b98e53a"]
+link_id = "93cfb2c9165cdffddb591e393e935155"
+reason = "implementation:entry → test:cli-sources: host-provided source whitelist/trust/noSkills boundaries remain rechecked, including note alternatives and restore. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

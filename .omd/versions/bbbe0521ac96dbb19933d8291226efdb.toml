@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [187, 190, 5, 33, 172, 150, 219, 177, 153, 51, 216, 41, 18, 38, 239, 219]
+len = 1514
+sha256 = "ed51fbf269ae6f691c6ca36e6e8ceb227d842bbfc229f0a7e4b28bd506524301"
+encoding = "utf-8"
+content_file = "content/ed51fbf269ae6f691c6ca36e6e8ceb227d842bbfc229f0a7e4b28bd506524301"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/notebook-guidance.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/notebook-guidance.test.ts"

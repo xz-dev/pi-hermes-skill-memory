@@ -1,0 +1,12 @@
+salt = "r3TXNCKKBvzLdvdR"
+previous_id = "e84c4c3f0a2d01552125e9d658db1bfcc6a56fde20ac03a384451104f6f983b6"
+timestamp = "2026-10-05T14:58:25.035006628Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["4a09f50142db8a2565a4330dc2668e2fc79e124431c1598ccb39081810ec3489"]
+link_id = "2dd74878748471934ce4f7f38d481485"
+reason = "implementation:async → implementation:store: Common controlled writer still checks exact reads/versions/members and current source; new recovery policy checks augment authorization, not structural content or partial rollback semantics. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

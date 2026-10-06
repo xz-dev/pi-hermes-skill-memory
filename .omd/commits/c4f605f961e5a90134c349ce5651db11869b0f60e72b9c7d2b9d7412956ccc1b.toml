@@ -1,0 +1,12 @@
+salt = "0ib0xZFz07voV6RK"
+previous_id = "6305e74a1aa4885a2c2edbc9614a5f40d4ab7b215887f82bba245b3c6ee9f5f3"
+timestamp = "2026-10-05T17:49:03.819092013Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["8bcc33d5d9ad754fc73b48ea2a5286963900fb1551b31ee691362530ade39cdc"]
+link_id = "1a19d514f74e88c2c745d314222ddbf7"
+reason = "implementation:permissions -> test:content: Permission API adds optional lifecycle predicate without changing content classification. Existing content/proof compatibility tests still exercise ordinary agent-notes, legacy approved and restored semantics; all pass. No new managed approval gate."
+stop = false

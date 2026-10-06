@@ -1,0 +1,14 @@
+salt = "yBkbGhW9FwnZucqC"
+previous_id = "a6f2e519ca9812f161ae212f43c0b1175dc6d2124f122bc13fad1ddde1058e5f"
+timestamp = "2026-10-05T15:01:19.364983516Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "3f7345b7789ead480806a0230c55e382"
+reason = "Active approved delta requirement and its scenarios constrain this implementation seam. Historical lifecycle requirements remain recorded; this delta supersedes notebook/default/installed-policy behavior without rewriting archived specs."
+source = "range:4089dd85f49638d5ba87cec020c3689bc2fa231b5bdaf8208da093e624c987d6"
+source_version = "a6f2e519ca9812f161ae212f43c0b1175dc6d2124f122bc13fad1ddde1058e5f"
+target = "range:a876e1cc720881a08c2c40a16f69f2abc4aa1964d4016d393cc67bbd5edcdce0"
+target_version = "c8b5cdeccdb091d6f6601b74bb3c6bbddb932dc8c8d2ca478c8c25e5d5ade9e8"

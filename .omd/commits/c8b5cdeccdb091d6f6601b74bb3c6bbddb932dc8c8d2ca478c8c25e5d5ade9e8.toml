@@ -1,0 +1,15 @@
+salt = "qLgJntGdFzpTEKp1"
+previous_id = "14ca6974e8c76fab53cb5039bb6d594851267414aa69702505acc7e7b5cfb614"
+timestamp = "2026-10-05T14:54:05.051855391Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "0f487800b3f6ef61de959116cd3b656c"
+
+[payload]
+path = "src/permissions.ts"
+reason = "Design §2/3 v2 policy+identity allowlist migrates v1 without executing pending; four exact-diff choices/settings and cancellation boundaries. Capacity byte-regression closes reproduced 257th-member bug."
+
+[payload.position]
+end = "17017"
+mode = "text"
+start = "0"

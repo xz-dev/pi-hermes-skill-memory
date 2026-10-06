@@ -1,0 +1,12 @@
+salt = "IAdmjLABidRlZ7jZ"
+previous_id = "fe71c988022595afcd0b177da7ba131d9db9aa9af723c372f859e1b3d909fcf4"
+timestamp = "2026-10-05T14:58:32.616006368Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["ac4d3bc724c5ac506f6abfef6b293e13a59f2edbe4e89485ec0f1fc8018bd7f5"]
+link_id = "fb171e42e73ffc6e2ecc94f2cbbd0b97"
+reason = "implementation:ui → test:scheduling: unique tool-bearing assistant rounds and independent user count still gate settled dispatch; startup/exit/compaction do not flush. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

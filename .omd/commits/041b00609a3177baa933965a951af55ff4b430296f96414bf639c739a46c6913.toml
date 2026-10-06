@@ -1,0 +1,12 @@
+salt = "oFkolju764BoGreo"
+previous_id = "8a712b67bf7af6016af1054ccf4669c3bec50b5718ac5d829e12ea741902ff34"
+timestamp = "2026-10-05T17:49:07.317699717Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["2e17000370d166561054d75cd2f9316673555eb0f1df9ea02bd9b74c251cf8e3"]
+link_id = "93cfb2c9165cdffddb591e393e935155"
+reason = "implementation:entry -> test:cli-sources: Entry still uses authoritative SDK source set and denies excluded/noSkills sources. New lifecycle guards cannot add access. Existing actual CLI-source tests pass current full222 suite; no source/provider model fallback."
+stop = false

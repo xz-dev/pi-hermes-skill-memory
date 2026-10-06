@@ -1,0 +1,16 @@
+format = "omd.version/2"
+id = [8, 62, 79, 17, 196, 175, 27, 103, 71, 135, 180, 92, 126, 100, 47, 6]
+len = 3043
+sha256 = "05c3930f3d01f708b342326619a6f90ddc2db6ce2d6be2ca9ee5b9d9d598088d"
+encoding = "utf-8"
+content_file = "content/05c3930f3d01f708b342326619a6f90ddc2db6ce2d6be2ca9ee5b9d9d598088d"
+
+[acquisition]
+type = "file"
+project = "root"
+path = "test/status-display.test.ts"
+
+[recovery]
+type = "file"
+project = "root"
+path = "test/status-display.test.ts"

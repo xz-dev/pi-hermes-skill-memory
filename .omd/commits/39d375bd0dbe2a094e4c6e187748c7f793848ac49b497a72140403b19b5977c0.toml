@@ -1,0 +1,12 @@
+salt = "XkTWOoqRjd47qhbE"
+previous_id = "bb937025b857c8ae3888fd174b73dd7d980a3af2a99a4aa9b827d3b33424fc8b"
+timestamp = "2026-10-05T14:58:25.305497988Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["94d0394d3bdaf34660f8fd614ba8b665fe8b7a2b3c62306fc2293ddf6b98e53a"]
+link_id = "31f94df8c906194b788d28f9efdd7fb2"
+reason = "implementation:entry → test:modes: search/native tool availability and host source fallback remain; model guidance never becomes permission or automatic script execution. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

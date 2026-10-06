@@ -1,0 +1,15 @@
+salt = "UWX8zUjdLYuN1ldw"
+previous_id = "f7acb3725e5c2e8443611279e1dc41e77b823f6d7787303eaf1905872d5c0ec8"
+timestamp = "2026-10-05T14:54:02.355854759Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "743ea64f54681223d7d78ea7e0438f70"
+
+[payload]
+path = "src/ui.ts"
+reason = "Quiet baseline retained; defaults share automaticEnabled, per-request materials charged; recovery resolves exact-ID policy. Only settled dispatch, no startup/exit/compaction flush."
+
+[payload.position]
+end = "20719"
+mode = "text"
+start = "0"

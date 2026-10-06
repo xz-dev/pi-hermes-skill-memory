@@ -53,7 +53,7 @@ test("registered read of global A never authorizes identical-hash project B; the
     assert.equal(await readFile(f.project.path, "utf8"), before); assert.equal(await readFile(f.global.path, "utf8"), before);
     f.target("right"); await f.session.prompt("Update the global rule that was actually read");
     assert.equal(await readFile(f.project.path, "utf8"), before);
-    assert.match(await readFile(f.global.path, "utf8"), /release manifest against the built output/);
+    assert.match(await readFile(f.global.path, "utf8"), /Then validate the build output/);
     assert.deepEqual((await new ReviewLedger(f.agentDir).inspect()).records, [], "foreground commit must not start an auxiliary request");
   } finally { f.session.dispose(); }
 });

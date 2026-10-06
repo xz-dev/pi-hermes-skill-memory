@@ -1,0 +1,14 @@
+salt = "EgSqQYgRVDLonjWS"
+previous_id = "83fec4149385ab339505f854a075dc18904138d6fde22689aced44e0f99a1ea1"
+timestamp = "2026-10-05T15:01:21.523506538Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "770c751789e3aba7b9bf9656c65ad98b"
+reason = "valid-unset vs absent state; command-only TUI across faults/reload; SDK callback UI is not native terminal evidence."
+source = "range:8bac4952475bde4773538ee4639ad190727ba210c850e8ff762efd26f3c88fbf"
+source_version = "ac4d3bc724c5ac506f6abfef6b293e13a59f2edbe4e89485ec0f1fc8018bd7f5"
+target = "range:bc70502e99984d8216b596887e03a93c006e08abbe8d24a7f017c780d6a68f76"
+target_version = "83fec4149385ab339505f854a075dc18904138d6fde22689aced44e0f99a1ea1"

@@ -1,0 +1,12 @@
+salt = "1o4Fab3MN0T2Vs6c"
+previous_id = "6ed5fb5ea0119e91b88fdc16f981e63ffd85a5d5967572ec3b90597ca003b571"
+timestamp = "2026-10-05T15:10:33.752411362Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["1e1b89b73b5fe9643b4e72e7b70c28e1e6f7932bbdb1bbf178e266cd06fafb6a"]
+link_id = "e69c0164c9b93e4349e01d66e450022f"
+reason = "notebook:test/notebook-acceptance.test.ts → notebook:evidence:Public tool positive flow: inherited entry preflight now checks original before batch side effects. Foreground/editor/four-choice APIs and isolated fixture stay unchanged; acceptance evidence is current deterministic/native observation, not certification. Native driver is rerun on final tree separately."
+stop = false

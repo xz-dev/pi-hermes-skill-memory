@@ -1,0 +1,12 @@
+salt = "ayZyBzcxhVlAgiUe"
+previous_id = "37db5c0837ffd75ac40480189f39b4aec45b0cd7da12fdd3eaf483b8a9a2e98f"
+timestamp = "2026-10-05T18:29:13.993551752Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["a6abd4ae08e6211a937d637db491c268b249abb78425c9faf6900778412984cc"]
+link_id = "920dd4973f12abc0725c4879b7dc549f"
+reason = "implementation:entry -> notebook:test/notebook-acceptance.test.ts: One per-row exact-ID rejection check only. Target current source/API/mode/public/native/decision contract unchanged; full225 current suite passed. No UI protocol, permission publication/rollback or billing behavior changed beyond suppressing refused same-target repeat. Previously verified single-row native remains scoped evidence; new multirow behavior verified at SDK seam."
+stop = false

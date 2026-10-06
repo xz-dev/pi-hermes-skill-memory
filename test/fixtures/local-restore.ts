@@ -43,7 +43,8 @@ try {
   await writeFile(primary, text); await symlink(sourceRoot, alias); rules = [selectedSource];
   const notifications: string[] = [], ui = f.session.extensionRunner.createCommandContext().ui;
   await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, notify: text => notifications.push(text),
-    editor: async (_title, value) => value, confirm: async () => true, setStatus: () => {}, setWidget: () => {} } });
+    editor: async (_title, value) => value, select: async () => "Allow this change once",
+    confirm: async () => true, setStatus: () => {}, setWidget: () => {} } });
   const command = async (text: string) => { notifications.length = 0; await f.session.prompt(`/hermes-skills ${text}`); return JSON.parse(notifications.at(-1)!); };
   await command("refresh");
   const search = f.session.agent.state.tools.find(tool => tool.name === "hermes_skill_search")!;

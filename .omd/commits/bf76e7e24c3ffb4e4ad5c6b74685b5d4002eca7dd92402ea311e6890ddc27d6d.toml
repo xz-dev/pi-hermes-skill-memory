@@ -1,0 +1,15 @@
+salt = "ASr35fX53uhZoYB6"
+previous_id = "24d7282192d34f7874951e1f58a4d05457bb3696058223b696e1206bcceacfde"
+timestamp = "2026-10-05T18:29:11.75834286Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "3cc1335476365062986c0a1e95f6935f"
+
+[payload]
+path = "test/review-destinations.test.ts"
+reason = "Bounded same-round pickup correction: before each preselected row editor, check current exact SkillId rejection again. Rejected/cancelled same-target unvisited rows remain pending for next eligible round; different targets sharing evidence still process. No grouping/deletion/persisted denial, UI/authority/fees change. Three direct regressions and corrected ignored-abort row expectation pass; six original/current repros and full225 gate pass."
+
+[payload.position]
+end = "25008"
+mode = "text"
+start = "6194"

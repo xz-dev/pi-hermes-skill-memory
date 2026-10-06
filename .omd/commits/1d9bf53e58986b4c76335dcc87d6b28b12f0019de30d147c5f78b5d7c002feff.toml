@@ -1,0 +1,14 @@
+salt = "08cKv2M4rwOdnYmU"
+previous_id = "77aafbf72f7a8b4a1aa4599e561bb4f064f3197a47c92c4a290d9e855dd94920"
+timestamp = "2026-10-05T15:01:22.856526525Z"
+schema = "omd.commit/3"
+kind = "link"
+content_ref = "empty"
+
+[payload]
+link_id = "920dd4973f12abc0725c4879b7dc549f"
+reason = "public real save→metadata search→read→same-ID revise, exact original description/body/assets/provenance/history, no hidden call; SDK callback UI is not native terminal evidence."
+source = "range:19b8b8c945b190ed4a56c1d85e92528dc229f55023f8377165b96f6ed05bb486"
+source_version = "94d0394d3bdaf34660f8fd614ba8b665fe8b7a2b3c62306fc2293ddf6b98e53a"
+target = "range:0da83c1b001b042f7dc48c0f7e8d0bd96e66691ecee6b2920d08a4369e247ee8"
+target_version = "77aafbf72f7a8b4a1aa4599e561bb4f064f3197a47c92c4a290d9e855dd94920"

@@ -1,0 +1,10 @@
+salt = "aWQECDGTs2wsLTmO"
+previous_id = ""
+timestamp = "2026-10-05T15:01:17.973822432Z"
+schema = "omd.commit/3"
+kind = "atomic_begin"
+content_ref = "empty"
+
+[payload]
+mount = "file:707e464815971234ec7f742b93c0eadb46dd3ca51c7192878187446f656bc8a8"
+path = "openspec/changes/enable-autonomous-skill-notebook/specs/skill-maintenance/spec.md"

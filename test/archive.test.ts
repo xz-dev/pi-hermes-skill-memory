@@ -26,7 +26,9 @@ async function fixture() {
   });
   const notices: string[] = [], diffs: string[] = [], statuses = new Map<string, string | undefined>(), ui = f.session.extensionRunner.createCommandContext().ui;
   const tui = { ...ui, notify: (text: string) => notices.push(text), editor: async (_title: string, initial?: string) => { diffs.push(initial ?? ""); return initial?.trim(); },
-    confirm: async () => true, setStatus: (key: string, text?: string) => { statuses.set(key, text); if (key === "hermes-review" && text?.includes("store-recovery-required")) recoveryPaused(); }, setWidget: () => {} };
+    select: async () => "Allow this change once",
+    confirm: async () => true, setStatus: (key: string, text?: string) => { statuses.set(key, text); }, setWidget: () => {} };
+  f.onReviewState(state => { if (state.paused?.includes("store-recovery-required")) recoveryPaused(); });
   await f.session.bindExtensions({ mode: "tui", uiContext: tui });
   const command = async (value: string) => { notices.length = 0; await f.session.prompt(`/hermes-skills ${value}`); return JSON.parse(notices.at(-1)!); };
   const entryId = f.session.sessionManager.appendMessage({ role: "user", content: "Keep the release procedure", timestamp: 1 });
@@ -153,7 +155,7 @@ test("unattended installed archive and restore share bounded pending; RPC cannot
 test("installed archive rejects source withdrawal after approval and grant withdrawal during source authorization", async () => {
   const f = await installedFixture();
   try {
-    await f.session.bindExtensions({ mode: "tui", uiContext: { ...f.tui, confirm: async () => { f.exclude(f.primary); return true; } } });
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...f.tui, select: async () => { f.exclude(f.primary); return "Allow this change once"; } } });
     const denied = await f.command(f.request); assert.notEqual(denied.status, "changed");
     assert.equal(await readFile(f.primary, "utf8"), f.before); assert.equal(await readFile(f.shared, "utf8"), "Shared bytes stay here.");
     f.exclude(); await f.session.bindExtensions({ mode: "rpc", uiContext: f.tui });
@@ -189,7 +191,7 @@ test("installed restore preserves shared-reference edits and rechecks grant with
     assert.match((await f.command(`restore ${archived.archiveId}`)).failed, /grant revoked/);
     await assert.rejects(stat(f.primary), /ENOENT/); assert.equal((await archives.get(archived.archiveId)).state, "restoring");
     await f.session.bindExtensions({ mode: "tui", uiContext: f.tui });
-    await f.session.reload(); assert.match(f.statuses.get("hermes-maintenance") ?? "", /unresolved/);
+    await f.session.reload(); assert.ok((await f.command("status")).maintenance.length > 0);
     f.onSources();
     const restored = await f.command(`restore ${archived.archiveId}`); assert.equal(restored.status, "changed");
     assert.equal(await readFile(f.primary, "utf8"), f.before); assert.equal(await readFile(f.shared, "utf8"), "Shared bytes stay here.");
@@ -221,9 +223,9 @@ test("restore preserves a subsequent human file and archive bytes instead of ove
     await mkdir(dirname(f.saved.path), { recursive: true }); await writeFile(f.saved.path, "Human replacement");
     const result = await f.command(`restore ${archived.archiveId}`);
     assert.match(result.failed, /conflict/); assert.equal(await readFile(f.saved.path, "utf8"), "Human replacement");
-    assert.match(f.statuses.get("hermes-maintenance")!, /unresolved/);
+    assert.ok((await f.command("status")).maintenance.length > 0);
     await f.session.reload();
-    assert.match(f.statuses.get("hermes-maintenance")!, /unresolved/, "maintenance conflict must remain visible after real SDK reload");
+    assert.ok((await f.command("status")).maintenance.length > 0, "maintenance conflict remains queryable after real SDK reload");
     assert.equal(f.calls.length, 0);
   } finally { f.session.dispose(); }
 });

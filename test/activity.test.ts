@@ -37,7 +37,8 @@ async function fixture(outcome?: "success" | "failure", withdrawSource = false) 
   const path = join(f.cwd, ".pi/skills/manual-run/SKILL.md"); await mkdir(dirname(path), { recursive: true });
   await writeFile(path, "---\nname: manual-run\ndescription: Manual project procedure\n---\n\nUse the documented procedure.\n");
   const notices: string[] = [], ui = f.session.extensionRunner.createCommandContext().ui;
-  await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, notify: text => notices.push(text), setStatus: (key, text) => { if (key === "hermes-review" && (text?.includes("model-reports:1") || text?.includes("PAUSED"))) finished(); }, setWidget: () => {} } });
+  await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, notify: text => notices.push(text), setStatus: () => {}, setWidget: () => {} } });
+  f.onReviewState(state => { if (state.paused || state.records.at(-1)?.reason?.includes("model-reports:1")) finished(); });
   await f.session.prompt("/hermes-skills refresh");
   const tools = f.session.agent.state.tools;
   const hit = (await tools.find(tool => tool.name === "hermes_skill_search")!.execute("search-main", {})).details.items[0]!;
@@ -185,7 +186,8 @@ test("saturated activity aggregates cannot block skill reading or explicit prote
     await writeFile(path, JSON.stringify(state));
     const bytes = await readFile(path, "utf8"), result = await f.view.execute("still-readable", { id: f.hit.id });
     assert.ok(result.details.content.includes("documented procedure")); assert.equal(await readFile(path, "utf8"), bytes);
-    assert.ok(f.notices.some(text => /activity not recorded/.test(text)), "read statistics failure must be visible");
+    await f.session.prompt("/hermes-skills status");
+    assert.match(JSON.parse(f.notices.at(-1)!).activityWarning, /activity not recorded/, "read statistics failure stays queryable");
     await f.session.prompt(`/hermes-skills pin ${f.hit.id}`); assert.equal(await activity.pinned(f.hit.id), true);
     await f.session.prompt(`/hermes-skills unpin ${f.hit.id}`); assert.equal(await activity.pinned(f.hit.id), false);
     const policy = join(directory, "pins.json");

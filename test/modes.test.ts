@@ -114,9 +114,8 @@ test("successful review save refreshes plugin immediately; native command catalo
   });
   try {
     const ui = f.session.extensionRunner.createCommandContext().ui;
-    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, input: async () => f.cwd,
-      setStatus: (key, value) => { if (key === "hermes-review" && value?.includes("| saved")) resolved(); },
-    } });
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, input: async () => f.cwd } });
+    f.onReviewState(state => { if (state.records.at(-1)?.status === "saved") resolved(); });
     await f.session.prompt("For this repo, build before checking the release manifest.");
     assert.equal((await search(f)).items.length, 0);
     await f.session.prompt("/hermes-review run");

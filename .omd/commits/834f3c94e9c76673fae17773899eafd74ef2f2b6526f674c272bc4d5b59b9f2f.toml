@@ -1,0 +1,12 @@
+salt = "bhJiisWSUnm9eSDF"
+previous_id = "56c53311ab10e58b30b0113781154f00c8515020f72fddc44883e7bc29a939d8"
+timestamp = "2026-10-05T14:58:31.01214901Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["04d95eac04931d91f2bf7d35e8a093b2ea250c027bda062c69d543a366127004", "654156df18018f0606a0c080660dad94d784c8b43fee65b534c6ce7c2e37aeaa"]
+link_id = "cdc60afe3e7bf71747c0f351122c9ee0"
+reason = "test:fees → evidence:fees: 160-test fee page is historical checkpoint; current 207-test matrix and notebook-evidence recheck unchanged 64k/4096/90s, UTC quotas, unknown/cancel/late reservations. No live bill claim. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

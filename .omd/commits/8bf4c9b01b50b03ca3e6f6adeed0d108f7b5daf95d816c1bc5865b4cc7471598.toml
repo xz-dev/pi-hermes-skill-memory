@@ -1,0 +1,12 @@
+salt = "UDqIUyxufKUG0GGL"
+previous_id = "3403ac89a88e65d463ddfe1ab024c2e35a4947fa423b3d702dc6d5a5881a0245"
+timestamp = "2026-10-05T14:58:30.697699678Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["e84c4c3f0a2d01552125e9d658db1bfcc6a56fde20ac03a384451104f6f983b6"]
+link_id = "c75ac1ecc52c521fabbe7066fc264f22"
+reason = "implementation:store → test:proposal: proposal evidence, structure/path/scope/current-read/version validation remains independent of model prose classification. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

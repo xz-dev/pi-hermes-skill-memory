@@ -1,0 +1,12 @@
+salt = "kyUzz3z3iwxSsjzy"
+previous_id = "87c72598a2c77354b854bafacd4a83e07d6475f1526d8fb277c844bd83a11783"
+timestamp = "2026-10-05T14:58:25.925262549Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["4ce29e47f6b49d17f134e3c221ee0fdf0bcfc559a9e296a9b6b4622df5013e59"]
+link_id = "4202b0cb7c7ddbb0217e7329092d1863"
+reason = "test:cooperation → evidence:cooperation: Protocol peer-double evidence remains limited: default-on does not make actual companion memory compatible or authorize double charging. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

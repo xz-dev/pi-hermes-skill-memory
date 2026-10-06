@@ -162,10 +162,10 @@ for (const peer of ["incompatible", "legacy", "wrong-root", "wrong-identity", "w
   try {
     await f.session.prompt("/hermes-review run"); const state = await terminal(f.agentDir);
     assert.match(state.paused ?? "", /protocol-incompatible/); assert.equal(state.records.length, 0); assert.equal(f.calls.length, 0);
-    const statuses = new Map<string, string | undefined>(), ui = f.session.extensionRunner.createContext().ui;
-    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, setStatus: (key, text) => { statuses.set(key, text); }, setWidget: () => {} } });
+    const notices: string[] = [], ui = f.session.extensionRunner.createContext().ui;
+    await f.session.bindExtensions({ mode: "tui", uiContext: { ...ui, notify: text => notices.push(text), setStatus: () => {}, setWidget: () => {} } });
     await f.session.reload(); await f.session.prompt("/hermes-review status");
-    assert.match(statuses.get("hermes-review") ?? "", /PAUSED.*protocol-incompatible/);
+    assert.match(JSON.parse(notices.at(-1)!).paused, /protocol-incompatible/);
     assert.equal((await new ReviewLedger(f.agentDir).inspect()).paused, state.paused);
     assert.equal((await new ManagedSkillStore(f.agentDir, f.cwd).catalog()).length, 0);
     await assert.rejects(stat(join(f.root, "memory.json")), /ENOENT/);

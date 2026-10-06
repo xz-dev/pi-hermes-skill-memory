@@ -1,0 +1,9 @@
+salt = "Gs5HXAJCziNooDYI"
+previous_id = ""
+timestamp = "2026-10-05T15:01:14.927558056Z"
+schema = "omd.commit/3"
+kind = "init"
+content_ref = "6fdc4e86a6e7b23564dbd8bf53eb5648"
+
+[payload]
+path = "openspec/changes/enable-autonomous-skill-notebook/specs/skill-discovery/spec.md"

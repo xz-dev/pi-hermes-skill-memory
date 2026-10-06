@@ -1,0 +1,12 @@
+salt = "sLb8KgQn3M3zZuBy"
+previous_id = "032bb3a14dfa66114fb5c8e3daa84df01ffbf057ec8dc0917e0a4c02ba0e2993"
+timestamp = "2026-10-05T14:58:23.663830627Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["654156df18018f0606a0c080660dad94d784c8b43fee65b534c6ce7c2e37aeaa"]
+link_id = "0d306ed3f862f650902503935cf7bd6e"
+reason = "implementation:ledger → test:concurrency: atomic ledger admission still prevents double spending across processes; default switch does not affect quotas/locks. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false

@@ -1,0 +1,15 @@
+salt = "hoMw56LY8CJS0sw4"
+previous_id = "752441c6bc5c774929ef670e2bf5f964cd09ed180e44c20656e2183897cb4cc0"
+timestamp = "2026-10-05T14:54:08.653639316Z"
+schema = "omd.commit/3"
+kind = "commit"
+content_ref = "00b26e7b5d4e8822760bb765e6fca5e5"
+
+[payload]
+path = "docs/usage.md"
+reason = "Current user guide now explains default-on with saved-off preservation, three policies/four choices, ordinary notes, metadata-only relations and honest fees/recovery; archived lifecycle guide checkpoint superseded where stated."
+
+[payload.position]
+end = "3421"
+mode = "text"
+start = "0"

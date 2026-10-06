@@ -1,0 +1,12 @@
+salt = "3oBL0vKi58Xjt2BL"
+previous_id = "0a151a85944da499a97cd532d74eefab5c8c71e017c4b5a12b9fdb62169a24d2"
+timestamp = "2026-10-05T14:58:30.018627547Z"
+schema = "omd.commit/3"
+kind = "adapt"
+content_ref = "empty"
+
+[payload]
+changes = ["409adc1421182c3bd17dc8c809907a21d8e08a100e1813dc3fdda2d16d7af6b1"]
+link_id = "bffc9ac7e8a5fcf8437434a4be6837a2"
+reason = "implementation:context → test:snapshot: full effective SDK compaction projection remains intact; no digest substitution or restoring retired context to buy candidate space. Reviewed against active notebook delta plus actual source/207-test and named evidence boundaries; continuation is separate from this exact relationship Adapt."
+stop = false
