@@ -553,6 +553,22 @@ function registerSkills(pi: ExtensionAPI, options: { agentDir: string; skillSour
   });
   pi.registerCommand("hermes-skills", {
     description: "Skills: history <id> [offset] | rollback <id> <change-key> | archive <id> <reason> | archives | archive-resume/restore <archive-id> | curate list [offset] | curate propose <keep-id> <absorb-id> (one metered request) | curate apply <pending-id> (local approval) | status | refresh | mode search/native | load <SkillId> [nextOffset] | pending | approve/reject <id> | settings | installed allow/deny | inspect/pin/unpin <SkillId> | use <SkillId> <reason> | outcome <SkillId> success/failure <reason> | migrate <SkillId> project/global <reason>.",
+    getArgumentCompletions: prefix => {
+      const words = prefix.trimStart().split(/\s+/), partial = words.pop()!;
+      let candidates: string[] = [];
+      if (words.length === 0) candidates = ["history", "rollback", "archive", "archives", "archive-resume", "restore", "curate", "status", "refresh", "mode", "load", "pending", "approve", "reject", "settings", "installed", "inspect", "pin", "unpin", "use", "outcome", "migrate"];
+      else if (words.length === 1) {
+        if (words[0] === "curate") candidates = ["list", "propose", "apply"];
+        else if (words[0] === "mode") candidates = ["search", "native"];
+        else if (words[0] === "installed") candidates = ["allow", "deny"];
+      } else if (words.length === 2) {
+        if (words[0] === "installed" && words[1] === "allow") candidates = ["--acknowledge"];
+        else if (words[0] === "outcome") candidates = ["success", "failure"];
+        else if (words[0] === "migrate") candidates = ["project", "global"];
+      }
+      const matches = candidates.filter(value => value.startsWith(partial)).map(value => ({ value: [...words, value].join(" "), label: value }));
+      return matches.length ? matches : null;
+    },
     handler: async (args, ctx) => {
       const report = (data: unknown, error = false) => {
         if (ctx.mode === "tui" || ctx.mode === "rpc") ctx.ui.notify(JSON.stringify(data), error ? "error" : "info");

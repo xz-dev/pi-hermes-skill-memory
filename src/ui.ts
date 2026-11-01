@@ -174,6 +174,15 @@ export function registerReviewUI(pi: ExtensionAPI, agentDir: string, options: {
 
   pi.registerCommand("hermes-review", {
     description: "Metered review: enable/disable/run/status/usage/errors/cancel/retry/pause/resume; local recovery/recover",
+    getArgumentCompletions: prefix => {
+      const words = prefix.trimStart().split(/\s+/), partial = words.pop()!;
+      let candidates: string[] = [];
+      if (words.length === 0) candidates = ["enable", "disable", "run", "status", "usage", "errors", "cancel", "retry", "pause", "resume", "recovery", "recover"];
+      else if (words.length === 1 && words[0] === "resume") candidates = ["--acknowledge"];
+      else if (words.length === 2 && words[0] === "recover") candidates = ["commit", "abort"];
+      const matches = candidates.filter(value => value.startsWith(partial)).map(value => ({ value: [...words, value].join(" "), label: value }));
+      return matches.length ? matches : null;
+    },
     handler: async (args, command) => {
       ctx = command;
       const [action = "status", value, operation] = args.trim() ? args.trim().split(/\s+/) : [];
